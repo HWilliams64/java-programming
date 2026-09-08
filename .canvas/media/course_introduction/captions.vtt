@@ -1,0 +1,320 @@
+WEBVTT
+
+1
+00:00:00.700 --> 00:00:05.224
+Hi, and welcome to CSC-239, Java
+Programming, taught by Professor
+
+2
+00:00:05.224 --> 00:00:08.634
+Harris Williams at Bunker Hill Community
+College.
+
+3
+00:00:08.914 --> 00:00:12.487
+You've written code before, and now you'll
+build real Java programs.
+
+4
+00:00:13.087 --> 00:00:16.634
+This course is fully online and
+asynchronous, so you'll work on
+
+5
+00:00:16.634 --> 00:00:19.335
+your own schedule, with a new module every
+week.
+
+6
+00:00:19.635 --> 00:00:21.672
+Here's what you'll be able to do by the end.
+
+7
+00:00:21.923 --> 00:00:25.345
+You'll design Java programs using control
+flow, methods,
+
+8
+00:00:25.345 --> 00:00:27.790
+collections, and object-oriented design.
+
+9
+00:00:28.010 --> 00:00:31.510
+You'll test your programs, handle errors,
+and work with file data.
+
+10
+00:00:31.730 --> 00:00:36.235
+You'll build graphical interfaces and
+coordinate tasks that run at the same time.
+
+11
+00:00:36.455 --> 00:00:39.664
+And you'll package it all into working Java
+word-game projects.
+
+12
+00:00:40.264 --> 00:00:42.397
+So how do we get there? Module by module.
+
+13
+00:00:42.697 --> 00:00:46.163
+We start with Variable Assignment: Java
+types, strings,
+
+14
+00:00:46.163 --> 00:00:48.999
+calculations, and input that produce
+results.
+
+15
+00:00:49.199 --> 00:00:52.663
+Then Flow Control, where conditions and
+loops steer your program.
+
+16
+00:00:52.864 --> 00:00:55.804
+In Static Functions you'll write reusable
+methods
+
+17
+00:00:55.804 --> 00:00:58.204
+with typed parameters and return values.
+
+18
+00:00:58.404 --> 00:01:03.268
+And in Data Structures you'll choose arrays,
+lists, sets, and maps to organize your data.
+
+19
+00:01:03.618 --> 00:01:07.538
+Then the design work begins. Classes and
+Objects has you design
+
+20
+00:01:07.538 --> 00:01:10.898
+classes that protect data and provide useful
+behavior.
+
+21
+00:01:11.098 --> 00:01:13.919
+Abstraction and Interfaces adds interfaces,
+
+22
+00:01:13.919 --> 00:01:17.001
+inheritance, and generics for flexible
+designs.
+
+23
+00:01:17.201 --> 00:01:20.415
+In Exceptions and Testing you'll handle
+failures and
+
+24
+00:01:20.415 --> 00:01:22.702
+confirm expected behavior with JUnit.
+
+25
+00:01:22.902 --> 00:01:27.714
+Text File I/O has you read and write text
+files and search dictionary prefixes.
+
+26
+00:01:27.964 --> 00:01:31.697
+That's everything you need for the Ghost
+Project: build, test,
+
+27
+00:01:31.697 --> 00:01:34.587
+and package a dictionary-based word-game
+player.
+
+28
+00:01:34.937 --> 00:01:37.522
+As your skills grow, Functional Programming
+and
+
+29
+00:01:37.522 --> 00:01:39.942
+Streams brings lambdas and stream pipelines.
+
+30
+00:01:40.142 --> 00:01:44.248
+Binary File I/O saves and restores typed
+binary data and objects.
+
+31
+00:01:44.448 --> 00:01:49.221
+JavaFX brings layouts, events, and
+validation to a graphical interface.
+
+32
+00:01:49.422 --> 00:01:52.593
+And Multithreading coordinates concurrent
+tasks with
+
+33
+00:01:52.593 --> 00:01:54.970
+threads and producer-consumer patterns.
+
+34
+00:01:55.220 --> 00:01:58.125
+Finally, the Super Ghost Project brings it
+all
+
+35
+00:01:58.125 --> 00:02:00.714
+together in one tested, packaged program.
+
+36
+00:02:01.314 --> 00:02:03.323
+So what does a typical module look like?
+
+37
+00:02:03.603 --> 00:02:06.996
+Read and watch the Learning Materials, run
+the examples and
+
+38
+00:02:06.996 --> 00:02:10.101
+complete the practice, then complete the
+Deliverables.
+
+39
+00:02:10.351 --> 00:02:13.262
+Most modules include a discussion, and
+assignments
+
+40
+00:02:13.262 --> 00:02:15.242
+are not required for every module.
+
+41
+00:02:15.493 --> 00:02:18.855
+When a coding assignment is there, you can
+resubmit it as
+
+42
+00:02:18.855 --> 00:02:21.391
+many times as you need through December 18.
+
+43
+00:02:21.691 --> 00:02:25.805
+Two milestones anchor the course: the Ghost
+Project in Module 09,
+
+44
+00:02:25.805 --> 00:02:28.779
+and the Super Ghost Final Project in Module
+14.
+
+45
+00:02:29.029 --> 00:02:32.353
+You'll submit each one in Canvas as a
+runnable JAR, or a
+
+46
+00:02:32.353 --> 00:02:34.787
+ZIP containing the JAR and support files.
+
+47
+00:02:35.387 --> 00:02:37.314
+Now let's look at where that work happens.
+
+48
+00:02:37.564 --> 00:02:41.207
+Everything starts in Canvas. In the course
+navigation on the
+
+49
+00:02:41.207 --> 00:02:44.061
+left, click Modules to see the course in
+order.
+
+50
+00:02:44.411 --> 00:02:47.327
+Inside each module, the Learning Materials
+come
+
+51
+00:02:47.327 --> 00:02:49.933
+first: the readings, videos, and examples.
+
+52
+00:02:50.153 --> 00:02:54.399
+The Deliverables follow, so you always know
+what to study and what to turn in.
+
+53
+00:02:54.649 --> 00:02:58.574
+There's no textbook to buy; course content
+lives in Jupyter notebooks.
+
+54
+00:02:58.924 --> 00:03:02.679
+To open them, click Grader Than in that same
+left-hand navigation.
+
+55
+00:03:02.899 --> 00:03:06.381
+That opens your Workspace right in the
+browser, already set
+
+56
+00:03:06.381 --> 00:03:08.918
+up for Java, so there's nothing to install.
+
+57
+00:03:09.168 --> 00:03:12.131
+Coding assignments are designed to run
+through the
+
+58
+00:03:12.131 --> 00:03:15.390
+autograder, which checks your work and
+returns feedback
+
+59
+00:03:15.390 --> 00:03:18.235
+quickly, so you can fix and resubmit right
+away.
+
+60
+00:03:18.835 --> 00:03:20.954
+A few things make this course go smoothly.
+
+61
+00:03:21.204 --> 00:03:24.247
+Start each module early, run every example
+yourself,
+
+62
+00:03:24.247 --> 00:03:26.413
+and ask questions when you get stuck.
+
+63
+00:03:26.663 --> 00:03:30.006
+The Question Board is always open. It's
+ungraded, there's
+
+64
+00:03:30.006 --> 00:03:32.469
+no minimum, and I'd love to see you there.
+
+65
+00:03:32.719 --> 00:03:36.132
+You can also email me, or schedule office
+hours using the
+
+66
+00:03:36.132 --> 00:03:38.466
+link on the course home page in Canvas.
+
+67
+00:03:39.016 --> 00:03:41.133
+I am looking forward to seeing what you
+build.
+
+68
+00:03:41.354 --> 00:03:43.006
+Let's get started with Module 01.
