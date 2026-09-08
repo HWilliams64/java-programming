@@ -1,0 +1,115 @@
+WEBVTT
+
+00:00:07.779 --> 00:00:10.691
+Build a room notice that keeps its information
+
+00:00:10.691 --> 00:00:13.097
+readable when the window changes size.
+
+00:00:13.097 --> 00:00:16.517
+We will arrange its title, room and instructions, then
+
+00:00:16.517 --> 00:00:19.429
+test the real window in the Workspace Desktop.
+
+00:00:47.190 --> 00:00:51.007
+A VBox arranges children vertically; an HBox arranges
+
+00:00:51.007 --> 00:00:52.304
+them horizontally.
+
+00:00:52.304 --> 00:00:54.897
+Spacing separates adjacent children.
+
+00:00:54.897 --> 00:00:58.642
+Padding, supplied by Insets, leaves space inside the
+
+00:00:58.642 --> 00:01:00.154
+container's boundary.
+
+00:01:00.154 --> 00:01:03.611
+The title's inline style is a Java String of CSS
+
+00:01:03.611 --> 00:01:07.429
+presentation declarations: each property has a colon,
+
+00:01:07.429 --> 00:01:08.869
+value and semicolon.
+
+00:01:08.869 --> 00:01:11.390
+Here they set font size and weight.
+
+00:01:11.695 --> 00:01:14.863
+The scene requests a content area of four hundred
+
+00:01:14.863 --> 00:01:16.674
+forty by two hundred twenty.
+
+00:01:16.674 --> 00:01:19.648
+Window borders and the title bar are separate.
+
+00:01:19.648 --> 00:01:21.588
+Predict the two console lines.
+
+00:01:21.588 --> 00:01:24.691
+When we narrow this window, will the note's line
+
+00:01:24.691 --> 00:01:26.696
+breaks stay in the same places?
+
+00:01:26.696 --> 00:01:27.795
+Pause and decide.
+
+00:01:41.965 --> 00:01:45.205
+The console reports Lab A and wrapping enabled.
+
+00:01:45.205 --> 00:01:48.721
+In the notice, the horizontal room row sits between
+
+00:01:48.721 --> 00:01:50.582
+the title and instructions.
+
+00:01:50.582 --> 00:01:54.305
+Wrapping allows long text to use multiple lines within
+
+00:01:54.305 --> 00:01:55.683
+its available width.
+
+00:01:55.683 --> 00:01:59.268
+The title's larger, bold text marks its role without
+
+00:01:59.268 --> 00:02:00.440
+relying on color.
+
+00:02:04.482 --> 00:02:06.619
+The native window is now narrower.
+
+00:02:06.619 --> 00:02:09.951
+The containers recalculate their layout, and the note
+
+00:02:09.951 --> 00:02:11.585
+breaks at different words.
+
+00:02:11.585 --> 00:02:13.911
+Its full instruction remains visible.
+
+00:02:13.911 --> 00:02:17.117
+Spacing still separates the sections, while padding
+
+00:02:17.117 --> 00:02:19.632
+keeps their content away from the edges.
+
+00:02:19.632 --> 00:02:22.775
+Resizing changes the view; it does not print a new
+
+00:02:22.775 --> 00:02:24.032
+construction report.
+
+00:02:28.282 --> 00:02:31.643
+If this notice moved to another room, which text would
+
+00:02:31.643 --> 00:02:34.320
+you change, and how would you test that the
+
+00:02:34.320 --> 00:02:37.432
+instructions remain readable in a narrower window?

@@ -1,0 +1,577 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:03.855
+Welcome to this Java tutorial, where you'll
+
+00:00:03.855 --> 00:00:06.960
+define static methods—named operations in a
+
+00:00:06.960 --> 00:00:10.281
+class—supply typed inputs, return results, and
+
+00:00:10.281 --> 00:00:13.603
+distinguish those results from printed output.
+
+00:00:14.260 --> 00:00:17.473
+Keeping a calculation in one reusable method
+
+00:00:17.473 --> 00:00:20.832
+lets different parts of an application use the
+
+00:00:20.832 --> 00:00:24.337
+same rule, choose how to display its result, and
+
+00:00:24.337 --> 00:00:26.235
+test changes in one place.
+
+00:00:26.906 --> 00:00:29.709
+A campus workshop needs totals for supply
+
+00:00:29.709 --> 00:00:30.188
+orders.
+
+00:00:30.188 --> 00:00:33.265
+Each order gives a whole-number item quantity
+
+00:00:33.265 --> 00:00:35.453
+and a price in dollars per item.
+
+00:00:35.453 --> 00:00:38.461
+We'll build one method that multiplies those
+
+00:00:38.461 --> 00:00:41.196
+inputs and returns the total in dollars.
+
+00:00:41.196 --> 00:00:44.478
+The caller, the code requesting the calculation,
+
+00:00:44.478 --> 00:00:46.256
+will decide what to print.
+
+00:00:46.919 --> 00:00:49.937
+Success means different orders use the same
+
+00:00:49.937 --> 00:00:52.885
+calculation and receive their own results.
+
+00:00:52.885 --> 00:00:55.974
+We'll first work through example calls, then
+
+00:00:55.974 --> 00:00:59.062
+look at a copied numeric input and an output
+
+00:00:59.062 --> 00:00:59.554
+action.
+
+00:00:59.554 --> 00:01:02.923
+Finally, you'll predict two new totals before we
+
+00:01:02.923 --> 00:01:05.169
+run the completed order program.
+
+00:01:05.224 --> 00:01:08.538
+Let's open Main.java in the Workspace and give
+
+00:01:08.538 --> 00:01:10.699
+the shared calculation a name.
+
+00:01:14.726 --> 00:01:17.644
+PriceTools is a class, a container for this
+
+00:01:17.644 --> 00:01:18.119
+helper.
+
+00:01:18.119 --> 00:01:21.037
+Its static method can be called through the
+
+00:01:21.037 --> 00:01:23.683
+class name, without creating a separate
+
+00:01:23.683 --> 00:01:24.905
+PriceTools object.
+
+00:01:24.905 --> 00:01:28.094
+We'll name the operation orderTotal and declare
+
+00:01:28.094 --> 00:01:29.451
+the inputs it needs.
+
+00:01:36.736 --> 00:01:39.455
+Quantity and unitPrice are parameters, the
+
+00:01:39.455 --> 00:01:41.461
+method's local input variables.
+
+00:01:41.461 --> 00:01:44.503
+Their types describe a whole-number count and a
+
+00:01:44.503 --> 00:01:45.410
+decimal price.
+
+00:01:45.410 --> 00:01:48.193
+The return type tells a caller what kind of
+
+00:01:48.193 --> 00:01:49.293
+result to expect.
+
+00:01:49.293 --> 00:01:52.271
+Here, double before the method name declares a
+
+00:01:52.271 --> 00:01:53.759
+decimal numeric result.
+
+00:01:53.759 --> 00:01:56.802
+Let's put the common multiplication in the body
+
+00:01:56.802 --> 00:01:58.161
+and return its value.
+
+00:02:02.548 --> 00:02:05.535
+Return evaluates the product, ends this method
+
+00:02:05.535 --> 00:02:08.198
+call, and sends the number to its caller.
+
+00:02:08.198 --> 00:02:09.302
+It doesn't print.
+
+00:02:09.302 --> 00:02:12.354
+Declaring this helper hasn't performed an order
+
+00:02:12.354 --> 00:02:15.471
+calculation yet; we still need calls that supply
+
+00:02:15.471 --> 00:02:15.925
+values.
+
+00:02:15.925 --> 00:02:18.003
+We'll place those calls in Main.
+
+00:02:18.003 --> 00:02:20.926
+Main is the program's starting class, and its
+
+00:02:20.926 --> 00:02:23.848
+main method is where this application begins.
+
+00:02:29.157 --> 00:02:32.229
+Our first example order has two items at three
+
+00:02:32.229 --> 00:02:33.097
+dollars each.
+
+00:02:33.097 --> 00:02:36.035
+Arguments are the values supplied at a call.
+
+00:02:36.035 --> 00:02:39.106
+Their positions match the declared parameters:
+
+00:02:39.106 --> 00:02:42.245
+two goes to quantity, and three point zero goes
+
+00:02:42.245 --> 00:02:43.113
+to unitPrice.
+
+00:02:43.113 --> 00:02:44.916
+The product is six dollars.
+
+00:02:44.916 --> 00:02:47.854
+We'll store that returned number in a caller
+
+00:02:47.854 --> 00:02:49.857
+variable before displaying it.
+
+00:02:57.239 --> 00:02:59.176
+Total belongs to the caller.
+
+00:02:59.176 --> 00:03:02.219
+The assignment receives the completed method
+
+00:03:02.219 --> 00:03:04.779
+result, and println then reads total.
+
+00:03:04.779 --> 00:03:07.614
+A second order will use four items at two
+
+00:03:07.614 --> 00:03:08.514
+dollars each.
+
+00:03:08.514 --> 00:03:10.658
+It should return eight dollars.
+
+00:03:10.658 --> 00:03:13.978
+This time we'll pass the returned value directly
+
+00:03:13.978 --> 00:03:14.739
+to println.
+
+00:03:22.532 --> 00:03:25.334
+Each call gets fresh parameter values.
+
+00:03:25.334 --> 00:03:28.799
+Java completes the inner calculation before the
+
+00:03:28.799 --> 00:03:30.789
+outer println can print it.
+
+00:03:30.789 --> 00:03:34.107
+Let's click Run to check both caller choices.
+
+00:03:39.236 --> 00:03:41.919
+The first line is six point zero, and the second
+
+00:03:41.919 --> 00:03:43.037
+is eight point zero.
+
+00:03:43.037 --> 00:03:45.719
+One result was stored before printing; the other
+
+00:03:45.719 --> 00:03:47.116
+went directly to println.
+
+00:03:47.116 --> 00:03:49.576
+Both came from the same multiplication rule.
+
+00:03:49.576 --> 00:03:51.923
+Inspect the helper body: it reads only its
+
+00:03:51.923 --> 00:03:53.767
+parameters and returns a product.
+
+00:03:53.767 --> 00:03:56.450
+It doesn't print or change state outside itself.
+
+00:03:56.450 --> 00:03:59.021
+That makes this calculation pure; two matching
+
+00:03:59.021 --> 00:04:01.536
+observations alone wouldn't establish purity.
+
+00:04:01.611 --> 00:04:04.857
+A method's input variable is separate from the
+
+00:04:04.857 --> 00:04:06.128
+caller's variable.
+
+00:04:06.128 --> 00:04:09.374
+Let's replace this example with a small helper
+
+00:04:09.374 --> 00:04:11.844
+that adds one to a copied quantity.
+
+00:04:11.844 --> 00:04:14.879
+This makes the separation visible before we
+
+00:04:14.879 --> 00:04:16.361
+return to the orders.
+
+00:04:25.947 --> 00:04:29.075
+Java uses pass by value: a parameter receives a
+
+00:04:29.075 --> 00:04:30.873
+copy of the supplied value.
+
+00:04:30.873 --> 00:04:33.402
+For an integer, that copy is a number.
+
+00:04:33.402 --> 00:04:36.331
+The assignment inside addOne changes its own
+
+00:04:36.331 --> 00:04:37.595
+quantity parameter.
+
+00:04:37.595 --> 00:04:40.191
+It doesn't assign to a caller variable.
+
+00:04:40.191 --> 00:04:43.253
+We'll start the caller's requested quantity at
+
+00:04:43.253 --> 00:04:46.315
+three and store the returned result separately
+
+00:04:46.315 --> 00:04:47.047
+in revised.
+
+00:04:59.362 --> 00:05:02.763
+The parameter receives three, changes its local
+
+00:05:02.763 --> 00:05:05.006
+copy to four, and returns four.
+
+00:05:05.006 --> 00:05:07.538
+Revised stores that returned value.
+
+00:05:07.538 --> 00:05:10.577
+Requested has never been reassigned, so it
+
+00:05:10.577 --> 00:05:12.169
+should still be three.
+
+00:05:12.169 --> 00:05:15.353
+We'll print the two caller variables in that
+
+00:05:15.353 --> 00:05:15.787
+order.
+
+00:05:22.717 --> 00:05:25.998
+Let's run this complete program and inspect the
+
+00:05:25.998 --> 00:05:28.092
+two values left in the caller.
+
+00:05:32.565 --> 00:05:35.520
+Requested prints three, while revised prints
+
+00:05:35.520 --> 00:05:35.855
+four.
+
+00:05:35.855 --> 00:05:38.676
+Returning didn't automatically replace the
+
+00:05:38.676 --> 00:05:40.489
+original argument variable.
+
+00:05:40.489 --> 00:05:43.511
+To change requested, the caller would have to
+
+00:05:43.511 --> 00:05:45.660
+store the returned result there.
+
+00:05:45.660 --> 00:05:48.816
+This example traces numeric values; it does not
+
+00:05:48.816 --> 00:05:51.972
+mean that Java copies an entire object whenever
+
+00:05:51.972 --> 00:05:53.315
+an object is passed.
+
+00:05:53.449 --> 00:05:56.647
+A calculation can supply a result, but another
+
+00:05:56.647 --> 00:05:59.080
+method may be useful for an action.
+
+00:05:59.080 --> 00:06:02.347
+We'll replace the numeric helper with a display
+
+00:06:02.347 --> 00:06:02.833
+method.
+
+00:06:02.833 --> 00:06:06.031
+The keyword void means the call sends no value
+
+00:06:06.031 --> 00:06:06.379
+back.
+
+00:06:06.379 --> 00:06:09.368
+The print in this body is a side effect, an
+
+00:06:09.368 --> 00:06:12.357
+observable action beyond providing a return
+
+00:06:12.357 --> 00:06:12.774
+value.
+
+00:06:22.657 --> 00:06:25.878
+ShowTotal receives a number and displays it with
+
+00:06:25.878 --> 00:06:26.414
+a label.
+
+00:06:26.414 --> 00:06:29.434
+We will put a caller message before and after
+
+00:06:29.434 --> 00:06:32.520
+the call so we can see when control enters the
+
+00:06:32.520 --> 00:06:34.332
+method and when it returns.
+
+00:06:34.332 --> 00:06:37.485
+The void call stands alone, because there is no
+
+00:06:37.485 --> 00:06:40.370
+returned value to assign or give to another
+
+00:06:40.370 --> 00:06:40.907
+println.
+
+00:07:01.176 --> 00:07:04.146
+The caller should print its first message, the
+
+00:07:04.146 --> 00:07:07.181
+method should print the labeled total, and then
+
+00:07:07.181 --> 00:07:09.764
+the caller should continue with its last
+
+00:07:09.764 --> 00:07:10.281
+message.
+
+00:07:10.281 --> 00:07:12.476
+Let's run it to follow that order.
+
+00:07:16.932 --> 00:07:20.175
+We see the caller's Before display, the method's
+
+00:07:20.175 --> 00:07:23.080
+Total line, and the caller's After display.
+
+00:07:23.080 --> 00:07:26.323
+The body finished and control returned without a
+
+00:07:26.323 --> 00:07:27.201
+result value.
+
+00:07:27.201 --> 00:07:30.173
+Void doesn't require a method to print; this
+
+00:07:30.173 --> 00:07:31.592
+particular body does.
+
+00:07:31.592 --> 00:07:34.430
+Likewise, static doesn't guarantee purity.
+
+00:07:34.430 --> 00:07:37.132
+Inspect what an operation actually does.
+
+00:07:37.269 --> 00:07:40.644
+Now we'll return to the workshop calculation and
+
+00:07:40.644 --> 00:07:42.473
+keep output in the caller.
+
+00:07:42.473 --> 00:07:45.708
+We'll restore the same PriceTools method, then
+
+00:07:45.708 --> 00:07:48.661
+supply two new orders for your prediction.
+
+00:07:48.661 --> 00:07:50.419
+The rule has not changed.
+
+00:08:02.529 --> 00:08:05.839
+The first order has three items at four dollars
+
+00:08:05.839 --> 00:08:07.318
+and fifty cents each.
+
+00:08:07.318 --> 00:08:10.418
+The second has five items at two dollars and
+
+00:08:10.418 --> 00:08:11.615
+fifty cents each.
+
+00:08:11.615 --> 00:08:14.573
+We'll call the helper once for each order,
+
+00:08:14.573 --> 00:08:17.461
+leaving both print statements in the main
+
+00:08:17.461 --> 00:08:17.954
+method.
+
+00:08:33.163 --> 00:08:36.368
+Before we run this final program, write the two
+
+00:08:36.368 --> 00:08:38.687
+output lines you expect, in order.
+
+00:08:38.687 --> 00:08:41.893
+Match each argument to its parameter, calculate
+
+00:08:41.893 --> 00:08:45.030
+the product, and decide where printing occurs.
+
+00:08:45.030 --> 00:08:47.962
+Use the earlier worked calls as your model.
+
+00:08:47.962 --> 00:08:50.213
+Pause here if you want more time.
+
+00:08:58.308 --> 00:09:01.560
+Let's click Run and compare both returned totals
+
+00:09:01.560 --> 00:09:02.983
+with your prediction.
+
+00:09:08.077 --> 00:09:10.791
+The program prints thirteen point five, then
+
+00:09:10.791 --> 00:09:11.901
+twelve point five.
+
+00:09:11.901 --> 00:09:14.861
+Three items at four dollars and fifty cents cost
+
+00:09:14.861 --> 00:09:16.896
+thirteen dollars and fifty cents.
+
+00:09:16.896 --> 00:09:19.733
+Five items at two dollars and fifty cents cost
+
+00:09:19.733 --> 00:09:21.645
+twelve dollars and fifty cents.
+
+00:09:21.645 --> 00:09:24.173
+Each call received its own parameters and
+
+00:09:24.173 --> 00:09:25.715
+returned its own product.
+
+00:09:25.715 --> 00:09:28.182
+The caller printed each result after the
+
+00:09:28.182 --> 00:09:29.477
+calculation finished.
+
+00:09:29.644 --> 00:09:32.444
+We've built one reusable rule and checked it
+
+00:09:32.444 --> 00:09:33.780
+with changing inputs.
+
+00:09:33.780 --> 00:09:36.516
+Typed parameters state what the calculation
+
+00:09:36.516 --> 00:09:38.934
+needs, and return supplies the result.
+
+00:09:38.934 --> 00:09:41.670
+The caller can store or display that value.
+
+00:09:41.670 --> 00:09:44.724
+The numeric-copy example showed that a parameter
+
+00:09:44.724 --> 00:09:47.460
+assignment is local, while the void example
+
+00:09:47.460 --> 00:09:50.324
+showed an action that returns control without
+
+00:09:50.324 --> 00:09:51.469
+returning a value.
+
+00:09:52.228 --> 00:09:55.525
+Now use the notebook to build a discounted total
+
+00:09:55.525 --> 00:09:56.006
+method.
+
+00:09:56.006 --> 00:09:59.028
+Keep the calculation separate from printing,
+
+00:09:59.028 --> 00:10:02.187
+subtract the flat discount once, and test both
+
+00:10:02.187 --> 00:10:05.003
+stated orders and the zero-quantity case.
+
+00:10:05.003 --> 00:10:08.094
+Explain why the chosen inputs are allowed and
+
+00:10:08.094 --> 00:10:11.185
+why the body supports calling the calculation
+
+00:10:11.185 --> 00:10:11.528
+pure.

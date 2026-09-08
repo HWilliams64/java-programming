@@ -1,0 +1,169 @@
+WEBVTT
+
+00:00:08.973 --> 00:00:12.440
+We will connect a reservation button to an ordinary
+
+00:00:12.440 --> 00:00:14.752
+Java object and its visible count.
+
+00:00:14.752 --> 00:00:18.219
+Watch how an action changes the data, refreshes the
+
+00:00:18.219 --> 00:00:21.618
+label, and controls whether another reservation is
+
+00:00:21.618 --> 00:00:22.298
+available.
+
+00:00:56.567 --> 00:01:00.072
+The model is the object that holds application state:
+
+00:01:00.072 --> 00:01:01.857
+SeatCounter owns remaining.
+
+00:01:01.857 --> 00:01:04.899
+The view displays that state through controls.
+
+00:01:04.899 --> 00:01:08.205
+A Button is a control that requests an action when
+
+00:01:08.205 --> 00:01:08.866
+activated.
+
+00:01:08.866 --> 00:01:12.238
+Here the Label displays the model’s count, and VBox
+
+00:01:12.238 --> 00:01:14.817
+places the label and button vertically.
+
+00:01:15.212 --> 00:01:18.649
+An action event is a notification that the button’s
+
+00:01:18.649 --> 00:01:20.402
+requested action occurred.
+
+00:01:20.402 --> 00:01:23.907
+Event-handler registration connects behavior to that
+
+00:01:23.907 --> 00:01:24.783
+future event.
+
+00:01:24.783 --> 00:01:28.220
+setOnAction registers our lambda; registration does
+
+00:01:28.220 --> 00:01:29.366
+not run its body.
+
+00:01:29.366 --> 00:01:33.006
+The lambda keeps references to the model and controls.
+
+00:01:33.006 --> 00:01:36.646
+Those local references stay the same while the objects
+
+00:01:36.646 --> 00:01:37.387
+can change.
+
+00:01:37.504 --> 00:01:40.812
+Predict the initial label and its value after three
+
+00:01:40.812 --> 00:01:41.590
+activations.
+
+00:01:41.590 --> 00:01:44.120
+What should happen on a fourth attempt?
+
+00:01:44.120 --> 00:01:47.299
+Trace the model update, label refresh, and button
+
+00:01:47.299 --> 00:01:48.790
+setting before running.
+
+00:01:48.790 --> 00:01:49.504
+Pause here.
+
+00:02:00.550 --> 00:02:03.108
+The window starts at Remaining three.
+
+00:02:03.108 --> 00:02:06.495
+Counter ready three is only the console’s initial
+
+00:02:06.495 --> 00:02:06.979
+report.
+
+00:02:06.979 --> 00:02:09.329
+The label will show later changes.
+
+00:02:09.329 --> 00:02:12.854
+This standalone Application uses start to build the
+
+00:02:12.854 --> 00:02:16.172
+interface; notebook examples use the supplied Fx
+
+00:02:16.172 --> 00:02:16.725
+support.
+
+00:02:19.004 --> 00:02:20.844
+The first click leaves two.
+
+00:02:20.844 --> 00:02:24.387
+An event-driven update first changes the model, then
+
+00:02:24.387 --> 00:02:26.839
+setText refreshes the visible label.
+
+00:02:26.839 --> 00:02:30.110
+Keyboard focus selects the control that receives
+
+00:02:30.110 --> 00:02:31.132
+keyboard input.
+
+00:02:31.132 --> 00:02:34.675
+Use Tab to focus this button, then Space to activate
+
+00:02:34.675 --> 00:02:34.879
+it.
+
+00:02:37.069 --> 00:02:39.478
+The keyboard activation leaves one.
+
+00:02:39.478 --> 00:02:42.094
+Activate again and check the boundary.
+
+00:02:47.475 --> 00:02:50.622
+Zero remains after further pointer and keyboard
+
+00:02:50.622 --> 00:02:51.224
+attempts.
+
+00:02:51.224 --> 00:02:54.371
+Control enablement allows or prevents an action
+
+00:02:54.371 --> 00:02:55.643
+according to state.
+
+00:02:55.643 --> 00:02:59.259
+setDisable blocks this button at zero, and the model’s
+
+00:02:59.259 --> 00:03:01.803
+own condition also protects its count.
+
+00:03:01.803 --> 00:03:05.418
+The event handler runs this short update on the JavaFX
+
+00:03:05.418 --> 00:03:08.900
+Application Thread, the sequence for interface work.
+
+00:03:10.866 --> 00:03:14.051
+If you removed only the label refresh, which state
+
+00:03:14.051 --> 00:03:17.172
+would still change and which display would become
+
+00:03:17.172 --> 00:03:17.873
+misleading?
+
+00:03:17.873 --> 00:03:21.249
+Explain why the model condition and button enablement
+
+00:03:21.249 --> 00:03:22.841
+serve different purposes.

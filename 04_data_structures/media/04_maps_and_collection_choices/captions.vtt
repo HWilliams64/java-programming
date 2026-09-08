@@ -1,0 +1,61 @@
+WEBVTT
+
+00:00:06.683 --> 00:00:10.046
+A supply desk needs quantities for named items.
+
+00:00:10.046 --> 00:00:13.552
+A map links each unique key, an item's name, to a
+
+00:00:13.552 --> 00:00:14.983
+value, its quantity.
+
+00:00:27.015 --> 00:00:30.372
+String and Integer are the key and value types.
+
+00:00:30.372 --> 00:00:34.158
+Integer is the object form of int, required here as a
+
+00:00:34.158 --> 00:00:35.158
+type argument.
+
+00:00:35.158 --> 00:00:39.015
+Java converts each supplied number automatically; that
+
+00:00:39.015 --> 00:00:41.015
+conversion is called boxing.
+
+00:00:41.319 --> 00:00:44.965
+Put stores a value, replacing any value already under
+
+00:00:44.965 --> 00:00:45.584
+that key.
+
+00:00:45.584 --> 00:00:48.542
+Get retrieves by key, and size counts keys.
+
+00:00:48.542 --> 00:00:51.569
+Predict the three printed lines, then pause.
+
+00:00:56.390 --> 00:00:59.487
+The later put replaces two with three for map.
+
+00:00:59.487 --> 00:01:00.833
+Kit still holds one.
+
+00:01:00.833 --> 00:01:03.189
+There are two keys, so size is two.
+
+00:01:03.189 --> 00:01:06.420
+These print statements choose the order; HashMap
+
+00:01:06.420 --> 00:01:08.440
+traversal does not promise it.
+
+00:01:08.492 --> 00:01:11.905
+Now change only the last put to store five under map.
+
+00:01:11.905 --> 00:01:15.318
+Which output line changes, and why does the number of
+
+00:01:15.318 --> 00:01:16.542
+keys stay the same?

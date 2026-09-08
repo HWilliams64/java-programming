@@ -1,0 +1,130 @@
+WEBVTT
+
+00:00:06.285 --> 00:00:09.915
+We will save a small roster, add text, and read it
+
+00:00:09.915 --> 00:00:10.278
+back.
+
+00:00:10.278 --> 00:00:12.964
+File I O means file input and output.
+
+00:00:12.964 --> 00:00:15.069
+A path represents a location.
+
+00:00:15.069 --> 00:00:17.756
+Naming a path does not create a file.
+
+00:00:17.756 --> 00:00:21.385
+Our practice file will stay inside a newly created
+
+00:00:21.385 --> 00:00:22.910
+directory, or folder.
+
+00:00:45.761 --> 00:00:49.193
+An absolute path starts from the file system root.
+
+00:00:49.193 --> 00:00:51.183
+A relative path needs a base.
+
+00:00:51.183 --> 00:00:54.546
+Here, resolve combines the new directory with the
+
+00:00:54.546 --> 00:00:56.605
+relative name roster dot text.
+
+00:00:56.605 --> 00:00:59.762
+The temporary directory is a distinct practice
+
+00:00:59.762 --> 00:01:00.380
+location.
+
+00:01:00.380 --> 00:01:03.743
+It is not automatically deleted when this program
+
+00:01:03.743 --> 00:01:04.086
+ends.
+
+00:01:04.388 --> 00:01:07.794
+Character encoding is the rule for turning text into
+
+00:01:07.794 --> 00:01:09.236
+stored bytes and back.
+
+00:01:09.236 --> 00:01:11.201
+Both directions use UTF eight.
+
+00:01:11.201 --> 00:01:14.476
+By default, writeString creates a file or replaces
+
+00:01:14.476 --> 00:01:15.655
+existing contents.
+
+00:01:15.655 --> 00:01:18.079
+APPEND adds text to an existing file.
+
+00:01:18.079 --> 00:01:20.176
+These calls do not add newlines.
+
+00:01:20.176 --> 00:01:21.748
+The strings supply them.
+
+00:01:21.748 --> 00:01:25.220
+readString brings the whole small file into a String.
+
+00:01:25.220 --> 00:01:27.840
+These helpers close their own resources.
+
+00:01:27.840 --> 00:01:30.788
+The catch handles an input or output failure.
+
+00:01:30.863 --> 00:01:34.137
+Predict every output line, including the character
+
+00:01:34.137 --> 00:01:34.530
+count.
+
+00:01:34.530 --> 00:01:37.543
+Remember to count each newline in the strings.
+
+00:01:37.543 --> 00:01:38.263
+Pause here.
+
+00:01:43.056 --> 00:01:46.475
+The output shows Maya, Luis, and Nora on separate
+
+00:01:46.475 --> 00:01:48.638
+lines, then fifteen characters.
+
+00:01:48.638 --> 00:01:52.266
+Each name has four characters, and each newline adds
+
+00:01:52.266 --> 00:01:52.545
+one.
+
+00:01:52.545 --> 00:01:55.684
+The appended text followed the existing text.
+
+00:01:55.684 --> 00:01:59.382
+String length is not a general measure of stored file
+
+00:01:59.382 --> 00:01:59.731
+size.
+
+00:02:00.057 --> 00:02:03.468
+Remove only the APPEND option from the second write,
+
+00:02:03.468 --> 00:02:06.223
+keeping the file path, text, and encoding.
+
+00:02:06.223 --> 00:02:09.503
+Predict the new file contents and character count,
+
+00:02:09.503 --> 00:02:10.881
+then run the program.
+
+00:02:10.881 --> 00:02:13.964
+What does this reveal about writing again to an
+
+00:02:13.964 --> 00:02:14.882
+existing file?

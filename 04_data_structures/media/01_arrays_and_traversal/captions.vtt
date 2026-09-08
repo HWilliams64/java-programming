@@ -1,0 +1,463 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:03.790
+Welcome to this Java tutorial, where you'll use
+
+00:00:03.790 --> 00:00:07.047
+an array, a fixed sequence of values, select its
+
+00:00:07.047 --> 00:00:10.101
+elements by index, and traverse that sequence
+
+00:00:10.101 --> 00:00:12.273
+with a loop to produce a report.
+
+00:00:12.929 --> 00:00:16.133
+Storing an ordered batch and applying one rule
+
+00:00:16.133 --> 00:00:18.989
+to its entries helps applications process
+
+00:00:18.989 --> 00:00:21.914
+measurements, report inventory, and handle
+
+00:00:21.914 --> 00:00:25.118
+repeated work without a separate statement for
+
+00:00:25.118 --> 00:00:25.954
+every value.
+
+00:00:26.640 --> 00:00:29.678
+A campus tour coordinator needs a route report
+
+00:00:29.678 --> 00:00:31.990
+from a supplied list of stop names.
+
+00:00:31.990 --> 00:00:35.160
+We'll store those names in their visiting order,
+
+00:00:35.160 --> 00:00:38.065
+replace one stop when the route changes, and
+
+00:00:38.065 --> 00:00:40.311
+print each stop with its position.
+
+00:00:40.311 --> 00:00:43.415
+Replacement must keep the same number of stops.
+
+00:00:44.069 --> 00:00:46.768
+A useful report should preserve the route's
+
+00:00:46.768 --> 00:00:49.530
+order, include the replacement, and show the
+
+00:00:49.530 --> 00:00:50.284
+entry count.
+
+00:00:50.284 --> 00:00:53.234
+We'll first work through a two-stop route, then
+
+00:00:53.234 --> 00:00:56.059
+use what we've learned to predict a different
+
+00:00:56.059 --> 00:00:58.319
+three-stop report before running it.
+
+00:00:58.394 --> 00:01:01.714
+Let's open Main.java in the Workspace and build
+
+00:01:01.714 --> 00:01:02.844
+the first route.
+
+00:01:06.912 --> 00:01:09.942
+Main is the class containing our code, and its
+
+00:01:09.942 --> 00:01:12.643
+main method is where this program starts.
+
+00:01:12.643 --> 00:01:15.409
+Inside that method, we'll keep library and
+
+00:01:15.409 --> 00:01:17.649
+studio together in a String array.
+
+00:01:17.649 --> 00:01:19.757
+Each stored value is an element.
+
+00:01:19.757 --> 00:01:22.524
+One array keeps the route's visiting order
+
+00:01:22.524 --> 00:01:25.620
+explicit instead of scattering its stops across
+
+00:01:25.620 --> 00:01:26.937
+unrelated variables.
+
+00:01:39.798 --> 00:01:42.898
+The square brackets in the type tell Java that
+
+00:01:42.898 --> 00:01:45.325
+route refers to an array of Strings.
+
+00:01:45.325 --> 00:01:48.155
+The initializer, the values inside braces,
+
+00:01:48.155 --> 00:01:50.514
+creates two elements in that order.
+
+00:01:50.514 --> 00:01:53.547
+Their indices are zero and one: an index is a
+
+00:01:53.547 --> 00:01:56.311
+position number, and Java starts counting
+
+00:01:56.311 --> 00:01:57.524
+positions at zero.
+
+00:01:57.524 --> 00:02:00.759
+The array's length is two, because length counts
+
+00:02:00.759 --> 00:02:01.298
+entries.
+
+00:02:01.324 --> 00:02:04.583
+The coordinator has changed the second stop to
+
+00:02:04.583 --> 00:02:05.150
+gallery.
+
+00:02:05.150 --> 00:02:08.268
+We need to replace the element at index one.
+
+00:02:08.268 --> 00:02:11.456
+Assigning to that position changes its stored
+
+00:02:11.456 --> 00:02:14.432
+value while keeping the first stop and the
+
+00:02:14.432 --> 00:02:16.274
+two-position array intact.
+
+00:02:19.837 --> 00:02:22.203
+The second position now holds gallery.
+
+00:02:22.203 --> 00:02:25.192
+Writing separate print statements would work for
+
+00:02:25.192 --> 00:02:27.745
+this tiny route, but a longer route would
+
+00:02:27.745 --> 00:02:29.426
+require more repeated code.
+
+00:02:29.426 --> 00:02:32.291
+Traversal means visiting the elements in turn.
+
+00:02:32.291 --> 00:02:35.280
+We'll use the for-loop pattern you already know,
+
+00:02:35.280 --> 00:02:38.144
+starting at zero and continuing only while the
+
+00:02:38.144 --> 00:02:40.012
+index is less than the length.
+
+00:02:53.251 --> 00:02:55.860
+Each accepted index selects one stop for the
+
+00:02:55.860 --> 00:02:56.809
+print statement.
+
+00:02:56.809 --> 00:02:59.537
+The update then advances to the next position.
+
+00:02:59.537 --> 00:03:02.206
+With two entries, zero and one are valid, but
+
+00:03:02.206 --> 00:03:02.859
+two is not.
+
+00:03:02.859 --> 00:03:05.112
+When the index reaches two, the strict
+
+00:03:05.112 --> 00:03:07.781
+comparison is false, so the loop stops before
+
+00:03:07.781 --> 00:03:09.501
+attempting an invalid access.
+
+00:03:09.501 --> 00:03:12.051
+We'll add the entry count after the loop to
+
+00:03:12.051 --> 00:03:14.601
+distinguish that count from the last index.
+
+00:03:20.126 --> 00:03:23.438
+For this worked route, we expect index zero to
+
+00:03:23.438 --> 00:03:26.821
+report library and index one to report gallery,
+
+00:03:26.821 --> 00:03:29.269
+followed by an entry count of two.
+
+00:03:29.269 --> 00:03:32.724
+Let's run the program and compare that reasoning
+
+00:03:32.724 --> 00:03:33.876
+with its output.
+
+00:03:38.326 --> 00:03:41.098
+The report shows library, then gallery, with
+
+00:03:41.098 --> 00:03:42.610
+Entries: two underneath.
+
+00:03:42.610 --> 00:03:45.509
+Replacement changed a value, not the length or
+
+00:03:45.509 --> 00:03:45.887
+order.
+
+00:03:45.887 --> 00:03:48.848
+The loop printed exactly two stop lines because
+
+00:03:48.848 --> 00:03:51.620
+its condition accepted only indices zero and
+
+00:03:51.620 --> 00:03:51.872
+one.
+
+00:03:51.872 --> 00:03:54.897
+Notice that the array length has no parentheses;
+
+00:03:54.897 --> 00:03:57.606
+it is a field holding the count, unlike the
+
+00:03:57.606 --> 00:04:00.126
+String length method you've used before.
+
+00:04:00.203 --> 00:04:03.301
+Traversal can also combine values into a result.
+
+00:04:03.301 --> 00:04:06.335
+A stockroom worker has counted two units in one
+
+00:04:06.335 --> 00:04:09.111
+bin and four in another and needs the total
+
+00:04:09.111 --> 00:04:10.144
+number of units.
+
+00:04:10.144 --> 00:04:13.178
+We don't need position labels for this task, so
+
+00:04:13.178 --> 00:04:16.212
+we'll replace the route example with an integer
+
+00:04:16.212 --> 00:04:19.181
+array and an enhanced for loop, which supplies
+
+00:04:19.181 --> 00:04:21.053
+each element's value in turn.
+
+00:04:30.346 --> 00:04:33.384
+Amounts stores units per bin, and total starts
+
+00:04:33.384 --> 00:04:36.291
+at zero because no bins have been processed.
+
+00:04:36.291 --> 00:04:39.329
+The enhanced loop will supply each amount to a
+
+00:04:39.329 --> 00:04:40.320
+local variable.
+
+00:04:40.320 --> 00:04:43.491
+Adding that value to the earlier total preserves
+
+00:04:43.491 --> 00:04:45.208
+the units already counted.
+
+00:04:45.208 --> 00:04:48.247
+This produces a running total: the accumulated
+
+00:04:48.247 --> 00:04:51.021
+result after the entries processed so far.
+
+00:05:02.341 --> 00:05:05.062
+The first iteration adds two to zero.
+
+00:05:05.062 --> 00:05:08.593
+The second adds four to the retained two, making
+
+00:05:08.593 --> 00:05:09.328
+six units.
+
+00:05:09.328 --> 00:05:12.859
+We print once after the loop, so this is a final
+
+00:05:12.859 --> 00:05:15.654
+total rather than a line for each bin.
+
+00:05:15.654 --> 00:05:17.566
+Let's run the stock check.
+
+00:05:21.906 --> 00:05:24.293
+Units: six is the combined quantity.
+
+00:05:24.293 --> 00:05:27.012
+It is not the array length: there are two
+
+00:05:27.012 --> 00:05:29.200
+entries, each representing a bin.
+
+00:05:29.200 --> 00:05:32.052
+The enhanced loop was convenient because we
+
+00:05:32.052 --> 00:05:34.439
+needed each value but not its index.
+
+00:05:34.439 --> 00:05:37.622
+The indexed loop served the route report because
+
+00:05:37.622 --> 00:05:39.545
+its position labels mattered.
+
+00:05:39.545 --> 00:05:42.131
+Both forms visit the elements in order.
+
+00:05:42.233 --> 00:05:45.331
+Let's return to the tour coordinator with the
+
+00:05:45.331 --> 00:05:47.122
+lesson's three-stop route.
+
+00:05:47.122 --> 00:05:50.358
+We'll replace the stock example with desk, lab,
+
+00:05:50.358 --> 00:05:53.456
+and hall, change one stored stop, and use the
+
+00:05:53.456 --> 00:05:55.246
+indexed reporting pattern.
+
+00:05:55.246 --> 00:05:58.551
+This time, you'll trace the result before we run
+
+00:05:58.551 --> 00:05:58.758
+it.
+
+00:06:09.305 --> 00:06:12.596
+The initializer supplies three names in visiting
+
+00:06:12.596 --> 00:06:13.008
+order.
+
+00:06:13.008 --> 00:06:16.025
+We'll assign studio to index one, then print
+
+00:06:16.025 --> 00:06:19.110
+each valid index with the element it selects.
+
+00:06:19.110 --> 00:06:21.853
+The final line reports the array length.
+
+00:06:21.853 --> 00:06:25.076
+Apply the distinction between a position and an
+
+00:06:25.076 --> 00:06:28.230
+entry count as you read the completed program.
+
+00:06:51.103 --> 00:06:54.226
+Before we run, write every line you expect,
+
+00:06:54.226 --> 00:06:57.567
+including the position labels and final count.
+
+00:06:57.567 --> 00:07:00.762
+Identify which original stop is replaced and
+
+00:07:00.762 --> 00:07:04.030
+explain why the loop never reads index three.
+
+00:07:04.030 --> 00:07:07.153
+Pause the video here if you need more time.
+
+00:07:15.221 --> 00:07:18.154
+Let's click Run and compare the actual route
+
+00:07:18.154 --> 00:07:20.021
+report with your prediction.
+
+00:07:24.470 --> 00:07:27.359
+The report shows desk at zero, studio at one,
+
+00:07:27.359 --> 00:07:30.184
+and hall at two, followed by Entries: three.
+
+00:07:30.184 --> 00:07:32.816
+The assignment replaced lab at index one.
+
+00:07:32.816 --> 00:07:35.513
+The other entries stayed in place, and the
+
+00:07:35.513 --> 00:07:36.797
+length stayed three.
+
+00:07:36.797 --> 00:07:39.879
+After printing hall, the loop advanced to three,
+
+00:07:39.879 --> 00:07:42.896
+where the strict bound became false and stopped
+
+00:07:42.896 --> 00:07:43.795
+the traversal.
+
+00:07:44.066 --> 00:07:47.042
+We've used an array to keep a fixed sequence, an
+
+00:07:47.042 --> 00:07:49.645
+index to replace and read one element, and
+
+00:07:49.645 --> 00:07:52.187
+traversal to report every valid position.
+
+00:07:52.187 --> 00:07:54.852
+We also used an enhanced loop and a running
+
+00:07:54.852 --> 00:07:56.588
+total to combine quantities.
+
+00:07:56.588 --> 00:07:59.068
+The route report meets the coordinator's
+
+00:07:59.068 --> 00:08:01.981
+requirements, while the stock example shows how
+
+00:08:01.981 --> 00:08:04.957
+the same ordered processing supports a different
+
+00:08:04.957 --> 00:08:05.391
+result.
+
+00:08:06.679 --> 00:08:09.809
+In the notebook, practice choosing valid indices
+
+00:08:09.809 --> 00:08:12.939
+and explaining what each loop's result measures.
+
+00:08:12.939 --> 00:08:15.938
+Compare the array's length with its last valid
+
+00:08:15.938 --> 00:08:18.938
+index, and the number of entries with a sum of
+
+00:08:18.938 --> 00:08:19.785
+their values.
+
+00:08:19.785 --> 00:08:22.915
+Those distinctions will help you choose and test
+
+00:08:22.915 --> 00:08:25.654
+the collections used later in this course.

@@ -1,0 +1,70 @@
+WEBVTT
+
+00:00:06.313 --> 00:00:09.773
+Two visitors share one pass design, but each pass
+
+00:00:09.773 --> 00:00:11.609
+keeps its own visit count.
+
+00:00:11.609 --> 00:00:15.423
+DeskPass is the class: one definition of the state and
+
+00:00:15.423 --> 00:00:17.188
+behavior each object has.
+
+00:00:32.993 --> 00:00:35.916
+Owner and visits are instance fields, stored
+
+00:00:35.916 --> 00:00:37.643
+separately in each object.
+
+00:00:37.643 --> 00:00:41.229
+The constructor has the class name and no return type.
+
+00:00:41.229 --> 00:00:42.956
+It initializes a new pass.
+
+00:00:42.956 --> 00:00:46.211
+This refers to the current object, separating its
+
+00:00:46.211 --> 00:00:48.868
+owner field from the matching parameter.
+
+00:00:49.169 --> 00:00:52.677
+Visit is an instance method: it updates the object
+
+00:00:52.677 --> 00:00:53.939
+used for the call.
+
+00:00:53.939 --> 00:00:56.254
+Each new creates a separate pass.
+
+00:00:56.254 --> 00:00:59.972
+Trace the calls below and predict both printed lines,
+
+00:00:59.972 --> 00:01:00.744
+then pause.
+
+00:01:05.698 --> 00:01:09.491
+Maya's pass receives two visits; Luis's receives one.
+
+00:01:09.491 --> 00:01:13.213
+Updating the first pass leaves the second unchanged.
+
+00:01:13.213 --> 00:01:16.863
+One method definition applies the same rule to both
+
+00:01:16.863 --> 00:01:20.298
+objects, so we avoid copying its implementation.
+
+00:01:20.351 --> 00:01:23.475
+Add one more call to second's visit method before
+
+00:01:23.475 --> 00:01:24.049
+printing.
+
+00:01:24.049 --> 00:01:27.363
+Which line changes, and why does the other pass keep
+
+00:01:27.363 --> 00:01:28.001
+its count?

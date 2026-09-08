@@ -1,0 +1,532 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:03.902
+Welcome to this Java tutorial, where you'll use
+
+00:00:03.902 --> 00:00:06.852
+a switch statement to match fixed choices,
+
+00:00:06.852 --> 00:00:10.014
+control each case with break, and explain the
+
+00:00:10.014 --> 00:00:12.753
+default fallback and fall-through, when
+
+00:00:12.753 --> 00:00:15.423
+execution continues into a later case.
+
+00:00:16.066 --> 00:00:19.610
+Organizing fixed choices and their exits helps
+
+00:00:19.610 --> 00:00:23.231
+applications handle menu commands consistently,
+
+00:00:23.231 --> 00:00:26.774
+provide useful responses to unknown input, and
+
+00:00:26.774 --> 00:00:30.241
+avoid performing an unintended second action.
+
+00:00:30.893 --> 00:00:33.890
+A library kiosk needs to show a visitor one
+
+00:00:33.890 --> 00:00:37.235
+service instruction for a supplied text command.
+
+00:00:37.235 --> 00:00:40.510
+We'll first build a small information menu with
+
+00:00:40.510 --> 00:00:42.322
+hours and status commands.
+
+00:00:42.322 --> 00:00:45.249
+Then we'll apply the same matching rule to
+
+00:00:45.249 --> 00:00:46.852
+borrowing and renewing.
+
+00:00:46.852 --> 00:00:50.127
+These examples display instructions; they don't
+
+00:00:50.127 --> 00:00:52.218
+access a real library account.
+
+00:00:52.865 --> 00:00:55.657
+A supported command should select its own
+
+00:00:55.657 --> 00:00:58.789
+instruction, while other text should receive a
+
+00:00:58.789 --> 00:01:01.104
+reminder of the available choices.
+
+00:01:01.104 --> 00:01:04.236
+We'll also print a readiness message after our
+
+00:01:04.236 --> 00:01:07.232
+first switch, so you can see where execution
+
+00:01:07.232 --> 00:01:07.913
+continues.
+
+00:01:07.913 --> 00:01:10.977
+Later, you'll predict the completed borrowing
+
+00:01:10.977 --> 00:01:13.565
+and renewing example before we run it.
+
+00:01:13.605 --> 00:01:17.286
+Let's open Main.java in the Workspace and start
+
+00:01:17.286 --> 00:01:18.930
+the information menu.
+
+00:01:23.026 --> 00:01:26.014
+Main is the class containing this program's
+
+00:01:26.014 --> 00:01:29.211
+code, and its main method is where the program
+
+00:01:29.211 --> 00:01:29.698
+starts.
+
+00:01:29.698 --> 00:01:32.756
+We'll put our statements inside that method.
+
+00:01:32.756 --> 00:01:35.396
+The command variable will store hours.
+
+00:01:35.396 --> 00:01:38.732
+A switch matches that one supplied value against
+
+00:01:38.732 --> 00:01:41.790
+fixed choices; for ranges or combinations of
+
+00:01:41.790 --> 00:01:45.126
+facts, the earlier if statement is a better fit.
+
+00:01:55.403 --> 00:01:58.115
+Command is the selector, the value being
+
+00:01:58.115 --> 00:01:58.658
+matched.
+
+00:01:58.658 --> 00:02:01.709
+We need an entry point for the hours request.
+
+00:02:01.709 --> 00:02:04.556
+The case keyword introduces its fixed text
+
+00:02:04.556 --> 00:02:07.675
+label, and the colon marks where that choice's
+
+00:02:07.675 --> 00:02:08.828
+statements begin.
+
+00:02:08.828 --> 00:02:11.947
+We'll display the opening time, then use break
+
+00:02:11.947 --> 00:02:13.303
+to leave the switch.
+
+00:02:23.286 --> 00:02:26.204
+That break prevents the hours request from
+
+00:02:26.204 --> 00:02:29.260
+continuing into another service instruction.
+
+00:02:29.260 --> 00:02:32.455
+We'll add a status choice for the service desk
+
+00:02:32.455 --> 00:02:35.373
+and a default fallback for unmatched text.
+
+00:02:35.373 --> 00:02:37.457
+Default has no value to match.
+
+00:02:37.457 --> 00:02:40.513
+It identifies the starting point to use when
+
+00:02:40.513 --> 00:02:42.736
+none of the named cases matches.
+
+00:03:12.570 --> 00:03:15.705
+Our default group is last, so reaching its end
+
+00:03:15.705 --> 00:03:18.091
+reaches the switch's closing brace.
+
+00:03:18.091 --> 00:03:21.294
+The final readiness print is outside the switch
+
+00:03:21.294 --> 00:03:22.385
+but inside main.
+
+00:03:22.385 --> 00:03:25.452
+With hours, Java should enter the first case,
+
+00:03:25.452 --> 00:03:28.383
+display the opening time, and break to that
+
+00:03:28.383 --> 00:03:29.473
+readiness print.
+
+00:03:29.473 --> 00:03:32.404
+Let's run the complete program to check the
+
+00:03:32.404 --> 00:03:32.745
+path.
+
+00:03:38.302 --> 00:03:41.602
+We see the opening-time instruction followed by
+
+00:03:41.602 --> 00:03:42.374
+Menu ready.
+
+00:03:42.374 --> 00:03:45.182
+Break ended the switch, not the program.
+
+00:03:45.182 --> 00:03:48.552
+The status and default instructions did not run.
+
+00:03:48.552 --> 00:03:51.781
+Notice the braces around the switch body: case
+
+00:03:51.781 --> 00:03:55.081
+labels mark entry points, but they don't create
+
+00:03:55.081 --> 00:03:57.327
+separate blocks or local scopes.
+
+00:03:57.417 --> 00:03:59.280
+The supported path works.
+
+00:03:59.280 --> 00:04:02.483
+We also need evidence for input outside the
+
+00:04:02.483 --> 00:04:02.856
+list.
+
+00:04:02.856 --> 00:04:06.432
+We'll change only the command to events, leaving
+
+00:04:06.432 --> 00:04:08.667
+every case and exit unchanged.
+
+00:04:12.992 --> 00:04:16.080
+Events matches neither hours nor status.
+
+00:04:16.080 --> 00:04:19.091
+Java should start at default, print the
+
+00:04:19.091 --> 00:04:22.488
+available choices, and then continue to Menu
+
+00:04:22.488 --> 00:04:22.951
+ready.
+
+00:04:22.951 --> 00:04:25.267
+Let's run this unmatched case.
+
+00:04:29.812 --> 00:04:33.069
+The fallback reminder prints, followed by the
+
+00:04:33.069 --> 00:04:34.372
+readiness message.
+
+00:04:34.372 --> 00:04:37.702
+The fallback is selected because no named case
+
+00:04:37.702 --> 00:04:38.281
+matches.
+
+00:04:38.281 --> 00:04:41.683
+String matching uses text contents and respects
+
+00:04:41.683 --> 00:04:43.348
+letter case and spaces.
+
+00:04:43.348 --> 00:04:46.389
+A label is an exact choice, not a test for
+
+00:04:46.389 --> 00:04:49.501
+whether one word appears somewhere inside a
+
+00:04:49.501 --> 00:04:50.587
+longer command.
+
+00:04:50.671 --> 00:04:54.016
+Matching the right entry point is only half the
+
+00:04:54.016 --> 00:04:54.300
+job.
+
+00:04:54.300 --> 00:04:57.502
+We'll restore hours, then deliberately remove
+
+00:04:57.502 --> 00:04:58.214
+its break.
+
+00:04:58.214 --> 00:05:01.274
+The program will still compile, but it will
+
+00:05:01.274 --> 00:05:04.619
+violate our rule of one service instruction per
+
+00:05:04.619 --> 00:05:05.188
+command.
+
+00:05:05.188 --> 00:05:08.461
+Let's make those two small edits so we can see
+
+00:05:08.461 --> 00:05:08.746
+why.
+
+00:05:12.541 --> 00:05:15.618
+Execution will enter the hours case and print
+
+00:05:15.618 --> 00:05:16.713
+its instruction.
+
+00:05:16.713 --> 00:05:19.653
+Without that break, it keeps going into the
+
+00:05:19.653 --> 00:05:22.662
+statements under status, without testing the
+
+00:05:22.662 --> 00:05:23.962
+status label again.
+
+00:05:23.962 --> 00:05:25.398
+This is fall-through.
+
+00:05:25.398 --> 00:05:28.612
+The break after the status message will finally
+
+00:05:28.612 --> 00:05:29.775
+leave the switch.
+
+00:05:29.775 --> 00:05:32.920
+Let's run the faulty version and inspect every
+
+00:05:32.920 --> 00:05:33.741
+output line.
+
+00:05:38.171 --> 00:05:41.303
+Two service instructions appear before Menu
+
+00:05:41.303 --> 00:05:41.740
+ready.
+
+00:05:41.740 --> 00:05:45.163
+The selector never changed to status; execution
+
+00:05:45.163 --> 00:05:47.494
+simply continued past its label.
+
+00:05:47.494 --> 00:05:50.917
+The program ran successfully, but the result is
+
+00:05:50.917 --> 00:05:52.811
+wrong for our requirement.
+
+00:05:52.811 --> 00:05:55.869
+Testing only status would have missed this
+
+00:05:55.869 --> 00:05:59.147
+earlier missing break, so test each supported
+
+00:05:59.147 --> 00:06:00.021
+entry point.
+
+00:06:00.107 --> 00:06:03.194
+We'll repair the hours action by restoring its
+
+00:06:03.194 --> 00:06:06.416
+print statement together with the missing break.
+
+00:06:06.416 --> 00:06:09.302
+The statement after the switch will stay in
+
+00:06:09.302 --> 00:06:12.524
+place, so the corrected run can still show where
+
+00:06:12.524 --> 00:06:13.732
+control continues.
+
+00:06:23.627 --> 00:06:26.813
+Hours now prints its instruction and exits
+
+00:06:26.813 --> 00:06:28.634
+before the status label.
+
+00:06:28.634 --> 00:06:32.048
+Let's rerun that same input to check that the
+
+00:06:32.048 --> 00:06:34.627
+extra service instruction is gone.
+
+00:06:39.094 --> 00:06:42.096
+The repaired version prints only the hours
+
+00:06:42.096 --> 00:06:44.026
+instruction and Menu ready.
+
+00:06:44.026 --> 00:06:47.457
+We changed the exit, not the selected command or
+
+00:06:47.457 --> 00:06:48.315
+its message.
+
+00:06:48.315 --> 00:06:51.388
+That comparison identifies the cause of the
+
+00:06:51.388 --> 00:06:52.175
+extra line.
+
+00:06:52.175 --> 00:06:54.962
+Fall-through can be deliberate in other
+
+00:06:54.962 --> 00:06:57.893
+programs, but it doesn't suit this menu's
+
+00:06:57.893 --> 00:06:59.394
+one-instruction rule.
+
+00:06:59.521 --> 00:07:02.691
+We'll now replace the information menu with the
+
+00:07:02.691 --> 00:07:05.389
+lesson's borrowing and renewing program.
+
+00:07:05.389 --> 00:07:08.424
+It uses the same structure and matching rule,
+
+00:07:08.424 --> 00:07:11.527
+with a different set of commands and messages.
+
+00:07:11.527 --> 00:07:14.494
+This final version has no separate readiness
+
+00:07:14.494 --> 00:07:14.899
+print.
+
+00:07:14.899 --> 00:07:17.934
+Read the choices as we build it, then predict
+
+00:07:17.934 --> 00:07:18.946
+which one runs.
+
+00:07:29.290 --> 00:07:31.390
+The supplied command is renew.
+
+00:07:31.390 --> 00:07:34.400
+We'll add the two supported case labels and
+
+00:07:34.400 --> 00:07:37.060
+their exits, followed by the fallback.
+
+00:07:37.060 --> 00:07:40.070
+Each print belongs to the label immediately
+
+00:07:40.070 --> 00:07:40.700
+above it.
+
+00:07:40.700 --> 00:07:43.920
+Use the worked information menu to trace where
+
+00:07:43.920 --> 00:07:46.440
+execution begins and where it stops.
+
+00:08:17.047 --> 00:08:20.468
+Before we run, write the exact output you expect
+
+00:08:20.468 --> 00:08:23.462
+and name the label where execution begins.
+
+00:08:23.462 --> 00:08:26.598
+Explain whether either of the other messages
+
+00:08:26.598 --> 00:08:27.382
+will print.
+
+00:08:27.382 --> 00:08:30.447
+Pause the video here if you need more time.
+
+00:08:38.520 --> 00:08:41.357
+Let's click Run and compare the actual
+
+00:08:41.357 --> 00:08:43.820
+instruction with your prediction.
+
+00:08:48.159 --> 00:08:50.893
+The program prints Open your loan list.
+
+00:08:50.893 --> 00:08:54.047
+Renew matches the second case, so the earlier
+
+00:08:54.047 --> 00:08:56.150
+borrow statements are skipped.
+
+00:08:56.150 --> 00:08:59.094
+After the selected print, break leaves the
+
+00:08:59.094 --> 00:09:00.636
+switch before default.
+
+00:09:00.636 --> 00:09:03.721
+There is no later print in main, so this run
+
+00:09:03.721 --> 00:09:06.034
+produces exactly one instruction.
+
+00:09:06.194 --> 00:09:09.389
+We've built a fixed-command choice, checked an
+
+00:09:09.389 --> 00:09:12.375
+unmatched command, and repaired an unwanted
+
+00:09:12.375 --> 00:09:13.695
+second instruction.
+
+00:09:13.695 --> 00:09:16.751
+A switch chooses an entry point, case labels
+
+00:09:16.751 --> 00:09:19.876
+name the supported values, default handles an
+
+00:09:19.876 --> 00:09:23.002
+unmatched value, and break controls the exit.
+
+00:09:23.002 --> 00:09:25.710
+Together, those parts give this kiosk a
+
+00:09:25.710 --> 00:09:27.169
+predictable response.
+
+00:09:28.058 --> 00:09:30.964
+Now use the notebook to build its related
+
+00:09:30.964 --> 00:09:32.169
+library selector.
+
+00:09:32.169 --> 00:09:35.004
+Test every supported command, an unknown
+
+00:09:35.004 --> 00:09:38.264
+command, and the stated change in letter case.
+
+00:09:38.264 --> 00:09:41.241
+Compare both the message and the number of
+
+00:09:41.241 --> 00:09:41.666
+lines.
+
+00:09:41.666 --> 00:09:44.926
+Explain why these fixed choices suit a switch,
+
+00:09:44.926 --> 00:09:48.257
+and why a range-based rule would call for an if
+
+00:09:48.257 --> 00:09:49.533
+condition instead.

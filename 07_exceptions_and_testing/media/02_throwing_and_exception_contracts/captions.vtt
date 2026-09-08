@@ -1,0 +1,118 @@
+WEBVTT
+
+00:00:06.719 --> 00:00:10.199
+A quantity form needs to explain different failures.
+
+00:00:10.199 --> 00:00:13.412
+A custom exception class names a failure for our
+
+00:00:13.412 --> 00:00:14.215
+application.
+
+00:00:14.215 --> 00:00:17.561
+InvalidQuantityException is checked: Java requires
+
+00:00:17.561 --> 00:00:21.176
+callers to catch it or declare that it may leave their
+
+00:00:21.176 --> 00:00:21.644
+method.
+
+00:00:54.323 --> 00:00:57.395
+The throws declaration names a possible failure.
+
+00:00:57.395 --> 00:01:00.530
+A throw statement raises an exception object now.
+
+00:01:00.530 --> 00:01:03.858
+Integer dot parseInt converts decimal digits with an
+
+00:01:03.858 --> 00:01:05.841
+optional leading plus or minus.
+
+00:01:05.841 --> 00:01:08.849
+It rejects whitespace, invalid text, and values
+
+00:01:08.849 --> 00:01:11.985
+outside the int range with NumberFormatException.
+
+00:01:11.985 --> 00:01:15.312
+That type is unchecked, so callers need not catch or
+
+00:01:15.312 --> 00:01:16.016
+declare it.
+
+00:01:16.016 --> 00:01:19.152
+Our new exception keeps a message and an optional
+
+00:01:19.152 --> 00:01:22.287
+cause: an earlier failure that explains this one.
+
+00:01:22.287 --> 00:01:25.743
+Throwable is the parent type used here to receive that
+
+00:01:25.743 --> 00:01:27.342
+earlier exception object.
+
+00:01:27.342 --> 00:01:30.350
+Passing the cause to super preserves it for the
+
+00:01:30.350 --> 00:01:30.798
+caller.
+
+00:01:31.096 --> 00:01:34.316
+The caller catches our checked exception separately
+
+00:01:34.316 --> 00:01:35.262
+for each input.
+
+00:01:35.262 --> 00:01:38.545
+It prints either the quantity or the problem message
+
+00:01:38.545 --> 00:01:40.250
+and whether a cause exists.
+
+00:01:40.250 --> 00:01:43.595
+Trace the three inputs and predict every output line.
+
+00:01:43.595 --> 00:01:44.921
+Pause before running.
+
+00:01:49.842 --> 00:01:51.943
+Three becomes a valid quantity.
+
+00:01:51.943 --> 00:01:55.400
+The word two fails conversion, so the new exception
+
+00:01:55.400 --> 00:01:58.315
+retains the original NumberFormatException.
+
+00:01:58.315 --> 00:01:59.535
+Has cause is true.
+
+00:01:59.535 --> 00:02:02.924
+Negative one converts successfully, then fails our
+
+00:02:02.924 --> 00:02:04.077
+nonnegative rule.
+
+00:02:04.077 --> 00:02:07.534
+There is no earlier exception, so its cause is null
+
+00:02:07.534 --> 00:02:09.093
+and Has cause is false.
+
+00:02:09.093 --> 00:02:12.414
+The catch block reports each failure and the loop
+
+00:02:12.414 --> 00:02:13.092
+continues.
+
+00:02:13.148 --> 00:02:16.390
+Change the final input from negative one to zero.
+
+00:02:16.390 --> 00:02:19.897
+Predict the complete output and explain how the final
+
+00:02:19.897 --> 00:02:21.948
+call differs from the original.

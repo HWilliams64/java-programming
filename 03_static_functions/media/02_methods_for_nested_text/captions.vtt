@@ -1,0 +1,613 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:04.044
+Welcome to this Java tutorial, where you'll use
+
+00:00:04.044 --> 00:00:06.917
+String positions and ranges, track nested
+
+00:00:06.917 --> 00:00:10.140
+delimiters—paired boundary symbols—and write a
+
+00:00:10.140 --> 00:00:13.364
+method that returns the right section of text.
+
+00:00:15.791 --> 00:00:19.094
+These text-processing skills help applications
+
+00:00:19.094 --> 00:00:22.541
+extract usable information from notes and files,
+
+00:00:22.541 --> 00:00:25.629
+while a clear method contract—the rules for
+
+00:00:25.629 --> 00:00:29.004
+accepted inputs and returned results—lets other
+
+00:00:29.004 --> 00:00:32.163
+code interpret the result and test difficult
+
+00:00:32.163 --> 00:00:32.666
+inputs.
+
+00:00:34.049 --> 00:00:37.225
+A workshop coordinator stores color notes inside
+
+00:00:37.225 --> 00:00:38.284
+square brackets.
+
+00:00:38.284 --> 00:00:41.262
+Some notes contain another bracketed section,
+
+00:00:41.262 --> 00:00:43.711
+which must stay in the selected text.
+
+00:00:43.711 --> 00:00:46.623
+We'll build a helper that reads the note one
+
+00:00:46.623 --> 00:00:49.667
+position at a time, counts openings that still
+
+00:00:49.667 --> 00:00:52.512
+need a close, and selects the inside of the
+
+00:00:52.512 --> 00:00:54.299
+first completed outer pair.
+
+00:00:55.753 --> 00:00:58.694
+The caller should receive the entire marked
+
+00:00:58.694 --> 00:01:01.773
+section with only its outer brackets removed.
+
+00:01:01.773 --> 00:01:03.893
+Later groups won't be included.
+
+00:01:03.893 --> 00:01:07.040
+An empty pair or a note with no completed pair
+
+00:01:07.040 --> 00:01:09.024
+will produce an empty String.
+
+00:01:09.024 --> 00:01:12.307
+We'll learn the position rules first, then build
+
+00:01:12.307 --> 00:01:14.428
+and test that selection method.
+
+00:01:14.742 --> 00:01:17.716
+Now that we're in the Workspace, let's open
+
+00:01:17.716 --> 00:01:20.966
+Main.java and try the two String operations our
+
+00:01:20.966 --> 00:01:22.142
+helper will need.
+
+00:01:26.573 --> 00:01:29.730
+Main is the class holding our program, and its
+
+00:01:29.730 --> 00:01:32.749
+main method is where the application starts.
+
+00:01:32.749 --> 00:01:35.220
+We'll put a short marked word there.
+
+00:01:35.220 --> 00:01:37.896
+String positions start at zero: in this
+
+00:01:37.896 --> 00:01:41.053
+six-character input, the opening bracket is at
+
+00:01:41.053 --> 00:01:43.798
+zero and the closing bracket is at five.
+
+00:01:52.460 --> 00:01:55.373
+To recognize a boundary, the scan needs one
+
+00:01:55.373 --> 00:01:57.880
+character rather than a whole String.
+
+00:01:57.880 --> 00:02:00.590
+The charAt method selects the value at a
+
+00:02:00.590 --> 00:02:01.200
+position.
+
+00:02:01.200 --> 00:02:04.181
+We'll select position zero and store it in a
+
+00:02:04.181 --> 00:02:06.010
+char variable named symbol.
+
+00:02:06.010 --> 00:02:09.194
+Single quotes write a character literal; double
+
+00:02:09.194 --> 00:02:10.685
+quotes write a String.
+
+00:02:20.667 --> 00:02:23.419
+Symbol contains the opening bracket, so its
+
+00:02:23.419 --> 00:02:25.723
+character comparison should be true.
+
+00:02:25.723 --> 00:02:28.731
+Equality compares these char values; it isn't a
+
+00:02:28.731 --> 00:02:31.546
+replacement for equals when comparing String
+
+00:02:31.546 --> 00:02:32.058
+content.
+
+00:02:32.058 --> 00:02:34.874
+Next we need the text between two positions.
+
+00:02:34.874 --> 00:02:37.754
+Substring includes its start and excludes its
+
+00:02:37.754 --> 00:02:40.698
+end, so the range from one to five selects the
+
+00:02:40.698 --> 00:02:42.042
+four letters of blue.
+
+00:02:56.970 --> 00:03:00.348
+The second substring call has equal boundaries.
+
+00:03:00.348 --> 00:03:03.798
+No position belongs to that range, so it returns
+
+00:03:03.798 --> 00:03:04.948
+an empty String.
+
+00:03:04.948 --> 00:03:08.039
+The labels and angle brackets come from the
+
+00:03:08.039 --> 00:03:10.698
+caller and make both results visible.
+
+00:03:10.698 --> 00:03:13.070
+Let's click Run and compare them.
+
+00:03:18.819 --> 00:03:21.797
+The output shows the bracket, true, the selected
+
+00:03:21.797 --> 00:03:23.907
+word, and an empty labeled result.
+
+00:03:23.907 --> 00:03:26.637
+Neither operation changed the source String.
+
+00:03:26.637 --> 00:03:29.553
+These ordinary letters and brackets each occupy
+
+00:03:29.553 --> 00:03:32.407
+one position; Java actually counts UTF-sixteen
+
+00:03:32.407 --> 00:03:35.323
+code units, so some displayed symbols need more
+
+00:03:35.323 --> 00:03:36.440
+than one position.
+
+00:03:36.440 --> 00:03:39.418
+We'll stay with these simple characters while we
+
+00:03:39.418 --> 00:03:40.969
+build the delimiter scan.
+
+00:03:41.018 --> 00:03:43.854
+We can select a range now, but a nested note has
+
+00:03:43.854 --> 00:03:45.626
+more than one closing bracket.
+
+00:03:45.626 --> 00:03:48.403
+Stopping at the first close would cut the outer
+
+00:03:48.403 --> 00:03:49.230
+section short.
+
+00:03:49.230 --> 00:03:52.007
+Let's replace the small trial with TextTools, a
+
+00:03:52.007 --> 00:03:54.783
+class containing our reusable selection method.
+
+00:03:54.783 --> 00:03:57.501
+It accepts a String, including empty text, and
+
+00:03:57.501 --> 00:03:59.332
+returns a String to its caller.
+
+00:03:59.332 --> 00:04:01.873
+We won't pass null, the value that means no
+
+00:04:01.873 --> 00:04:03.468
+String object was supplied.
+
+00:04:14.112 --> 00:04:17.206
+Start remembers where the outer group's content
+
+00:04:17.206 --> 00:04:17.666
+begins.
+
+00:04:17.666 --> 00:04:20.826
+Minus one means that we haven't found an opening
+
+00:04:20.826 --> 00:04:21.089
+yet.
+
+00:04:21.089 --> 00:04:24.051
+Depth counts openings that still need closing
+
+00:04:24.051 --> 00:04:24.643
+brackets.
+
+00:04:24.643 --> 00:04:27.737
+We'll move through valid positions, starting at
+
+00:04:27.737 --> 00:04:30.567
+zero and stopping before the String length,
+
+00:04:30.567 --> 00:04:32.937
+selecting one char at each position.
+
+00:04:44.823 --> 00:04:47.951
+At an opening bracket, depth tells us whether
+
+00:04:47.951 --> 00:04:51.009
+this is a new outer group or a smaller group
+
+00:04:51.009 --> 00:04:51.704
+inside it.
+
+00:04:51.704 --> 00:04:55.040
+Only an opening seen at depth zero should record
+
+00:04:55.040 --> 00:04:55.874
+a new start.
+
+00:04:55.874 --> 00:04:58.793
+We store the next position so the eventual
+
+00:04:58.793 --> 00:05:01.573
+substring leaves that outer bracket out.
+
+00:05:14.933 --> 00:05:17.801
+Every opening increases depth, but an inner
+
+00:05:17.801 --> 00:05:19.602
+opening leaves start alone.
+
+00:05:19.602 --> 00:05:22.803
+For the short note with m, an inner bracketed n,
+
+00:05:22.803 --> 00:05:25.804
+and p, start stays one while depth rises from
+
+00:05:25.804 --> 00:05:26.538
+one to two.
+
+00:05:26.538 --> 00:05:29.406
+A closing bracket should count only when an
+
+00:05:29.406 --> 00:05:32.340
+opening is active; that guard also ignores a
+
+00:05:32.340 --> 00:05:35.408
+stray closing bracket before any group begins.
+
+00:05:45.330 --> 00:05:47.597
+A closing bracket decreases depth.
+
+00:05:47.597 --> 00:05:50.797
+The inner close in our short note changes two to
+
+00:05:50.797 --> 00:05:52.863
+one, so scanning must continue.
+
+00:05:52.863 --> 00:05:55.597
+Only the outer close changes one to zero.
+
+00:05:55.597 --> 00:05:58.597
+At that moment we know both range boundaries:
+
+00:05:58.597 --> 00:06:01.397
+the recorded start and the current closing
+
+00:06:01.397 --> 00:06:03.730
+position, which substring excludes.
+
+00:06:17.834 --> 00:06:20.978
+This early return finishes the entire method,
+
+00:06:20.978 --> 00:06:22.305
+including its loop.
+
+00:06:22.305 --> 00:06:25.658
+Java won't perform another loop update or scan a
+
+00:06:25.658 --> 00:06:26.496
+later group.
+
+00:06:26.496 --> 00:06:29.640
+But an input might end before any outer group
+
+00:06:29.640 --> 00:06:30.339
+completes.
+
+00:06:30.339 --> 00:06:33.692
+Outside the complete loop, we'll return an empty
+
+00:06:33.692 --> 00:06:35.159
+String for that case.
+
+00:06:38.402 --> 00:06:41.016
+The helper now has both return paths.
+
+00:06:41.016 --> 00:06:44.194
+It doesn't print or change the original text;
+
+00:06:44.194 --> 00:06:46.737
+display remains the caller's choice.
+
+00:06:46.737 --> 00:06:49.986
+Let's call it with our short nested note so we
+
+00:06:49.986 --> 00:06:53.024
+can trace the result before trying a longer
+
+00:06:53.024 --> 00:06:53.377
+note.
+
+00:07:08.064 --> 00:07:10.790
+The opening at zero records start one.
+
+00:07:10.790 --> 00:07:14.017
+The inner opening at two raises depth to two,
+
+00:07:14.017 --> 00:07:17.030
+and its close at four lowers depth to one.
+
+00:07:17.030 --> 00:07:20.042
+The close at six finally makes depth zero.
+
+00:07:20.042 --> 00:07:23.414
+The selected positions one through five contain
+
+00:07:23.414 --> 00:07:26.354
+m, the complete inner bracketed n, and p.
+
+00:07:26.354 --> 00:07:27.789
+Let's run that call.
+
+00:07:34.083 --> 00:07:36.757
+The caller prints m, bracketed n, and p.
+
+00:07:36.757 --> 00:07:39.765
+The inner pair survived because it was inside
+
+00:07:39.765 --> 00:07:41.035
+the selected range.
+
+00:07:41.035 --> 00:07:43.843
+Start stayed at the outer content boundary
+
+00:07:43.843 --> 00:07:46.851
+throughout the scan, and only the outer close
+
+00:07:46.851 --> 00:07:48.121
+allowed the return.
+
+00:07:48.121 --> 00:07:50.728
+Now let's examine the rule for empty or
+
+00:07:50.728 --> 00:07:53.870
+incomplete input before using the helper on the
+
+00:07:53.870 --> 00:07:55.608
+coordinator's longer note.
+
+00:07:55.752 --> 00:07:58.855
+We'll keep the helper unchanged and replace the
+
+00:07:58.855 --> 00:08:00.968
+caller with four separate tests.
+
+00:08:00.968 --> 00:08:03.940
+The first input has two completed groups; the
+
+00:08:03.940 --> 00:08:06.977
+method should return only the first group's a.
+
+00:08:06.977 --> 00:08:10.014
+An empty pair should return empty immediately.
+
+00:08:10.014 --> 00:08:13.118
+Plain text and an unfinished group should reach
+
+00:08:13.118 --> 00:08:15.627
+the final empty return after the loop.
+
+00:08:16.596 --> 00:08:19.079
+The same selection rule is in place.
+
+00:08:19.079 --> 00:08:21.976
+Each test now needs its own call, and each
+
+00:08:21.976 --> 00:08:24.942
+caller will print angle brackets around the
+
+00:08:24.942 --> 00:08:25.425
+result.
+
+00:08:25.425 --> 00:08:28.322
+This makes an empty return visible without
+
+00:08:28.322 --> 00:08:31.288
+pretending that the helper printed anything
+
+00:08:31.288 --> 00:08:31.771
+itself.
+
+00:09:33.080 --> 00:09:36.024
+Let's run the four calls in their displayed
+
+00:09:36.024 --> 00:09:39.311
+order: two groups, an empty group, no group, and
+
+00:09:39.311 --> 00:09:40.680
+an unfinished group.
+
+00:09:46.384 --> 00:09:48.265
+Only the first line contains a.
+
+00:09:48.265 --> 00:09:50.813
+That early return skipped the later group.
+
+00:09:50.813 --> 00:09:53.664
+The next three lines all contain empty results,
+
+00:09:53.664 --> 00:09:56.030
+but their causes differ: the empty pair
+
+00:09:56.030 --> 00:09:58.881
+completed a zero-length range, while plain text
+
+00:09:58.881 --> 00:10:01.429
+and the unfinished group reached the final
+
+00:10:01.429 --> 00:10:01.854
+return.
+
+00:10:01.854 --> 00:10:04.462
+An empty result alone doesn't tell a caller
+
+00:10:04.462 --> 00:10:07.374
+which cause occurred; that limitation belongs in
+
+00:10:07.374 --> 00:10:08.709
+the method's contract.
+
+00:10:08.887 --> 00:10:11.857
+The boundary checks match the stated rules.
+
+00:10:11.857 --> 00:10:14.897
+We'll keep the helper and replace those four
+
+00:10:14.897 --> 00:10:18.144
+calls with the coordinator's longer color note.
+
+00:10:18.144 --> 00:10:21.252
+This time, use the depth rule yourself before
+
+00:10:21.252 --> 00:10:22.012
+running it.
+
+00:10:22.862 --> 00:10:24.616
+The helper is unchanged.
+
+00:10:24.616 --> 00:10:27.906
+The new input contains an outer color section
+
+00:10:27.906 --> 00:10:30.099
+with an inner bracketed color.
+
+00:10:30.099 --> 00:10:33.023
+The caller will print exactly the String
+
+00:10:33.023 --> 00:10:36.312
+returned by the method, with no extra labels.
+
+00:10:55.637 --> 00:10:58.467
+Pause here and predict the printed text.
+
+00:10:58.467 --> 00:11:01.721
+Which opening records start, and which closing
+
+00:11:01.721 --> 00:11:04.551
+bracket first brings depth back to zero?
+
+00:11:04.551 --> 00:11:07.947
+Decide which brackets belong inside the selected
+
+00:11:07.947 --> 00:11:09.787
+range before you continue.
+
+00:11:14.972 --> 00:11:18.281
+Let's click Run and compare your prediction with
+
+00:11:18.281 --> 00:11:19.522
+the actual result.
+
+00:11:25.995 --> 00:11:28.982
+The output is red, bracketed blue, then green.
+
+00:11:28.982 --> 00:11:31.514
+The outer opening records start at six.
+
+00:11:31.514 --> 00:11:34.631
+The inner pair raises depth to two and lowers it
+
+00:11:34.631 --> 00:11:37.229
+to one, so it doesn't end the selection.
+
+00:11:37.229 --> 00:11:40.281
+The outer close at twenty brings depth to zero,
+
+00:11:40.281 --> 00:11:43.398
+and the range from six to twenty keeps the inner
+
+00:11:43.398 --> 00:11:45.995
+brackets while excluding the outer pair.
+
+00:11:46.160 --> 00:11:48.874
+We built a reusable method that extracts the
+
+00:11:48.874 --> 00:11:51.217
+coordinator's complete marked section.
+
+00:11:51.217 --> 00:11:54.116
+String positions let us inspect characters, the
+
+00:11:54.116 --> 00:11:56.768
+depth counter identified the matching outer
+
+00:11:56.768 --> 00:11:59.420
+boundary, substring selected the range, and
+
+00:11:59.420 --> 00:12:02.196
+early return stopped work once the answer was
+
+00:12:02.196 --> 00:12:02.566
+known.
+
+00:12:02.566 --> 00:12:05.465
+The caller handled output, while boundary tests
+
+00:12:05.465 --> 00:12:07.685
+made the empty-result rule explicit.
+
+00:12:07.867 --> 00:12:11.119
+For a transfer check, imagine that the notes use
+
+00:12:11.119 --> 00:12:13.762
+parentheses instead of square brackets.
+
+00:12:13.762 --> 00:12:16.947
+Which comparisons would change, and which parts
+
+00:12:16.947 --> 00:12:19.860
+of the range and depth logic would stay the
+
+00:12:19.860 --> 00:12:20.199
+same?
+
+00:12:20.199 --> 00:12:23.451
+Explain how you would test both a nested section
+
+00:12:23.451 --> 00:12:24.942
+and an unfinished one.

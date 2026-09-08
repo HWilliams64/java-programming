@@ -1,0 +1,478 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:03.967
+Welcome to this Java tutorial on strings, where
+
+00:00:03.967 --> 00:00:07.047
+you'll use named operations called methods to
+
+00:00:07.047 --> 00:00:10.059
+clean and join text, measure its length, and
+
+00:00:10.059 --> 00:00:12.865
+compare its contents while preserving the
+
+00:00:12.865 --> 00:00:13.892
+original entry.
+
+00:00:14.550 --> 00:00:17.948
+These operations help applications display names
+
+00:00:17.948 --> 00:00:21.275
+consistently, compare search terms, and process
+
+00:00:21.275 --> 00:00:24.177
+records, while keeping the original entry
+
+00:00:24.177 --> 00:00:27.363
+available to explain how a cleaned result was
+
+00:00:27.363 --> 00:00:28.000
+produced.
+
+00:00:28.647 --> 00:00:31.611
+A campus workshop volunteer needs a greeting
+
+00:00:31.611 --> 00:00:33.766
+built from a participant's name.
+
+00:00:33.766 --> 00:00:37.000
+The supplied name has two ordinary spaces before
+
+00:00:37.000 --> 00:00:38.347
+it and two after it.
+
+00:00:38.347 --> 00:00:41.580
+We'll keep that entry, prepare a version without
+
+00:00:41.580 --> 00:00:44.746
+the outside spaces, and use the cleaned text in
+
+00:00:44.746 --> 00:00:45.622
+the greeting.
+
+00:00:46.275 --> 00:00:48.724
+The finished program should display the
+
+00:00:48.724 --> 00:00:51.676
+greeting, report the cleaned name's length, and
+
+00:00:51.676 --> 00:00:54.690
+check its contents against an expected spelling.
+
+00:00:54.690 --> 00:00:57.516
+We'll first work through a different practice
+
+00:00:57.516 --> 00:01:00.217
+name so you can predict the final program's
+
+00:01:00.217 --> 00:01:01.975
+three output lines yourself.
+
+00:01:02.031 --> 00:01:05.488
+Let's open Main.java in the Workspace and build
+
+00:01:05.488 --> 00:01:07.106
+that practice example.
+
+00:01:12.072 --> 00:01:15.036
+We'll use the familiar starter structure.
+
+00:01:15.036 --> 00:01:18.290
+Main is the class containing our program, and
+
+00:01:18.290 --> 00:01:21.472
+its main method is the named operation where
+
+00:01:21.472 --> 00:01:22.701
+execution begins.
+
+00:01:22.701 --> 00:01:25.954
+The text-processing statements will go inside
+
+00:01:25.954 --> 00:01:26.822
+that method.
+
+00:01:33.144 --> 00:01:35.479
+Our practice participant is Leo.
+
+00:01:35.479 --> 00:01:38.836
+String, with a capital S, is Java's ready-made
+
+00:01:38.836 --> 00:01:39.931
+class for text.
+
+00:01:39.931 --> 00:01:43.361
+We'll store the entered name with two spaces on
+
+00:01:43.361 --> 00:01:46.718
+each side so the program has an original value
+
+00:01:46.718 --> 00:01:47.594
+to preserve.
+
+00:01:50.860 --> 00:01:53.907
+Those spaces are inside the quotation marks, so
+
+00:01:53.907 --> 00:01:55.981
+they're part of the stored text.
+
+00:01:55.981 --> 00:01:59.092
+To prepare the name for display, we'll call trim
+
+00:01:59.092 --> 00:02:02.139
+on that text and store its returned result in a
+
+00:02:02.139 --> 00:02:04.408
+separate variable called cleanName.
+
+00:02:04.408 --> 00:02:07.519
+For these ordinary spaces, trim removes only the
+
+00:02:07.519 --> 00:02:09.010
+ones at the boundaries.
+
+00:02:12.766 --> 00:02:15.833
+Trim is a method, a named operation supplied by
+
+00:02:15.833 --> 00:02:16.290
+String.
+
+00:02:16.290 --> 00:02:19.226
+The empty parentheses mean this call needs no
+
+00:02:19.226 --> 00:02:20.009
+extra input.
+
+00:02:20.009 --> 00:02:22.489
+Its returned text goes into cleanName.
+
+00:02:22.489 --> 00:02:25.230
+Strings are immutable: their existing text
+
+00:02:25.230 --> 00:02:28.166
+doesn't change in place, so enteredName still
+
+00:02:28.166 --> 00:02:29.276
+keeps the spaces.
+
+00:02:29.276 --> 00:02:32.408
+We'll make that difference visible when we print
+
+00:02:32.408 --> 00:02:33.191
+the results.
+
+00:02:33.204 --> 00:02:36.358
+With a cleaned name available, we can build the
+
+00:02:36.358 --> 00:02:36.962
+greeting.
+
+00:02:36.962 --> 00:02:39.445
+Joining text is called concatenation.
+
+00:02:39.445 --> 00:02:42.264
+Here the plus operators combine a greeting
+
+00:02:42.264 --> 00:02:45.150
+label, the cleaned name, and an exclamation
+
+00:02:45.150 --> 00:02:45.485
+mark.
+
+00:02:45.485 --> 00:02:48.572
+The space after the comma belongs to the first
+
+00:02:48.572 --> 00:02:50.854
+piece; Java doesn't add it for us.
+
+00:02:55.544 --> 00:02:58.215
+Greeting now holds the combined text, while
+
+00:02:58.215 --> 00:03:00.638
+cleanName still holds the cleaned name.
+
+00:03:00.638 --> 00:03:03.557
+Let's print the original entry between brackets
+
+00:03:03.557 --> 00:03:06.414
+so its boundary spaces are visible, then print
+
+00:03:06.414 --> 00:03:08.278
+the greeting on the next line.
+
+00:03:08.278 --> 00:03:11.073
+The brackets are display markers we add here,
+
+00:03:11.073 --> 00:03:13.744
+not characters stored in the original name.
+
+00:03:20.997 --> 00:03:23.317
+These two lines will let us compare the
+
+00:03:23.317 --> 00:03:25.518
+preserved input with the new message.
+
+00:03:25.518 --> 00:03:28.077
+We also want a measure of the cleaned name.
+
+00:03:28.077 --> 00:03:30.694
+Calling length returns a whole-number count.
+
+00:03:30.694 --> 00:03:33.371
+For the ordinary English letters in Leo, that
+
+00:03:33.371 --> 00:03:34.264
+count is three.
+
+00:03:34.264 --> 00:03:36.882
+More complex text can use more than one Java
+
+00:03:36.882 --> 00:03:39.380
+text position for a displayed symbol; this
+
+00:03:39.380 --> 00:03:41.522
+example stays with ordinary letters.
+
+00:03:45.412 --> 00:03:48.204
+The length call inspects cleanName without
+
+00:03:48.204 --> 00:03:49.001
+changing it.
+
+00:03:49.001 --> 00:03:51.726
+To inspect the actual spelling, we'll use
+
+00:03:51.726 --> 00:03:52.192
+equals.
+
+00:03:52.192 --> 00:03:55.050
+This method takes an argument, the value we
+
+00:03:55.050 --> 00:03:57.841
+supply for comparison, and returns true or
+
+00:03:57.841 --> 00:03:58.240
+false.
+
+00:03:58.240 --> 00:04:01.098
+Our practice comparison uses uppercase LEO,
+
+00:04:01.098 --> 00:04:04.023
+which differs from the capitalization of the
+
+00:04:04.023 --> 00:04:04.887
+cleaned name.
+
+00:04:09.173 --> 00:04:12.050
+Equals compares the text exactly, including
+
+00:04:12.050 --> 00:04:15.262
+letter case, so this practice comparison will be
+
+00:04:15.262 --> 00:04:15.664
+false.
+
+00:04:15.664 --> 00:04:18.809
+We'll close the starter structure, then use the
+
+00:04:18.809 --> 00:04:21.954
+completed program to check the preserved entry,
+
+00:04:21.954 --> 00:04:24.898
+the greeting, the count, and the comparison.
+
+00:04:26.841 --> 00:04:29.173
+The practice program is complete.
+
+00:04:29.173 --> 00:04:32.354
+Let's click Run and see how the returned text
+
+00:04:32.354 --> 00:04:34.616
+differs from the original entry.
+
+00:04:40.004 --> 00:04:42.899
+Inside the brackets, Leo still has its original
+
+00:04:42.899 --> 00:04:43.330
+spaces.
+
+00:04:43.330 --> 00:04:46.286
+The greeting uses the cleaned name, and the next
+
+00:04:46.286 --> 00:04:49.119
+line reports three, the cleaned name's length.
+
+00:04:49.119 --> 00:04:52.076
+False tells us that the cleaned spelling doesn't
+
+00:04:52.076 --> 00:04:53.800
+exactly match uppercase LEO.
+
+00:04:53.800 --> 00:04:56.572
+Together, these results show that the methods
+
+00:04:56.572 --> 00:04:59.467
+returned useful information without editing the
+
+00:04:59.467 --> 00:05:00.329
+original text.
+
+00:05:00.402 --> 00:05:03.424
+Now we can apply that pattern to the workshop's
+
+00:05:03.424 --> 00:05:05.032
+actual participant, Maya.
+
+00:05:05.032 --> 00:05:07.796
+We'll replace the practice statements while
+
+00:05:07.796 --> 00:05:09.983
+keeping the class and main method.
+
+00:05:09.983 --> 00:05:13.005
+The new entry again includes two spaces on each
+
+00:05:13.005 --> 00:05:15.898
+side, and we'll keep the original and cleaned
+
+00:05:15.898 --> 00:05:16.927
+values separate.
+
+00:05:23.602 --> 00:05:26.744
+The new entry and the call that prepares it are
+
+00:05:26.744 --> 00:05:27.345
+in place.
+
+00:05:27.345 --> 00:05:30.487
+We'll build the greeting from the returned text
+
+00:05:30.487 --> 00:05:32.626
+and display that greeting first.
+
+00:05:32.626 --> 00:05:35.835
+The extra bracketed diagnostic from the practice
+
+00:05:35.835 --> 00:05:38.709
+run isn't part of the workshop's three-line
+
+00:05:38.709 --> 00:05:39.177
+result.
+
+00:05:49.411 --> 00:05:51.598
+The greeting statement is ready.
+
+00:05:51.598 --> 00:05:54.809
+We'll finish with the same length operation and
+
+00:05:54.809 --> 00:05:58.089
+a content comparison using the spelling shown in
+
+00:05:58.089 --> 00:05:58.773
+this call.
+
+00:05:58.773 --> 00:06:01.711
+Neither check changes the text it inspects.
+
+00:06:10.596 --> 00:06:13.480
+Before we run this version, write its three
+
+00:06:13.480 --> 00:06:14.955
+output lines in order.
+
+00:06:14.955 --> 00:06:18.040
+Use the practice example to trace the returned
+
+00:06:18.040 --> 00:06:20.722
+trimmed text, the pieces joined into the
+
+00:06:20.722 --> 00:06:23.874
+greeting, the length, and the exact comparison.
+
+00:06:23.874 --> 00:06:26.221
+Pause here if you'd like more time.
+
+00:06:34.300 --> 00:06:37.461
+Let's click Run to compare your prediction with
+
+00:06:37.461 --> 00:06:39.950
+the workshop program's actual result.
+
+00:06:44.533 --> 00:06:46.221
+The greeting is Hello, Maya!
+
+00:06:46.221 --> 00:06:49.115
+It has the space supplied after the comma and no
+
+00:06:49.115 --> 00:06:50.863
+extra spaces around the name.
+
+00:06:50.863 --> 00:06:52.491
+Four is the cleaned length.
+
+00:06:52.491 --> 00:06:55.384
+True means the cleaned text exactly matches Maya
+
+00:06:55.384 --> 00:06:57.133
+with the same capitalization.
+
+00:06:57.133 --> 00:07:00.026
+Check those three lines against your prediction.
+
+00:07:00.026 --> 00:07:02.860
+The original enteredName still holds the padded
+
+00:07:02.860 --> 00:07:05.633
+entry, just as it did in our practice example.
+
+00:07:05.737 --> 00:07:08.446
+We've built the volunteer's greeting and two
+
+00:07:08.446 --> 00:07:10.108
+checks of its cleaned name.
+
+00:07:10.108 --> 00:07:13.063
+Trim returned text we could store, concatenation
+
+00:07:13.063 --> 00:07:15.649
+built a new message, and length and equals
+
+00:07:15.649 --> 00:07:17.927
+reported information about that text.
+
+00:07:17.927 --> 00:07:20.821
+Preserving the entry separately lets us explain
+
+00:07:20.821 --> 00:07:23.160
+how the displayed result was produced.
+
+00:07:23.160 --> 00:07:26.054
+An exact spelling comparison checks text, not a
+
+00:07:26.054 --> 00:07:27.162
+person's identity.
+
+00:07:27.874 --> 00:07:30.658
+For your next experiment, change only the
+
+00:07:30.658 --> 00:07:33.579
+entered name to lowercase maya, keeping the
+
+00:07:33.579 --> 00:07:34.869
+surrounding spaces.
+
+00:07:34.869 --> 00:07:37.314
+Leave the comparison text unchanged.
+
+00:07:37.314 --> 00:07:40.234
+Which output lines should change, and which
+
+00:07:40.234 --> 00:07:41.660
+should stay the same?
+
+00:07:41.660 --> 00:07:44.581
+Explain your prediction before you run that
+
+00:07:44.581 --> 00:07:45.124
+version.

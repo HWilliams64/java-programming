@@ -1,0 +1,253 @@
+WEBVTT
+
+00:00:00.650 --> 00:00:03.790
+Welcome to your first Java lesson, where you'll
+
+00:00:03.790 --> 00:00:06.595
+produce console output, the text a program
+
+00:00:06.595 --> 00:00:09.802
+displays, using statements, or instructions, and
+
+00:00:09.802 --> 00:00:12.741
+string literals, or text in quotation marks.
+
+00:00:13.394 --> 00:00:16.110
+Console output lets applications display
+
+00:00:16.110 --> 00:00:19.029
+results, helps you find and fix problems by
+
+00:00:19.029 --> 00:00:22.084
+showing what a program is doing, and supports
+
+00:00:22.084 --> 00:00:25.275
+command-line interfaces, where people work with
+
+00:00:25.275 --> 00:00:26.769
+software through text.
+
+00:00:27.624 --> 00:00:30.683
+We'll make a short notice for students arriving
+
+00:00:30.683 --> 00:00:32.114
+at a campus help desk.
+
+00:00:32.114 --> 00:00:35.238
+We'll supply the wording; visitors won't need to
+
+00:00:35.238 --> 00:00:36.149
+type anything.
+
+00:00:36.895 --> 00:00:40.069
+The notice should greet each student and explain
+
+00:00:40.069 --> 00:00:43.045
+how to prepare, so they know what to do next.
+
+00:00:43.091 --> 00:00:46.296
+Now that we're in the Workspace, let's open
+
+00:00:46.296 --> 00:00:47.041
+Main.java.
+
+00:00:50.760 --> 00:00:52.013
+Main.java is open.
+
+00:00:52.013 --> 00:00:55.075
+This supplied frame is our program's starter
+
+00:00:55.075 --> 00:00:55.771
+structure.
+
+00:00:55.771 --> 00:00:58.416
+Main is the class that holds our code.
+
+00:00:58.416 --> 00:01:01.757
+Its main method is a named group of instructions
+
+00:01:01.757 --> 00:01:03.567
+where this program starts.
+
+00:01:03.567 --> 00:01:06.560
+We'll put our message statements inside it.
+
+00:01:12.297 --> 00:01:15.394
+Those opening lines give our statements a place
+
+00:01:15.394 --> 00:01:15.855
+to run.
+
+00:01:15.855 --> 00:01:18.887
+Let's add one instruction, called a statement,
+
+00:01:18.887 --> 00:01:20.666
+to display a short welcome.
+
+00:01:20.666 --> 00:01:23.697
+Java's print-line instruction sends our string
+
+00:01:23.697 --> 00:01:25.872
+to the console and ends the line.
+
+00:01:29.500 --> 00:01:32.549
+Text written between quotation marks is a string
+
+00:01:32.549 --> 00:01:33.057
+literal.
+
+00:01:33.057 --> 00:01:36.042
+The marks show its boundaries; they aren't part
+
+00:01:36.042 --> 00:01:36.995
+of the message.
+
+00:01:36.995 --> 00:01:39.790
+Parentheses hold the text, and the semicolon
+
+00:01:39.790 --> 00:01:40.997
+ends the statement.
+
+00:01:40.997 --> 00:01:43.855
+Let's add a separate instruction for taking a
+
+00:01:43.855 --> 00:01:44.300
+number.
+
+00:01:48.573 --> 00:01:50.734
+We have two message statements.
+
+00:01:50.734 --> 00:01:53.800
+Let's finish the supplied frame so the whole
+
+00:01:53.800 --> 00:01:55.473
+program is ready to run.
+
+00:01:57.481 --> 00:02:00.740
+The completed frame contains both instructions.
+
+00:02:00.740 --> 00:02:03.998
+Let's click Run to compile and run the program.
+
+00:02:03.998 --> 00:02:06.911
+Compilation checks Java's rules; execution
+
+00:02:06.911 --> 00:02:08.921
+carries out our instructions.
+
+00:02:08.921 --> 00:02:11.556
+Watch how the source becomes a notice.
+
+00:02:16.734 --> 00:02:19.774
+The console shows Welcome, then Please take a
+
+00:02:19.774 --> 00:02:21.531
+number, on separate lines.
+
+00:02:21.531 --> 00:02:24.166
+Execution followed the statement order.
+
+00:02:24.166 --> 00:02:27.342
+It printed the strings' text, without quotation
+
+00:02:27.342 --> 00:02:29.166
+marks or Java instructions.
+
+00:02:29.166 --> 00:02:31.936
+That gives us a pattern for the help desk
+
+00:02:31.936 --> 00:02:32.409
+notice.
+
+00:02:32.758 --> 00:02:35.724
+Let's replace only the two practice statements
+
+00:02:35.724 --> 00:02:38.239
+with the help desk's supplied messages.
+
+00:02:38.239 --> 00:02:41.012
+We'll keep the working Main frame and use a
+
+00:02:41.012 --> 00:02:43.333
+separate statement for each message.
+
+00:02:54.867 --> 00:02:57.907
+The source now contains the help desk messages.
+
+00:02:57.907 --> 00:03:00.754
+Before we run it, write the exact two output
+
+00:03:00.754 --> 00:03:01.724
+lines in order.
+
+00:03:01.724 --> 00:03:04.829
+Will the quotation marks or the Java instruction
+
+00:03:04.829 --> 00:03:05.735
+itself appear?
+
+00:03:05.735 --> 00:03:08.128
+Use what the practice run showed you.
+
+00:03:08.128 --> 00:03:10.392
+Pause here if you'd like more time.
+
+00:03:18.429 --> 00:03:21.654
+Let's click Run to check your prediction.
+
+00:03:25.836 --> 00:03:28.964
+The console says Welcome to the help desk, then
+
+00:03:28.964 --> 00:03:31.228
+Please have your student ID ready.
+
+00:03:31.228 --> 00:03:33.358
+Both messages end with a period.
+
+00:03:33.358 --> 00:03:36.220
+They appear on separate lines, in statement
+
+00:03:36.220 --> 00:03:39.215
+order, with no source-code punctuation added.
+
+00:03:39.215 --> 00:03:42.011
+Compare that with the two lines you wrote.
+
+00:03:42.080 --> 00:03:45.037
+We've built the notice the help desk needed: a
+
+00:03:45.037 --> 00:03:47.865
+greeting followed by a preparation reminder.
+
+00:03:47.865 --> 00:03:50.500
+Strings preserved the wording, print-line
+
+00:03:50.500 --> 00:03:53.585
+statements separated the messages, and statement
+
+00:03:53.585 --> 00:03:55.963
+order made the notice easy to follow.
+
+00:03:55.963 --> 00:03:58.855
+Compiling and running let us check the actual
+
+00:03:58.855 --> 00:04:00.655
+result, not just the source.
+
+00:04:01.322 --> 00:04:03.923
+Before returning to the notebook, imagine
+
+00:04:03.923 --> 00:04:06.207
+swapping the two message statements.
+
+00:04:06.207 --> 00:04:08.999
+What would change in the console, what would
+
+00:04:08.999 --> 00:04:10.458
+stay the same, and why?
+
+00:04:10.458 --> 00:04:13.376
+Explain it using the difference between source
+
+00:04:13.376 --> 00:04:14.772
+code and printed text.

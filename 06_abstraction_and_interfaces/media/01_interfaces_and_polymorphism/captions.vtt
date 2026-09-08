@@ -1,0 +1,88 @@
+WEBVTT
+
+00:00:06.958 --> 00:00:10.637
+A campus sign can describe a room or a course through
+
+00:00:10.637 --> 00:00:12.095
+one shared operation.
+
+00:00:12.095 --> 00:00:15.704
+An interface names that contract, leaving each class
+
+00:00:15.704 --> 00:00:17.231
+to supply the details.
+
+00:00:17.231 --> 00:00:19.383
+This separation is abstraction.
+
+00:00:44.161 --> 00:00:47.711
+Labelled declares a public label operation without a
+
+00:00:47.711 --> 00:00:48.052
+body.
+
+00:00:48.052 --> 00:00:51.261
+Each class uses implements and supplies its own
+
+00:00:51.261 --> 00:00:52.831
+matching public method.
+
+00:00:52.831 --> 00:00:56.244
+The Override annotation asks the compiler to check
+
+00:00:56.244 --> 00:00:56.995
+that match.
+
+00:00:56.995 --> 00:01:00.476
+A default method includes a body that these classes
+
+00:01:00.476 --> 00:01:00.886
+share.
+
+00:01:01.193 --> 00:01:04.933
+The array holds Labelled references to different kinds
+
+00:01:04.933 --> 00:01:05.695
+of objects.
+
+00:01:05.695 --> 00:01:09.228
+The same announcement call uses each object's label
+
+00:01:09.228 --> 00:01:10.267
+implementation.
+
+00:01:10.267 --> 00:01:11.722
+That is polymorphism.
+
+00:01:11.722 --> 00:01:15.393
+Predict both output lines in array order, then pause.
+
+00:01:20.655 --> 00:01:23.580
+The first announcement names Room Lab A.
+
+00:01:23.580 --> 00:01:25.920
+The second names Course CSC-239.
+
+00:01:25.920 --> 00:01:29.723
+Both begin with Ready because they share the default
+
+00:01:29.723 --> 00:01:30.235
+method.
+
+00:01:30.235 --> 00:01:33.599
+Each call inside that method reaches the label
+
+00:01:33.599 --> 00:01:36.305
+implementation of the current object.
+
+00:01:36.380 --> 00:01:39.354
+Change the room's constructor argument to Lab B.
+
+00:01:39.354 --> 00:01:41.523
+Predict which announcement changes.
+
+00:01:41.523 --> 00:01:44.559
+Why can the same loop still announce both objects
+
+00:01:44.559 --> 00:01:46.480
+without checking their classes?

@@ -1,0 +1,163 @@
+WEBVTT
+
+00:00:09.165 --> 00:00:12.321
+We will protect a count that two workers update.
+
+00:00:12.321 --> 00:00:15.214
+Watch how both jobs use the same object, how
+
+00:00:15.214 --> 00:00:18.369
+synchronized methods control access, and why the
+
+00:00:18.369 --> 00:00:21.065
+caller waits before reporting the result.
+
+00:00:59.507 --> 00:01:03.100
+Shared mutable state means stored values that several
+
+00:01:03.100 --> 00:01:04.930
+threads can read or change.
+
+00:01:04.930 --> 00:01:08.523
+Both jobs keep a reference to this one SharedCounter.
+
+00:01:08.523 --> 00:01:12.183
+Its intrinsic monitor is the lock associated with that
+
+00:01:12.183 --> 00:01:12.657
+object.
+
+00:01:12.657 --> 00:01:16.250
+A synchronized instance method acquires that monitor.
+
+00:01:16.250 --> 00:01:19.843
+Mutual exclusion means only one cooperating thread at
+
+00:01:19.843 --> 00:01:23.232
+a time enters methods protected by this same lock.
+
+00:01:23.640 --> 00:01:26.836
+An increment reads a value, computes a new value, and
+
+00:01:26.836 --> 00:01:27.740
+writes it back.
+
+00:01:27.740 --> 00:01:30.514
+A data race involves conflicting accesses from
+
+00:01:30.514 --> 00:01:33.709
+different threads without the required ordering, with
+
+00:01:33.709 --> 00:01:34.855
+at least one write.
+
+00:01:34.855 --> 00:01:37.809
+Protecting the whole increment makes it an atomic
+
+00:01:37.809 --> 00:01:40.944
+state transition: these related steps cannot overlap
+
+00:01:40.944 --> 00:01:43.959
+with conflicting access that follows the same lock
+
+00:01:43.959 --> 00:01:44.261
+rule.
+
+00:01:44.261 --> 00:01:47.396
+Synchronization visibility means a later acquisition
+
+00:01:47.396 --> 00:01:50.350
+of that monitor observes writes ordered before an
+
+00:01:50.350 --> 00:01:51.315
+earlier release.
+
+00:01:51.462 --> 00:01:54.091
+Predict the total after both jobs finish.
+
+00:01:54.091 --> 00:01:57.297
+The first requests two thousand increments and the
+
+00:01:57.297 --> 00:01:58.708
+second three thousand.
+
+00:01:58.708 --> 00:02:01.915
+What would change if each job received a different
+
+00:02:01.915 --> 00:02:02.876
+counter object?
+
+00:02:02.876 --> 00:02:06.019
+Trace the shared references and both joins before
+
+00:02:06.019 --> 00:02:06.532
+running.
+
+00:02:06.532 --> 00:02:07.237
+Pause here.
+
+00:02:13.257 --> 00:02:15.482
+The result is Total five thousand.
+
+00:02:15.482 --> 00:02:18.950
+Both starts happen before either join, and both joins
+
+00:02:18.950 --> 00:02:20.651
+complete before this read.
+
+00:02:20.651 --> 00:02:23.792
+The getter also follows the counter’s lock rule.
+
+00:02:23.792 --> 00:02:26.998
+This result does not reveal which worker finished
+
+00:02:26.998 --> 00:02:30.074
+first or whether using two workers made the job
+
+00:02:30.074 --> 00:02:30.532
+faster.
+
+00:02:31.004 --> 00:02:33.918
+A lost update means one write replaces another
+
+00:02:33.918 --> 00:02:37.274
+worker’s change because both computed from an earlier
+
+00:02:37.274 --> 00:02:37.654
+value.
+
+00:02:37.654 --> 00:02:40.441
+As a reasoning example only, two unprotected
+
+00:02:40.441 --> 00:02:43.672
+increments could both read zero and both write one.
+
+00:02:43.672 --> 00:02:45.698
+We did not run that unsafe case.
+
+00:02:45.698 --> 00:02:49.055
+With different counter objects, each job would update
+
+00:02:49.055 --> 00:02:51.906
+its own count; their separate locks would not
+
+00:02:51.906 --> 00:02:53.679
+coordinate one shared count.
+
+00:02:53.734 --> 00:02:56.765
+For a shared seat count, why should checking for a
+
+00:02:56.765 --> 00:02:59.978
+remaining seat and decreasing the count happen in one
+
+00:02:59.978 --> 00:03:01.372
+synchronized operation?
+
+00:03:01.372 --> 00:03:04.343
+Explain what could go wrong if they were separate
+
+00:03:04.343 --> 00:03:07.556
+calls, and why every caller must follow the same lock
+
+00:03:07.556 --> 00:03:07.859
+rule.

@@ -1,0 +1,163 @@
+WEBVTT
+
+00:00:06.735 --> 00:00:09.960
+We will save a score card, restore it from our own
+
+00:00:09.960 --> 00:00:13.120
+temporary file, and compare its saved values with
+
+00:00:13.120 --> 00:00:14.152
+temporary state.
+
+00:00:14.152 --> 00:00:17.248
+Watch how the program checks the restored object
+
+00:00:17.248 --> 00:00:18.860
+before using its methods.
+
+00:01:07.840 --> 00:01:10.580
+Object serialization writes an object state
+
+00:01:10.580 --> 00:01:12.746
+representation into a byte stream.
+
+00:01:12.746 --> 00:01:15.868
+Serializable is a marker interface: it marks this
+
+00:01:15.868 --> 00:01:18.034
+support without requiring methods.
+
+00:01:18.034 --> 00:01:21.475
+Objects held in saved reference fields must support it
+
+00:01:21.475 --> 00:01:21.730
+too.
+
+00:01:21.730 --> 00:01:24.788
+The serialization version identifier helps check
+
+00:01:24.788 --> 00:01:27.910
+whether saved data and the current class can work
+
+00:01:27.910 --> 00:01:28.484
+together.
+
+00:01:28.484 --> 00:01:31.733
+Its long type stores whole numbers, and the L marks
+
+00:01:31.733 --> 00:01:33.453
+the written number as long.
+
+00:01:33.453 --> 00:01:36.639
+Matching identifiers alone do not make every class
+
+00:01:36.639 --> 00:01:37.786
+change compatible.
+
+00:01:37.786 --> 00:01:41.227
+Static fields belong to the class and are not saved as
+
+00:01:41.227 --> 00:01:42.182
+instance state.
+
+00:01:42.182 --> 00:01:45.432
+A transient instance field is excluded from default
+
+00:01:45.432 --> 00:01:46.324
+serialization.
+
+00:01:46.324 --> 00:01:48.490
+Here, views marks temporary state.
+
+00:01:48.804 --> 00:01:52.068
+Object deserialization reconstructs an object from a
+
+00:01:52.068 --> 00:01:54.077
+compatible saved representation.
+
+00:01:54.077 --> 00:01:57.090
+The output stream writes our card, and the input
+
+00:01:57.090 --> 00:01:58.408
+stream reads it back.
+
+00:01:58.408 --> 00:02:01.421
+The readObject method returns Object, the common
+
+00:02:01.421 --> 00:02:02.362
+reference type.
+
+00:02:02.362 --> 00:02:05.689
+The runtime type check, instanceof, tests whether the
+
+00:02:05.689 --> 00:02:08.011
+actual non-null value is a ScoreCard.
+
+00:02:08.011 --> 00:02:11.338
+The reference cast then gives that reference the more
+
+00:02:11.338 --> 00:02:14.539
+specific ScoreCard type so we can call its methods.
+
+00:02:14.539 --> 00:02:16.611
+Other types take the else branch.
+
+00:02:16.611 --> 00:02:19.812
+Try with resources closes both streams, and finally
+
+00:02:19.812 --> 00:02:20.879
+deletes the file.
+
+00:02:20.994 --> 00:02:23.012
+Predict all three printed lines.
+
+00:02:23.012 --> 00:02:26.166
+Which fields are saved, and what do you expect for
+
+00:02:26.166 --> 00:02:27.869
+views on the restored card?
+
+00:02:27.869 --> 00:02:30.518
+Decide whether restoring should repeat the
+
+00:02:30.518 --> 00:02:31.275
+constructor.
+
+00:02:31.275 --> 00:02:31.969
+Pause here.
+
+00:02:37.003 --> 00:02:38.971
+Maya and seven are restored.
+
+00:02:38.971 --> 00:02:42.487
+Original views is one, but restored views is zero.
+
+00:02:42.487 --> 00:02:46.213
+Default deserialization of this ordinary Serializable
+
+00:02:46.213 --> 00:02:49.446
+class does not replay its constructor or field
+
+00:02:49.446 --> 00:02:50.360
+initializers.
+
+00:02:50.360 --> 00:02:53.665
+The transient int keeps its default zero value.
+
+00:02:53.665 --> 00:02:57.391
+Our type check succeeds, so the cast and getter calls
+
+00:02:57.391 --> 00:02:57.953
+proceed.
+
+00:02:58.292 --> 00:03:01.875
+Set the constructor’s views value to five and predict
+
+00:03:01.875 --> 00:03:02.957
+both view lines.
+
+00:03:02.957 --> 00:03:05.661
+Then remove transient and predict again.
+
+00:03:05.661 --> 00:03:09.042
+Explain which state belongs in a saved score card.

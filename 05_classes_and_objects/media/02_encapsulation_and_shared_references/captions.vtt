@@ -1,0 +1,79 @@
+WEBVTT
+
+00:00:07.426 --> 00:00:10.842
+A supply bin must never issue more items than it
+
+00:00:10.842 --> 00:00:11.269
+holds.
+
+00:00:11.269 --> 00:00:14.970
+Encapsulation keeps its state behind operations that
+
+00:00:14.970 --> 00:00:16.108
+control changes.
+
+00:00:16.108 --> 00:00:19.026
+We start each bin with nonnegative stock.
+
+00:00:45.319 --> 00:00:48.719
+Private fields cannot be changed directly by this
+
+00:00:48.719 --> 00:00:49.204
+caller.
+
+00:00:49.204 --> 00:00:51.286
+Public methods provide access.
+
+00:00:51.286 --> 00:00:54.755
+The take method rejects a nonpositive or excessive
+
+00:00:54.755 --> 00:00:56.836
+request before changing stock.
+
+00:00:56.836 --> 00:01:00.444
+That protects the rule that stock stays nonnegative.
+
+00:01:00.783 --> 00:01:02.685
+Each bin has its own stock.
+
+00:01:02.685 --> 00:01:06.488
+The static binsCreated field belongs to the class, and
+
+00:01:06.488 --> 00:01:09.657
+the constructor updates it for every new bin.
+
+00:01:09.657 --> 00:01:13.460
+Trace both take calls and predict all five lines, then
+
+00:01:13.460 --> 00:01:13.883
+pause.
+
+00:01:18.795 --> 00:01:21.483
+Taking three succeeds, leaving two pens.
+
+00:01:21.483 --> 00:01:24.575
+Taking four fails without changing that stock.
+
+00:01:24.575 --> 00:01:26.389
+The maps bin still has two.
+
+00:01:26.389 --> 00:01:29.414
+The shared count is two because two bins were
+
+00:01:29.414 --> 00:01:30.220
+constructed.
+
+00:01:30.267 --> 00:01:33.464
+Change the second request and its printed label to
+
+00:01:33.464 --> 00:01:34.040
+take two.
+
+00:01:34.040 --> 00:01:35.575
+Predict the new results.
+
+00:01:35.575 --> 00:01:38.772
+Why do the maps stock and the class count stay the
+
+00:01:38.772 --> 00:01:39.092
+same?

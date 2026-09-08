@@ -1,0 +1,133 @@
+WEBVTT
+
+00:00:06.967 --> 00:00:10.377
+We will save a room record in a temporary file, then
+
+00:00:10.377 --> 00:00:13.262
+recover its seat count, price and open flag.
+
+00:00:13.262 --> 00:00:16.540
+The goal is to make the writer and reader agree on
+
+00:00:16.540 --> 00:00:18.442
+what each stored value means.
+
+00:00:46.067 --> 00:00:49.438
+A byte stream moves a sequence of bytes, small units
+
+00:00:49.438 --> 00:00:52.421
+of stored data, without treating them as text.
+
+00:00:52.421 --> 00:00:54.560
+Files opens that byte connection.
+
+00:00:54.560 --> 00:00:57.932
+DataOutputStream adds typed binary output: it writes
+
+00:00:57.932 --> 00:01:00.395
+each value according to its Java type.
+
+00:01:00.395 --> 00:01:03.896
+Our binary record schema is the agreed field types and
+
+00:01:03.896 --> 00:01:07.203
+order: an int count, a double price, then a boolean
+
+00:01:07.203 --> 00:01:07.527
+flag.
+
+00:01:07.527 --> 00:01:10.963
+These writes store values without field names or type
+
+00:01:10.963 --> 00:01:11.417
+labels.
+
+00:01:11.730 --> 00:01:15.072
+Typed binary input uses DataInputStream to interpret
+
+00:01:15.072 --> 00:01:15.843
+those bytes.
+
+00:01:15.843 --> 00:01:19.249
+Each read must match the corresponding write in type,
+
+00:01:19.249 --> 00:01:20.406
+order and meaning.
+
+00:01:20.406 --> 00:01:23.876
+Swapping two fields of the same type can silently give
+
+00:01:23.876 --> 00:01:25.161
+them wrong meanings.
+
+00:01:25.161 --> 00:01:28.503
+Try with resources closes each stream, including its
+
+00:01:28.503 --> 00:01:29.531
+file connection.
+
+00:01:29.531 --> 00:01:32.873
+The writer closes before reading begins, and finally
+
+00:01:32.873 --> 00:01:34.608
+removes the temporary file.
+
+00:01:34.608 --> 00:01:37.950
+An incomplete record ends before a required field is
+
+00:01:37.950 --> 00:01:38.657
+fully read.
+
+00:01:38.657 --> 00:01:41.806
+EOFException reports that unexpected end of file.
+
+00:01:41.806 --> 00:01:44.055
+It does not supply a default value.
+
+00:01:44.140 --> 00:01:46.214
+Predict the three printed lines.
+
+00:01:46.214 --> 00:01:49.260
+Match each read to its write, then follow which
+
+00:01:49.260 --> 00:01:50.880
+variable each print uses.
+
+00:01:50.880 --> 00:01:52.565
+Pause here before running.
+
+00:01:57.483 --> 00:02:00.850
+The reader recovers four seats, a price of two point
+
+00:02:00.850 --> 00:02:02.404
+five, and true for open.
+
+00:02:02.404 --> 00:02:05.835
+The matching reads interpret the stored values in the
+
+00:02:05.835 --> 00:02:06.677
+agreed order.
+
+00:02:06.677 --> 00:02:09.979
+The streams close and the temporary file is deleted
+
+00:02:09.979 --> 00:02:11.533
+after this complete run.
+
+00:02:11.856 --> 00:02:14.985
+Change only the written price, then predict which
+
+00:02:14.985 --> 00:02:16.326
+printed line changes.
+
+00:02:16.326 --> 00:02:18.688
+Next, remove the final boolean write.
+
+00:02:18.688 --> 00:02:21.817
+Which read would fail, and why should the program
+
+00:02:21.817 --> 00:02:25.073
+report an incomplete record instead of treating the
+
+00:02:25.073 --> 00:02:26.031
+room as closed?

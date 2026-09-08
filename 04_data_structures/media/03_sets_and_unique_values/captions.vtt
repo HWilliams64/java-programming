@@ -1,0 +1,391 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:03.912
+Welcome to this Java tutorial, where you'll use
+
+00:00:03.912 --> 00:00:06.805
+a HashSet to remember unique String values,
+
+00:00:06.805 --> 00:00:09.967
+check membership, and interpret boolean results
+
+00:00:09.967 --> 00:00:12.994
+that say whether an addition changed the set.
+
+00:00:13.654 --> 00:00:16.935
+These operations help applications recognize
+
+00:00:16.935 --> 00:00:20.216
+repeated categories and build distinct-value
+
+00:00:20.216 --> 00:00:23.795
+reports, so another request for an existing kind
+
+00:00:23.795 --> 00:00:26.629
+isn't mistaken for a new kind of data.
+
+00:00:27.321 --> 00:00:30.711
+A campus supply desk receives requests for pins
+
+00:00:30.711 --> 00:00:31.360
+and tags.
+
+00:00:31.360 --> 00:00:34.679
+Each name represents a kind of supply, not the
+
+00:00:34.679 --> 00:00:37.203
+number of physical items requested.
+
+00:00:37.203 --> 00:00:40.593
+The desk needs to recognize a repeated name and
+
+00:00:40.593 --> 00:00:43.046
+check which kinds it has recorded.
+
+00:00:43.698 --> 00:00:46.475
+We'll report whether each addition changes
+
+00:00:46.475 --> 00:00:49.385
+membership, compare a query before and after
+
+00:00:49.385 --> 00:00:52.493
+adding an item, and display the distinct count.
+
+00:00:52.493 --> 00:00:55.138
+After that worked case, you'll predict a
+
+00:00:55.138 --> 00:00:58.048
+different request sequence before we run it.
+
+00:00:58.116 --> 00:01:01.359
+Let's open Main.java and build the membership
+
+00:01:01.359 --> 00:01:01.791
+check.
+
+00:01:06.130 --> 00:01:09.378
+Main is the class that contains our program, and
+
+00:01:09.378 --> 00:01:12.220
+its main method is where execution starts.
+
+00:01:12.220 --> 00:01:15.333
+We'll place the statements inside that method.
+
+00:01:15.333 --> 00:01:17.972
+The import makes the HashSet class name
+
+00:01:17.972 --> 00:01:20.881
+available for the collection we're about to
+
+00:01:20.881 --> 00:01:21.355
+create.
+
+00:01:29.838 --> 00:01:31.962
+The program structure is ready.
+
+00:01:31.962 --> 00:01:34.840
+Now we'll create an empty set named items.
+
+00:01:34.840 --> 00:01:38.061
+String is the element type on both sides of the
+
+00:01:38.061 --> 00:01:41.281
+declaration, just as it was for an ArrayList of
+
+00:01:41.281 --> 00:01:41.624
+text.
+
+00:01:41.624 --> 00:01:44.639
+The new keyword creates this collection; the
+
+00:01:44.639 --> 00:01:46.763
+import alone doesn't create it.
+
+00:01:52.605 --> 00:01:55.457
+The declaration gives the program an empty
+
+00:01:55.457 --> 00:01:56.816
+starting collection.
+
+00:01:56.816 --> 00:01:59.804
+A set keeps one representative of each equal
+
+00:01:59.804 --> 00:02:02.452
+value, and String equality compares the
+
+00:02:02.452 --> 00:02:03.063
+contents.
+
+00:02:03.063 --> 00:02:06.187
+Let's add a pin request and print the method's
+
+00:02:06.187 --> 00:02:09.040
+result so we can see whether that addition
+
+00:02:09.040 --> 00:02:10.330
+changed membership.
+
+00:02:17.511 --> 00:02:20.560
+The first print will report true because pin
+
+00:02:20.560 --> 00:02:21.530
+starts absent.
+
+00:02:21.530 --> 00:02:24.649
+The add call stores the new member before its
+
+00:02:24.649 --> 00:02:27.421
+returned boolean is joined to the label.
+
+00:02:27.421 --> 00:02:30.470
+Next we'll try the same text again, then ask
+
+00:02:30.470 --> 00:02:33.311
+whether tag is present without adding it.
+
+00:02:49.517 --> 00:02:52.596
+The repeated pin call will return false because
+
+00:02:52.596 --> 00:02:55.412
+an equal value is already present; it won't
+
+00:02:55.412 --> 00:02:57.181
+create a second pin member.
+
+00:02:57.181 --> 00:02:59.932
+Contains is a different question: it reads
+
+00:02:59.932 --> 00:03:03.010
+whether a value is present and doesn't remember
+
+00:03:03.010 --> 00:03:03.796
+a new value.
+
+00:03:03.796 --> 00:03:06.678
+Since tag hasn't been added, that query will
+
+00:03:06.678 --> 00:03:07.792
+return false too.
+
+00:03:08.328 --> 00:03:11.186
+Those two false results describe different
+
+00:03:11.186 --> 00:03:11.935
+operations.
+
+00:03:11.935 --> 00:03:15.133
+One says the duplicate addition made no change;
+
+00:03:15.133 --> 00:03:17.106
+the other says tag is absent.
+
+00:03:17.106 --> 00:03:20.373
+We'll now add tag, query it again, and print the
+
+00:03:20.373 --> 00:03:23.503
+number of distinct members after the requests.
+
+00:03:43.778 --> 00:03:46.807
+This standalone add changes membership without
+
+00:03:46.807 --> 00:03:48.849
+displaying its returned result.
+
+00:03:48.849 --> 00:03:52.009
+The following query will find tag, and size will
+
+00:03:52.009 --> 00:03:53.787
+count the distinct members.
+
+00:03:53.787 --> 00:03:56.882
+We are asking about values, not list indices or
+
+00:03:56.882 --> 00:03:58.660
+a promised traversal order.
+
+00:03:58.660 --> 00:04:01.624
+Let's click Run and check the complete worked
+
+00:04:01.624 --> 00:04:01.953
+case.
+
+00:04:07.453 --> 00:04:10.760
+The first pin line is true and the repeated pin
+
+00:04:10.760 --> 00:04:11.745
+line is false.
+
+00:04:11.745 --> 00:04:14.982
+Tag before add is false, then Tag after add is
+
+00:04:14.982 --> 00:04:15.334
+true.
+
+00:04:15.334 --> 00:04:17.585
+The last line reports Unique: 2.
+
+00:04:17.585 --> 00:04:20.752
+Three addition attempts produced two distinct
+
+00:04:20.752 --> 00:04:24.129
+members, and the contains queries did not change
+
+00:04:24.129 --> 00:04:24.903
+that count.
+
+00:04:25.612 --> 00:04:28.757
+A false add result is normal duplicate handling,
+
+00:04:28.757 --> 00:04:29.871
+not a Java error.
+
+00:04:29.871 --> 00:04:32.885
+The final count describes the different String
+
+00:04:32.885 --> 00:04:35.571
+values present, rather than the number of
+
+00:04:35.571 --> 00:04:38.126
+requests or the number of method calls.
+
+00:04:38.126 --> 00:04:41.206
+With that distinction established, we can apply
+
+00:04:41.206 --> 00:04:43.237
+the same rules to a new report.
+
+00:04:43.286 --> 00:04:46.447
+Let's replace the worked program with the supply
+
+00:04:46.447 --> 00:04:48.159
+desk's map and kit report.
+
+00:04:48.159 --> 00:04:51.122
+We'll start a fresh empty set, then print the
+
+00:04:51.122 --> 00:04:54.282
+results of a first map request and another equal
+
+00:04:54.282 --> 00:04:55.073
+map request.
+
+00:04:55.073 --> 00:04:58.233
+Keep your predicted results to yourself while we
+
+00:04:58.233 --> 00:05:00.011
+enter the complete program.
+
+00:05:27.687 --> 00:05:30.867
+The new setup and two labeled map attempts are
+
+00:05:30.867 --> 00:05:31.490
+in place.
+
+00:05:31.490 --> 00:05:34.393
+We'll add kit without printing that call's
+
+00:05:34.393 --> 00:05:37.366
+result, then ask whether kit is present and
+
+00:05:37.366 --> 00:05:39.025
+report the unique count.
+
+00:05:39.025 --> 00:05:42.068
+The final queries read the state left by the
+
+00:05:42.068 --> 00:05:43.312
+earlier additions.
+
+00:06:00.927 --> 00:06:02.777
+The new program is complete.
+
+00:06:02.777 --> 00:06:05.751
+Before clicking Run, predict all four labeled
+
+00:06:05.751 --> 00:06:06.610
+output lines.
+
+00:06:06.610 --> 00:06:09.716
+Track whether each addition changes membership,
+
+00:06:09.716 --> 00:06:12.425
+and distinguish the query from the count.
+
+00:06:12.425 --> 00:06:15.200
+Pause here if you'd like more time to work
+
+00:06:15.200 --> 00:06:15.927
+through it.
+
+00:06:24.007 --> 00:06:27.058
+Let's run this version and compare its output
+
+00:06:27.058 --> 00:06:28.482
+with your prediction.
+
+00:06:34.051 --> 00:06:36.994
+First map is true because no equal map was
+
+00:06:36.994 --> 00:06:37.555
+present.
+
+00:06:37.555 --> 00:06:40.708
+Duplicate map is false because the first call
+
+00:06:40.708 --> 00:06:41.970
+already stored it.
+
+00:06:41.970 --> 00:06:45.264
+Adding kit supplies another distinct member, so
+
+00:06:45.264 --> 00:06:47.997
+Contains kit is true and Unique is two.
+
+00:06:47.997 --> 00:06:51.010
+The query reads membership without adding a
+
+00:06:51.010 --> 00:06:51.851
+third value.
+
+00:06:52.613 --> 00:06:55.429
+The desk's report now distinguishes new and
+
+00:06:55.429 --> 00:06:58.573
+repeated names, checks the resulting membership,
+
+00:06:58.573 --> 00:07:00.276
+and counts distinct kinds.
+
+00:07:00.276 --> 00:07:03.157
+HashSet provides that membership rule, while
+
+00:07:03.157 --> 00:07:05.712
+each returned boolean tells us what its
+
+00:07:05.712 --> 00:07:07.349
+particular operation did.
+
+00:07:07.349 --> 00:07:10.427
+We didn't need to assume any order for visiting
+
+00:07:10.427 --> 00:07:11.213
+set members.
+
+00:07:11.949 --> 00:07:14.996
+Suppose the desk asks whether pass is present
+
+00:07:14.996 --> 00:07:16.215
+but never adds it.
+
+00:07:16.215 --> 00:07:19.194
+What would that membership query report, and
+
+00:07:19.194 --> 00:07:21.428
+would it change the unique count?
+
+00:07:21.428 --> 00:07:24.272
+Explain which operation would be needed to
+
+00:07:24.272 --> 00:07:26.574
+remember pass for a later request.

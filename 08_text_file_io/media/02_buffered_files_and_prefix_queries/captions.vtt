@@ -1,0 +1,121 @@
+WEBVTT
+
+00:00:06.636 --> 00:00:10.015
+We will load a small dictionary one line at a time,
+
+00:00:10.015 --> 00:00:13.394
+then ask whether a fragment begins any stored word.
+
+00:00:13.394 --> 00:00:16.441
+This supports a Ghost turn without requiring a
+
+00:00:16.441 --> 00:00:17.368
+complete word.
+
+00:00:17.368 --> 00:00:20.747
+The familiar writeString call prepares our practice
+
+00:00:20.747 --> 00:00:22.536
+file before reading begins.
+
+00:01:03.518 --> 00:01:06.664
+A prefix is a sequence at the start of a String.
+
+00:01:06.664 --> 00:01:09.875
+The hasPrefix method checks each stored word with
+
+00:01:09.875 --> 00:01:12.890
+startsWith and returns as soon as one matches.
+
+00:01:12.890 --> 00:01:15.314
+If no word matches, it returns false.
+
+00:01:15.314 --> 00:01:18.591
+A contains check would instead look for a complete
+
+00:01:18.591 --> 00:01:19.443
+stored value.
+
+00:01:19.748 --> 00:01:22.960
+A character stream supplies decoded text characters
+
+00:01:22.960 --> 00:01:23.590
+over time.
+
+00:01:23.590 --> 00:01:26.551
+BufferedReader holds groups in memory to reduce
+
+00:01:26.551 --> 00:01:28.503
+repeated small file operations.
+
+00:01:28.503 --> 00:01:31.653
+readLine returns the next line without its ending.
+
+00:01:31.653 --> 00:01:34.046
+A blank line produces an empty String.
+
+00:01:34.046 --> 00:01:37.133
+Null marks end of file when no characters remain.
+
+00:01:37.133 --> 00:01:40.408
+The loop reads before its condition and again at the
+
+00:01:40.408 --> 00:01:40.660
+end.
+
+00:01:40.660 --> 00:01:42.865
+The length check skips blank lines.
+
+00:01:42.865 --> 00:01:46.014
+HashSet keeps unique words, and try with resources
+
+00:01:46.014 --> 00:01:47.148
+closes the reader.
+
+00:01:47.243 --> 00:01:50.362
+Predict the word count and both prefix results.
+
+00:01:50.362 --> 00:01:53.613
+Trace the blank line and repeated word carefully.
+
+00:01:53.613 --> 00:01:54.343
+Pause here.
+
+00:01:59.240 --> 00:02:02.183
+The dictionary contains three unique words.
+
+00:02:02.183 --> 00:02:05.743
+The repeated cat adds no second entry, and the blank
+
+00:02:05.743 --> 00:02:06.975
+line adds nothing.
+
+00:02:06.975 --> 00:02:10.329
+The prefix c a matches the start of cat and cart.
+
+00:02:10.329 --> 00:02:12.450
+No stored word starts with z z.
+
+00:02:12.450 --> 00:02:15.873
+A prefix can match without being a complete stored
+
+00:02:15.873 --> 00:02:16.215
+word.
+
+00:02:16.564 --> 00:02:20.299
+Change only the first queried prefix from c a to c a t
+
+00:02:20.299 --> 00:02:20.438
+s.
+
+00:02:20.438 --> 00:02:23.619
+Predict that result and whether the word count
+
+00:02:23.619 --> 00:02:25.280
+changes, then run again.
+
+00:02:25.280 --> 00:02:28.876
+What evidence separates a prefix query from changing
+
+00:02:28.876 --> 00:02:29.914
+the dictionary?

@@ -1,0 +1,484 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:03.566
+Welcome to this Java tutorial, where you'll
+
+00:00:03.566 --> 00:00:06.382
+trace a for loop's starting step, test, and
+
+00:00:06.382 --> 00:00:09.263
+update, use an accumulator to keep a running
+
+00:00:09.263 --> 00:00:12.079
+total, and combine nested loops, one inside
+
+00:00:12.079 --> 00:00:14.567
+another, to visit every required pair.
+
+00:00:15.301 --> 00:00:18.319
+These skills help programs process a known
+
+00:00:18.319 --> 00:00:21.552
+number of items, check totals across repeated
+
+00:00:21.552 --> 00:00:24.786
+work, and cover combinations such as rows and
+
+00:00:24.786 --> 00:00:26.151
+columns in a table.
+
+00:00:26.831 --> 00:00:30.117
+A workshop assistant needs numbered labels for
+
+00:00:30.117 --> 00:00:32.332
+supply kits assigned to groups.
+
+00:00:32.332 --> 00:00:35.619
+Each label must identify one group and one kit
+
+00:00:35.619 --> 00:00:36.905
+within that group.
+
+00:00:36.905 --> 00:00:40.262
+Group numbers and kit numbers start at one, and
+
+00:00:40.262 --> 00:00:43.406
+every required pair needs exactly one label.
+
+00:00:44.073 --> 00:00:46.926
+Our report should list the kits for each group
+
+00:00:46.926 --> 00:00:49.406
+in order, then show the number of labels
+
+00:00:49.406 --> 00:00:50.461
+actually printed.
+
+00:00:50.461 --> 00:00:53.252
+We'll begin with a small practice batch, work
+
+00:00:53.252 --> 00:00:55.980
+through several groups, and then predict the
+
+00:00:55.980 --> 00:00:58.523
+report for two groups with two kits each.
+
+00:00:58.564 --> 00:01:01.692
+Let's open Main.java in the Workspace and start
+
+00:01:01.692 --> 00:01:03.289
+with the practice batch.
+
+00:01:09.075 --> 00:01:12.212
+Main is the class containing our program, and
+
+00:01:12.212 --> 00:01:15.349
+its main method is where this program begins.
+
+00:01:15.349 --> 00:01:18.694
+We'll place our label-printing statements inside
+
+00:01:18.694 --> 00:01:20.925
+that familiar starter structure.
+
+00:01:26.442 --> 00:01:29.529
+Before printing any labels, we need a count of
+
+00:01:29.529 --> 00:01:30.804
+the work completed.
+
+00:01:30.804 --> 00:01:33.085
+We'll start labelsPrinted at zero.
+
+00:01:33.085 --> 00:01:36.239
+This variable will be our accumulator: it keeps
+
+00:01:36.239 --> 00:01:39.192
+a running result as the loop does more work.
+
+00:01:41.944 --> 00:01:43.198
+The count is ready.
+
+00:01:43.198 --> 00:01:46.365
+Our practice batch needs kits one through three,
+
+00:01:46.365 --> 00:01:49.269
+so a for loop can collect the starting step,
+
+00:01:49.269 --> 00:01:51.645
+condition, and update in one header.
+
+00:01:51.645 --> 00:01:54.548
+We'll start kit at one, allow values through
+
+00:01:54.548 --> 00:01:57.254
+three, and increase kit by one after each
+
+00:01:57.254 --> 00:01:58.244
+completed body.
+
+00:02:03.179 --> 00:02:06.048
+The header is in place, but its written order
+
+00:02:06.048 --> 00:02:08.024
+isn't the full execution order.
+
+00:02:08.024 --> 00:02:09.809
+Initialization happens once.
+
+00:02:09.809 --> 00:02:12.614
+Java tests the condition, runs the body only
+
+00:02:12.614 --> 00:02:15.483
+when that test is true, and then performs the
+
+00:02:15.483 --> 00:02:17.268
+update before testing again.
+
+00:02:17.268 --> 00:02:20.264
+We still need the body to print the current kit
+
+00:02:20.264 --> 00:02:22.304
+and record that completed print.
+
+00:02:30.413 --> 00:02:33.152
+Each body execution prints one label before
+
+00:02:33.152 --> 00:02:34.489
+increasing the count.
+
+00:02:34.489 --> 00:02:37.037
+Kit tells us which label we're handling;
+
+00:02:37.037 --> 00:02:39.775
+labelsPrinted tells us how many prints have
+
+00:02:39.775 --> 00:02:40.348
+finished.
+
+00:02:40.348 --> 00:02:43.087
+We initialized the count before the loop so
+
+00:02:43.087 --> 00:02:44.743
+earlier progress survives.
+
+00:02:44.743 --> 00:02:47.736
+After the loop stops, we'll print that retained
+
+00:02:47.736 --> 00:02:49.838
+count once and close the program.
+
+00:02:56.104 --> 00:02:59.406
+The summary sits after the loop's closing brace,
+
+00:02:59.406 --> 00:03:01.745
+so it won't repeat with every kit.
+
+00:03:01.745 --> 00:03:04.772
+Let's click Run to see the complete practice
+
+00:03:04.772 --> 00:03:05.254
+report.
+
+00:03:10.424 --> 00:03:13.219
+The report lists kits one, two, and three,
+
+00:03:13.219 --> 00:03:15.149
+followed by a count of three.
+
+00:03:15.149 --> 00:03:18.210
+After printing kit three, the update makes kit
+
+00:03:18.210 --> 00:03:18.542
+four.
+
+00:03:18.542 --> 00:03:21.670
+Four fails the condition, so there is no fourth
+
+00:03:21.670 --> 00:03:24.066
+label and no further body execution.
+
+00:03:24.066 --> 00:03:27.193
+The count stays three, and the summary reads it
+
+00:03:27.193 --> 00:03:28.524
+after the loop ends.
+
+00:03:28.624 --> 00:03:31.323
+We can now print one numbered batch reliably.
+
+00:03:31.323 --> 00:03:34.081
+The workshop also needs to distinguish groups,
+
+00:03:34.081 --> 00:03:36.900
+so we'll replace the practice statements with a
+
+00:03:36.900 --> 00:03:39.538
+report for three groups, each with two kits.
+
+00:03:39.538 --> 00:03:42.417
+A nested loop lets the outer loop choose a group
+
+00:03:42.417 --> 00:03:45.175
+while the inner loop visits that group's kits.
+
+00:03:45.175 --> 00:03:47.574
+We'll keep one count outside both loops.
+
+00:03:55.916 --> 00:03:58.794
+The outer loop starts with group one, and the
+
+00:03:58.794 --> 00:04:01.225
+count starts with no completed labels.
+
+00:04:01.225 --> 00:04:04.104
+Each time this outer body runs, it must visit
+
+00:04:04.104 --> 00:04:06.470
+that group's kits from the beginning.
+
+00:04:06.470 --> 00:04:08.901
+We'll put a second for loop inside it,
+
+00:04:08.901 --> 00:04:11.523
+initializing kit to one and allowing kits
+
+00:04:11.523 --> 00:04:12.291
+through two.
+
+00:04:17.117 --> 00:04:19.981
+The inner loop is now inside the group loop.
+
+00:04:19.981 --> 00:04:22.911
+For group one, it will visit kit one and then
+
+00:04:22.911 --> 00:04:25.059
+kit two before the group changes.
+
+00:04:25.059 --> 00:04:28.119
+To identify each pair, we'll build a label from
+
+00:04:28.119 --> 00:04:30.983
+the current group and kit, then increase the
+
+00:04:30.983 --> 00:04:33.392
+shared count after that label prints.
+
+00:04:44.927 --> 00:04:47.804
+The print uses both current values, and the
+
+00:04:47.804 --> 00:04:50.011
+count records one completed pair.
+
+00:04:50.011 --> 00:04:53.088
+We'll close the inner body first and the outer
+
+00:04:53.088 --> 00:04:56.032
+body second, then put the summary after both
+
+00:04:56.032 --> 00:04:56.433
+loops.
+
+00:04:56.433 --> 00:04:59.377
+That position makes it a report total rather
+
+00:04:59.377 --> 00:05:01.852
+than a separate total for each group.
+
+00:05:09.661 --> 00:05:11.487
+The nested report is complete.
+
+00:05:11.487 --> 00:05:14.348
+The kit name is available only within the inner
+
+00:05:14.348 --> 00:05:17.208
+for statement; code after that statement cannot
+
+00:05:17.208 --> 00:05:17.635
+use it.
+
+00:05:17.635 --> 00:05:20.191
+Each new outer iteration reaches the inner
+
+00:05:20.191 --> 00:05:22.626
+declaration again and starts kit at one.
+
+00:05:22.626 --> 00:05:24.999
+The same labelsPrinted variable remains
+
+00:05:24.999 --> 00:05:27.860
+available across both loops because we declared
+
+00:05:27.860 --> 00:05:28.773
+it before them.
+
+00:05:28.773 --> 00:05:31.086
+Let's click Run and examine the order.
+
+00:05:37.397 --> 00:05:40.388
+Group one has two consecutive kit labels, then
+
+00:05:40.388 --> 00:05:43.249
+group two starts again at kit one, and group
+
+00:05:43.249 --> 00:05:44.549
+three does the same.
+
+00:05:44.549 --> 00:05:47.150
+The report contains six different pairs.
+
+00:05:47.150 --> 00:05:50.270
+The accumulator reaches six because it increases
+
+00:05:50.270 --> 00:05:53.261
+after every label, including labels from later
+
+00:05:53.261 --> 00:05:56.122
+groups; it never resets at a group boundary.
+
+00:05:56.222 --> 00:05:59.132
+At the end of each group, kit advances to three
+
+00:05:59.132 --> 00:06:01.051
+and fails its test against two.
+
+00:06:01.051 --> 00:06:03.590
+The outer update then advances the group.
+
+00:06:03.590 --> 00:06:06.314
+After group three is complete, group becomes
+
+00:06:06.314 --> 00:06:08.048
+four and fails its own test.
+
+00:06:08.048 --> 00:06:10.091
+Only then does the summary print.
+
+00:06:10.091 --> 00:06:12.692
+Both stopping checks matter: the inner one
+
+00:06:12.692 --> 00:06:15.664
+finishes a group, and the outer one finishes the
+
+00:06:15.664 --> 00:06:16.097
+report.
+
+00:06:16.268 --> 00:06:19.209
+We have a working report for several groups.
+
+00:06:19.209 --> 00:06:22.351
+The actual request has two groups with two kits
+
+00:06:22.351 --> 00:06:25.225
+each, so we'll change only the outer loop's
+
+00:06:25.225 --> 00:06:26.027
+upper limit.
+
+00:06:26.027 --> 00:06:28.968
+The inner rule, the label statement, and the
+
+00:06:28.968 --> 00:06:31.575
+accumulator will stay in their existing
+
+00:06:31.575 --> 00:06:32.243
+positions.
+
+00:06:38.494 --> 00:06:40.543
+The new group limit is in place.
+
+00:06:40.543 --> 00:06:43.553
+Before running this version, write every output
+
+00:06:43.553 --> 00:06:45.922
+line in order, including the summary.
+
+00:06:45.922 --> 00:06:48.868
+Trace one complete inner loop before advancing
+
+00:06:48.868 --> 00:06:51.878
+the group, and remember when the count changes.
+
+00:06:51.878 --> 00:06:54.119
+Pause here if you'd like more time.
+
+00:07:02.184 --> 00:07:05.392
+Let's click Run to compare your predicted pairs
+
+00:07:05.392 --> 00:07:08.259
+and total with the actual workshop report.
+
+00:07:13.047 --> 00:07:16.033
+The first two lines belong to group one, and the
+
+00:07:16.033 --> 00:07:17.838
+next two belong to group two.
+
+00:07:17.838 --> 00:07:20.824
+Each group starts with kit one and ends with kit
+
+00:07:20.824 --> 00:07:21.073
+two.
+
+00:07:21.073 --> 00:07:23.064
+The summary reports four labels.
+
+00:07:23.064 --> 00:07:25.988
+Check both the pair order and the total against
+
+00:07:25.988 --> 00:07:28.912
+your prediction: the right total alone wouldn't
+
+00:07:28.912 --> 00:07:31.836
+prove that every required pair appeared exactly
+
+00:07:31.836 --> 00:07:32.147
+once.
+
+00:07:32.299 --> 00:07:34.696
+We've built the assistant's complete label
+
+00:07:34.696 --> 00:07:35.096
+report.
+
+00:07:35.096 --> 00:07:37.778
+Each for loop provides a clear start, test, and
+
+00:07:37.778 --> 00:07:40.289
+update; nesting makes the inner kit sequence
+
+00:07:40.289 --> 00:07:42.686
+repeat for each group; and the accumulator
+
+00:07:42.686 --> 00:07:44.684
+counts the labels actually printed.
+
+00:07:44.684 --> 00:07:47.366
+Keeping that count outside both loops preserves
+
+00:07:47.366 --> 00:07:50.106
+the work from every group, while the final false
+
+00:07:50.106 --> 00:07:52.674
+tests stop the report at its intended limits.
+
+00:07:53.476 --> 00:07:56.720
+For your next experiment, imagine the inner loop
+
+00:07:56.720 --> 00:07:59.895
+starts at kit two instead of kit one, with both
+
+00:07:59.895 --> 00:08:01.450
+upper limits unchanged.
+
+00:08:01.450 --> 00:08:04.558
+Which required labels would disappear, and how
+
+00:08:04.558 --> 00:08:06.180
+would the count respond?
+
+00:08:06.180 --> 00:08:09.153
+Explain the missing work before you run that
+
+00:08:09.153 --> 00:08:09.626
+change.

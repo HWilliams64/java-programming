@@ -1,0 +1,88 @@
+WEBVTT
+
+00:00:07.204 --> 00:00:10.648
+Names and scores need the same shelf operations, but
+
+00:00:10.648 --> 00:00:12.702
+they use different value types.
+
+00:00:12.702 --> 00:00:16.278
+Generics allow us to write those operations once while
+
+00:00:16.278 --> 00:00:18.729
+the compiler checks each chosen type.
+
+00:00:54.916 --> 00:00:58.556
+T is a type parameter: a placeholder for a type, not a
+
+00:00:58.556 --> 00:00:59.433
+stored value.
+
+00:00:59.433 --> 00:01:02.533
+Sequence uses it for additions and retrievals.
+
+00:01:02.533 --> 00:01:06.039
+Shelf carries that same placeholder into its private
+
+00:01:06.039 --> 00:01:09.679
+ArrayList and implements each operation by calling the
+
+00:01:09.679 --> 00:01:10.016
+list.
+
+00:01:10.339 --> 00:01:13.601
+The names reference chooses String, while scores
+
+00:01:13.601 --> 00:01:14.688
+chooses Integer.
+
+00:01:14.688 --> 00:01:16.591
+Each shelf has its own list.
+
+00:01:16.591 --> 00:01:19.988
+The score retrievals provide Integer values, which
+
+00:01:19.988 --> 00:01:21.891
+Java unboxes for arithmetic.
+
+00:01:21.891 --> 00:01:25.356
+Predict the first name, name count, and total, then
+
+00:01:25.356 --> 00:01:25.764
+pause.
+
+00:01:31.049 --> 00:01:34.541
+Index zero returns Maya, and the names shelf contains
+
+00:01:34.541 --> 00:01:35.331
+two entries.
+
+00:01:35.331 --> 00:01:38.823
+The score entries are four and seven, so their sum is
+
+00:01:38.823 --> 00:01:39.284
+eleven.
+
+00:01:39.284 --> 00:01:42.315
+The same methods work with either chosen type.
+
+00:01:42.315 --> 00:01:45.543
+The compiler would reject adding a number through
+
+00:01:45.543 --> 00:01:48.574
+names because that reference requires strings.
+
+00:01:48.631 --> 00:01:50.860
+Change the second score to zero.
+
+00:01:50.860 --> 00:01:53.019
+Predict all three output lines.
+
+00:01:53.019 --> 00:01:56.361
+Explain why the names output stays the same, and
+
+00:01:56.361 --> 00:01:59.843
+identify the type argument that controls the score
+
+00:01:59.843 --> 00:02:00.331
+values.

@@ -1,0 +1,103 @@
+WEBVTT
+
+00:00:09.672 --> 00:00:13.258
+We will start two counting jobs, then wait until both
+
+00:00:13.258 --> 00:00:14.477
+results are ready.
+
+00:00:14.477 --> 00:00:18.131
+A thread is a separate path of execution within a Java
+
+00:00:18.131 --> 00:00:18.672
+process.
+
+00:00:42.633 --> 00:00:45.772
+Runnable supplies work through its run method.
+
+00:00:45.772 --> 00:00:48.228
+Each CountJob owns a separate total.
+
+00:00:48.228 --> 00:00:51.639
+Its loop increases that total until it reaches the
+
+00:00:51.639 --> 00:00:52.458
+job's limit.
+
+00:00:52.817 --> 00:00:55.571
+Each start schedules work on a new thread.
+
+00:00:55.571 --> 00:00:59.046
+Calling run directly would be an ordinary call on the
+
+00:00:59.046 --> 00:01:00.029
+current thread.
+
+00:01:00.029 --> 00:01:02.914
+We start both workers before joining either.
+
+00:01:02.914 --> 00:01:05.864
+Each join waits for its own target to finish.
+
+00:01:05.864 --> 00:01:09.339
+The execution paths may take turns or run at the same
+
+00:01:09.339 --> 00:01:09.667
+time.
+
+00:01:09.772 --> 00:01:13.029
+Predict the two totals and whether either worker is
+
+00:01:13.029 --> 00:01:15.072
+alive when the last line prints.
+
+00:01:15.072 --> 00:01:18.073
+Does the first printed result prove that worker
+
+00:01:18.073 --> 00:01:19.031
+finished first?
+
+00:01:19.031 --> 00:01:20.372
+Pause before running.
+
+00:01:26.622 --> 00:01:29.883
+The totals are three and two, and neither worker is
+
+00:01:29.883 --> 00:01:30.267
+alive.
+
+00:01:30.267 --> 00:01:33.528
+Both joins returned normally before the caller read
+
+00:01:33.528 --> 00:01:34.296
+the results.
+
+00:01:34.296 --> 00:01:36.726
+The caller prints First before Second.
+
+00:01:36.726 --> 00:01:40.051
+This output does not establish which worker finished
+
+00:01:40.051 --> 00:01:42.097
+first or show a speed advantage.
+
+00:01:42.560 --> 00:01:44.519
+A Thread can be started once.
+
+00:01:44.519 --> 00:01:47.153
+A new attempt needs new Thread objects.
+
+00:01:47.153 --> 00:01:50.733
+Rerunning this complete program creates both jobs and
+
+00:01:50.733 --> 00:01:54.110
+their workers again, so each total begins at zero.
+
+00:01:54.495 --> 00:01:57.799
+If only the second limit becomes five, which output
+
+00:01:57.799 --> 00:02:01.039
+lines would change, and which would stay the same?
+
+00:02:01.039 --> 00:02:03.695
+Explain why both join calls still matter.

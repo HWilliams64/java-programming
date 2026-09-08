@@ -1,0 +1,175 @@
+WEBVTT
+
+00:00:11.159 --> 00:00:14.226
+Build an equipment quantity form that explains
+
+00:00:14.226 --> 00:00:17.692
+rejected input while preserving the last valid saved
+
+00:00:17.692 --> 00:00:18.092
+value.
+
+00:00:18.092 --> 00:00:21.359
+We will test the actual controls in the Workspace
+
+00:00:21.359 --> 00:00:24.159
+Desktop with both the button and keyboard.
+
+00:02:11.201 --> 00:02:13.591
+QuantityModel holds the saved state.
+
+00:02:13.591 --> 00:02:17.111
+The candidate is a proposed value, separate from that
+
+00:02:17.111 --> 00:02:17.509
+state.
+
+00:02:17.509 --> 00:02:21.095
+Trim removes surrounding spaces, and parseInt attempts
+
+00:02:21.095 --> 00:02:22.091
+a whole number.
+
+00:02:22.091 --> 00:02:25.145
+A parse failure produces a correction message.
+
+00:02:25.145 --> 00:02:28.598
+A parsed number outside one through five returns the
+
+00:02:28.598 --> 00:02:30.988
+range message before the assignment.
+
+00:02:30.988 --> 00:02:33.976
+Only an accepted candidate replaces quantity.
+
+00:02:34.397 --> 00:02:36.524
+A TextField holds editable text.
+
+00:02:36.524 --> 00:02:39.581
+Its associated Label states the allowed range;
+
+00:02:39.581 --> 00:02:42.572
+setLabelFor connects that label to its input.
+
+00:02:42.572 --> 00:02:45.895
+Submission is the deliberate action that reads the
+
+00:02:45.895 --> 00:02:48.752
+current text and asks the model to save it.
+
+00:02:48.752 --> 00:02:52.142
+One EventHandler is registered with both the button
+
+00:02:52.142 --> 00:02:53.072
+and the field.
+
+00:02:53.072 --> 00:02:56.395
+Button activation and Enter therefore use the same
+
+00:02:56.395 --> 00:02:58.522
+validation and visible feedback.
+
+00:02:58.662 --> 00:03:01.912
+The field starts with two, but no submission has
+
+00:03:01.912 --> 00:03:02.522
+happened.
+
+00:03:02.522 --> 00:03:04.756
+Predict the initial console line.
+
+00:03:04.756 --> 00:03:08.277
+After saving two, should a word, zero or six replace
+
+00:03:08.277 --> 00:03:09.361
+the saved value?
+
+00:03:09.361 --> 00:03:12.611
+Trace the returns and assignment before running.
+
+00:03:12.611 --> 00:03:13.762
+Pause and decide.
+
+00:03:28.432 --> 00:03:31.795
+The initial console reports saved quantity zero.
+
+00:03:31.795 --> 00:03:35.298
+The field contains two and the status says nothing
+
+00:03:35.298 --> 00:03:35.719
+saved.
+
+00:03:35.719 --> 00:03:39.432
+Text waiting in a field is not yet saved model state.
+
+00:03:43.977 --> 00:03:46.954
+The button submission now displays Saved two.
+
+00:03:46.954 --> 00:03:50.130
+We will replace the input with a word and submit
+
+00:03:50.130 --> 00:03:50.527
+again.
+
+00:04:02.341 --> 00:04:05.713
+The form asks for a whole number from one to five.
+
+00:04:05.713 --> 00:04:09.085
+Parsing failed before the assignment, so the saved
+
+00:04:09.085 --> 00:04:10.299
+value remains two.
+
+00:04:10.299 --> 00:04:13.536
+Now test the two values just outside the allowed
+
+00:04:13.536 --> 00:04:13.941
+range.
+
+00:04:24.237 --> 00:04:26.737
+Zero receives the range message.
+
+00:04:37.067 --> 00:04:39.536
+Six receives the same range message.
+
+00:04:39.536 --> 00:04:42.897
+Both inputs were numbers, but neither reached the
+
+00:04:42.897 --> 00:04:43.652
+assignment.
+
+00:04:43.652 --> 00:04:47.287
+The feedback changes while the saved value stays two.
+
+00:04:47.287 --> 00:04:50.443
+Shift Tab returns keyboard focus to the field.
+
+00:04:50.443 --> 00:04:53.392
+Replace its text with five and press Enter.
+
+00:05:01.044 --> 00:05:04.729
+Enter displays Saved five through the shared handler.
+
+00:05:04.729 --> 00:05:08.067
+A valid submission still works after the errors.
+
+00:05:08.067 --> 00:05:11.544
+The console remains the initial report; the status
+
+00:05:11.544 --> 00:05:13.769
+label shows these later results.
+
+00:05:15.911 --> 00:05:19.424
+If you moved the quantity assignment before the range
+
+00:05:19.424 --> 00:05:22.607
+check, what saved value would survive an invalid
+
+00:05:22.607 --> 00:05:23.137
+attempt?
+
+00:05:23.137 --> 00:05:26.584
+Choose a valid, invalid, then valid sequence to test
+
+00:05:26.584 --> 00:05:27.711
+your explanation.

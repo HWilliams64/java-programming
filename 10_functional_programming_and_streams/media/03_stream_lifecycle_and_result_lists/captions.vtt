@@ -1,0 +1,118 @@
+WEBVTT
+
+00:00:06.167 --> 00:00:09.518
+A report pipeline describes work, while its result
+
+00:00:09.518 --> 00:00:10.456
+stores values.
+
+00:00:10.456 --> 00:00:13.874
+We will build a pending stream, collect its report,
+
+00:00:13.874 --> 00:00:15.617
+and make an editable copy.
+
+00:00:36.237 --> 00:00:39.750
+Lazy evaluation means processing waits for a terminal
+
+00:00:39.750 --> 00:00:40.413
+operation.
+
+00:00:40.413 --> 00:00:43.793
+Pending describes how to add a label to each source
+
+00:00:43.793 --> 00:00:44.125
+item.
+
+00:00:44.125 --> 00:00:46.776
+Creating it does not collect the report.
+
+00:00:46.776 --> 00:00:50.289
+This ArrayList source is late bound: its contents are
+
+00:00:50.289 --> 00:00:53.007
+observed when terminal processing begins.
+
+00:00:53.007 --> 00:00:56.520
+Notice that kit is added before toList, not while the
+
+00:00:56.520 --> 00:00:57.912
+stream is processing.
+
+00:00:58.213 --> 00:01:00.938
+The report is an unmodifiable result list.
+
+00:01:00.938 --> 00:01:04.183
+Its entries cannot be added, removed, or replaced.
+
+00:01:04.183 --> 00:01:07.687
+The ArrayList constructor makes a collection copy with
+
+00:01:07.687 --> 00:01:09.374
+a separate list structure.
+
+00:01:09.374 --> 00:01:12.813
+This is a shallow copy: both lists initially hold the
+
+00:01:12.813 --> 00:01:14.306
+same String references.
+
+00:01:14.306 --> 00:01:16.577
+Strings cannot be changed in place.
+
+00:01:16.577 --> 00:01:19.756
+A stream is single use, so the final count uses a
+
+00:01:19.756 --> 00:01:21.379
+fresh stream from source.
+
+00:01:21.379 --> 00:01:24.688
+Count returns long, Java's wider whole-number type.
+
+00:01:24.773 --> 00:01:26.844
+Predict all four output lines.
+
+00:01:26.844 --> 00:01:29.882
+Track when kit enters source, when report is
+
+00:01:29.882 --> 00:01:32.989
+collected, and which list receives Item: pen.
+
+00:01:32.989 --> 00:01:33.748
+Pause here.
+
+00:01:38.523 --> 00:01:41.916
+The report contains two items because kit was added
+
+00:01:41.916 --> 00:01:43.114
+before collection.
+
+00:01:43.114 --> 00:01:46.307
+Adding Item: pen changes only the editable copy.
+
+00:01:46.307 --> 00:01:49.700
+The original result stays at two, the copy grows to
+
+00:01:49.700 --> 00:01:52.428
+three, and the fresh source count is two.
+
+00:01:52.428 --> 00:01:55.954
+You can read the stored report again, but pending has
+
+00:01:55.954 --> 00:01:59.148
+already been consumed by its terminal operation.
+
+00:01:59.478 --> 00:02:02.445
+Move the kit addition to just after the report is
+
+00:02:02.445 --> 00:02:03.051
+collected.
+
+00:02:03.051 --> 00:02:05.412
+Predict all four counts before running.
+
+00:02:05.412 --> 00:02:08.500
+Which counts should change, and what does that tell
+
+00:02:08.500 --> 00:02:11.528
+you about the report's relationship to its source?

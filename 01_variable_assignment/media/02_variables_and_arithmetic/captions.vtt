@@ -1,0 +1,418 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:01.614
+Welcome back!
+
+00:00:01.614 --> 00:00:04.536
+In this Java lesson, you'll choose types, or
+
+00:00:04.536 --> 00:00:07.592
+kinds of values, for variables, the names that
+
+00:00:07.592 --> 00:00:09.252
+hold your program's data.
+
+00:00:09.252 --> 00:00:11.710
+You'll calculate a total and trace an
+
+00:00:11.710 --> 00:00:14.765
+assignment, which replaces a variable's stored
+
+00:00:14.765 --> 00:00:15.164
+value.
+
+00:00:15.808 --> 00:00:19.247
+These skills let software keep track of changing
+
+00:00:19.247 --> 00:00:22.256
+information, from available seats to order
+
+00:00:22.256 --> 00:00:25.552
+totals, while choosing the right kind of value
+
+00:00:25.552 --> 00:00:26.483
+for each job.
+
+00:00:27.139 --> 00:00:30.091
+A campus club needs a small ticket record.
+
+00:00:30.091 --> 00:00:33.465
+We'll store a whole-number ticket count, a price
+
+00:00:33.465 --> 00:00:36.628
+in dollars for each ticket, and whether sales
+
+00:00:36.628 --> 00:00:37.261
+are open.
+
+00:00:37.261 --> 00:00:40.564
+The program will calculate a total, then record
+
+00:00:40.564 --> 00:00:41.689
+a changed count.
+
+00:00:42.332 --> 00:00:45.616
+We want to see the calculated total, the updated
+
+00:00:45.616 --> 00:00:48.489
+ticket count, and the sales status in that
+
+00:00:48.489 --> 00:00:48.900
+order.
+
+00:00:48.900 --> 00:00:52.047
+The values will be supplied in the program, so
+
+00:00:52.047 --> 00:00:55.057
+no one needs to type an order while it runs.
+
+00:00:55.099 --> 00:00:58.290
+Let's open Main.java in the Workspace and build
+
+00:00:58.290 --> 00:01:01.142
+a practice record before we try the club's
+
+00:01:01.142 --> 00:01:01.549
+order.
+
+00:01:05.319 --> 00:01:08.564
+We'll use the starter structure from the last
+
+00:01:08.564 --> 00:01:09.068
+lesson.
+
+00:01:09.068 --> 00:01:12.385
+Main is the class that holds our code, and its
+
+00:01:12.385 --> 00:01:15.630
+main method is the named operation where this
+
+00:01:15.630 --> 00:01:16.711
+program starts.
+
+00:01:16.711 --> 00:01:19.739
+Our ticket instructions belong inside that
+
+00:01:19.739 --> 00:01:20.244
+method.
+
+00:01:25.418 --> 00:01:28.540
+With a place for our instructions, we can name
+
+00:01:28.540 --> 00:01:30.645
+the information the club needs.
+
+00:01:30.645 --> 00:01:32.953
+The practice count is two tickets.
+
+00:01:32.953 --> 00:01:36.143
+We'll use int because a ticket count is a whole
+
+00:01:36.143 --> 00:01:36.618
+number.
+
+00:01:38.973 --> 00:01:42.071
+This declaration introduces tickets with its
+
+00:01:42.071 --> 00:01:43.056
+type and name.
+
+00:01:43.056 --> 00:01:45.591
+Giving it two as a starting value is
+
+00:01:45.591 --> 00:01:46.647
+initialization.
+
+00:01:46.647 --> 00:01:49.744
+The next value is a price, which can include
+
+00:01:49.744 --> 00:01:53.053
+part of a dollar, so we'll give ticketPrice the
+
+00:01:53.053 --> 00:01:53.898
+double type.
+
+00:01:56.968 --> 00:01:59.980
+The practice price is five dollars per ticket.
+
+00:01:59.980 --> 00:02:02.992
+A double can hold fractional values, though it
+
+00:02:02.992 --> 00:02:04.760
+approximates some decimals.
+
+00:02:04.760 --> 00:02:07.707
+The prices in this example can be represented
+
+00:02:07.707 --> 00:02:08.231
+exactly.
+
+00:02:08.231 --> 00:02:10.784
+Sales status is different: it answers a
+
+00:02:10.784 --> 00:02:12.028
+yes-or-no question.
+
+00:02:12.028 --> 00:02:14.975
+We'll use boolean, which holds true or false,
+
+00:02:14.975 --> 00:02:17.660
+and start this practice record with sales
+
+00:02:17.660 --> 00:02:18.118
+closed.
+
+00:02:21.134 --> 00:02:24.007
+We now have a count, a price, and a sales
+
+00:02:24.007 --> 00:02:27.020
+status, each with a suitable built-in type.
+
+00:02:27.020 --> 00:02:30.314
+To find the cost of the tickets, we'll multiply
+
+00:02:30.314 --> 00:02:33.538
+the count by the price and store the result in
+
+00:02:33.538 --> 00:02:33.958
+total.
+
+00:02:33.958 --> 00:02:37.322
+That calculation is an arithmetic expression: it
+
+00:02:37.322 --> 00:02:39.284
+produces a value we can use.
+
+00:02:42.930 --> 00:02:46.028
+For this practice record, two tickets at five
+
+00:02:46.028 --> 00:02:48.093
+dollars each make ten dollars.
+
+00:02:48.093 --> 00:02:51.123
+Total stores the result of that calculation.
+
+00:02:51.123 --> 00:02:54.014
+It isn't a live formula linked to tickets.
+
+00:02:54.014 --> 00:02:57.250
+To check that, let's replace the count with six
+
+00:02:57.250 --> 00:03:00.210
+before displaying total, the count, and the
+
+00:03:00.210 --> 00:03:01.105
+sales status.
+
+00:03:11.102 --> 00:03:14.378
+This assignment reuses tickets without declaring
+
+00:03:14.378 --> 00:03:14.992
+it again.
+
+00:03:14.992 --> 00:03:17.858
+We'll print total after the update, so the
+
+00:03:17.858 --> 00:03:21.134
+output can show whether its stored value changed
+
+00:03:21.134 --> 00:03:21.407
+too.
+
+00:03:21.407 --> 00:03:24.546
+Let's close the starter structure to check the
+
+00:03:24.546 --> 00:03:26.252
+complete practice record.
+
+00:03:27.571 --> 00:03:29.915
+The practice program is complete.
+
+00:03:29.915 --> 00:03:33.111
+Let's click Run and check whether total still
+
+00:03:33.111 --> 00:03:35.953
+holds ten dollars after the ticket count
+
+00:03:35.953 --> 00:03:36.521
+changes.
+
+00:03:41.716 --> 00:03:43.840
+The first line is ten point zero.
+
+00:03:43.840 --> 00:03:46.930
+We printed total after changing tickets, so this
+
+00:03:46.930 --> 00:03:49.698
+shows that total kept the ten-dollar result
+
+00:03:49.698 --> 00:03:50.921
+calculated earlier.
+
+00:03:50.921 --> 00:03:53.625
+The second line is six, the updated count.
+
+00:03:53.625 --> 00:03:56.457
+The last line is false because we left sales
+
+00:03:56.457 --> 00:03:56.908
+closed.
+
+00:03:56.908 --> 00:03:59.997
+Assignment changed tickets without repeating the
+
+00:03:59.997 --> 00:04:02.765
+multiplication or changing the other stored
+
+00:04:02.765 --> 00:04:03.216
+values.
+
+00:04:03.315 --> 00:04:06.345
+That practice run gives us a pattern for the
+
+00:04:06.345 --> 00:04:07.792
+club's actual record.
+
+00:04:07.792 --> 00:04:11.097
+We'll replace the instructions inside main while
+
+00:04:11.097 --> 00:04:13.439
+keeping the same class and method.
+
+00:04:13.439 --> 00:04:16.745
+This time the starting count is three, the price
+
+00:04:16.745 --> 00:04:19.982
+is four dollars and fifty cents per ticket, and
+
+00:04:19.982 --> 00:04:21.015
+sales are open.
+
+00:04:28.922 --> 00:04:31.726
+The club's starting values are in place.
+
+00:04:31.726 --> 00:04:34.952
+We'll use the same multiplication to store the
+
+00:04:34.952 --> 00:04:35.793
+order total.
+
+00:04:35.793 --> 00:04:38.668
+This time, unlike the practice run, we'll
+
+00:04:38.668 --> 00:04:41.472
+display total before changing the count.
+
+00:04:49.534 --> 00:04:52.800
+The total calculation comes before the update.
+
+00:04:52.800 --> 00:04:55.924
+Let's finish the record by assigning four to
+
+00:04:55.924 --> 00:04:59.047
+tickets, then displaying the count and sales
+
+00:04:59.047 --> 00:05:02.384
+status, just as we did in the practice program.
+
+00:05:10.348 --> 00:05:12.233
+The club's program is ready.
+
+00:05:12.233 --> 00:05:15.331
+Before we run it, write the three output lines
+
+00:05:15.331 --> 00:05:15.937
+in order.
+
+00:05:15.937 --> 00:05:18.900
+For each print statement, ask which value is
+
+00:05:18.900 --> 00:05:20.314
+stored at that point.
+
+00:05:20.314 --> 00:05:23.546
+Use the practice run to decide whether the later
+
+00:05:23.546 --> 00:05:26.441
+assignment changes the earlier calculation.
+
+00:05:26.441 --> 00:05:28.798
+Pause here if you'd like more time.
+
+00:05:36.866 --> 00:05:40.071
+Let's click Run to check your prediction against
+
+00:05:40.071 --> 00:05:41.741
+the club's actual record.
+
+00:05:46.862 --> 00:05:50.077
+The total is thirteen point five dollars: three
+
+00:05:50.077 --> 00:05:53.086
+tickets multiplied by four dollars and fifty
+
+00:05:53.086 --> 00:05:53.497
+cents.
+
+00:05:53.497 --> 00:05:56.712
+Four is the updated count, and true means sales
+
+00:05:56.712 --> 00:05:57.327
+are open.
+
+00:05:57.327 --> 00:06:00.542
+Compare those three lines with your prediction.
+
+00:06:00.542 --> 00:06:03.757
+The update replaces tickets after the total was
+
+00:06:03.757 --> 00:06:06.561
+calculated; it doesn't change the earlier
+
+00:06:06.561 --> 00:06:07.587
+printed result.
+
+00:06:07.736 --> 00:06:10.068
+We've built the club's ticket record.
+
+00:06:10.068 --> 00:06:12.841
+Int kept the count as a whole number, double
+
+00:06:12.841 --> 00:06:15.174
+held the price and total, and boolean
+
+00:06:15.174 --> 00:06:17.443
+represented whether sales were open.
+
+00:06:17.443 --> 00:06:20.468
+The expression calculated a cost, and assignment
+
+00:06:20.468 --> 00:06:22.044
+changed one stored value.
+
+00:06:22.044 --> 00:06:25.069
+Tracing the statements in order explains why the
+
+00:06:25.069 --> 00:06:27.780
+output contains both an earlier total and a
+
+00:06:27.780 --> 00:06:28.536
+later count.
+
+00:06:29.263 --> 00:06:31.991
+For your next experiment, change only the
+
+00:06:31.991 --> 00:06:33.988
+starting ticket count to five.
+
+00:06:33.988 --> 00:06:37.182
+What total should appear, and which other output
+
+00:06:37.182 --> 00:06:38.978
+lines should stay the same?
+
+00:06:38.978 --> 00:06:41.706
+Explain your reasoning before you run the
+
+00:06:41.706 --> 00:06:42.638
+program again.

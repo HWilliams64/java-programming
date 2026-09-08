@@ -1,0 +1,655 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:03.942
+Welcome to this Java tutorial, where you'll use
+
+00:00:03.942 --> 00:00:07.285
+an ArrayList, an ordered collection whose entry
+
+00:00:07.285 --> 00:00:10.556
+count can change, to add, replace, remove, and
+
+00:00:10.556 --> 00:00:13.827
+report text entries, then filter values into a
+
+00:00:13.827 --> 00:00:14.823
+separate list.
+
+00:00:15.468 --> 00:00:18.416
+Collections that can grow and shrink help
+
+00:00:18.416 --> 00:00:21.291
+applications maintain changing requests,
+
+00:00:21.291 --> 00:00:24.670
+preserve meaningful order, and prepare selected
+
+00:00:24.670 --> 00:00:27.546
+records for reports without rebuilding a
+
+00:00:27.546 --> 00:00:29.343
+fixed-size array by hand.
+
+00:00:29.994 --> 00:00:32.956
+A volunteer coordinator maintains sign-up
+
+00:00:32.956 --> 00:00:34.690
+entries as names arrive.
+
+00:00:34.690 --> 00:00:38.157
+A repeated name remains a separate entry because
+
+00:00:38.157 --> 00:00:41.047
+these are submitted labels, not verified
+
+00:00:41.047 --> 00:00:41.842
+identities.
+
+00:00:41.842 --> 00:00:44.876
+We'll correct one label, remove a canceled
+
+00:00:44.876 --> 00:00:48.344
+entry, and report the remaining names with their
+
+00:00:48.344 --> 00:00:49.644
+current positions.
+
+00:00:50.288 --> 00:00:53.401
+The report should reflect each change and show
+
+00:00:53.401 --> 00:00:55.024
+the current entry count.
+
+00:00:55.024 --> 00:00:58.205
+We'll first work through one sign-up list, then
+
+00:00:58.205 --> 00:01:01.385
+build a separate list of selected supply labels
+
+00:01:01.385 --> 00:01:03.009
+and check an empty case.
+
+00:01:03.009 --> 00:01:05.918
+Finally, you'll predict a different sign-up
+
+00:01:05.918 --> 00:01:07.813
+report using the same rules.
+
+00:01:07.853 --> 00:01:11.428
+Let's open Main.java in the Workspace and build
+
+00:01:11.428 --> 00:01:13.178
+the first sign-up list.
+
+00:01:16.922 --> 00:01:20.180
+Main is the class containing this program, and
+
+00:01:20.180 --> 00:01:23.155
+its main method is where execution starts.
+
+00:01:23.155 --> 00:01:26.201
+We'll import ArrayList from Java's standard
+
+00:01:26.201 --> 00:01:29.176
+library so we can use its short name, then
+
+00:01:29.176 --> 00:01:32.505
+create an empty list for the coordinator's text
+
+00:01:32.505 --> 00:01:33.072
+entries.
+
+00:01:44.660 --> 00:01:47.890
+ArrayList is a generic class: it can work with
+
+00:01:47.890 --> 00:01:49.576
+different element types.
+
+00:01:49.576 --> 00:01:52.736
+String is the type argument between the angle
+
+00:01:52.736 --> 00:01:56.107
+brackets, selecting text elements for this list.
+
+00:01:56.107 --> 00:01:59.056
+We write it explicitly on both sides here.
+
+00:01:59.056 --> 00:02:02.287
+New creates the empty list, and entries refers
+
+00:02:02.287 --> 00:02:02.708
+to it.
+
+00:02:02.708 --> 00:02:06.079
+Its size is zero because no entries have arrived
+
+00:02:06.079 --> 00:02:06.360
+yet.
+
+00:02:06.371 --> 00:02:09.475
+The coordinator has received Ella, Sam, and
+
+00:02:09.475 --> 00:02:11.496
+another Ella, in that order.
+
+00:02:11.496 --> 00:02:13.950
+Appending means adding at the end.
+
+00:02:13.950 --> 00:02:17.415
+Each add call appends one entry, so the list can
+
+00:02:17.415 --> 00:02:20.303
+grow while keeping earlier positions and
+
+00:02:20.303 --> 00:02:22.396
+retaining the repeated label.
+
+00:02:29.628 --> 00:02:32.821
+The entries now occupy indices zero, one, and
+
+00:02:32.821 --> 00:02:33.105
+two.
+
+00:02:33.105 --> 00:02:36.370
+The size is three, which counts entries rather
+
+00:02:36.370 --> 00:02:38.499
+than naming the last position.
+
+00:02:38.499 --> 00:02:40.840
+Sam's label needs to become Noor.
+
+00:02:40.840 --> 00:02:44.176
+We'll use set with the existing index first and
+
+00:02:44.176 --> 00:02:47.298
+the replacement text second, then remove the
+
+00:02:47.298 --> 00:02:49.853
+first entry because it was canceled.
+
+00:02:54.403 --> 00:02:57.669
+Set replaces Sam with Noor without growing the
+
+00:02:57.669 --> 00:02:58.024
+list.
+
+00:02:58.024 --> 00:03:01.360
+Remove receives the integer zero, so it removes
+
+00:03:01.360 --> 00:03:03.064
+the entry at that index.
+
+00:03:03.064 --> 00:03:06.401
+Noor shifts from one to zero, and the remaining
+
+00:03:06.401 --> 00:03:08.389
+Ella shifts from two to one.
+
+00:03:08.389 --> 00:03:11.725
+Indices describe current positions; they aren't
+
+00:03:11.725 --> 00:03:14.778
+permanent identifiers attached to an entry.
+
+00:03:14.793 --> 00:03:17.428
+To report those current positions, we'll
+
+00:03:17.428 --> 00:03:20.260
+traverse the list with an indexed for loop.
+
+00:03:20.260 --> 00:03:23.224
+Size is a method call on the list, unlike the
+
+00:03:23.224 --> 00:03:24.870
+length field of an array.
+
+00:03:24.870 --> 00:03:27.703
+Keeping the index strictly below that count
+
+00:03:27.703 --> 00:03:30.667
+prevents an attempt to read one position past
+
+00:03:30.667 --> 00:03:31.193
+the end.
+
+00:03:31.193 --> 00:03:34.026
+Get reads the element at the accepted index
+
+00:03:34.026 --> 00:03:35.343
+without removing it.
+
+00:03:55.501 --> 00:03:58.788
+For this worked list, index zero should report
+
+00:03:58.788 --> 00:04:02.217
+Noor, and index one should report Ella, followed
+
+00:04:02.217 --> 00:04:04.004
+by an entry count of two.
+
+00:04:04.004 --> 00:04:07.219
+Let's run it and check both the order and the
+
+00:04:07.219 --> 00:04:07.576
+size.
+
+00:04:12.444 --> 00:04:15.757
+The output matches: Noor at zero, Ella at one,
+
+00:04:15.757 --> 00:04:16.910
+and two entries.
+
+00:04:16.910 --> 00:04:19.647
+The three appends increased the count,
+
+00:04:19.647 --> 00:04:22.672
+replacement kept it unchanged, and removal
+
+00:04:22.672 --> 00:04:23.608
+decreased it.
+
+00:04:23.608 --> 00:04:26.634
+The report reads the positions after those
+
+00:04:26.634 --> 00:04:30.019
+changes, which is why Noor now appears at zero.
+
+00:04:30.184 --> 00:04:33.073
+Sometimes we need a selected result while
+
+00:04:33.073 --> 00:04:34.904
+keeping the original data.
+
+00:04:34.904 --> 00:04:38.004
+A supply organizer has the labels pen, hold,
+
+00:04:38.004 --> 00:04:38.991
+card, and pen.
+
+00:04:38.991 --> 00:04:42.232
+Hold marks a request that shouldn't be printed
+
+00:04:42.232 --> 00:04:42.514
+yet.
+
+00:04:42.514 --> 00:04:45.543
+We'll replace the sign-up program with that
+
+00:04:45.543 --> 00:04:48.925
+source array and a separate result list, keeping
+
+00:04:48.925 --> 00:04:51.884
+the usable labels in their original order.
+
+00:05:10.506 --> 00:05:13.285
+Labels keeps the original four entries.
+
+00:05:13.285 --> 00:05:16.136
+Selected starts empty because we haven't
+
+00:05:16.136 --> 00:05:17.347
+accepted any yet.
+
+00:05:17.347 --> 00:05:20.340
+Filtering means keeping values that meet a
+
+00:05:20.340 --> 00:05:21.053
+condition.
+
+00:05:21.053 --> 00:05:24.403
+An enhanced for loop supplies each source value
+
+00:05:24.403 --> 00:05:27.823
+in turn; the condition accepts a label only when
+
+00:05:27.823 --> 00:05:29.462
+it does not equal hold.
+
+00:05:29.462 --> 00:05:32.527
+The append belongs inside that condition so
+
+00:05:32.527 --> 00:05:35.306
+rejected labels never enter the result.
+
+00:05:48.099 --> 00:05:51.391
+The first pen is accepted, hold is rejected, and
+
+00:05:51.391 --> 00:05:53.929
+card and the second pen are accepted.
+
+00:05:53.929 --> 00:05:57.152
+The selected list therefore contains pen, card,
+
+00:05:57.152 --> 00:05:58.661
+and pen in that order.
+
+00:05:58.661 --> 00:06:01.542
+No statement assigns to a source position.
+
+00:06:01.542 --> 00:06:04.628
+The organizer also wants to substitute marker
+
+00:06:04.628 --> 00:06:07.783
+for the first printable label, but there might
+
+00:06:07.783 --> 00:06:09.361
+be no printable labels.
+
+00:06:09.361 --> 00:06:12.584
+Before using index zero, we must check that the
+
+00:06:12.584 --> 00:06:14.299
+result contains an entry.
+
+00:06:22.224 --> 00:06:24.985
+This size check is a guard: it permits the
+
+00:06:24.985 --> 00:06:27.877
+indexed operation only when an entry exists.
+
+00:06:27.877 --> 00:06:30.901
+Here the size is three, so replacement changes
+
+00:06:30.901 --> 00:06:33.793
+the first pen to marker without changing the
+
+00:06:33.793 --> 00:06:34.188
+count.
+
+00:06:34.188 --> 00:06:37.212
+If the list were empty, the condition would be
+
+00:06:37.212 --> 00:06:39.841
+false and the set call would be skipped.
+
+00:06:39.841 --> 00:06:42.865
+We'll print the result values with an enhanced
+
+00:06:42.865 --> 00:06:45.889
+loop because this report doesn't need position
+
+00:06:45.889 --> 00:06:46.349
+labels.
+
+00:07:10.068 --> 00:07:13.146
+We expect marker, card, and pen, followed by
+
+00:07:13.146 --> 00:07:16.154
+three selected labels and a source count of
+
+00:07:16.154 --> 00:07:16.504
+four.
+
+00:07:16.504 --> 00:07:19.652
+The selected count measures accepted entries,
+
+00:07:19.652 --> 00:07:22.869
+while the source count still includes the held
+
+00:07:22.869 --> 00:07:23.429
+request.
+
+00:07:23.429 --> 00:07:24.968
+Let's run this report.
+
+00:07:29.738 --> 00:07:32.814
+The result has the requested substitution and
+
+00:07:32.814 --> 00:07:33.703
+three labels.
+
+00:07:33.703 --> 00:07:36.915
+The source still has four entries, and the code
+
+00:07:36.915 --> 00:07:39.103
+only modified the separate list.
+
+00:07:39.103 --> 00:07:42.179
+Filtering decided which values to append; the
+
+00:07:42.179 --> 00:07:45.460
+guard then controlled whether the first retained
+
+00:07:45.460 --> 00:07:47.306
+position could be replaced.
+
+00:07:47.306 --> 00:07:49.288
+Those are separate decisions.
+
+00:07:49.455 --> 00:07:52.481
+A successful ordinary case doesn't tell us
+
+00:07:52.481 --> 00:07:55.580
+whether indexed access is safe when no data
+
+00:07:55.580 --> 00:07:56.156
+arrives.
+
+00:07:56.156 --> 00:07:59.039
+We'll replace this program with the same
+
+00:07:59.039 --> 00:08:02.426
+filtering, guard, and reporting logic, changing
+
+00:08:02.426 --> 00:08:05.740
+only the source initializer to an empty array.
+
+00:08:05.740 --> 00:08:07.830
+Its braces contain no values.
+
+00:08:38.026 --> 00:08:41.296
+The source loop has no elements to visit, so it
+
+00:08:41.296 --> 00:08:44.149
+appends nothing and selected stays empty.
+
+00:08:44.149 --> 00:08:47.140
+We'll retain the guard and reporting logic.
+
+00:08:47.140 --> 00:08:50.271
+The size check will skip replacement, and the
+
+00:08:50.271 --> 00:08:53.124
+enhanced reporting loop will also have no
+
+00:08:53.124 --> 00:08:54.376
+elements to visit.
+
+00:09:20.615 --> 00:09:23.873
+This time there should be no individual label
+
+00:09:23.873 --> 00:09:24.307
+lines.
+
+00:09:24.307 --> 00:09:26.913
+Both count lines should report zero.
+
+00:09:26.913 --> 00:09:30.388
+Let's run and check that the empty case finishes
+
+00:09:30.388 --> 00:09:31.040
+normally.
+
+00:09:36.171 --> 00:09:39.268
+Both counts are zero, and there are no label
+
+00:09:39.268 --> 00:09:41.450
+lines or indexed-access errors.
+
+00:09:41.450 --> 00:09:44.055
+The false guard prevented the invalid
+
+00:09:44.055 --> 00:09:44.899
+replacement.
+
+00:09:44.899 --> 00:09:48.067
+A nonempty source containing only hold labels
+
+00:09:48.067 --> 00:09:51.234
+would also produce an empty selected list, so
+
+00:09:51.234 --> 00:09:54.613
+the check must use the result's size rather than
+
+00:09:54.613 --> 00:09:56.021
+the source's length.
+
+00:09:56.194 --> 00:09:59.328
+Let's return to the volunteer coordinator for
+
+00:09:59.328 --> 00:10:00.442
+your prediction.
+
+00:10:00.442 --> 00:10:03.297
+We'll replace the supply example with the
+
+00:10:03.297 --> 00:10:05.038
+lesson's sign-up program.
+
+00:10:05.038 --> 00:10:08.241
+It appends Maya, Luis, and Maya, then corrects
+
+00:10:08.241 --> 00:10:11.444
+one entry and removes another before reporting
+
+00:10:11.444 --> 00:10:12.698
+current positions.
+
+00:10:12.698 --> 00:10:15.901
+Use the worked sign-up rules to trace this new
+
+00:10:15.901 --> 00:10:16.319
+input.
+
+00:10:40.758 --> 00:10:44.077
+The three add calls preserve the submitted order
+
+00:10:44.077 --> 00:10:45.322
+and repeated name.
+
+00:10:45.322 --> 00:10:48.572
+We'll complete the program with the correction,
+
+00:10:48.572 --> 00:10:51.061
+indexed removal, and reporting loop.
+
+00:10:51.061 --> 00:10:53.965
+Read each operation in order, updating the
+
+00:10:53.965 --> 00:10:57.008
+current positions whenever the list changes.
+
+00:11:22.112 --> 00:11:25.243
+Before we run, write every line you expect,
+
+00:11:25.243 --> 00:11:28.591
+including the position labels and final count.
+
+00:11:28.591 --> 00:11:32.013
+Explain which operation changes a value without
+
+00:11:32.013 --> 00:11:35.362
+changing the size, and which operation changes
+
+00:11:35.362 --> 00:11:36.381
+later indices.
+
+00:11:36.381 --> 00:11:39.512
+Pause the video here if you need more time.
+
+00:11:47.825 --> 00:11:51.268
+Let's click Run and compare the actual report
+
+00:11:51.268 --> 00:11:52.875
+with your prediction.
+
+00:11:57.622 --> 00:12:00.915
+The report shows Nora at zero, Maya at one, and
+
+00:12:00.915 --> 00:12:01.686
+Names: two.
+
+00:12:01.686 --> 00:12:04.769
+Set replaced Luis at index one while keeping
+
+00:12:04.769 --> 00:12:05.750
+three entries.
+
+00:12:05.750 --> 00:12:08.832
+Remove then deleted the first Maya, shifting
+
+00:12:08.832 --> 00:12:11.915
+Nora and the remaining Maya to their current
+
+00:12:11.915 --> 00:12:12.616
+positions.
+
+00:12:12.616 --> 00:12:15.909
+The loop read only those two valid indices, and
+
+00:12:15.909 --> 00:12:18.852
+the size method returned the current entry
+
+00:12:18.852 --> 00:12:19.272
+count.
+
+00:12:19.487 --> 00:12:22.233
+The coordinator's report now reflects the
+
+00:12:22.233 --> 00:12:25.448
+correction and cancellation while preserving the
+
+00:12:25.448 --> 00:12:26.520
+remaining order.
+
+00:12:26.520 --> 00:12:29.534
+You've used an ArrayList to manage a changing
+
+00:12:29.534 --> 00:12:32.682
+entry count, distinguished append, replacement,
+
+00:12:32.682 --> 00:12:35.562
+removal, and reading, and used traversal to
+
+00:12:35.562 --> 00:12:36.768
+report the result.
+
+00:12:36.768 --> 00:12:39.715
+The supply example also showed how filtering
+
+00:12:39.715 --> 00:12:42.595
+builds a separate list and how a size guard
+
+00:12:42.595 --> 00:12:45.810
+protects an indexed operation when the result is
+
+00:12:45.810 --> 00:12:46.212
+empty.
+
+00:12:47.441 --> 00:12:50.209
+In the notebook, explain why replacing an
+
+00:12:50.209 --> 00:12:53.111
+element cannot create the first entry in an
+
+00:12:53.111 --> 00:12:53.853
+empty list.
+
+00:12:53.853 --> 00:12:57.093
+Then compare an empty source with a source whose
+
+00:12:57.093 --> 00:12:59.591
+entries are all rejected by a filter.
+
+00:12:59.591 --> 00:13:02.763
+What stays the same about the result, and which
+
+00:13:02.763 --> 00:13:04.046
+count could differ?
+
+00:13:04.046 --> 00:13:06.611
+Use those cases when checking your own
+
+00:13:06.611 --> 00:13:07.691
+collection code.

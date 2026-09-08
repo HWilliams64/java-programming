@@ -1,0 +1,88 @@
+WEBVTT
+
+00:00:07.571 --> 00:00:11.024
+A job planner can share a name and description while
+
+00:00:11.024 --> 00:00:14.344
+each kind of job defines its own time calculation.
+
+00:00:14.344 --> 00:00:17.333
+An abstract class holds that shared state and
+
+00:00:17.333 --> 00:00:20.321
+behavior, but cannot be constructed directly.
+
+00:00:49.360 --> 00:00:52.816
+ReadingJob extends NamedJob, making it a subclass.
+
+00:00:52.816 --> 00:00:54.683
+NamedJob is its superclass.
+
+00:00:54.683 --> 00:00:58.416
+The super constructor call initializes the name before
+
+00:00:58.416 --> 00:00:59.315
+pages is set.
+
+00:00:59.315 --> 00:01:02.287
+The description reuses superclass behavior.
+
+00:01:02.287 --> 00:01:06.020
+The heading reads the private name through a protected
+
+00:01:06.020 --> 00:01:07.610
+getter accessible here.
+
+00:01:07.915 --> 00:01:11.559
+The abstract minutes declaration requires ReadingJob
+
+00:01:11.559 --> 00:01:12.751
+to supply a body.
+
+00:01:12.751 --> 00:01:15.554
+Both variables refer to the same object.
+
+00:01:15.554 --> 00:01:18.638
+The NamedJob reference can call its declared
+
+00:01:18.638 --> 00:01:21.861
+operations, and the object supplies overridden
+
+00:01:21.861 --> 00:01:22.492
+behavior.
+
+00:01:22.492 --> 00:01:25.015
+Predict the three lines, then pause.
+
+00:01:29.981 --> 00:01:33.310
+The heading uses the stored name, so it prints Job:
+
+00:01:33.310 --> 00:01:33.702
+Guide.
+
+00:01:33.702 --> 00:01:36.705
+The overridden description adds reading to the
+
+00:01:36.705 --> 00:01:38.206
+superclass description.
+
+00:01:38.206 --> 00:01:41.600
+Three pages at two minutes each produce six minutes.
+
+00:01:41.600 --> 00:01:44.212
+Calls through job still use ReadingJob's
+
+00:01:44.212 --> 00:01:45.256
+implementations.
+
+00:01:45.315 --> 00:01:47.421
+Change the page count to zero.
+
+00:01:47.421 --> 00:01:49.596
+Predict all three output lines.
+
+00:01:49.596 --> 00:01:53.106
+Explain which methods depend on the name and which
+
+00:01:53.106 --> 00:01:54.790
+method depends on pages.

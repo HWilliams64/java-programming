@@ -1,0 +1,664 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:03.890
+Welcome to this Java tutorial on decisions and
+
+00:00:03.890 --> 00:00:07.167
+Boolean logic, or true-or-false reasoning, where
+
+00:00:07.167 --> 00:00:10.034
+you'll compare values, combine conditions,
+
+00:00:10.034 --> 00:00:13.106
+choose one possible path called a branch, and
+
+00:00:13.106 --> 00:00:15.837
+test where a program's decision changes.
+
+00:00:16.628 --> 00:00:20.058
+Comparisons and logical conditions help software
+
+00:00:20.058 --> 00:00:23.416
+apply booking and borrowing rules consistently,
+
+00:00:23.416 --> 00:00:26.774
+while boundary tests catch mistakes where those
+
+00:00:26.774 --> 00:00:27.703
+rules change.
+
+00:00:28.437 --> 00:00:31.262
+Today we'll build a campus event decision using
+
+00:00:31.262 --> 00:00:33.906
+a visitor's age in whole years and a Boolean
+
+00:00:33.906 --> 00:00:36.790
+fact recording whether the visitor has a student
+
+00:00:36.790 --> 00:00:36.971
+ID.
+
+00:00:36.971 --> 00:00:39.435
+Under this example's rules, visitors aged
+
+00:00:39.435 --> 00:00:41.838
+eighteen or older with an ID receive the
+
+00:00:41.838 --> 00:00:43.401
+five-dollar student price.
+
+00:00:43.401 --> 00:00:45.925
+Others who meet that age limit receive the
+
+00:00:45.925 --> 00:00:48.810
+eight-dollar general price, and younger visitors
+
+00:00:48.810 --> 00:00:50.312
+are directed to the desk.
+
+00:00:50.970 --> 00:00:53.810
+The program should display exactly one admission
+
+00:00:53.810 --> 00:00:55.999
+instruction for the supplied visitor.
+
+00:00:55.999 --> 00:00:58.602
+We'll first work through equipment borrowing
+
+00:00:58.602 --> 00:01:01.146
+rules, where we can inspect comparisons and
+
+00:01:01.146 --> 00:01:02.092
+follow a choice.
+
+00:01:02.092 --> 00:01:04.755
+Then you'll use that reasoning to predict the
+
+00:01:04.755 --> 00:01:06.115
+event program's result.
+
+00:01:06.115 --> 00:01:08.896
+The supplied facts are repeatable examples; the
+
+00:01:08.896 --> 00:01:11.322
+program doesn't verify an ID or collect a
+
+00:01:11.322 --> 00:01:11.795
+payment.
+
+00:01:11.879 --> 00:01:14.521
+Let's open Main.java in the Workspace.
+
+00:01:14.521 --> 00:01:17.718
+We'll start by making the yes-or-no results of
+
+00:01:17.718 --> 00:01:20.916
+our borrowing rules visible before we use them
+
+00:01:20.916 --> 00:01:22.654
+to choose an instruction.
+
+00:01:39.822 --> 00:01:42.765
+At our equipment desk, the training requirement
+
+00:01:42.765 --> 00:01:44.831
+is at least four completed hours.
+
+00:01:44.831 --> 00:01:47.461
+This borrower has four hours and no badge.
+
+00:01:47.461 --> 00:01:50.216
+A condition is an expression that produces a
+
+00:01:50.216 --> 00:01:52.094
+Boolean result: true or false.
+
+00:01:52.094 --> 00:01:54.599
+We'll compare the stored count with that
+
+00:01:54.599 --> 00:01:55.977
+inclusive lower limit.
+
+00:01:55.977 --> 00:01:58.732
+A comparison evaluates the current value; it
+
+00:01:58.732 --> 00:02:00.297
+doesn't change the hours.
+
+00:02:04.714 --> 00:02:07.612
+The greater-than-or-equal operator includes the
+
+00:02:07.612 --> 00:02:08.414
+limit itself.
+
+00:02:08.414 --> 00:02:10.757
+Greater than alone would exclude four.
+
+00:02:10.757 --> 00:02:13.532
+Less-than operators test the other direction.
+
+00:02:13.532 --> 00:02:16.491
+These size comparisons use relational operators.
+
+00:02:16.491 --> 00:02:19.081
+For numeric equality, Java uses two equals
+
+00:02:19.081 --> 00:02:21.486
+signs; one equals sign assigns a value.
+
+00:02:21.486 --> 00:02:24.384
+Let's now combine the training requirement with
+
+00:02:24.384 --> 00:02:25.864
+the separate badge fact.
+
+00:02:41.902 --> 00:02:43.843
+AND requires both facts to be true.
+
+00:02:43.843 --> 00:02:46.338
+OR requires at least one, including when both
+
+00:02:46.338 --> 00:02:46.837
+are true.
+
+00:02:46.837 --> 00:02:48.445
+NOT reverses a Boolean value.
+
+00:02:48.445 --> 00:02:50.996
+The badge variable already supplies a Boolean,
+
+00:02:50.996 --> 00:02:52.437
+so we can use it directly.
+
+00:02:52.437 --> 00:02:54.766
+Now consider ten kits shared equally among
+
+00:02:54.766 --> 00:02:55.154
+groups.
+
+00:02:55.154 --> 00:02:57.816
+We'll use divisor for the group count, currently
+
+00:02:57.816 --> 00:03:00.256
+zero, and check whether each group gets more
+
+00:03:00.256 --> 00:03:01.032
+than two kits.
+
+00:03:01.032 --> 00:03:03.583
+Before attempting that division, we must check
+
+00:03:03.583 --> 00:03:05.912
+the group count to avoid dividing by zero.
+
+00:03:05.912 --> 00:03:08.351
+The AND condition asks whether a valid group
+
+00:03:08.351 --> 00:03:11.013
+count gives more than two kits per group; the OR
+
+00:03:11.013 --> 00:03:13.619
+condition flags either a missing group count or
+
+00:03:13.619 --> 00:03:15.227
+more than two kits per group.
+
+00:03:30.262 --> 00:03:33.020
+The last two conditions show another feature of
+
+00:03:33.020 --> 00:03:33.665
+AND and OR.
+
+00:03:33.665 --> 00:03:36.247
+Integer division by zero cannot produce this
+
+00:03:36.247 --> 00:03:36.775
+quotient.
+
+00:03:36.775 --> 00:03:39.533
+In the AND expression, the left check is false,
+
+00:03:39.533 --> 00:03:41.469
+so both requirements cannot hold.
+
+00:03:41.469 --> 00:03:44.286
+In the OR expression, the left check is true, so
+
+00:03:44.286 --> 00:03:45.870
+at least one already holds.
+
+00:03:45.870 --> 00:03:48.628
+Java can skip the division in both expressions.
+
+00:03:48.628 --> 00:03:51.093
+Let's click Run to inspect all six Boolean
+
+00:03:51.093 --> 00:03:51.562
+results.
+
+00:03:56.430 --> 00:03:59.095
+The training comparison is true at four hours.
+
+00:03:59.095 --> 00:04:01.528
+AND is false because the badge requirement
+
+00:04:01.528 --> 00:04:04.309
+fails; OR is true because training is sufficient
+
+00:04:04.309 --> 00:04:05.699
+for that different rule.
+
+00:04:05.699 --> 00:04:08.133
+NOT turns the false badge value into true.
+
+00:04:08.133 --> 00:04:10.855
+The final false and true results appear without
+
+00:04:10.855 --> 00:04:12.130
+an attempted division.
+
+00:04:12.130 --> 00:04:14.911
+This is short-circuit evaluation: Java skips the
+
+00:04:14.911 --> 00:04:17.518
+right side when the left side already settles
+
+00:04:17.518 --> 00:04:18.155
+the result.
+
+00:04:18.217 --> 00:04:20.657
+That shortcut depends on the operator and the
+
+00:04:20.657 --> 00:04:20.982
+order.
+
+00:04:20.982 --> 00:04:23.422
+A true left side of AND still needs its right
+
+00:04:23.422 --> 00:04:25.862
+side; a false left side of OR still needs its
+
+00:04:25.862 --> 00:04:26.458
+right side.
+
+00:04:26.458 --> 00:04:28.790
+With a group count of five, the first guard
+
+00:04:28.790 --> 00:04:31.284
+would permit the division and then compare its
+
+00:04:31.284 --> 00:04:32.260
+quotient with two.
+
+00:04:32.260 --> 00:04:34.808
+Placing the unsafe division first would attempt
+
+00:04:34.808 --> 00:04:36.489
+it before the protective check.
+
+00:04:36.489 --> 00:04:38.766
+Now let's use a complete rule to choose an
+
+00:04:38.766 --> 00:04:39.417
+instruction.
+
+00:04:59.759 --> 00:05:01.991
+Our equipment desk has three choices.
+
+00:05:01.991 --> 00:05:04.886
+Four or more training hours with a badge permits
+
+00:05:04.886 --> 00:05:05.731
+self checkout.
+
+00:05:05.731 --> 00:05:08.506
+Enough training without a badge requires staff
+
+00:05:08.506 --> 00:05:09.048
+checkout.
+
+00:05:09.048 --> 00:05:11.944
+Less training requires the training instruction.
+
+00:05:11.944 --> 00:05:14.719
+We'll store one instruction and print it after
+
+00:05:14.719 --> 00:05:15.382
+the choice.
+
+00:05:15.382 --> 00:05:18.278
+Declaring that name before the branches makes it
+
+00:05:18.278 --> 00:05:19.484
+available afterward.
+
+00:05:29.870 --> 00:05:32.537
+Each possible path is a conditional branch.
+
+00:05:32.537 --> 00:05:35.018
+The keyword if introduces a condition in
+
+00:05:35.018 --> 00:05:35.762
+parentheses.
+
+00:05:35.762 --> 00:05:38.429
+If the condition is true, Java executes the
+
+00:05:38.429 --> 00:05:40.972
+statements in its block, the group inside
+
+00:05:40.972 --> 00:05:41.406
+braces.
+
+00:05:41.406 --> 00:05:44.383
+Here the first choice requires both training and
+
+00:05:44.383 --> 00:05:44.879
+a badge.
+
+00:05:44.879 --> 00:05:47.856
+We'll connect the other choices with else if and
+
+00:05:47.856 --> 00:05:50.337
+a final else, so they belong to the same
+
+00:05:50.337 --> 00:05:50.895
+decision.
+
+00:06:09.051 --> 00:06:11.893
+Else if supplies another condition after the
+
+00:06:11.893 --> 00:06:13.314
+earlier one was false.
+
+00:06:13.314 --> 00:06:15.963
+The final else covers the remaining case.
+
+00:06:15.963 --> 00:06:18.999
+One connected chain executes the first matching
+
+00:06:18.999 --> 00:06:20.808
+branch and skips the others.
+
+00:06:20.808 --> 00:06:23.714
+Every path assigns instruction, and the print
+
+00:06:23.714 --> 00:06:26.169
+after the chain uses that chosen text.
+
+00:06:26.169 --> 00:06:29.076
+Let's click Run with four hours and no badge.
+
+00:06:33.930 --> 00:06:35.988
+The program prints Staff checkout.
+
+00:06:35.988 --> 00:06:38.650
+Four hours meets the training limit, but the
+
+00:06:38.650 --> 00:06:41.555
+missing badge makes the first combined condition
+
+00:06:41.555 --> 00:06:41.918
+false.
+
+00:06:41.918 --> 00:06:44.642
+The next training comparison succeeds, so its
+
+00:06:44.642 --> 00:06:45.610
+assignment runs.
+
+00:06:45.610 --> 00:06:47.305
+The final branch is skipped.
+
+00:06:47.305 --> 00:06:50.209
+Execution then continues after the choice to the
+
+00:06:50.209 --> 00:06:53.054
+print statement; choosing a branch does not end
+
+00:06:53.054 --> 00:06:53.780
+the program.
+
+00:06:53.960 --> 00:06:56.648
+Scope is the region of source code where a
+
+00:06:56.648 --> 00:06:58.312
+declared name can be used.
+
+00:06:58.312 --> 00:07:01.320
+Instruction was declared before this choice, so
+
+00:07:01.320 --> 00:07:02.664
+the print can use it.
+
+00:07:02.664 --> 00:07:05.736
+A new variable declared inside a branch's braces
+
+00:07:05.736 --> 00:07:07.592
+would be local to that block.
+
+00:07:07.592 --> 00:07:10.408
+Entering the branch would not make that name
+
+00:07:10.408 --> 00:07:13.160
+available outside its source-code boundary.
+
+00:07:13.339 --> 00:07:16.224
+Now let's test the other side of the training
+
+00:07:16.224 --> 00:07:16.609
+limit.
+
+00:07:16.609 --> 00:07:19.558
+We'll change only the hours from four to three
+
+00:07:19.558 --> 00:07:21.161
+and keep the badge false.
+
+00:07:21.161 --> 00:07:24.046
+A boundary test checks a value at or near the
+
+00:07:24.046 --> 00:07:26.161
+point where the decision changes.
+
+00:07:26.161 --> 00:07:29.239
+Testing four and three can expose a mistake that
+
+00:07:29.239 --> 00:07:31.739
+testing a larger hour count would hide.
+
+00:07:37.895 --> 00:07:41.187
+The same chain is ready with the changed input.
+
+00:07:41.187 --> 00:07:44.479
+Let's click Run and check which instruction the
+
+00:07:44.479 --> 00:07:46.020
+smaller count selects.
+
+00:07:51.379 --> 00:07:53.885
+The result changes to Complete training.
+
+00:07:53.885 --> 00:07:56.579
+Three fails the training comparison, so the
+
+00:07:56.579 --> 00:07:59.211
+first branch is unavailable and the second
+
+00:07:59.211 --> 00:08:00.777
+comparison is also false.
+
+00:08:00.777 --> 00:08:03.283
+The final else supplies the instruction.
+
+00:08:03.283 --> 00:08:06.165
+We've checked both sides of this limit without
+
+00:08:06.165 --> 00:08:07.293
+changing the rule.
+
+00:08:07.293 --> 00:08:10.237
+The notebook will ask you to test both relevant
+
+00:08:10.237 --> 00:08:11.929
+facts in its event example.
+
+00:08:12.725 --> 00:08:15.734
+Let's replace the borrowing program with the
+
+00:08:15.734 --> 00:08:16.692
+event program.
+
+00:08:16.692 --> 00:08:19.496
+For this visitor, age is nineteen and the
+
+00:08:19.496 --> 00:08:21.138
+student-ID fact is true.
+
+00:08:21.138 --> 00:08:24.421
+Begin with those two facts and the most specific
+
+00:08:24.421 --> 00:08:27.635
+condition, which requires both adulthood and an
+
+00:08:27.635 --> 00:08:27.841
+ID.
+
+00:08:27.841 --> 00:08:30.850
+Then we'll attach the event's other choices.
+
+00:09:05.896 --> 00:09:08.755
+The first branch prints the student price in
+
+00:09:08.755 --> 00:09:10.965
+dollars under this example's rule.
+
+00:09:10.965 --> 00:09:13.889
+If that combined condition is false, the next
+
+00:09:13.889 --> 00:09:17.008
+condition checks the age requirement for general
+
+00:09:17.008 --> 00:09:17.658
+admission.
+
+00:09:17.658 --> 00:09:20.257
+The final else handles younger visitors.
+
+00:09:20.257 --> 00:09:23.376
+Let's attach those alternatives and complete the
+
+00:09:23.376 --> 00:09:23.896
+program.
+
+00:09:46.873 --> 00:09:49.740
+Before we run, write the exact message you
+
+00:09:49.740 --> 00:09:51.379
+expect for this visitor.
+
+00:09:51.379 --> 00:09:54.655
+Start at the first condition, use the stored age
+
+00:09:54.655 --> 00:09:57.386
+and ID value, and decide whether a later
+
+00:09:57.386 --> 00:09:58.819
+condition is reached.
+
+00:09:58.819 --> 00:10:01.209
+Also predict how many lines appear.
+
+00:10:01.209 --> 00:10:03.598
+Pause here if you'd like more time.
+
+00:10:11.906 --> 00:10:15.150
+Let's click Run and compare the actual admission
+
+00:10:15.150 --> 00:10:17.381
+instruction with your prediction.
+
+00:10:22.707 --> 00:10:25.254
+One line appears: Student admission, five.
+
+00:10:25.254 --> 00:10:28.043
+Nineteen meets the inclusive age limit and the
+
+00:10:28.043 --> 00:10:30.651
+ID value is true, so the first branch runs.
+
+00:10:30.651 --> 00:10:33.501
+The later branches are skipped, even though the
+
+00:10:33.501 --> 00:10:35.866
+age-only comparison would also be true.
+
+00:10:35.866 --> 00:10:38.413
+Separate if statements would make separate
+
+00:10:38.413 --> 00:10:40.657
+decisions and could print conflicting
+
+00:10:40.657 --> 00:10:43.507
+instructions; this connected chain selects one.
+
+00:10:44.549 --> 00:10:46.954
+We've turned supplied facts into Boolean
+
+00:10:46.954 --> 00:10:49.178
+results, matched logical operators to
+
+00:10:49.178 --> 00:10:51.703
+requirements, and used an ordered chain to
+
+00:10:51.703 --> 00:10:52.785
+choose one action.
+
+00:10:52.785 --> 00:10:55.610
+Braces grouped the branch statements, and local
+
+00:10:55.610 --> 00:10:58.255
+scope controlled where names were available.
+
+00:10:58.255 --> 00:11:00.660
+Short-circuit evaluation explained which
+
+00:11:00.660 --> 00:11:02.283
+expressions were attempted.
+
+00:11:02.283 --> 00:11:05.168
+Boundary tests checked where the selected result
+
+00:11:05.168 --> 00:11:05.649
+changed.
+
+00:11:06.586 --> 00:11:09.179
+Now construct the notebook's admission program
+
+00:11:09.179 --> 00:11:11.771
+from the rules, starting with age eighteen and
+
+00:11:11.771 --> 00:11:12.560
+no student ID.
+
+00:11:12.560 --> 00:11:15.209
+Predict all four combinations of ages seventeen
+
+00:11:15.209 --> 00:11:17.238
+and eighteen with the two ID values.
+
+00:11:17.238 --> 00:11:19.718
+Change only the inputs for each run, compare
+
+00:11:19.718 --> 00:11:22.423
+every complete message with your prediction, and
+
+00:11:22.423 --> 00:11:24.452
+check that exactly one line appears.
+
+00:11:24.452 --> 00:11:26.932
+Restore the initial eighteen and no-ID case,
+
+00:11:26.932 --> 00:11:28.961
+then explain what each test checked.
