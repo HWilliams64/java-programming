@@ -1,61 +1,382 @@
 WEBVTT
 
-00:00:06.683 --> 00:00:10.046
-A supply desk needs quantities for named items.
+00:00:00.750 --> 00:00:04.139
+Welcome to this Java tutorial, where you'll use
 
-00:00:10.046 --> 00:00:13.552
-A map links each unique key, an item's name, to a
+00:00:04.139 --> 00:00:07.599
+a HashMap to associate keys with values, replace
 
-00:00:13.552 --> 00:00:14.983
-value, its quantity.
+00:00:07.599 --> 00:00:10.988
+a stored value, and retrieve information by its
 
-00:00:27.015 --> 00:00:30.372
-String and Integer are the key and value types.
+00:00:10.988 --> 00:00:11.276
+key.
 
-00:00:30.372 --> 00:00:34.158
-Integer is the object form of int, required here as a
+00:00:11.930 --> 00:00:14.936
+These associations let applications find
 
-00:00:34.158 --> 00:00:35.158
-type argument.
+00:00:14.936 --> 00:00:17.867
+quantities by product name or totals by
 
-00:00:35.158 --> 00:00:39.015
-Java converts each supplied number automatically; that
+00:00:17.867 --> 00:00:21.098
+category, giving later reports and business
 
-00:00:39.015 --> 00:00:41.015
-conversion is called boxing.
+00:00:21.098 --> 00:00:24.630
+rules a consistent way to work with named data.
 
-00:00:41.319 --> 00:00:44.965
-Put stores a value, replacing any value already under
+00:00:25.284 --> 00:00:28.367
+A campus supply desk is checking its stock.
 
-00:00:44.965 --> 00:00:45.584
-that key.
+00:00:28.367 --> 00:00:31.162
+The names pen and tag identify kinds of
 
-00:00:45.584 --> 00:00:48.542
-Get retrieves by key, and size counts keys.
+00:00:31.162 --> 00:00:34.388
+supplies, and each stored whole number is the
 
-00:00:48.542 --> 00:00:51.569
-Predict the three printed lines, then pause.
+00:00:34.388 --> 00:00:37.041
+quantity of physical items available.
 
-00:00:56.390 --> 00:00:59.487
-The later put replaces two with three for map.
+00:00:37.041 --> 00:00:40.052
+A corrected count must replace the earlier
 
-00:00:59.487 --> 00:01:00.833
-Kit still holds one.
+00:00:40.052 --> 00:00:42.059
+quantity for that same kind.
 
-00:01:00.833 --> 00:01:03.189
-There are two keys, so size is two.
+00:00:42.713 --> 00:00:45.740
+We'll store two quantities, correct one of them,
 
-00:01:03.189 --> 00:01:06.420
-These print statements choose the order; HashMap
+00:00:45.740 --> 00:00:48.768
+and print the current quantities plus the number
 
-00:01:06.420 --> 00:01:08.440
-traversal does not promise it.
+00:00:48.768 --> 00:00:49.903
+of recorded kinds.
 
-00:01:08.492 --> 00:01:11.905
-Now change only the last put to store five under map.
+00:00:49.903 --> 00:00:52.867
+Then you'll predict a second stock report using
 
-00:01:11.905 --> 00:01:15.318
-Which output line changes, and why does the number of
+00:00:52.867 --> 00:00:55.138
+different supplies before we run it.
 
-00:01:15.318 --> 00:01:16.542
-keys stay the same?
+00:00:55.182 --> 00:00:58.082
+Now that we're in the Workspace, let's open
+
+00:00:58.082 --> 00:00:58.757
+Main.java.
+
+00:01:02.687 --> 00:01:05.892
+We need the HashMap class for our stock record.
+
+00:01:05.892 --> 00:01:08.552
+We'll import it, then put the program's
+
+00:01:08.552 --> 00:01:11.689
+statements inside main, the starting method in
+
+00:01:11.689 --> 00:01:12.712
+the Main class.
+
+00:01:21.061 --> 00:01:23.225
+The program structure is ready.
+
+00:01:23.225 --> 00:01:26.505
+Our stock record needs text keys for the supply
+
+00:01:26.505 --> 00:01:29.088
+names and whole-number values for the
+
+00:01:29.088 --> 00:01:29.856
+quantities.
+
+00:01:29.856 --> 00:01:33.136
+Let's create an empty map with those two roles.
+
+00:01:41.582 --> 00:01:44.534
+String identifies the key type, and Integer
+
+00:01:44.534 --> 00:01:46.319
+identifies the value type.
+
+00:01:46.319 --> 00:01:49.614
+Integer is the object form used to store a whole
+
+00:01:49.614 --> 00:01:52.772
+number in this map; the generic value position
+
+00:01:52.772 --> 00:01:54.488
+cannot use primitive int.
+
+00:01:54.488 --> 00:01:57.578
+The new expression creates the empty map, and
+
+00:01:57.578 --> 00:01:58.882
+stock refers to it.
+
+00:01:58.893 --> 00:02:01.836
+Now we can record four pens and two tags.
+
+00:02:01.836 --> 00:02:05.281
+Each put call associates its first argument, the
+
+00:02:05.281 --> 00:02:08.439
+key, with its second argument, the quantity.
+
+00:02:08.439 --> 00:02:11.741
+Java automatically boxes each primitive number
+
+00:02:11.741 --> 00:02:14.468
+into the Integer form this map stores.
+
+00:02:20.403 --> 00:02:23.636
+Those statements establish two associations.
+
+00:02:23.636 --> 00:02:27.015
+The desk then counts five pens, so the earlier
+
+00:02:27.015 --> 00:02:29.514
+pen quantity is no longer current.
+
+00:02:29.514 --> 00:02:33.040
+We'll put the corrected value under the existing
+
+00:02:33.040 --> 00:02:33.628
+pen key.
+
+00:02:37.006 --> 00:02:40.195
+That put replaces four with five; it does not
+
+00:02:40.195 --> 00:02:43.243
+add five to four or create another pen key.
+
+00:02:43.243 --> 00:02:45.794
+The tag association stays unchanged.
+
+00:02:45.794 --> 00:02:48.983
+To build the report, we'll use get to look up
+
+00:02:48.983 --> 00:02:52.031
+each quantity by name and print it beside a
+
+00:02:52.031 --> 00:02:52.456
+label.
+
+00:03:03.089 --> 00:03:06.164
+Each lookup supplies the Integer value currently
+
+00:03:06.164 --> 00:03:07.701
+associated with its key.
+
+00:03:07.701 --> 00:03:10.775
+Joining that result to a text label displays the
+
+00:03:10.775 --> 00:03:13.786
+number, so readers see the quantity rather than
+
+00:03:13.786 --> 00:03:16.220
+needing to understand its stored type.
+
+00:03:16.220 --> 00:03:18.910
+Both keys were inserted earlier; a missing
+
+00:03:18.910 --> 00:03:21.856
+lookup would instead return null, which is not
+
+00:03:21.856 --> 00:03:22.689
+numeric zero.
+
+00:03:22.706 --> 00:03:26.187
+The report also needs the number of supply kinds
+
+00:03:26.187 --> 00:03:26.913
+on record.
+
+00:03:26.913 --> 00:03:30.394
+Size counts the map's distinct keys, not the sum
+
+00:03:30.394 --> 00:03:31.700
+of its quantities.
+
+00:03:31.700 --> 00:03:34.601
+Let's add that final line and finish the
+
+00:03:34.601 --> 00:03:35.181
+program.
+
+00:03:40.480 --> 00:03:43.638
+The complete program now corrects one quantity
+
+00:03:43.638 --> 00:03:46.933
+and asks two different questions: how many items
+
+00:03:46.933 --> 00:03:50.091
+of each kind are available, and how many kinds
+
+00:03:50.091 --> 00:03:50.984
+are recorded.
+
+00:03:50.984 --> 00:03:53.730
+Let's click Run and check those results.
+
+00:03:58.772 --> 00:04:02.052
+Pens is five because the later put replaced the
+
+00:04:02.052 --> 00:04:02.959
+earlier four.
+
+00:04:02.959 --> 00:04:04.006
+Tags stays two.
+
+00:04:04.006 --> 00:04:07.076
+Types is two because pen and tag are the two
+
+00:04:07.076 --> 00:04:08.053
+distinct keys.
+
+00:04:08.053 --> 00:04:11.332
+The current quantities total seven items, while
+
+00:04:11.332 --> 00:04:12.868
+size counts two kinds.
+
+00:04:12.868 --> 00:04:16.008
+Our explicit print statements determine which
+
+00:04:16.008 --> 00:04:17.822
+report line appears first.
+
+00:04:18.500 --> 00:04:21.384
+The map gives each name a current value.
+
+00:04:21.384 --> 00:04:24.701
+A replacement changes that association without
+
+00:04:24.701 --> 00:04:26.359
+changing the key count.
+
+00:04:26.359 --> 00:04:29.532
+We did not need list positions or a promised
+
+00:04:29.532 --> 00:04:32.632
+HashMap traversal order to find these named
+
+00:04:32.632 --> 00:04:33.425
+quantities.
+
+00:04:33.466 --> 00:04:36.519
+Let's apply the same rules to the desk's map and
+
+00:04:36.519 --> 00:04:37.346
+kit supplies.
+
+00:04:37.346 --> 00:04:40.209
+We'll replace the worked program with a fresh
+
+00:04:40.209 --> 00:04:43.198
+stock record, enter its initial quantities, and
+
+00:04:43.198 --> 00:04:44.789
+correct the map quantity.
+
+00:04:44.789 --> 00:04:47.587
+Keep your prediction for the complete report
+
+00:04:47.587 --> 00:04:49.941
+until all its statements are visible.
+
+00:05:12.446 --> 00:05:15.882
+The two starting associations and the correction
+
+00:05:15.882 --> 00:05:16.741
+are entered.
+
+00:05:16.741 --> 00:05:19.533
+Now we'll add the named lookups and the
+
+00:05:19.533 --> 00:05:22.826
+key-count report, using the same operations as
+
+00:05:22.826 --> 00:05:23.971
+the worked case.
+
+00:05:39.223 --> 00:05:42.400
+Before running the completed program, predict
+
+00:05:42.400 --> 00:05:44.588
+all three labeled output lines.
+
+00:05:44.588 --> 00:05:47.977
+Track the current value for each key after every
+
+00:05:47.977 --> 00:05:50.377
+put, then decide what size counts.
+
+00:05:50.377 --> 00:05:52.848
+Pause here if you'd like more time.
+
+00:06:00.912 --> 00:06:04.005
+Let's click Run to compare the program's report
+
+00:06:04.005 --> 00:06:05.387
+with your prediction.
+
+00:06:10.536 --> 00:06:13.514
+Maps is three because the second put for map
+
+00:06:13.514 --> 00:06:16.018
+replaced its earlier quantity of two.
+
+00:06:16.018 --> 00:06:17.034
+Kits stays one.
+
+00:06:17.034 --> 00:06:20.079
+Types is two because the record still has the
+
+00:06:20.079 --> 00:06:21.636
+same two distinct keys.
+
+00:06:21.636 --> 00:06:24.411
+The quantities add to four, but that is a
+
+00:06:24.411 --> 00:06:27.186
+different total from the number of kinds.
+
+00:06:27.901 --> 00:06:30.622
+The desk now has a report of its corrected
+
+00:06:30.622 --> 00:06:31.011
+stock.
+
+00:06:31.011 --> 00:06:33.991
+Keys identify the supplies, put maintains each
+
+00:06:33.991 --> 00:06:36.907
+current value, and get retrieves those values
+
+00:06:36.907 --> 00:06:37.619
+for output.
+
+00:06:37.619 --> 00:06:40.470
+Distinguishing quantities from the key count
+
+00:06:40.470 --> 00:06:43.515
+makes the report meaningful and prepares you to
+
+00:06:43.515 --> 00:06:46.301
+build the frequency tables in the notebook.
+
+00:06:47.042 --> 00:06:50.175
+Suppose a recount changes a recorded supply
+
+00:06:50.175 --> 00:06:51.414
+quantity to zero.
+
+00:06:51.414 --> 00:06:54.547
+Would that put remove the key or change the
+
+00:06:54.547 --> 00:06:56.368
+number of recorded kinds?
+
+00:06:56.368 --> 00:06:59.793
+Explain how you would distinguish that recorded
+
+00:06:59.793 --> 00:07:03.217
+zero from a supply name that was never entered.
