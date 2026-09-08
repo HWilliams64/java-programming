@@ -217,10 +217,6 @@ Object-Oriented[ Programming Part 3](https://bhcc.techsmithrelay.com/qfnj) (Requ
 
 [Initializing Fields](https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html) (Required)
 
-### Assignment:
-
-Using the knowledge you learned from Module 5 and 6 you will create your own custom class named StudentArrayList. This class is meant to hold an ordered list of items. This list should have a variable size, meaning an arbitrary number of items may be added to the list. Most importantly this class should implement the interface SimpleArrayList provided. Please see Grader Than for assignment details.
-
 ### Discussion Prompt: 
 
 How do classes and objects occur in the real world? Let's take some time to discuss how what we have learned in this module is represented in our everyday lives. Try to separate yourself from the actual programmatic code and look for the high-level concepts in your day to day life or in your discipline. Please write a response on how classes and objects are represented in a real-world setting. Feel free to use industry-specific examples and be creative.
@@ -269,6 +265,10 @@ This week we will learn about polymorphism, how one object can be thought of as 
 [Default Methods](https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html)  (Required)
 
 [Abstract Methods and Classes](https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html) (Required)
+
+### Assignment:
+
+Using the knowledge you learned from Module 5 and 6 you will create your own custom class named StudentArrayList. This class is meant to hold an ordered list of items. This list should have a variable size, meaning an arbitrary number of items may be added to the list. Most importantly this class should implement the interface SimpleArrayList provided. Please see Grader Than for assignment details.
 
 #### Discussion Prompt: 
 
@@ -412,7 +412,7 @@ Use this time to complete your Ghost Project. The Ghost project will take you mo
 
 Ghost Project please read about the project [here](https://docs.google.com/document/d/1bwWAA_75oN1qiB8wt9ufGmh41b-K37NeA0Ey8hLySQA/edit?usp=sharing).
 
-Submit your jar file and any additional files your application needs (such as your dictionary file) to this Moodle assignment page. You may submit just a jar file or a zip file containing your jar file and any additional necessary files. This assignment will not be accepted on Grader Than. Do NOT submit your source code, I will not read it. If you are using the same dictionary file as the Arbiter, you do not need to submit the dictionary file.
+Submit your jar file and any additional files your application needs (such as your dictionary file) to this Canvas project submission page. You may submit just a jar file or a zip file containing your jar file and any additional necessary files. This assignment will not be accepted on Grader Than. Do NOT submit your source code, I will not read it. If you are using the same dictionary file as the Arbiter, you do not need to submit the dictionary file.
 
 Module 10 - Functional Programming and Streams
 ----------------------------------------------
@@ -554,17 +554,11 @@ This week we will learn about how to have two or more streams of execution with 
 
 [The Producer and Consumer Problem ](https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem)(Required)
 
-### Assignment
-
-Super Ghost Final Project, please read about the project [here](https://docs.google.com/document/d/1G8VicM-wPkyrYYa20R4_cWp3P90b_1tGd23cuooOywU/edit?usp=sharing).
-
-Submit your jar file and any additional files your application needs (such as your dictionary file) to this Moodle assignment page. You may submit just a jar file or a zip file containing your jar file and any additional necessary files. This assignment will not be accepted on Grader Than. Do NOT submit your source code, I will not read it. If you are using the same dictionary file as the Arbiter, you do not need to submit the dictionary file.
-
 ### Discussion Prompt: 
 
 How does multithreading occur in the real world? Let's take some time to discuss how what we have learned in this module is represented in our everyday lives. Try to separate yourself from the actual programmatic code and look for the high-level concepts in your day to day life or in your discipline. Please write a response on how multithreading is represented in a real-world setting. Feel free to use industry-specific examples and be creative.
 
-Module 14 - Work on Ghost Project
+Module 14 - Super Ghost Project
 ---------------------------------
 
 ### Overview:
@@ -574,3 +568,10 @@ Module 14 - Work on Ghost Project
 #### Review: 
 
 ### [Project Documentation](https://docs.google.com/document/d/1G8VicM-wPkyrYYa20R4_cWp3P90b_1tGd23cuooOywU/edit?usp=sharing) (Required)
+
+### Project:
+
+Super Ghost Final Project, please read about the project [here](https://docs.google.com/document/d/1G8VicM-wPkyrYYa20R4_cWp3P90b_1tGd23cuooOywU/edit?usp=sharing).
+
+Submit your jar file and any additional files your application needs (such as your dictionary file) to this Canvas project submission page. You may submit just a jar file or a zip file containing your jar file and any additional necessary files. This assignment will not be accepted on Grader Than. Do NOT submit your source code, I will not read it. If you are using the same dictionary file as the Arbiter, you do not need to submit the dictionary file.
+
