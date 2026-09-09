@@ -1,117 +1,63 @@
 # Transcript: Events and Model State
 
-This CSC-239 Java demonstration runs a Seat Counter window in Workspace Desktop. It connects a reservation button to an ordinary Java object and shows the resulting label changes with pointer and keyboard input.
+Welcome to this Java tutorial, where you'll learn to connect button actions to model state, refresh visible feedback, and check pointer and keyboard behavior.
 
-Gray parameter names beside arguments are editor hints, not extra source. The exact Java source is included below.
+These skills help applications respond consistently to user input while keeping their data and visible controls in agreement.
 
-## 0:00–0:22 — Goal
+A campus workshop desk needs a booking counter. Each successful activation should reserve one available place. We'll begin with four places, then adapt the same behavior to the course's three-seat example.
 
-**On screen:** The title introduces Events and Model State. Workspace opens Main.java with an empty editor while the goal is narrated. The source is then typed visibly.
+We'll inspect the real window, use its button with both pointer and keyboard input, and try another activation at zero. The label should follow the model, and the button should stop offering reservations when no seats remain.
 
-We will connect a reservation button to an ordinary Java object and its visible count. Watch how an action changes the data, refreshes the label, and controls whether another reservation is available.
+In the Workspace, we'll use Main.java and the supplied standalone JavaFX runner. The notebook uses the same kind of interface instructions inside its supplied Fx support. Here, closing the last window lets the separate program finish.
 
-## 0:22–1:14 — Separate data and display
+First, separate the booking rule from its display. SeatCounter will be our model: an ordinary Java object that owns the remaining count. Private state keeps other code from assigning the count directly. A getter lets the interface read it, and reserve provides the allowed update.
 
-**On screen:** The complete 38-line source is readable. A selection covers the SeatCounter class and the construction of its model, Label and Button. The bottom captions leave the complete source unobscured. Gray argument hints are visible beside some values.
+The constructor stores the starting number. The reserve method subtracts one only when remaining is greater than zero. That condition protects the model even if some caller invokes reserve without going through a button. The model contains no Label or other interface control.
 
-The complete Main.java source is:
+The supplied Application runner gives us the start method and its primary Stage. Inside it, we'll create the model with four places, a Label that reads its initial value, and a Button labeled Book place.
 
-```java
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.geometry.Insets;
-class SeatCounter {
-    private int remaining;
-    public SeatCounter(int remaining) { this.remaining = remaining; }
-    public int getRemaining() { return remaining; }
-    public void reserve() {
-        if (remaining > 0) { remaining--; }
-    }
-}
-public class Main extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        Stage stage = primaryStage;
-        SeatCounter model = new SeatCounter(3);
-        Label status = new Label("Remaining: " + model.getRemaining());
-        Button reserve = new Button("Reserve one");
-        reserve.setOnAction(event -> {
-            model.reserve();
-            status.setText("Remaining: " + model.getRemaining());
-            reserve.setDisable(model.getRemaining() == 0);
-        });
-        VBox root = new VBox(12, status, reserve);
-        root.setPadding(new Insets(20));
-        stage.setTitle("Seat Counter");
-        stage.setScene(new Scene(root, 380, 220));
-        stage.show();
-        System.out.println("Counter ready: " + model.getRemaining());
-    }
-    public static void main(String[] args) {
-        launch(args);
-    }
-}
-```
+These controls form the view: what the user sees and operates. Constructing a button does not reserve a place. The initial label reads the model once. It will not automatically reread the count whenever that count changes, so we must register behavior that refreshes it.
 
-The model is the object that holds application state: SeatCounter owns remaining. The view displays that state through controls. A Button is a control that requests an action when activated. Here the Label displays the model’s count, and VBox places the label and button vertically.
+An action event notifies the program that a control was activated. setOnAction registers a callback, which is behavior JavaFX will call later. Our lambda receives the event and describes three steps: change the model, update the label, then update whether the button is enabled.
 
-## 1:15–1:37 — Register behavior for a future action
+The arrow introduces the lambda body. Registering this body stores its behavior; it does not run these three statements now. The model and control references stay the same, while the objects they refer to can change. This uses the captured-reference rule from our earlier lambda lesson.
 
-**On screen:** The editor selects lines 23 through 27: setOnAction and the three operations inside its lambda. All 38 source lines remain readable, with zero displayed errors or warnings. The editor joins the two characters of the lambda arrow into one visual arrow; the exact source in this transcript preserves its typed characters.
+When called, reserve changes the model first. setText then builds the visible text from the updated getter value. Finally, setDisable receives whether the count equals zero. True disables this control; false leaves it enabled. Reversing these responsibilities can leave stale feedback even when the model changes correctly.
 
-An action event is a notification that the button’s requested action occurred. Event-handler registration connects behavior to that future event. setOnAction registers our lambda; registration does not run its body. The lambda keeps references to the model and controls. Those local references stay the same while the objects can change.
+Arrange the label above the button in a VBox, using the spacing and padding from the preceding lesson. Attach that root to the Scene, set the separate window title, and show the Stage. The initial console report is outside the handler, so a later reservation will not print that report again.
 
-## 1:37–1:52 — Predict before running
+Finish start and the supplied main entry point. The launch call begins this standalone application. Its short action handlers run on the JavaFX Application Thread, where our interface updates belong. We are not adding background work to this lesson.
 
-**On screen:** The selection clears and the complete source remains visible before the first run. The prediction caption appears below the source, followed by a quiet pause with no terminal result or window shown yet.
+Let's click Run to see the workshop counter. Four is the configured starting count. Registration should leave it unchanged until a person activates the button.
 
-Predict the initial label and its value after three activations. What should happen on a fourth attempt? Trace the model update, label refresh, and button setting before running. Pause here.
+The window shows Places four above Book place. The console's initial report also says four. The handler is registered, but no reservation has occurred. We'll click the visible button once.
 
-## 1:52–2:16 — Observe the initial window
+The label now shows three. That click requested an action; the handler changed the model, refreshed the label, and kept the button enabled. Keyboard focus identifies the control that receives keyboard input. After this click, Book place has focus, so Space can activate the same action.
 
-**On screen:** Workspace Run Java compiles and launches Main, then the view changes to Desktop. The decorated Seat Counter window shows Remaining: 3 above an enabled Reserve one button with a visible focus outline. Bottom captions sit below the window and leave both controls clear.
+Space reaches the same handler and leaves two. Focus and enablement answer different questions: which control receives the key, and whether that control permits an action. We'll activate twice more to reach the boundary.
 
-The verified command is:
+The label reaches zero, and Book place is disabled. Let's try another pointer click on it. The visible zero should remain, because a disabled button does not dispatch this ordinary activation.
 
-```text
-javac Main.java && java Main
-```
+Zero remains. The disabled button prevents this user action, while the condition inside reserve protects the model if it is called directly at zero. These are two different checks. The visible window proves the control response; the direct-call rule comes from the model's condition.
 
-Its initial console output is:
+We'll close this window before changing the starting inputs. The standalone process can now finish. A complete rerun constructs a fresh model and fresh controls; it does not continue the old counter.
 
-```text
-Counter ready: 3
-```
+For the original seat counter, start with three, use Remaining in the label, Reserve one on the button, and Seat Counter as the window title. The model class, handler order, layout, and scene size stay the same.
 
-That message describes construction only. The later label changes are shown in the Desktop.
+Before running, predict the initial report and label. Then trace one pointer click followed by two Space activations on the focused button. What should the label and button show afterward? What will another click attempt do? Pause and record your prediction before observing.
 
-The window starts at Remaining three. Counter ready three is only the console’s initial report. The label will show later changes. This standalone Application uses start to build the interface; notebook examples use the supplied Fx support.
+Now click Run and compare the actual three-seat counter with your prediction.
 
-## 2:19–2:34 — Update and refresh
+The window starts at Remaining three. No seat was used by registering the callback. We'll perform the pointer activation first, followed by the two keyboard activations.
 
-**On screen:** A native click on Reserve one changes the label to Remaining: 2. After the explanation, Tab is pressed while the count stays at two and the button remains outlined for keyboard focus. Captions stay below the window.
+Remaining is zero, and Reserve one is disabled. The label has followed the model after each action. Try the additional click and check whether any new reservation is allowed.
 
-The first click leaves two. An event-driven update first changes the model, then setText refreshes the visible label. Keyboard focus selects the control that receives keyboard input. Use Tab to focus this button, then Space to activate it.
+The disabled attempt leaves zero. The original console report is still the initial three, because it was printed during construction, outside the action handler. A useful check records both the visible states and which part of the program produces each report.
 
-## 2:37–2:42 — Activate from the keyboard
+Close this window and run the unchanged program once more. A fresh model should restore three available seats and an enabled button.
 
-**On screen:** A native Space activation changes the label to Remaining: 1. The button remains enabled. The following Space activation reaches Remaining: 0.
+The source is unchanged. Click Run again to check complete recreation.
 
-The keyboard activation leaves one. Activate again and check the boundary.
+The fresh Seat Counter is back at Remaining three with Reserve one enabled. The earlier disabled state belonged to the old controls. We'll close this last window after checking its initial display.
 
-## 2:47–3:08 — Check the boundary
-
-**On screen:** At Remaining: 0 the Reserve one button is visibly gray and disabled. A further native pointer attempt leaves zero unchanged. Tab and Space are then pressed and the label still shows zero. The separate source view explains the model condition as well as the button setting; the console message is not used to establish these later states. Alt+F4 closes the Seat Counter window, leaving the Desktop without it. The process completes with exit code zero before the recording returns to the editor.
-
-Zero remains after further pointer and keyboard attempts. Control enablement allows or prevents an action according to state. setDisable blocks this button at zero, and the model’s own condition also protects its count. The event handler runs this short update on the JavaFX Application Thread, the sequence for interface work.
-
-## 3:10–3:25 — Reflect on responsibilities
-
-**On screen:** The view returns to the editor and selects the handler on lines 23 through 27. Lines 1 through 32 are visible above the terminal divider; the remaining six lines were visible in the earlier full-source views. The terminal displays the generated Java launch command and Counter ready: 3, followed by the returned prompt. Bottom captions briefly cover part of the generated launch command while the handler and initial output remain readable. The final quiet hold clears the caption. The question asks for reasoning about removing the label refresh; no code is changed.
-
-If you removed only the label refresh, which state would still change and which display would become misleading? Explain why the model condition and button enablement serve different purposes.
-
+You connected an action event to an ordinary model, refreshed its view, and tested the disabled boundary with real input. For another limited resource, what belongs in the model's rule, and what feedback must the handler refresh? Explain how you would check the same action from the keyboard.

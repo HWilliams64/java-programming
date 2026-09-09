@@ -1,0 +1,8 @@
+JavaFX lets a Java program present information and accept requests through a graphical user interface: windows, text fields, buttons, and other visible controls. In this module, you will connect those controls to ordinary Java objects, arrange readable information, and check input before changing stored values. For example, a campus service desk can display a notice, track available seats, and explain why a requested quantity was rejected. You will use notebooks for explanations and practice, and the Grader Than Workspace Desktop to inspect and interact with the actual JavaFX windows.
+
+1. [JavaFX Windows in the Workspace](01_javafx_windows_in_the_workspace.ipynb) — Connect a window to its scene and content, use the supplied notebook support, and check closing and recreating a window.
+2. [Layout and Readable Styling](02_layout_and_readable_styling.ipynb) — Arrange controls with nested layouts, spacing, and padding; resize the window to check text wrapping and readability.
+3. [Events and Model State](03_events_and_model_state.ipynb) — Connect user actions to model changes and visible feedback, then test pointer and keyboard input at a boundary where a button becomes disabled.
+4. [Forms and Input Validation](04_forms_and_input_validation.ipynb) — Validate submitted text before changing a model, give useful correction messages, and keep button and Enter-key submissions consistent.
+
+Use the [module terminology glossary](terms.md) to revisit terms after their explanations in the lessons. Complete the notebooks in order; each lesson builds on the interface behavior introduced earlier.

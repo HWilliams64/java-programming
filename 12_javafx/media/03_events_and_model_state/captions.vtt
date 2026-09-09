@@ -1,169 +1,556 @@
 WEBVTT
 
-00:00:08.973 --> 00:00:12.440
-We will connect a reservation button to an ordinary
+00:00:00.750 --> 00:00:03.438
+Welcome to this Java tutorial, where you'll
 
-00:00:12.440 --> 00:00:14.752
-Java object and its visible count.
+00:00:03.438 --> 00:00:06.376
+learn to connect button actions to model state,
 
-00:00:14.752 --> 00:00:18.219
-Watch how an action changes the data, refreshes the
+00:00:06.376 --> 00:00:09.315
+refresh visible feedback, and check pointer and
 
-00:00:18.219 --> 00:00:21.618
-label, and controls whether another reservation is
+00:00:09.315 --> 00:00:10.440
+keyboard behavior.
 
-00:00:21.618 --> 00:00:22.298
-available.
+00:00:11.102 --> 00:00:13.713
+These skills help applications respond
 
-00:00:56.567 --> 00:01:00.072
-The model is the object that holds application state:
+00:00:13.713 --> 00:00:16.873
+consistently to user input while keeping their
 
-00:01:00.072 --> 00:01:01.857
-SeatCounter owns remaining.
+00:00:16.873 --> 00:00:19.552
+data and visible controls in agreement.
 
-00:01:01.857 --> 00:01:04.899
-The view displays that state through controls.
+00:00:20.260 --> 00:00:23.297
+A campus workshop desk needs a booking counter.
 
-00:01:04.899 --> 00:01:08.205
-A Button is a control that requests an action when
+00:00:23.297 --> 00:00:26.206
+Each successful activation should reserve one
 
-00:01:08.205 --> 00:01:08.866
-activated.
+00:00:26.206 --> 00:00:27.240
+available place.
 
-00:01:08.866 --> 00:01:12.238
-Here the Label displays the model’s count, and VBox
+00:00:27.240 --> 00:00:30.083
+We'll begin with four places, then adapt the
 
-00:01:12.238 --> 00:01:14.817
-places the label and button vertically.
+00:00:30.083 --> 00:00:32.668
+same behavior to the course's three-seat
 
-00:01:15.212 --> 00:01:18.649
-An action event is a notification that the button’s
+00:00:32.668 --> 00:00:33.185
+example.
 
-00:01:18.649 --> 00:01:20.402
-requested action occurred.
+00:00:33.849 --> 00:00:36.708
+We'll inspect the real window, use its button
 
-00:01:20.402 --> 00:01:23.907
-Event-handler registration connects behavior to that
+00:00:36.708 --> 00:00:39.566
+with both pointer and keyboard input, and try
 
-00:01:23.907 --> 00:01:24.783
-future event.
+00:00:39.566 --> 00:00:41.281
+another activation at zero.
 
-00:01:24.783 --> 00:01:28.220
-setOnAction registers our lambda; registration does
+00:00:41.281 --> 00:00:43.949
+The label should follow the model, and the
 
-00:01:28.220 --> 00:01:29.366
-not run its body.
+00:00:43.949 --> 00:00:46.998
+button should stop offering reservations when no
 
-00:01:29.366 --> 00:01:33.006
-The lambda keeps references to the model and controls.
+00:00:46.998 --> 00:00:47.824
+seats remain.
 
-00:01:33.006 --> 00:01:36.646
-Those local references stay the same while the objects
+00:00:48.516 --> 00:00:51.557
+In the Workspace, we'll use Main.java and the
 
-00:01:36.646 --> 00:01:37.387
-can change.
+00:00:51.557 --> 00:00:53.855
+supplied standalone JavaFX runner.
 
-00:01:37.504 --> 00:01:40.812
-Predict the initial label and its value after three
+00:00:53.855 --> 00:00:56.828
+The notebook uses the same kind of interface
 
-00:01:40.812 --> 00:01:41.590
-activations.
+00:00:56.828 --> 00:00:59.801
+instructions inside its supplied Fx support.
 
-00:01:41.590 --> 00:01:44.120
-What should happen on a fourth attempt?
+00:00:59.801 --> 00:01:02.977
+Here, closing the last window lets the separate
 
-00:01:44.120 --> 00:01:47.299
-Trace the model update, label refresh, and button
+00:01:02.977 --> 00:01:03.991
+program finish.
 
-00:01:47.299 --> 00:01:48.790
-setting before running.
+00:01:25.860 --> 00:01:28.349
+First, separate the booking rule from its
 
-00:01:48.790 --> 00:01:49.504
-Pause here.
+00:01:28.349 --> 00:01:28.835
+display.
 
-00:02:00.550 --> 00:02:03.108
+00:01:28.835 --> 00:01:31.689
+SeatCounter will be our model: an ordinary Java
+
+00:01:31.689 --> 00:01:33.935
+object that owns the remaining count.
+
+00:01:33.935 --> 00:01:36.667
+Private state keeps other code from assigning
+
+00:01:36.667 --> 00:01:37.821
+the count directly.
+
+00:01:37.821 --> 00:01:40.735
+A getter lets the interface read it, and reserve
+
+00:01:40.735 --> 00:01:42.435
+provides the allowed update.
+
+00:02:05.363 --> 00:02:08.080
+The constructor stores the starting number.
+
+00:02:08.080 --> 00:02:10.735
+The reserve method subtracts one only when
+
+00:02:10.735 --> 00:02:12.694
+remaining is greater than zero.
+
+00:02:12.694 --> 00:02:15.601
+That condition protects the model even if some
+
+00:02:15.601 --> 00:02:18.508
+caller invokes reserve without going through a
+
+00:02:18.508 --> 00:02:18.950
+button.
+
+00:02:18.950 --> 00:02:21.857
+The model contains no Label or other interface
+
+00:02:21.857 --> 00:02:22.363
+control.
+
+00:02:22.402 --> 00:02:25.160
+The supplied Application runner gives us the
+
+00:02:25.160 --> 00:02:27.354
+start method and its primary Stage.
+
+00:02:27.354 --> 00:02:30.050
+Inside it, we'll create the model with four
+
+00:02:30.050 --> 00:02:32.871
+places, a Label that reads its initial value,
+
+00:02:32.871 --> 00:02:34.877
+and a Button labeled Book place.
+
+00:03:06.209 --> 00:03:09.218
+These controls form the view: what the user sees
+
+00:03:09.218 --> 00:03:10.033
+and operates.
+
+00:03:10.033 --> 00:03:12.979
+Constructing a button does not reserve a place.
+
+00:03:12.979 --> 00:03:15.424
+The initial label reads the model once.
+
+00:03:15.424 --> 00:03:18.057
+It will not automatically reread the count
+
+00:03:18.057 --> 00:03:21.066
+whenever that count changes, so we must register
+
+00:03:21.066 --> 00:03:22.759
+behavior that refreshes it.
+
+00:03:22.817 --> 00:03:25.580
+An action event notifies the program that a
+
+00:03:25.580 --> 00:03:26.993
+control was activated.
+
+00:03:26.993 --> 00:03:29.691
+setOnAction registers a callback, which is
+
+00:03:29.691 --> 00:03:31.747
+behavior JavaFX will call later.
+
+00:03:31.747 --> 00:03:34.510
+Our lambda receives the event and describes
+
+00:03:34.510 --> 00:03:37.594
+three steps: change the model, update the label,
+
+00:03:37.594 --> 00:03:40.292
+then update whether the button is enabled.
+
+00:04:01.942 --> 00:04:04.205
+The arrow introduces the lambda body.
+
+00:04:04.205 --> 00:04:06.957
+Registering this body stores its behavior; it
+
+00:04:06.957 --> 00:04:09.404
+does not run these three statements now.
+
+00:04:09.404 --> 00:04:12.278
+The model and control references stay the same,
+
+00:04:12.278 --> 00:04:14.908
+while the objects they refer to can change.
+
+00:04:14.908 --> 00:04:17.721
+This uses the captured-reference rule from our
+
+00:04:17.721 --> 00:04:19.067
+earlier lambda lesson.
+
+00:04:19.116 --> 00:04:21.909
+When called, reserve changes the model first.
+
+00:04:21.909 --> 00:04:24.702
+setText then builds the visible text from the
+
+00:04:24.702 --> 00:04:26.005
+updated getter value.
+
+00:04:26.005 --> 00:04:28.860
+Finally, setDisable receives whether the count
+
+00:04:28.860 --> 00:04:29.605
+equals zero.
+
+00:04:29.605 --> 00:04:32.273
+True disables this control; false leaves it
+
+00:04:32.273 --> 00:04:32.770
+enabled.
+
+00:04:32.770 --> 00:04:35.749
+Reversing these responsibilities can leave stale
+
+00:04:35.749 --> 00:04:38.666
+feedback even when the model changes correctly.
+
+00:04:38.715 --> 00:04:41.454
+Arrange the label above the button in a VBox,
+
+00:04:41.454 --> 00:04:44.377
+using the spacing and padding from the preceding
+
+00:04:44.377 --> 00:04:44.803
+lesson.
+
+00:04:44.803 --> 00:04:47.664
+Attach that root to the Scene, set the separate
+
+00:04:47.664 --> 00:04:49.673
+window title, and show the Stage.
+
+00:04:49.673 --> 00:04:52.169
+The initial console report is outside the
+
+00:04:52.169 --> 00:04:54.969
+handler, so a later reservation will not print
+
+00:04:54.969 --> 00:04:56.065
+that report again.
+
+00:05:24.104 --> 00:05:27.124
+Finish start and the supplied main entry point.
+
+00:05:27.124 --> 00:05:29.566
+The launch call begins this standalone
+
+00:05:29.566 --> 00:05:30.337
+application.
+
+00:05:30.337 --> 00:05:33.100
+Its short action handlers run on the JavaFX
+
+00:05:33.100 --> 00:05:36.120
+Application Thread, where our interface updates
+
+00:05:36.120 --> 00:05:36.570
+belong.
+
+00:05:36.570 --> 00:05:39.204
+We are not adding background work to this
+
+00:05:39.204 --> 00:05:39.654
+lesson.
+
+00:05:48.789 --> 00:05:51.638
+Let's click Run to see the workshop counter.
+
+00:05:51.638 --> 00:05:54.098
+Four is the configured starting count.
+
+00:05:54.098 --> 00:05:57.076
+Registration should leave it unchanged until a
+
+00:05:57.076 --> 00:05:58.889
+person activates the button.
+
+00:06:08.251 --> 00:06:11.289
+The window shows Places four above Book place.
+
+00:06:11.289 --> 00:06:14.194
+The console's initial report also says four.
+
+00:06:14.194 --> 00:06:17.165
+The handler is registered, but no reservation
+
+00:06:17.165 --> 00:06:18.024
+has occurred.
+
+00:06:18.024 --> 00:06:20.401
+We'll click the visible button once.
+
+00:06:23.760 --> 00:06:25.377
+The label now shows three.
+
+00:06:25.377 --> 00:06:28.051
+That click requested an action; the handler
+
+00:06:28.051 --> 00:06:31.036
+changed the model, refreshed the label, and kept
+
+00:06:31.036 --> 00:06:32.217
+the button enabled.
+
+00:06:32.217 --> 00:06:34.829
+Keyboard focus identifies the control that
+
+00:06:34.829 --> 00:06:36.322
+receives keyboard input.
+
+00:06:36.322 --> 00:06:39.307
+After this click, Book place has focus, so Space
+
+00:06:39.307 --> 00:06:41.110
+can activate the same action.
+
+00:06:43.343 --> 00:06:46.197
+Space reaches the same handler and leaves two.
+
+00:06:46.197 --> 00:06:49.174
+Focus and enablement answer different questions:
+
+00:06:49.174 --> 00:06:52.152
+which control receives the key, and whether that
+
+00:06:52.152 --> 00:06:53.765
+control permits an action.
+
+00:06:53.765 --> 00:06:56.743
+We'll activate twice more to reach the boundary.
+
+00:07:00.926 --> 00:07:03.623
+The label reaches zero, and Book place is
+
+00:07:03.623 --> 00:07:04.215
+disabled.
+
+00:07:04.215 --> 00:07:06.714
+Let's try another pointer click on it.
+
+00:07:06.714 --> 00:07:09.411
+The visible zero should remain, because a
+
+00:07:09.411 --> 00:07:12.502
+disabled button does not dispatch this ordinary
+
+00:07:12.502 --> 00:07:13.226
+activation.
+
+00:07:16.475 --> 00:07:17.266
+Zero remains.
+
+00:07:17.266 --> 00:07:20.066
+The disabled button prevents this user action,
+
+00:07:20.066 --> 00:07:22.927
+while the condition inside reserve protects the
+
+00:07:22.927 --> 00:07:25.301
+model if it is called directly at zero.
+
+00:07:25.301 --> 00:07:27.188
+These are two different checks.
+
+00:07:27.188 --> 00:07:30.049
+The visible window proves the control response;
+
+00:07:30.049 --> 00:07:32.666
+the direct-call rule comes from the model's
+
+00:07:32.666 --> 00:07:33.275
+condition.
+
+00:07:33.539 --> 00:07:36.371
+We'll close this window before changing the
+
+00:07:36.371 --> 00:07:37.424
+starting inputs.
+
+00:07:37.424 --> 00:07:39.927
+The standalone process can now finish.
+
+00:07:39.927 --> 00:07:42.890
+A complete rerun constructs a fresh model and
+
+00:07:42.890 --> 00:07:45.787
+fresh controls; it does not continue the old
+
+00:07:45.787 --> 00:07:46.314
+counter.
+
+00:07:50.134 --> 00:07:53.120
+For the original seat counter, start with three,
+
+00:07:53.120 --> 00:07:55.981
+use Remaining in the label, Reserve one on the
+
+00:07:55.981 --> 00:07:58.780
+button, and Seat Counter as the window title.
+
+00:07:58.780 --> 00:08:01.454
+The model class, handler order, layout, and
+
+00:08:01.454 --> 00:08:03.009
+scene size stay the same.
+
+00:08:36.405 --> 00:08:39.143
+Before running, predict the initial report and
+
+00:08:39.143 --> 00:08:39.500
+label.
+
+00:08:39.500 --> 00:08:42.118
+Then trace one pointer click followed by two
+
+00:08:42.118 --> 00:08:44.499
+Space activations on the focused button.
+
+00:08:44.499 --> 00:08:47.356
+What should the label and button show afterward?
+
+00:08:47.356 --> 00:08:49.439
+What will another click attempt do?
+
+00:08:49.439 --> 00:08:51.760
+Pause and record your prediction before
+
+00:08:51.760 --> 00:08:52.355
+observing.
+
+00:09:00.472 --> 00:09:03.363
+Now click Run and compare the actual three-seat
+
+00:09:03.363 --> 00:09:05.147
+counter with your prediction.
+
+00:09:13.959 --> 00:09:16.394
 The window starts at Remaining three.
 
-00:02:03.108 --> 00:02:06.495
-Counter ready three is only the console’s initial
+00:09:16.394 --> 00:09:19.356
+No seat was used by registering the callback.
 
-00:02:06.495 --> 00:02:06.979
+00:09:19.356 --> 00:09:22.186
+We'll perform the pointer activation first,
+
+00:09:22.186 --> 00:09:24.884
+followed by the two keyboard activations.
+
+00:09:32.391 --> 00:09:35.481
+Remaining is zero, and Reserve one is disabled.
+
+00:09:35.481 --> 00:09:38.307
+The label has followed the model after each
+
+00:09:38.307 --> 00:09:38.767
+action.
+
+00:09:38.767 --> 00:09:41.791
+Try the additional click and check whether any
+
+00:09:41.791 --> 00:09:43.566
+new reservation is allowed.
+
+00:09:46.867 --> 00:09:48.904
+The disabled attempt leaves zero.
+
+00:09:48.904 --> 00:09:51.866
+The original console report is still the initial
+
+00:09:51.866 --> 00:09:54.087
+three, because it was printed during
+
+00:09:54.087 --> 00:09:56.618
+construction, outside the action handler.
+
+00:09:56.618 --> 00:09:59.456
+A useful check records both the visible states
+
+00:09:59.456 --> 00:10:02.110
+and which part of the program produces each
+
+00:10:02.110 --> 00:10:02.542
 report.
 
-00:02:06.979 --> 00:02:09.329
-The label will show later changes.
+00:10:02.656 --> 00:10:05.862
+Close this window and run the unchanged program
 
-00:02:09.329 --> 00:02:12.854
-This standalone Application uses start to build the
+00:10:05.862 --> 00:10:06.544
+once more.
 
-00:02:12.854 --> 00:02:16.172
-interface; notebook examples use the supplied Fx
+00:10:06.544 --> 00:10:09.546
+A fresh model should restore three available
 
-00:02:16.172 --> 00:02:16.725
-support.
+00:10:09.546 --> 00:10:11.456
+seats and an enabled button.
 
-00:02:19.004 --> 00:02:20.844
-The first click leaves two.
+00:10:16.649 --> 00:10:18.301
+The source is unchanged.
 
-00:02:20.844 --> 00:02:24.387
-An event-driven update first changes the model, then
+00:10:18.301 --> 00:10:21.399
+Click Run again to check complete recreation.
 
-00:02:24.387 --> 00:02:26.839
-setText refreshes the visible label.
+00:10:30.405 --> 00:10:33.255
+The fresh Seat Counter is back at Remaining
 
-00:02:26.839 --> 00:02:30.110
-Keyboard focus selects the control that receives
+00:10:33.255 --> 00:10:35.309
+three with Reserve one enabled.
 
-00:02:30.110 --> 00:02:31.132
-keyboard input.
+00:10:35.309 --> 00:10:38.358
+The earlier disabled state belonged to the old
 
-00:02:31.132 --> 00:02:34.675
-Use Tab to focus this button, then Space to activate
+00:10:38.358 --> 00:10:38.955
+controls.
 
-00:02:34.675 --> 00:02:34.879
-it.
+00:10:38.955 --> 00:10:42.070
+We'll close this last window after checking its
 
-00:02:37.069 --> 00:02:39.478
-The keyboard activation leaves one.
+00:10:42.070 --> 00:10:43.130
+initial display.
 
-00:02:39.478 --> 00:02:42.094
-Activate again and check the boundary.
+00:10:47.083 --> 00:10:49.704
+You connected an action event to an ordinary
 
-00:02:47.475 --> 00:02:50.622
-Zero remains after further pointer and keyboard
+00:10:49.704 --> 00:10:52.146
+model, refreshed its view, and tested the
 
-00:02:50.622 --> 00:02:51.224
-attempts.
+00:10:52.146 --> 00:10:54.171
+disabled boundary with real input.
 
-00:02:51.224 --> 00:02:54.371
-Control enablement allows or prevents an action
+00:10:54.171 --> 00:10:56.851
+For another limited resource, what belongs in
 
-00:02:54.371 --> 00:02:55.643
-according to state.
+00:10:56.851 --> 00:10:59.472
+the model's rule, and what feedback must the
 
-00:02:55.643 --> 00:02:59.259
-setDisable blocks this button at zero, and the model’s
+00:10:59.472 --> 00:11:00.425
+handler refresh?
 
-00:02:59.259 --> 00:03:01.803
-own condition also protects its count.
+00:11:00.425 --> 00:11:03.284
+Explain how you would check the same action from
 
-00:03:01.803 --> 00:03:05.418
-The event handler runs this short update on the JavaFX
-
-00:03:05.418 --> 00:03:08.900
-Application Thread, the sequence for interface work.
-
-00:03:10.866 --> 00:03:14.051
-If you removed only the label refresh, which state
-
-00:03:14.051 --> 00:03:17.172
-would still change and which display would become
-
-00:03:17.172 --> 00:03:17.873
-misleading?
-
-00:03:17.873 --> 00:03:21.249
-Explain why the model condition and button enablement
-
-00:03:21.249 --> 00:03:22.841
-serve different purposes.
+00:11:03.284 --> 00:11:04.058
+the keyboard.

@@ -1,175 +1,667 @@
 WEBVTT
 
-00:00:11.159 --> 00:00:14.226
-Build an equipment quantity form that explains
+00:00:00.750 --> 00:00:03.528
+Welcome to this Java tutorial, where you'll
 
-00:00:14.226 --> 00:00:17.692
-rejected input while preserving the last valid saved
+00:00:03.528 --> 00:00:06.242
+learn to validate form input before saving
 
-00:00:17.692 --> 00:00:18.092
-value.
+00:00:06.242 --> 00:00:08.956
+state, explain errors clearly, and support
 
-00:00:18.092 --> 00:00:21.359
-We will test the actual controls in the Workspace
+00:00:08.956 --> 00:00:11.605
+consistent mouse and keyboard submission.
 
-00:00:21.359 --> 00:00:24.159
-Desktop with both the button and keyboard.
+00:00:12.251 --> 00:00:15.179
+These skills help applications accept useful
 
-00:02:11.201 --> 00:02:13.591
-QuantityModel holds the saved state.
+00:00:15.179 --> 00:00:18.173
+requests while protecting previously accepted
 
-00:02:13.591 --> 00:02:17.111
-The candidate is a proposed value, separate from that
+00:00:18.173 --> 00:00:20.901
+data when a person makes an invalid edit.
 
-00:02:17.111 --> 00:02:17.509
-state.
+00:00:21.545 --> 00:00:24.549
+A campus equipment desk accepts quantities from
 
-00:02:17.509 --> 00:02:21.095
-Trim removes surrounding spaces, and parseInt attempts
+00:00:24.549 --> 00:00:25.635
+one through five.
 
-00:02:21.095 --> 00:02:22.091
-a whole number.
+00:00:25.635 --> 00:00:28.447
+We'll build an order form that starts with a
 
-00:02:22.091 --> 00:02:25.145
-A parse failure produces a correction message.
+00:00:28.447 --> 00:00:30.939
+proposed three, then restore the course
 
-00:02:25.145 --> 00:02:28.598
-A parsed number outside one through five returns the
+00:00:30.939 --> 00:00:32.920
+example's starting text of two.
 
-00:02:28.598 --> 00:02:30.988
-range message before the assignment.
+00:00:33.562 --> 00:00:36.544
+We'll submit a valid request, inspect two kinds
 
-00:02:30.988 --> 00:02:33.976
-Only an accepted candidate replaces quantity.
+00:00:36.544 --> 00:00:39.400
+of rejection, and recover with a valid entry.
 
-00:02:34.397 --> 00:02:36.524
-A TextField holds editable text.
+00:00:39.400 --> 00:00:41.811
+The window should explain each result.
 
-00:02:36.524 --> 00:02:39.581
-Its associated Label states the allowed range;
+00:00:41.811 --> 00:00:44.412
+The notebook's separate model checks will
 
-00:02:39.581 --> 00:02:42.572
-setLabelFor connects that label to its input.
+00:00:44.412 --> 00:00:46.887
+establish which quantity remains saved.
 
-00:02:42.572 --> 00:02:45.895
-Submission is the deliberate action that reads the
+00:00:47.617 --> 00:00:50.604
+We'll write Main.java in the Workspace and use
 
-00:02:45.895 --> 00:02:48.752
-current text and asks the model to save it.
+00:00:50.604 --> 00:00:53.072
+the supplied standalone JavaFX runner.
 
-00:02:48.752 --> 00:02:52.142
-One EventHandler is registered with both the button
+00:00:53.072 --> 00:00:55.994
+The notebook uses its supplied Fx support for
 
-00:02:52.142 --> 00:02:53.072
-and the field.
+00:00:55.994 --> 00:00:58.072
+the same interface instructions.
 
-00:02:53.072 --> 00:02:56.395
-Button activation and Enter therefore use the same
+00:00:58.072 --> 00:01:01.189
+Start with the imports for the window, controls,
 
-00:02:56.395 --> 00:02:58.522
-validation and visible feedback.
+00:01:01.189 --> 00:01:03.267
+layout, and event-handler types.
 
-00:02:58.662 --> 00:03:01.912
-The field starts with two, but no submission has
+00:01:38.180 --> 00:01:41.222
+First define QuantityModel, the ordinary object
 
-00:03:01.912 --> 00:03:02.522
-happened.
+00:01:41.222 --> 00:01:42.840
+that owns accepted state.
 
-00:03:02.522 --> 00:03:04.756
-Predict the initial console line.
+00:01:42.840 --> 00:01:45.624
+Its private quantity starts at zero to mean
 
-00:03:04.756 --> 00:03:08.277
-After saving two, should a word, zero or six replace
+00:01:45.624 --> 00:01:47.112
+nothing has been saved.
 
-00:03:08.277 --> 00:03:09.361
-the saved value?
+00:01:47.112 --> 00:01:49.831
+Zero is an initial marker, not an accepted
 
-00:03:09.361 --> 00:03:12.611
-Trace the returns and assignment before running.
+00:01:49.831 --> 00:01:50.349
+request.
 
-00:03:12.611 --> 00:03:13.762
-Pause and decide.
+00:01:50.349 --> 00:01:53.003
+A getter exposes the saved number without
 
-00:03:28.432 --> 00:03:31.795
-The initial console reports saved quantity zero.
+00:01:53.003 --> 00:01:55.980
+allowing callers to assign the field directly.
 
-00:03:31.795 --> 00:03:35.298
-The field contains two and the status says nothing
+00:02:09.198 --> 00:02:11.770
+The save method receives proposed text.
 
-00:03:35.298 --> 00:03:35.719
-saved.
+00:02:11.770 --> 00:02:14.737
+A candidate is a temporary value we can check
 
-00:03:35.719 --> 00:03:39.432
-Text waiting in a field is not yet saved model state.
+00:02:14.737 --> 00:02:16.781
+before changing accepted state.
 
-00:03:43.977 --> 00:03:46.954
-The button submission now displays Saved two.
+00:02:16.781 --> 00:02:19.617
+Inside try, trim the surrounding spaces and
 
-00:03:46.954 --> 00:03:50.130
-We will replace the input with a word and submit
+00:02:19.617 --> 00:02:21.200
+attempt integer parsing.
 
-00:03:50.130 --> 00:03:50.527
-again.
+00:02:21.200 --> 00:02:24.365
+A valid integer can still be outside the allowed
 
-00:04:02.341 --> 00:04:05.713
-The form asks for a whole number from one to five.
+00:02:24.365 --> 00:02:26.673
+range, so that decision comes next.
 
-00:04:05.713 --> 00:04:09.085
-Parsing failed before the assignment, so the saved
+00:02:48.401 --> 00:02:51.290
+The outside-range condition uses or: reject a
 
-00:04:09.085 --> 00:04:10.299
-value remains two.
+00:02:51.290 --> 00:02:53.473
+candidate below one or above five.
 
-00:04:10.299 --> 00:04:13.536
-Now test the two values just outside the allowed
+00:02:53.473 --> 00:02:56.234
+Returning from this branch leaves the saved
 
-00:04:13.536 --> 00:04:13.941
-range.
+00:02:56.234 --> 00:02:57.261
+field unchanged.
 
-00:04:24.237 --> 00:04:26.737
-Zero receives the range message.
+00:02:57.261 --> 00:02:59.444
+We have not assigned quantity yet.
 
-00:04:37.067 --> 00:04:39.536
-Six receives the same range message.
+00:02:59.444 --> 00:03:02.269
+A parsed zero reaches this decision, while a
 
-00:04:39.536 --> 00:04:42.897
-Both inputs were numbers, but neither reached the
+00:03:02.269 --> 00:03:04.966
+word cannot reach it because parsing fails
 
-00:04:42.897 --> 00:04:43.652
+00:03:04.966 --> 00:03:05.351
+first.
+
+00:03:05.405 --> 00:03:08.128
+Only an accepted candidate should replace
+
+00:03:08.128 --> 00:03:08.726
+quantity.
+
+00:03:08.726 --> 00:03:10.718
+Then return a success message.
+
+00:03:10.718 --> 00:03:12.843
+If integer parsing failed, catch
+
+00:03:12.843 --> 00:03:15.965
+NumberFormatException and return a whole-number
+
+00:03:15.965 --> 00:03:17.227
+correction instead.
+
+00:03:17.227 --> 00:03:20.282
+Neither rejection path should assign the saved
+
+00:03:20.282 --> 00:03:20.680
+field.
+
+00:03:37.831 --> 00:03:40.519
+Validation before mutation means checking a
+
+00:03:40.519 --> 00:03:42.956
+proposal before replacing stored state.
+
+00:03:42.956 --> 00:03:45.956
+Here, one assignment sits after the range check.
+
+00:03:45.956 --> 00:03:48.893
+The catch handles text such as a word, an empty
+
+00:03:48.893 --> 00:03:51.393
+string, or an integer too large for int.
+
+00:03:51.393 --> 00:03:54.331
+The method expects non-null field text; it does
+
+00:03:54.331 --> 00:03:56.831
+not define a separate null-input policy.
+
+00:03:56.879 --> 00:03:59.909
+Next enter the supplied Application start method
+
+00:03:59.909 --> 00:04:01.676
+and construct a fresh model.
+
+00:04:01.676 --> 00:04:04.643
+Add a persistent Quantity label and a TextField
+
+00:04:04.643 --> 00:04:05.969
+beginning with three.
+
+00:04:05.969 --> 00:04:08.935
+A TextField is an editable single-line control.
+
+00:04:08.935 --> 00:04:11.965
+Its value remains a String even when the visible
+
+00:04:11.965 --> 00:04:13.354
+characters are digits.
+
+00:04:47.350 --> 00:04:50.078
+The field's initial three is only a proposed
+
+00:04:50.078 --> 00:04:52.868
+request; creating or editing it does not save
+
+00:04:52.868 --> 00:04:53.612
+that number.
+
+00:04:53.612 --> 00:04:56.588
+Associate the visible label with its field using
+
+00:04:56.588 --> 00:04:57.331
+setLabelFor.
+
+00:04:57.331 --> 00:05:00.121
+Then create wrapping status text and the Save
+
+00:05:00.121 --> 00:05:01.113
+quantity button.
+
+00:05:01.113 --> 00:05:04.089
+The label should remain visible after the person
+
+00:05:04.089 --> 00:05:05.825
+changes or clears the input.
+
+00:05:23.296 --> 00:05:26.127
+Control label association records which input
+
+00:05:26.127 --> 00:05:27.385
+the label describes.
+
+00:05:27.385 --> 00:05:30.153
+It complements visible placement rather than
+
+00:05:30.153 --> 00:05:31.851
+replacing keyboard testing.
+
+00:05:31.851 --> 00:05:34.179
+The status begins with Nothing saved.
+
+00:05:34.179 --> 00:05:36.884
+Visible validation feedback will later show
+
+00:05:36.884 --> 00:05:39.840
+either success or a useful correction sentence,
+
+00:05:39.840 --> 00:05:42.671
+so the result does not depend on color alone.
+
+00:05:42.721 --> 00:05:45.330
+Submission is the deliberate request to read
+
+00:05:45.330 --> 00:05:47.524
+current field text and try saving it.
+
+00:05:47.524 --> 00:05:49.421
+We'll create one submit handler.
+
+00:05:49.421 --> 00:05:52.089
+EventHandler is JavaFX's functional interface
+
+00:05:52.089 --> 00:05:54.876
+for event handling, and ActionEvent is the type
+
+00:05:54.876 --> 00:05:57.070
+of notification this handler accepts.
+
+00:05:57.070 --> 00:05:59.738
+The lambda reads the field when invoked, asks
+
+00:05:59.738 --> 00:06:02.347
+the model to save, and displays the returned
+
+00:06:02.347 --> 00:06:02.821
+message.
+
+00:06:21.937 --> 00:06:24.462
+The declaration supplies behavior without
+
+00:06:24.462 --> 00:06:25.386
+submitting now.
+
+00:06:25.386 --> 00:06:28.035
+Both registrations refer to the same submit
+
+00:06:28.035 --> 00:06:30.745
+variable: button activation and Enter in the
+
+00:06:30.745 --> 00:06:32.592
+field call that same behavior.
+
+00:06:32.592 --> 00:06:34.379
+Each call reads current text.
+
+00:06:34.379 --> 00:06:37.335
+Reading the field only during construction would
+
+00:06:37.335 --> 00:06:39.737
+keep an old value and miss later edits.
+
+00:06:39.807 --> 00:06:42.535
+Arrange the field label, input, button, and
+
+00:06:42.535 --> 00:06:43.613
+status in a VBox.
+
+00:06:43.613 --> 00:06:46.658
+Use gap twelve and padding twenty, then show the
+
+00:06:46.658 --> 00:06:48.497
+Equipment Order window with a
+
+00:06:48.497 --> 00:06:51.098
+four-hundred-twenty by two-hundred-eighty
+
+00:06:51.098 --> 00:06:51.923
+content area.
+
+00:06:51.923 --> 00:06:54.523
+The final print reports the initial model
+
+00:06:54.523 --> 00:06:56.807
+quantity; it is outside the handler.
+
+00:07:27.965 --> 00:07:30.801
+Finish the supplied start and main methods.
+
+00:07:30.801 --> 00:07:33.307
+Launch begins this standalone program.
+
+00:07:33.307 --> 00:07:35.747
+Its short callbacks run on the JavaFX
+
+00:07:35.747 --> 00:07:37.000
+Application Thread.
+
+00:07:37.000 --> 00:07:39.836
+They perform the parse, model decision, and
+
+00:07:39.836 --> 00:07:42.606
+visible update without waiting for another
+
+00:07:42.606 --> 00:07:43.265
+operation.
+
+00:07:51.882 --> 00:07:54.714
+Click Run and inspect the difference between
+
+00:07:54.714 --> 00:07:56.645
+proposed text and saved state.
+
+00:07:56.645 --> 00:07:59.670
+The field should display three while the status
+
+00:07:59.670 --> 00:08:01.279
+still says Nothing saved.
+
+00:08:01.279 --> 00:08:03.982
+The initial console report should be zero.
+
+00:08:13.492 --> 00:08:16.173
+The real Equipment Order window shows the
+
+00:08:16.173 --> 00:08:19.247
+persistent Quantity label, proposed three, Save
+
+00:08:19.247 --> 00:08:21.078
+quantity, and Nothing saved.
+
+00:08:21.078 --> 00:08:24.217
+We'll click Save quantity to request submission.
+
+00:08:27.701 --> 00:08:29.442
+The feedback is Saved three.
+
+00:08:29.442 --> 00:08:32.239
+The handler read the field at activation, and
+
+00:08:32.239 --> 00:08:34.291
+the model accepted the candidate.
+
+00:08:34.291 --> 00:08:36.716
+Now replace the proposed text with cat.
+
+00:08:36.716 --> 00:08:39.203
+Editing the field alone should leave the
+
+00:08:39.203 --> 00:08:41.876
+existing feedback until another submission.
+
+00:08:52.081 --> 00:08:54.906
+The field now contains cat while the status
+
+00:08:54.906 --> 00:08:57.008
+still shows the earlier success.
+
+00:08:57.008 --> 00:08:59.571
+This separates editing from submission.
+
+00:08:59.571 --> 00:09:02.527
+Click Save quantity to ask the model to check
+
+00:09:02.527 --> 00:09:03.381
+the new text.
+
+00:09:06.875 --> 00:09:09.015
+The whole-number correction appears.
+
+00:09:09.015 --> 00:09:11.630
+Integer parsing rejected the word before the
+
+00:09:11.630 --> 00:09:12.521
+range decision.
+
+00:09:12.521 --> 00:09:15.315
+The source returns from catch without assigning
+
+00:09:15.315 --> 00:09:15.850
+quantity.
+
+00:09:15.850 --> 00:09:18.703
+That explains preservation of the earlier value,
+
+00:09:18.703 --> 00:09:21.437
+but the error label alone does not inspect the
+
+00:09:21.437 --> 00:09:24.230
+private field; use the notebook's getter checks
+
+00:09:24.230 --> 00:09:25.300
+for that evidence.
+
+00:09:35.489 --> 00:09:37.693
+Zero produces the range correction.
+
+00:09:37.693 --> 00:09:40.464
+It can be parsed as an int, but it is not an
+
+00:09:40.464 --> 00:09:41.597
+accepted quantity.
+
+00:09:41.597 --> 00:09:44.557
+Both rejection paths preserve state by avoiding
+
+00:09:44.557 --> 00:09:45.249
 assignment.
 
-00:04:43.652 --> 00:04:47.287
-The feedback changes while the saved value stays two.
+00:09:45.249 --> 00:09:47.957
+Now enter five and keep focus in the field.
 
-00:04:47.287 --> 00:04:50.443
-Shift Tab returns keyboard focus to the field.
+00:09:47.957 --> 00:09:50.791
+Pressing Enter should use the same submission
 
-00:04:50.443 --> 00:04:53.392
-Replace its text with five and press Enter.
+00:09:50.791 --> 00:09:52.239
+behavior as the button.
 
-00:05:01.044 --> 00:05:04.729
-Enter displays Saved five through the shared handler.
+00:10:00.889 --> 00:10:02.604
+Enter displays Saved five.
 
-00:05:04.729 --> 00:05:08.067
-A valid submission still works after the errors.
+00:10:02.604 --> 00:10:05.505
+The form still accepts a valid request after
 
-00:05:08.067 --> 00:05:11.544
-The console remains the initial report; the status
+00:10:05.505 --> 00:10:05.967
+errors.
 
-00:05:11.544 --> 00:05:13.769
-label shows these later results.
+00:10:05.967 --> 00:10:09.066
+Focus matters: Enter here belongs to the field;
 
-00:05:15.911 --> 00:05:19.424
-If you moved the quantity assignment before the range
+00:10:09.066 --> 00:10:12.232
+Tab can move to the button, where Space requests
 
-00:05:19.424 --> 00:05:22.607
-check, what saved value would survive an invalid
+00:10:12.232 --> 00:10:12.957
+its action.
 
-00:05:22.607 --> 00:05:23.137
-attempt?
+00:10:12.957 --> 00:10:16.122
+The two registered routes share the model's rule
 
-00:05:23.137 --> 00:05:26.584
-Choose a valid, invalid, then valid sequence to test
+00:10:16.122 --> 00:10:17.639
+and feedback operation.
 
-00:05:26.584 --> 00:05:27.711
-your explanation.
+00:10:17.771 --> 00:10:20.851
+Close this window before restoring the course
+
+00:10:20.851 --> 00:10:21.398
+example.
+
+00:10:21.398 --> 00:10:23.588
+The standalone process finishes.
+
+00:10:23.588 --> 00:10:26.599
+A complete new run creates another model and
+
+00:10:26.599 --> 00:10:29.679
+controls; it does not reuse the earlier saved
+
+00:10:29.679 --> 00:10:30.021
+five.
+
+00:10:34.287 --> 00:10:37.548
+Restore the TextField's starting text to two and
+
+00:10:37.548 --> 00:10:39.857
+the window title to Quantity Form.
+
+00:10:39.857 --> 00:10:43.050
+Keep the model, accepted range, shared handler,
+
+00:10:43.050 --> 00:10:44.476
+and layout unchanged.
+
+00:10:44.476 --> 00:10:47.737
+Changing starting text still does not submit it.
+
+00:11:00.077 --> 00:11:02.954
+Predict the initial console report, field text,
+
+00:11:02.954 --> 00:11:04.301
+and status separately.
+
+00:11:04.301 --> 00:11:06.872
+Then trace button submission of two, Enter
+
+00:11:06.872 --> 00:11:09.627
+submission of cat, button submission of zero,
+
+00:11:09.627 --> 00:11:11.402
+and Enter submission of five.
+
+00:11:11.402 --> 00:11:14.218
+Which decisions reject, and when can the saved
+
+00:11:14.218 --> 00:11:15.014
+field change?
+
+00:11:15.014 --> 00:11:17.340
+Pause and record your reasoning before
+
+00:11:17.340 --> 00:11:17.952
+observing.
+
+00:11:26.188 --> 00:11:29.153
+Run the restored source and compare the actual
+
+00:11:29.153 --> 00:11:31.538
+Quantity Form with those predictions.
+
+00:11:40.145 --> 00:11:43.065
+The form starts with proposed two and Nothing
+
+00:11:43.065 --> 00:11:45.530
+saved, while the console reports zero.
+
+00:11:45.530 --> 00:11:48.580
+Click Save quantity for the first request, then
+
+00:11:48.580 --> 00:11:51.045
+submit cat through Enter in the field.
+
+00:12:07.044 --> 00:12:09.940
+The word receives the whole-number correction
+
+00:12:09.940 --> 00:12:10.841
+through Enter.
+
+00:12:10.841 --> 00:12:13.544
+The button and field use the same handler.
+
+00:12:13.544 --> 00:12:16.376
+Now submit zero with the button, followed by
+
+00:12:16.376 --> 00:12:19.465
+five with Enter, to compare range rejection with
+
+00:12:19.465 --> 00:12:20.044
+recovery.
+
+00:12:39.239 --> 00:12:42.350
+The range correction was followed by Saved five.
+
+00:12:42.350 --> 00:12:45.332
+A status message is the latest feedback, not a
+
+00:12:45.332 --> 00:12:47.341
+live view of every model field.
+
+00:12:47.341 --> 00:12:49.869
+The initial console zero also remains a
+
+00:12:49.869 --> 00:12:51.165
+construction report.
+
+00:12:51.165 --> 00:12:53.887
+Separate model tests in the notebook check
+
+00:12:53.887 --> 00:12:56.739
+stored quantity after each rejected request.
+
+00:12:56.837 --> 00:12:59.697
+Close the window and run the unchanged source
+
+00:12:59.697 --> 00:13:00.332
+once more.
+
+00:13:00.332 --> 00:13:03.382
+Its new model should return to the nothing-saved
+
+00:13:03.382 --> 00:13:06.369
+marker, even though the earlier window finished
+
+00:13:06.369 --> 00:13:08.212
+with a successful submission.
+
+00:13:20.834 --> 00:13:24.059
+The fresh Quantity Form again shows proposed two
+
+00:13:24.059 --> 00:13:26.948
+and Nothing saved, with the initial console
+
+00:13:26.948 --> 00:13:27.754
+report zero.
+
+00:13:27.754 --> 00:13:30.912
+That is complete recreation, not a reset of the
+
+00:13:30.912 --> 00:13:31.517
+old form.
+
+00:13:31.517 --> 00:13:34.272
+Close this last window after checking its
+
+00:13:34.272 --> 00:13:34.809
+display.
+
+00:13:38.900 --> 00:13:41.215
+You separated proposed text, validation
+
+00:13:41.215 --> 00:13:44.065
+feedback, and accepted state, then tested shared
+
+00:13:44.065 --> 00:13:45.846
+mouse and keyboard submission.
+
+00:13:45.846 --> 00:13:48.517
+For another campus form, what must be checked
+
+00:13:48.517 --> 00:13:51.307
+before assignment, and how would you prove that
+
+00:13:51.307 --> 00:13:53.860
+an invalid request preserves the last valid
+
+00:13:53.860 --> 00:13:54.216
+value?
+
+00:13:54.216 --> 00:13:57.066
+Keep the interface observations and model checks
+
+00:13:57.066 --> 00:13:57.600
+distinct.

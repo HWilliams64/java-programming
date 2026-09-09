@@ -1,100 +1,538 @@
 WEBVTT
 
-00:00:09.749 --> 00:00:13.285
-We will build a graphical user interface: a visible
+00:00:00.750 --> 00:00:03.535
+Welcome to this Java tutorial, where you'll
 
-00:00:13.285 --> 00:00:14.672
-window with content.
+00:00:03.535 --> 00:00:06.450
+learn how JavaFX windows, scenes, labels, and
 
-00:00:14.672 --> 00:00:18.000
-Our goal is to connect its parts, then close and
+00:00:06.450 --> 00:00:09.106
+layouts work together to build and test a
 
-00:00:18.000 --> 00:00:20.149
-reopen it in Workspace Desktop.
+00:00:09.106 --> 00:00:10.402
+graphical interface.
 
-00:00:41.740 --> 00:00:43.739
-A Stage is the native window.
+00:00:10.402 --> 00:00:13.382
+Scenes connect a window to its content; labels
 
-00:00:43.739 --> 00:00:46.151
-A Scene connects it to its content.
+00:00:13.382 --> 00:00:15.649
+present text, and layouts place it.
 
-00:00:46.151 --> 00:00:49.734
-The Label displays text, and StackPane is the layout
+00:00:16.298 --> 00:00:19.013
+These connections help graphical applications
 
-00:00:49.734 --> 00:00:52.008
-container that places that label.
+00:00:19.013 --> 00:00:21.668
+keep window titles, content, and arrangement
 
-00:00:52.008 --> 00:00:55.592
-Together, the parent and child form a scene graph, a
+00:00:21.668 --> 00:00:22.211
+separate.
 
-00:00:55.592 --> 00:00:57.315
-tree of visible elements.
+00:00:22.211 --> 00:00:24.927
+That makes changes easier to reason about and
 
-00:00:57.442 --> 00:01:00.775
-Predict which text appears in the title bar and which
+00:00:24.927 --> 00:00:27.642
+gives you better checks when a program prints
 
-00:01:00.775 --> 00:01:02.410
-appears inside the window.
+00:00:27.642 --> 00:00:30.539
+the right values but does not show the interface
 
-00:01:02.410 --> 00:01:04.171
-Where will the label appear?
+00:00:30.539 --> 00:00:31.323
+a user needs.
 
-00:01:04.171 --> 00:01:05.492
-Pause before running.
+00:00:31.977 --> 00:00:34.735
+A campus course desk needs a small welcome
 
-00:01:18.200 --> 00:01:20.627
-Course Welcome is the window title.
+00:00:34.735 --> 00:00:35.260
+display.
 
-00:01:20.627 --> 00:01:23.817
-Welcome to C S C two thirty-nine is the label.
+00:00:35.260 --> 00:00:38.215
+We will first build a desk status window with
 
-00:01:23.817 --> 00:01:26.730
-StackPane centers that child in the scene.
+00:00:38.215 --> 00:00:39.593
+one centered message.
 
-00:01:26.730 --> 00:01:29.434
-The console reports this initial state.
+00:00:39.593 --> 00:00:42.417
+Then we'll adapt the same structure for the
 
-00:01:29.434 --> 00:01:32.000
-The visible window is on the Desktop.
+00:00:42.417 --> 00:00:43.927
+course welcome display.
 
-00:01:32.035 --> 00:01:33.731
-Close the native window.
+00:00:44.573 --> 00:00:46.929
+We'll inspect each actual window on the
 
-00:01:33.731 --> 00:01:37.335
-This standalone application's process finishes when
+00:00:46.929 --> 00:00:49.527
+Workspace Desktop and compare its title and
 
-00:01:37.335 --> 00:01:38.960
-its last window closes.
+00:00:49.527 --> 00:00:51.037
+message with the console.
 
-00:01:48.979 --> 00:01:52.321
-Running the command again starts a new process and
+00:00:51.037 --> 00:00:53.816
+We'll also close the course window and run the
 
-00:01:52.321 --> 00:01:53.725
-creates a new window.
+00:00:53.816 --> 00:00:55.205
+complete program again.
 
-00:01:53.725 --> 00:01:57.335
-Application supplies the runner: launch begins it, and
+00:00:55.205 --> 00:00:57.984
+A printed report and a visible, working window
 
-00:01:57.335 --> 00:02:00.811
-start builds the interface on the JavaFX Application
+00:00:57.984 --> 00:01:00.098
+answer different testing questions.
 
-00:02:00.811 --> 00:02:03.485
-Thread, its sequence for interface work.
+00:01:00.764 --> 00:01:03.560
+Now that we're in the Workspace, let's open
 
-00:02:03.485 --> 00:02:07.095
-Notebook examples instead use the supplied Fx support,
+00:01:03.560 --> 00:01:04.211
+Main.java.
 
-00:02:07.095 --> 00:02:10.504
-which keeps JavaFX available after a window closes.
+00:01:04.211 --> 00:01:07.332
+We'll use a supplied JavaFX runner and place our
 
-00:02:13.479 --> 00:02:16.604
-Which object would you change to replace the welcome
+00:01:07.332 --> 00:01:10.259
+window-building instructions inside its start
 
-00:02:16.604 --> 00:02:19.729
-message, and which object would you change to rename
+00:01:10.259 --> 00:01:10.714
+method.
 
-00:02:19.729 --> 00:02:20.390
-the window?
+00:01:14.588 --> 00:01:17.467
+A standalone graphical program needs JavaFX to
 
-00:02:20.390 --> 00:02:22.554
-Explain your choices before editing.
+00:01:17.467 --> 00:01:20.471
+start its toolkit and call the interface code on
+
+00:01:20.471 --> 00:01:23.475
+the JavaFX Application Thread, the sequence that
+
+00:01:23.475 --> 00:01:24.915
+handles interface work.
+
+00:01:24.915 --> 00:01:27.606
+The Application class provides that runner.
+
+00:01:27.606 --> 00:01:30.547
+Our Main class extends it, and its start method
+
+00:01:30.547 --> 00:01:32.988
+receives the primary Stage from JavaFX.
+
+00:01:52.682 --> 00:01:55.062
+The imports make the JavaFX class names
+
+00:01:55.062 --> 00:01:55.673
+available.
+
+00:01:55.673 --> 00:01:58.541
+Override marks start as the operation our class
+
+00:01:58.541 --> 00:02:00.921
+supplies in place of the inherited one.
+
+00:02:00.921 --> 00:02:03.485
+JavaFX calls it when the toolkit is ready.
+
+00:02:03.485 --> 00:02:06.414
+In the notebook, the supplied Fx support handles
+
+00:02:06.414 --> 00:02:09.283
+this setup differently; we'll connect those two
+
+00:02:09.283 --> 00:02:11.907
+execution paths after observing the window.
+
+00:02:11.923 --> 00:02:15.088
+A window object alone has no message to display.
+
+00:02:15.088 --> 00:02:18.055
+We'll refer to the supplied primary window as
+
+00:02:18.055 --> 00:02:21.154
+stage, create a Label containing Open, and give
+
+00:02:21.154 --> 00:02:22.868
+that label to a StackPane.
+
+00:02:22.868 --> 00:02:25.110
+A Label presents text for reading.
+
+00:02:25.110 --> 00:02:28.011
+StackPane is a layout container that centers
+
+00:02:28.011 --> 00:02:29.198
+this single child.
+
+00:02:39.703 --> 00:02:42.507
+The label and layout are nodes, objects in the
+
+00:02:42.507 --> 00:02:43.787
+scene's content tree.
+
+00:02:43.787 --> 00:02:46.530
+The layout is the parent and the label is its
+
+00:02:46.530 --> 00:02:46.896
+child.
+
+00:02:46.896 --> 00:02:49.761
+We'll use that layout as the root, the starting
+
+00:02:49.761 --> 00:02:50.980
+node for this scene.
+
+00:02:50.980 --> 00:02:53.540
+The Stage itself is the surrounding native
+
+00:02:53.540 --> 00:02:55.978
+window, not a node in that content tree.
+
+00:02:55.994 --> 00:02:58.855
+The content now has a root, but it still needs a
+
+00:02:58.855 --> 00:03:00.345
+connection to the window.
+
+00:03:00.345 --> 00:03:03.205
+We'll create a Scene using that root and request
+
+00:03:03.205 --> 00:03:05.887
+a three hundred by one hundred eighty content
+
+00:03:05.887 --> 00:03:06.185
+area.
+
+00:03:06.185 --> 00:03:08.867
+Then we'll set the Stage title to Desk Status
+
+00:03:08.867 --> 00:03:10.119
+and attach the Scene.
+
+00:03:20.174 --> 00:03:23.068
+The scene holds the root, while the stage holds
+
+00:03:23.068 --> 00:03:23.684
+the scene.
+
+00:03:23.684 --> 00:03:26.516
+Its title is a separate value from the label's
+
+00:03:26.516 --> 00:03:26.824
+text.
+
+00:03:26.824 --> 00:03:29.164
+These steps configure the display, but
+
+00:03:29.164 --> 00:03:31.811
+construction and attachment do not make the
+
+00:03:31.811 --> 00:03:32.735
+window visible.
+
+00:03:32.735 --> 00:03:34.274
+We still need to show it.
+
+00:03:34.299 --> 00:03:37.078
+We'll call show on the stage, then print its
+
+00:03:37.078 --> 00:03:38.783
+title and the label's text.
+
+00:03:38.783 --> 00:03:41.435
+Both getters run here inside start, on the
+
+00:03:41.435 --> 00:03:42.509
+interface thread.
+
+00:03:42.509 --> 00:03:45.098
+Those lines report configured values; the
+
+00:03:45.098 --> 00:03:47.940
+Desktop will provide our separate view of the
+
+00:03:47.940 --> 00:03:48.824
+actual window.
+
+00:04:01.639 --> 00:04:03.831
+We'll finish the supplied runner now.
+
+00:04:03.831 --> 00:04:06.557
+Main is the class containing this program, and
+
+00:04:06.557 --> 00:04:08.867
+main is the method where its standalone
+
+00:04:08.867 --> 00:04:09.875
+execution begins.
+
+00:04:09.875 --> 00:04:12.719
+The launch call starts JavaFX so it can call the
+
+00:04:12.719 --> 00:04:14.733
+start method we've just completed.
+
+00:04:14.733 --> 00:04:17.281
+You do not need to build this runner in the
+
+00:04:17.281 --> 00:04:17.814
+notebook.
+
+00:04:25.737 --> 00:04:26.716
+Let's click Run.
+
+00:04:26.716 --> 00:04:29.407
+The stage title is Desk Status and the label
+
+00:04:29.407 --> 00:04:32.037
+stores Open, so the print calls will report
+
+00:04:32.037 --> 00:04:33.321
+those two properties.
+
+00:04:33.321 --> 00:04:36.257
+StackPane will place its one label in the center
+
+00:04:36.257 --> 00:04:37.052
+of the scene.
+
+00:04:37.052 --> 00:04:39.805
+After the report appears, we'll switch to the
+
+00:04:39.805 --> 00:04:41.762
+Desktop to inspect that display.
+
+00:04:50.309 --> 00:04:53.224
+Desk Status appears in the native title bar, and
+
+00:04:53.224 --> 00:04:55.471
+Open is centered in the content area.
+
+00:04:55.471 --> 00:04:58.204
+The window's border and title bar sit outside
+
+00:04:58.204 --> 00:05:00.086
+the requested scene dimensions.
+
+00:05:00.086 --> 00:05:02.819
+We have now seen the result of connecting the
+
+00:05:02.819 --> 00:05:05.673
+layout to the scene, attaching the scene to the
+
+00:05:05.673 --> 00:05:07.009
+stage, and showing it.
+
+00:05:07.147 --> 00:05:09.508
+Let's close this desk status window.
+
+00:05:09.508 --> 00:05:12.393
+In this standalone program, closing its last
+
+00:05:12.393 --> 00:05:14.754
+window lets the Java process finish.
+
+00:05:14.754 --> 00:05:17.508
+We'll return to the code to adapt the same
+
+00:05:17.508 --> 00:05:19.672
+structure for the course display.
+
+00:05:23.094 --> 00:05:25.331
+We'll keep the runner and the object
+
+00:05:25.331 --> 00:05:26.076
+connections.
+
+00:05:26.076 --> 00:05:29.058
+Only the Label text, scene dimensions, and Stage
+
+00:05:29.058 --> 00:05:30.176
+title will change.
+
+00:05:30.176 --> 00:05:32.848
+The new label input is Welcome to C S C two
+
+00:05:32.848 --> 00:05:35.582
+thirty-nine, the scene requests four hundred
+
+00:05:35.582 --> 00:05:38.253
+twenty by two hundred twenty, and the title
+
+00:05:38.253 --> 00:05:39.744
+input is Course Welcome.
+
+00:05:57.239 --> 00:05:59.773
+Before we run this version, predict the two
+
+00:05:59.773 --> 00:06:00.598
+console lines.
+
+00:06:00.598 --> 00:06:03.133
+Which value comes from the Stage, and which
+
+00:06:03.133 --> 00:06:04.370
+comes from the Label?
+
+00:06:04.370 --> 00:06:07.140
+Also predict where the label will appear in the
+
+00:06:07.140 --> 00:06:07.906
+larger scene.
+
+00:06:07.906 --> 00:06:10.676
+Pause here and trace the object connections and
+
+00:06:10.676 --> 00:06:11.914
+the two getter calls.
+
+00:06:19.983 --> 00:06:23.027
+Let's click Run and compare your prediction with
+
+00:06:23.027 --> 00:06:25.184
+the actual course welcome display.
+
+00:06:25.184 --> 00:06:27.847
+We'll read the report and then inspect the
+
+00:06:27.847 --> 00:06:29.433
+native title and content.
+
+00:06:37.477 --> 00:06:39.578
+The window title is Course Welcome.
+
+00:06:39.578 --> 00:06:42.218
+Its centered label says Welcome to C S C two
+
+00:06:42.218 --> 00:06:42.938
+thirty-nine.
+
+00:06:42.938 --> 00:06:45.519
+The console reports Window with the stage's
+
+00:06:45.519 --> 00:06:48.040
+title, then Message with the label's text.
+
+00:06:48.040 --> 00:06:50.440
+Those values belong to separate objects.
+
+00:06:50.440 --> 00:06:53.021
+The larger Scene gives the layout more room
+
+00:06:53.021 --> 00:06:55.602
+without changing its single child's default
+
+00:06:55.602 --> 00:06:56.202
+alignment.
+
+00:06:56.268 --> 00:06:59.151
+We'll close this course window and confirm that
+
+00:06:59.151 --> 00:07:00.010
+it disappears.
+
+00:07:00.010 --> 00:07:02.832
+Once this standalone process finishes, running
+
+00:07:02.832 --> 00:07:05.470
+the complete program again will start a new
+
+00:07:05.470 --> 00:07:07.740
+process and construct another window.
+
+00:07:07.740 --> 00:07:10.623
+That checks more than merely repeating the same
+
+00:07:10.623 --> 00:07:11.543
+printed values.
+
+00:07:15.117 --> 00:07:16.712
+The source is unchanged.
+
+00:07:16.712 --> 00:07:19.702
+Let's click Run again, then inspect the newly
+
+00:07:19.702 --> 00:07:22.692
+created Course Welcome window on the Desktop.
+
+00:07:30.793 --> 00:07:33.839
+The new window has the same title and centered
+
+00:07:33.839 --> 00:07:34.369
+message.
+
+00:07:34.369 --> 00:07:37.415
+This run constructed a new set of objects with
+
+00:07:37.415 --> 00:07:38.474
+the same inputs.
+
+00:07:38.474 --> 00:07:41.322
+It did not revive the earlier Stage object.
+
+00:07:41.322 --> 00:07:44.368
+We'll close this final window after the check.
+
+00:07:47.819 --> 00:07:49.888
+Notebook cells already run inside a Java
+
+00:07:49.888 --> 00:07:50.302
+process.
+
+00:07:50.302 --> 00:07:52.579
+Their supplied Fx support starts the toolkit
+
+00:07:52.579 --> 00:07:54.751
+once and keeps it available after a window
+
+00:07:54.751 --> 00:07:55.114
+closes.
+
+00:07:55.114 --> 00:07:57.390
+Fx.run gives a short interface action to the
+
+00:07:57.390 --> 00:07:59.770
+JavaFX Application Thread, and Fx.closeWindows
+
+00:07:59.770 --> 00:08:01.736
+clears earlier windows in that kernel.
+
+00:08:01.736 --> 00:08:04.012
+Rerunning a complete notebook example builds
+
+00:08:04.012 --> 00:08:06.288
+fresh objects while using that same toolkit.
+
+00:08:06.288 --> 00:08:08.720
+Keep launch in this standalone runner, not in a
+
+00:08:08.720 --> 00:08:09.444
+notebook cell.
+
+00:08:09.497 --> 00:08:11.823
+You connected a native Stage to a Scene, used a
+
+00:08:11.823 --> 00:08:14.051
+StackPane root to center a Label, and checked
+
+00:08:14.051 --> 00:08:16.129
+both the configured values and the visible
+
+00:08:16.129 --> 00:08:16.476
+window.
+
+00:08:16.476 --> 00:08:18.852
+Separating these jobs makes the interface easier
+
+00:08:18.852 --> 00:08:19.792
+to change and test.
+
+00:08:19.792 --> 00:08:21.871
+For a campus tutoring desk, what would you
+
+00:08:21.871 --> 00:08:23.999
+change to give the window a new title and a
+
+00:08:23.999 --> 00:08:24.890
+different message?
+
+00:08:24.890 --> 00:08:27.217
+Which checks would you make in the console, and
+
+00:08:27.217 --> 00:08:29.147
+which would require seeing the Desktop?

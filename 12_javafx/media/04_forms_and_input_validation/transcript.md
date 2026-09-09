@@ -1,139 +1,69 @@
 # Transcript: Forms and Input Validation
 
-This CSC-239 demonstration uses JavaFX in the Workspace and shows the actual application in the Workspace Desktop. A labeled quantity form explains rejected input and accepts a later valid submission. Button clicks and keyboard input use the same validation method.
+Welcome to this Java tutorial, where you'll learn to validate form input before saving state, explain errors clearly, and support consistent mouse and keyboard submission.
 
-## 0:00–0:24 — Goal
+These skills help applications accept useful requests while protecting previously accepted data when a person makes an invalid edit.
 
-**On screen:** The title card introduces Forms and Input Validation. The Workspace editor is ready for Main.java.
+A campus equipment desk accepts quantities from one through five. We'll build an order form that starts with a proposed three, then restore the course example's starting text of two.
 
-Build an equipment quantity form that explains rejected input while preserving the last valid saved value. We will test the actual controls in the Workspace Desktop with both the button and keyboard.
+We'll submit a valid request, inspect two kinds of rejection, and recover with a valid entry. The window should explain each result. The notebook's separate model checks will establish which quantity remains saved.
 
-## 0:24–2:33 — Validate before saving
+We'll write Main.java in the Workspace and use the supplied standalone JavaFX runner. The notebook uses its supplied Fx support for the same interface instructions. Start with the imports for the window, controls, layout, and event-handler types.
 
-**On screen:** The complete program is typed and saved. The teaching view highlights QuantityModel. Its quantity field starts at 0. The save method trims and parses the text into a separate candidate, returns an explanation for a value outside 1 through 5, and assigns quantity only after those checks. Gray argument labels in the editor are hints, not extra source.
+First define QuantityModel, the ordinary object that owns accepted state. Its private quantity starts at zero to mean nothing has been saved. Zero is an initial marker, not an accepted request. A getter exposes the saved number without allowing callers to assign the field directly.
 
-The complete source is:
+The save method receives proposed text. A candidate is a temporary value we can check before changing accepted state. Inside try, trim the surrounding spaces and attempt integer parsing. A valid integer can still be outside the allowed range, so that decision comes next.
 
-```java
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.geometry.Insets;
-import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-class QuantityModel {
-    private int quantity;
-    public QuantityModel() { quantity = 0; }
-    public int getQuantity() { return quantity; }
-    public String save(String text) {
-        try {
-            int candidate = Integer.parseInt(text.trim());
-            if (candidate < 1 || candidate > 5) {
-                return "Use a quantity from 1 to 5.";
-            }
-            quantity = candidate;
-            return "Saved: " + quantity;
-        } catch (NumberFormatException error) {
-            return "Enter a whole number from 1 to 5.";
-        }
-    }
-}
-public class Main extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        Stage stage = primaryStage;
-        QuantityModel model = new QuantityModel();
-        Label fieldLabel = new Label("Quantity (1 to 5)");
-        TextField input = new TextField("2");
-        fieldLabel.setLabelFor(input);
-        Label status = new Label("Nothing saved.");
-        status.setWrapText(true);
-        Button save = new Button("Save quantity");
-        EventHandler<ActionEvent> submit = event -> status.setText(model.save(input.getText()));
-        save.setOnAction(submit);
-        input.setOnAction(submit);
-        VBox root = new VBox(12, fieldLabel, input, save, status);
-        root.setPadding(new Insets(20));
-        stage.setTitle("Quantity Form");
-        stage.setScene(new Scene(root, 420, 280));
-        stage.show();
-        System.out.println("Saved quantity: " + model.getQuantity());
-    }
-    public static void main(String[] args) {
-        launch(args);
-    }
-}
-```
+The outside-range condition uses or: reject a candidate below one or above five. Returning from this branch leaves the saved field unchanged. We have not assigned quantity yet. A parsed zero reaches this decision, while a word cannot reach it because parsing fails first.
 
-QuantityModel holds the saved state. The candidate is a proposed value, separate from that state. Trim removes surrounding spaces, and parseInt attempts a whole number. A parse failure produces a correction message. A parsed number outside one through five returns the range message before the assignment. Only an accepted candidate replaces quantity.
+Only an accepted candidate should replace quantity. Then return a success message. If integer parsing failed, catch NumberFormatException and return a whole-number correction instead. Neither rejection path should assign the saved field.
 
-## 2:34–2:58 — Connect the labeled form
+Validation before mutation means checking a proposal before replacing stored state. Here, one assignment sits after the range check. The catch handles text such as a word, an empty string, or an integer too large for int. The method expects non-null field text; it does not define a separate null-input policy.
 
-**On screen:** The teaching view highlights the label, input, status and shared handler. The visible label says Quantity (1 to 5), and setLabelFor associates it with the text field. The input starts with 2; the status starts with Nothing saved. Both controls use the same handler. A vertical container places the label, field, button and status in order, with spacing of 12 and padding of 20. The scene requests a 420 by 280 content area.
+Next enter the supplied Application start method and construct a fresh model. Add a persistent Quantity label and a TextField beginning with three. A TextField is an editable single-line control. Its value remains a String even when the visible characters are digits.
 
-A TextField holds editable text. Its associated Label states the allowed range; setLabelFor connects that label to its input. Submission is the deliberate action that reads the current text and asks the model to save it. One EventHandler is registered with both the button and the field. Button activation and Enter therefore use the same validation and visible feedback.
+The field's initial three is only a proposed request; creating or editing it does not save that number. Associate the visible label with its field using setLabelFor. Then create wrapping status text and the Save quantity button. The label should remain visible after the person changes or clears the input.
 
-## 2:58–3:16 — Predict before running
+Control label association records which input the label describes. It complements visible placement rather than replacing keyboard testing. The status begins with Nothing saved. Visible validation feedback will later show either success or a useful correction sentence, so the result does not depend on color alone.
 
-**On screen:** The complete program remains in the editor. A prediction pause occurs before the application starts. The question separates the text already in the field from the value saved in the model.
+Submission is the deliberate request to read current field text and try saving it. We'll create one submit handler. EventHandler is JavaFX's functional interface for event handling, and ActionEvent is the type of notification this handler accepts. The lambda reads the field when invoked, asks the model to save, and displays the returned message.
 
-The field starts with two, but no submission has happened. Predict the initial console line. After saving two, should a word, zero or six replace the saved value? Trace the returns and assignment before running. Pause and decide.
+The declaration supplies behavior without submitting now. Both registrations refer to the same submit variable: button activation and Enter in the field call that same behavior. Each call reads current text. Reading the field only during construction would keep an old value and miss later edits.
 
-## 3:16–3:39 — Read the initial form
+Arrange the field label, input, button, and status in a VBox. Use gap twelve and padding twenty, then show the Equipment Order window with a four-hundred-twenty by two-hundred-eighty content area. The final print reports the initial model quantity; it is outside the handler.
 
-**On screen:** The editor Run button starts the standalone application. The console shows the single initial line below. The Workspace Desktop then shows the real Quantity Form window. Its field contains 2, the button says Save quantity, and the visible status says Nothing saved.
+Finish the supplied start and main methods. Launch begins this standalone program. Its short callbacks run on the JavaFX Application Thread. They perform the parse, model decision, and visible update without waiting for another operation.
 
-The standalone command represented by the Run action is:
+Click Run and inspect the difference between proposed text and saved state. The field should display three while the status still says Nothing saved. The initial console report should be zero.
 
-```text
-javac Main.java && java Main
-```
+The real Equipment Order window shows the persistent Quantity label, proposed three, Save quantity, and Nothing saved. We'll click Save quantity to request submission.
 
-The initial console output is:
+The feedback is Saved three. The handler read the field at activation, and the model accepted the candidate. Now replace the proposed text with cat. Editing the field alone should leave the existing feedback until another submission.
 
-```text
-Saved quantity: 0
-```
+The field now contains cat while the status still shows the earlier success. This separates editing from submission. Click Save quantity to ask the model to check the new text.
 
-The initial console reports saved quantity zero. The field contains two and the status says nothing saved. Text waiting in a field is not yet saved model state.
+The whole-number correction appears. Integer parsing rejected the word before the range decision. The source returns from catch without assigning quantity. That explains preservation of the earlier value, but the error label alone does not inspect the private field; use the notebook's getter checks for that evidence.
 
-## 3:43–3:50 — Submit a valid value
+Zero produces the range correction. It can be parsed as an int, but it is not an accepted quantity. Both rejection paths preserve state by avoiding assignment. Now enter five and keep focus in the field. Pressing Enter should use the same submission behavior as the button.
 
-**On screen:** A native click activates Save quantity. The field still contains 2 and the visible status becomes Saved: 2.
+Enter displays Saved five. The form still accepts a valid request after errors. Focus matters: Enter here belongs to the field; Tab can move to the button, where Space requests its action. The two registered routes share the model's rule and feedback operation.
 
-The button submission now displays Saved two. We will replace the input with a word and submit again.
+Close this window before restoring the course example. The standalone process finishes. A complete new run creates another model and controls; it does not reuse the earlier saved five.
 
-## 4:02–4:13 — Reject a word
+Restore the TextField's starting text to two and the window title to Quantity Form. Keep the model, accepted range, shared handler, and layout unchanged. Changing starting text still does not submit it.
 
-**On screen:** The input is selected and replaced with cat. A native button click changes the status to Enter a whole number from 1 to 5. The word remains visible so the learner can connect the rejected input with its explanation.
+Predict the initial console report, field text, and status separately. Then trace button submission of two, Enter submission of cat, button submission of zero, and Enter submission of five. Which decisions reject, and when can the saved field change? Pause and record your reasoning before observing.
 
-The form asks for a whole number from one to five. Parsing failed before the assignment, so the saved value remains two. Now test the two values just outside the allowed range.
+Run the restored source and compare the actual Quantity Form with those predictions.
 
-## 4:24–4:26 — Reject zero
+The form starts with proposed two and Nothing saved, while the console reports zero. Click Save quantity for the first request, then submit cat through Enter in the field.
 
-**On screen:** The input is replaced with 0 and the button is clicked. The visible status reads Use a quantity from 1 to 5.
+The word receives the whole-number correction through Enter. The button and field use the same handler. Now submit zero with the button, followed by five with Enter, to compare range rejection with recovery.
 
-Zero receives the range message.
+The range correction was followed by Saved five. A status message is the latest feedback, not a live view of every model field. The initial console zero also remains a construction report. Separate model tests in the notebook check stored quantity after each rejected request.
 
-## 4:37–4:53 — Reject six and return to the field
+Close the window and run the unchanged source once more. Its new model should return to the nothing-saved marker, even though the earlier window finished with a successful submission.
 
-**On screen:** The input is replaced with 6 and the button is clicked. The same range message appears. A native Shift+Tab action then returns focus from the button to the field, where the text is selected. The saved value is not displayed separately in this form; the highlighted model code explains why the rejected values do not reach its assignment.
+The fresh Quantity Form again shows proposed two and Nothing saved, with the initial console report zero. That is complete recreation, not a reset of the old form. Close this last window after checking its display.
 
-Six receives the same range message. Both inputs were numbers, but neither reached the assignment. The feedback changes while the saved value stays two. Shift Tab returns keyboard focus to the field. Replace its text with five and press Enter.
-
-## 5:01–5:13 — Submit with Enter
-
-**On screen:** The focused field is replaced with 5. A native Enter key press changes the status to Saved: 5. The field retains keyboard focus. Alt+F4 then closes the window, and the standalone process exits successfully. These later actions add no console lines.
-
-Enter displays Saved five through the shared handler. A valid submission still works after the errors. The console remains the initial report; the status label shows these later results.
-
-## 5:15–5:30 — Transfer and test
-
-**On screen:** The Desktop view closes and the editor returns to the model. The validation checks and later assignment are highlighted. The final question asks the learner to reason about assignment order and choose a sequence of submissions to test it.
-
-If you moved the quantity assignment before the range check, what saved value would survive an invalid attempt? Choose a valid, invalid, then valid sequence to test your explanation.
-
+You separated proposed text, validation feedback, and accepted state, then tested shared mouse and keyboard submission. For another campus form, what must be checked before assignment, and how would you prove that an invalid request preserves the last valid value? Keep the interface observations and model checks distinct.

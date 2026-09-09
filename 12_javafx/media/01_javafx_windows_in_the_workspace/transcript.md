@@ -1,88 +1,51 @@
 # Transcript: JavaFX Windows in the Workspace
 
-This CSC-239 demonstration connects a JavaFX window to its visible content in Grader Than Workspace. It shows a real Desktop window, closes it, then starts a new standalone process to reopen it. The notebook uses its supplied runner to keep the JavaFX runtime available between examples.
+Welcome to this Java tutorial, where you'll learn how JavaFX windows, scenes, labels, and layouts work together to build and test a graphical interface. Scenes connect a window to its content; labels present text, and layouts place it.
 
-Gray parameter labels in the editor are hints, not extra source. The exact Java appears below.
+These connections help graphical applications keep window titles, content, and arrangement separate. That makes changes easier to reason about and gives you better checks when a program prints the right values but does not show the interface a user needs.
 
-## 0:00–0:20 — Goal
+A campus course desk needs a small welcome display. We will first build a desk status window with one centered message. Then we'll adapt the same structure for the course welcome display.
 
-**On screen:** The title card names JavaFX Windows in the Workspace. The IDE opens Main.java with the generated starter cleared; the goal caption appears below the empty editor.
+We'll inspect each actual window on the Workspace Desktop and compare its title and message with the console. We'll also close the course window and run the complete program again. A printed report and a visible, working window answer different testing questions.
 
-We will build a graphical user interface: a visible window with content. Our goal is to connect its parts, then close and reopen it in Workspace Desktop.
+Now that we're in the Workspace, let's open Main.java. We'll use a supplied JavaFX runner and place our window-building instructions inside its start method.
 
-## 0:20–0:57 — Connect the window and its content
+A standalone graphical program needs JavaFX to start its toolkit and call the interface code on the JavaFX Application Thread, the sequence that handles interface work. The Application class provides that runner. Our Main class extends it, and its start method receives the primary Stage from JavaFX.
 
-**On screen:** The recording types the complete 22-line Main.java source. All imports, the Application subclass, start method, window construction and main method are visible. Lines 8–15 are highlighted to connect the Stage, Scene, StackPane and Label.
+The imports make the JavaFX class names available. Override marks start as the operation our class supplies in place of the inherited one. JavaFX calls it when the toolkit is ready. In the notebook, the supplied Fx support handles this setup differently; we'll connect those two execution paths after observing the window.
 
-The complete source is:
+A window object alone has no message to display. We'll refer to the supplied primary window as stage, create a Label containing Open, and give that label to a StackPane. A Label presents text for reading. StackPane is a layout container that centers this single child.
 
-```java
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-public class Main extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        Stage stage = primaryStage;
-        Label message = new Label("Welcome to CSC-239");
-        StackPane root = new StackPane(message);
-        Scene scene = new Scene(root, 420, 220);
-        stage.setTitle("Course Welcome");
-        stage.setScene(scene);
-        stage.show();
-        System.out.println("Window: " + stage.getTitle());
-        System.out.println("Message: " + message.getText());
-    }
-    public static void main(String[] args) {
-        launch(args);
-    }
-}
-```
+The label and layout are nodes, objects in the scene's content tree. The layout is the parent and the label is its child. We'll use that layout as the root, the starting node for this scene. The Stage itself is the surrounding native window, not a node in that content tree.
 
-A Stage is the native window. A Scene connects it to its content. The Label displays text, and StackPane is the layout container that places that label. Together, the parent and child form a scene graph, a tree of visible elements.
+The content now has a root, but it still needs a connection to the window. We'll create a Scene using that root and request a three hundred by one hundred eighty content area. Then we'll set the Stage title to Desk Status and attach the Scene.
 
-## 0:57–1:08 — Predict the visible result
+The scene holds the root, while the stage holds the scene. Its title is a separate value from the label's text. These steps configure the display, but construction and attachment do not make the window visible. We still need to show it.
 
-**On screen:** The complete saved source remains visible without output. Captions ask about title text, label text and placement, followed by a quiet prediction pause.
+We'll call show on the stage, then print its title and the label's text. Both getters run here inside start, on the interface thread. Those lines report configured values; the Desktop will provide our separate view of the actual window.
 
-Predict which text appears in the title bar and which appears inside the window. Where will the label appear? Pause before running.
+We'll finish the supplied runner now. Main is the class containing this program, and main is the method where its standalone execution begins. The launch call starts JavaFX so it can call the start method we've just completed. You do not need to build this runner in the notebook.
 
-## 1:08–1:32 — Inspect the Desktop window
+Let's click Run. The stage title is Desk Status and the label stores Open, so the print calls will report those two properties. StackPane will place its one label in the center of the scene. After the report appears, we'll switch to the Desktop to inspect that display.
 
-**On screen:** The view switches from the IDE to the actual Workspace Desktop. A decorated window titled Course Welcome contains the centered text Welcome to CSC-239. Bottom captions remain below the window and do not cover its title or label. The Run Java control starts the standalone program. The verified compile-and-run command is:
+Desk Status appears in the native title bar, and Open is centered in the content area. The window's border and title bar sit outside the requested scene dimensions. We have now seen the result of connecting the layout to the scene, attaching the scene to the stage, and showing it.
 
-```text
-javac Main.java && java Main
-```
+Let's close this desk status window. In this standalone program, closing its last window lets the Java process finish. We'll return to the code to adapt the same structure for the course display.
 
-The initial console output is:
+We'll keep the runner and the object connections. Only the Label text, scene dimensions, and Stage title will change. The new label input is Welcome to C S C two thirty-nine, the scene requests four hundred twenty by two hundred twenty, and the title input is Course Welcome.
 
-```text
-Window: Course Welcome
-Message: Welcome to CSC-239
-```
+Before we run this version, predict the two console lines. Which value comes from the Stage, and which comes from the Label? Also predict where the label will appear in the larger scene. Pause here and trace the object connections and the two getter calls.
 
-The output describes the initial state; the Desktop shows the actual window.
+Let's click Run and compare your prediction with the actual course welcome display. We'll read the report and then inspect the native title and content.
 
-Course Welcome is the window title. Welcome to C S C two thirty-nine is the label. StackPane centers that child in the scene. The console reports this initial state. The visible window is on the Desktop.
+The window title is Course Welcome. Its centered label says Welcome to C S C two thirty-nine. The console reports Window with the stage's title, then Message with the label's text. Those values belong to separate objects. The larger Scene gives the layout more room without changing its single child's default alignment.
 
-## 1:32–1:41 — Close the standalone program
+We'll close this course window and confirm that it disappears. Once this standalone process finishes, running the complete program again will start a new process and construct another window. That checks more than merely repeating the same printed values.
 
-**On screen:** After the close prompt, Alt+F4 removes the window. The empty Desktop is visible briefly, then the IDE returns with the two expected console lines and a returned prompt.
+The source is unchanged. Let's click Run again, then inspect the newly created Course Welcome window on the Desktop.
 
-Close the native window. This standalone application's process finishes when its last window closes.
+The new window has the same title and centered message. This run constructed a new set of objects with the same inputs. It did not revive the earlier Stage object. We'll close this final window after the check.
 
-## 1:41–2:13 — Reopen in a new process
+Notebook cells already run inside a Java process. Their supplied Fx support starts the toolkit once and keeps it available after a window closes. Fx.run gives a short interface action to the JavaFX Application Thread, and Fx.closeWindows clears earlier windows in that kernel. Rerunning a complete notebook example builds fresh objects while using that same toolkit. Keep launch in this standalone runner, not in a notebook cell.
 
-**On screen:** Running again opens a new Course Welcome window with the same centered welcome label. The narration explains the standalone Application/start/launch lifecycle and contrasts its process lifetime with the supplied notebook support. The new process reports the same two initial output lines. Alt+F4 closes this window too, and the process exits successfully.
-
-Running the command again starts a new process and creates a new window. Application supplies the runner: launch begins it, and start builds the interface on the JavaFX Application Thread, its sequence for interface work. Notebook examples instead use the supplied Fx support, which keeps JavaFX available after a window closes.
-
-## 2:13–2:25 — Choose what to change
-
-**On screen:** The IDE returns with both completed output pairs. The source lines that create the Label and set the Stage title are highlighted for the learner question. The brief close-up keeps all source lines visible; lower terminal history is partly outside that close-up and is visible again in the final full view.
-
-Which object would you change to replace the welcome message, and which object would you change to rename the window? Explain your choices before editing.
-
+You connected a native Stage to a Scene, used a StackPane root to center a Label, and checked both the configured values and the visible window. Separating these jobs makes the interface easier to change and test. For a campus tutoring desk, what would you change to give the window a new title and a different message? Which checks would you make in the console, and which would require seeing the Desktop?
