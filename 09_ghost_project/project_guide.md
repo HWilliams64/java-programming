@@ -15,13 +15,13 @@ By the end of your project work, you should be able to:
 - Launch a packaged player with the shared-file path supplied at startup.
 - Use controlled scenarios and the provided arbiter to find and correct failures.
 
-The [Ghost project specification](https://docs.google.com/document/d/1bwWAA_75oN1qiB8wt9ufGmh41b-K37NeA0Ey8hLySQA/edit?usp=sharing) and the instructor-provided project files control the required interfaces and submission. Keep those files beside this guide while you work. Tutorial names below do not replace their required names or methods.
+The [Ghost project specification](https://docs.google.com/document/d/1bwWAA_75oN1qiB8wt9ufGmh41b-K37NeA0Ey8hLySQA/edit?usp=sharing) and the instructor-provided project files control the game and component requirements. Follow this guide’s Canvas instructions for submission. Keep those files beside this guide while you work. Tutorial names below do not replace their required names or methods.
 
 ## 1. Trace the game before connecting the program
 
 A **game protocol** is the agreed set of messages and turn rules that cooperating programs follow. The **word fragment** is the current sequence of chosen letters. Each fragment must remain the beginning of at least one dictionary word.
 
-A **legal move** sends one permitted ASCII alphabetic letter in the required format, only when it is your team's turn. ASCII here means the ordinary English letters; digits, punctuation, and other letter systems are not valid choices for this project. A correctly formatted move can still lose the game if its letter completes a word or creates an impossible fragment.
+A **legal move** sends one permitted ASCII alphabetic letter in the required format, only when it is your team's turn. **ASCII** is a character standard that includes ordinary English letters, digits, punctuation, and control characters. This project allows only its alphabetic letters as moves; digits, punctuation, and letters from other writing systems are not valid choices. A correctly formatted move can still lose the game if its letter completes a word or creates an impossible fragment.
 
 The assignment uses these rules:
 
@@ -154,7 +154,7 @@ TEAM1:TURN
 
 ## 5. Package a runnable JAR
 
-A **runnable JAR** is a Java archive with an entry point that lets java -jar start the application. The archive must contain compiled classes. Its entry point names the class with the main method.
+A **runnable JAR** is a Java archive that lets java -jar start the application. The archive must contain compiled classes. Its **entry point** is where execution begins: the archive identifies the class whose main method Java should call.
 
 For the separate ArgumentProbe fixture, run these commands from its scratch directory:
 
@@ -192,15 +192,15 @@ With no argument, the probe prints its Usage message and returns before indexing
 
 An **integration test** checks that cooperating components work together under their real shared contract. Passing separate dictionary and file checks is useful, but it does not prove that your whole player responds to the arbiter correctly.
 
-First use controlled shared-file scenarios to inspect one behavior at a time. Then run against the provided arbiter; the project specification requires at least this test. The arbiter's graphical window appears in Workspace Desktop. Use the supplied Java Workspace and its Desktop option. The player communicates through files even when the arbiter has a graphical window.
+First use controlled shared-file scenarios to inspect one behavior at a time. Then run against the provided arbiter; the project specification requires at least this test. The arbiter's graphical window appears in Workspace Desktop. Use the supplied Workspace and its Desktop option. The player communicates through files even when the arbiter has a graphical window.
 
-Use the actual provided arbiter and player filenames in the launch instructions. A typical two-player launch has this shape; replace every example path before running it:
+For the supplied two-player arbiter, the documented launch has this shape. Replace each example path with the actual file path and check the instructions that accompany your arbiter:
 
 ```bash
 java -jar "/path/to/GhostApp.jar" "/path/to/player-one.jar" "/path/to/player-two.jar"
 ```
 
-The supplied Workspace already includes JavaFX. The older project document's separate JavaFX installation and module-flag examples do not apply to this environment. Use the assignment's greater-than-four completed-word rule when checking the arbiter configuration; example commands that discuss other lengths do not change that rule.
+The course’s Workspace includes JavaFX. For this Workspace, use the supplied arbiter launch instructions without adding a separate JavaFX SDK or copying the older document’s JavaFX module-path flags. Open Workspace Desktop to view its window. Use the assignment’s greater-than-four completed-word rule when checking the arbiter configuration; example commands that discuss other lengths do not change that rule.
 
 Record expected and actual behavior for each row. Use the provided interfaces and arbiter to construct the scenario instead of guessing the required methods.
 
@@ -223,7 +223,7 @@ Test two separately packaged players with the arbiter. If you test with a classm
 
 ## 7. Review and submit the required files
 
-The supplied specification asks for one submission per team to the Moodle assignment page. Submit the runnable JAR, or a ZIP containing the JAR and any additional files needed at runtime. If you use the same dictionary as the arbiter, the specification says that dictionary need not be submitted again.
+Submit once per team through the Canvas project submission page, as directed in the course plan. The older project specification names a different submission system; use Canvas for this course. Submit the runnable JAR, or a ZIP containing the JAR and any additional files needed at runtime. If you use the same dictionary as the arbiter, the specification says that dictionary need not be submitted again.
 
 This project is not submitted through Grader Than. Do not submit source code. The instructor requests the runnable package and required runtime files. Use the instructor's posted due date and grading information.
 
@@ -237,7 +237,10 @@ Module 10 returns to language techniques: you will pass behavior through lambda 
 
 ## Supplemental Reading
 
-- [Ghost project specification](https://docs.google.com/document/d/1bwWAA_75oN1qiB8wt9ufGmh41b-K37NeA0Ey8hLySQA/edit?usp=sharing) provides the authoritative game and submission requirements.
+- [Ghost project specification](https://docs.google.com/document/d/1bwWAA_75oN1qiB8wt9ufGmh41b-K37NeA0Ey8hLySQA/edit?usp=sharing) provides the game and component requirements. Follow the course plan’s Canvas submission instructions above.
+- [Command-line and JAR review slides](https://docs.google.com/presentation/d/1AYpgmUPmALWUX9bsweagvkDg32mg6ONajBUZ8KBXxUs/edit?usp=sharing) are the required course-plan review of launching and packaging a Java application. Use the Java 21 commands in this guide for the current Workspace.
+- **Required Reading:** [What is a runtime argument?](https://docs.oracle.com/javase/tutorial/essential/environment/cmdLineArgs.html) explains how Java receives startup arguments and how quotes keep a path with spaces together.
+- **Required Reading:** [Launching Java from the command line](https://introcs.cs.princeton.edu/java/15inout/mac-cmd.html) reviews compiling and running a Java application. This page is marked obsolete; treat its macOS installation, editor, and Terminal setup steps as background. Use the existing Workspace setup and the Java 21 commands in this guide.
 - [Java 21 java command](https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html) documents launching a main class or executable JAR and supplying arguments.
 - [Java 21 javac command](https://docs.oracle.com/en/java/javase/21/docs/specs/man/javac.html) explains compiling classes and choosing their output directory.
 - [Java 21 jar command](https://docs.oracle.com/en/java/javase/21/docs/specs/man/jar.html) documents archive creation, main-class metadata, and -C input-directory handling.
