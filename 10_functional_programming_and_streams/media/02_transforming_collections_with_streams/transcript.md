@@ -1,79 +1,57 @@
-# Transcript: Transforming Collections with Streams
+# Transforming Collections with Streams — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. A registration list supplies text to clean and select by length. The recording shows the complete Main.java program and its actual output.
+## Narration
 
-Gray labels beside some method arguments show parameter names. They are editor hints, not extra source. The editor may draw the two characters in an arrow or comparison operator as one joined shape. The source below preserves the exact Java characters.
+Welcome to this Java tutorial, where you'll learn how stream pipelines use mapping, filtering, and a terminal operation to transform collection entries into an ordered report. A pipeline describes a sequence of operations over the source's entries.
 
-## 0:00–0:17 — Goal
+Reports often need cleaned data and a clear selection rule. Keeping those steps separate makes their order easier to inspect and change, while the original collection remains available to other features. A pipeline builds on the small rules you've already supplied through lambdas and method references.
 
-**On screen:** The title reads “Transforming Collections with Streams,” followed by an empty Main.java editor as the goal is introduced. The output has not been shown.
+A registration desk needs a report of names with at least four characters after surrounding spaces are removed. Its entries can contain padded names, short names, or empty text. We'll keep qualifying entries in their original relative order, with repeated matching entries allowed.
 
-A registration list contains names with extra spaces, a short name, and empty text. We will clean the text before choosing names by length.
+The report should display each retained name and then the number selected. First we'll trace a worked input. Then you'll predict the report for a different input before we run it. The original list and the completed report have different jobs.
 
-## 0:17–0:58 — Clean and select values
+Now that we're in the Workspace, let's open Main.java and set up the two list types used by our report.
 
-**On screen:** The complete 20-line program is entered and displayed. A selection draws attention to the source list and the map and filter calls. The caption sits below the source.
+We'll import ArrayList for the source and List for the result. Main is the class holding our program, and its main method is where the program starts. The collection setup and report statements will go inside that method.
 
-The complete source is:
+List is an interface for an ordered sequence that can contain repeated entries. We'll use it to read the completed report. First, let's create the source ArrayList with padded Nora, Kim, padded Bo, and empty text, in that order.
 
-```java
-import java.util.ArrayList;
-import java.util.List;
+The four add calls establish the source order. Nora has two spaces on each side; Bo has one. Empty text is a String with no characters. We need to remove surrounding spaces before deciding whether a name meets the report's length rule.
 
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<String> names = new ArrayList<String>();
-        names.add("  Maya  ");
-        names.add("Li");
-        names.add(" Luis ");
-        names.add("");
-        List<String> selected = names.stream()
-            .map(String::trim)
-            .filter(name -> name.length() >= 4)
-            .toList();
-        for (String name : selected) {
-            System.out.println(name);
-        }
-        System.out.println("Selected: " + selected.size());
-    }
-}
-```
+Let's request a stream over names and add a mapping stage that supplies cleaned text. The selected variable will hold the final result once we complete the pipeline.
 
-A stream pipeline describes a source and a sequence of operations on its elements. Our source is names. Map and filter are intermediate operations. Each produces another stream stage. Mapping applies a function to each processed element. Here, trim supplies cleaned text. Filter uses a lambda returning true or false to decide which cleaned values continue. These operations leave the source list unchanged.
+A stream describes processing over the collection; it isn't another list of copied entries. Map accepts the String trim method reference. Each processed String becomes the receiver of a trim call, and the returned cleaned String reaches the next stage. This doesn't replace the original entry or edit a String in place.
 
-## 0:59–1:25 — Produce an ordered result
+Cleaning alone doesn't decide which names belong in the report. We'll add a filter that keeps an entry only when the cleaned value has at least four characters.
 
-**On screen:** The complete program remains visible. The selection moves to the toList call, the loop over selected, and the printed count. The caption remains below the source.
+The lambda receives the value from the preceding map. Its Boolean result controls whether that value continues. Nora has four characters after cleaning and passes. Kim has three, Bo has two, and empty text has zero, so those entries fail. Filtering selects entries; it doesn't store true or false in the report.
 
-A terminal operation starts processing and produces the final result. Here, toList collects results into a List, the interface type of the returned collection. The result is unmodifiable, meaning its entries cannot be added, removed, or replaced. Encounter order is the order supplied by a source. This pipeline preserves our list's order. A HashSet source would not gain a promised order just by using a stream.
+The intermediate stages now describe the work. Let's complete the expression with the terminal operation that processes the pipeline and produces our list.
 
-## 1:25–1:37 — Predict the result
+To list collects the retained values. The semicolon ends the whole declaration and assignment; the earlier line breaks only make its stages readable. This result preserves the surviving ArrayList order, including repeated matches. It is unmodifiable, so our report will read its entries and size rather than add, remove, or replace entries.
 
-**On screen:** The selection is cleared and all 20 lines are visible. The terminal is closed, so the answer has not appeared. A three-second pause follows the prediction prompt.
+The completed result still needs to be displayed. We'll use an enhanced for loop to print each selected name, then print the result's size. These statements read selected after the pipeline completes.
 
-Predict every output line, including the count. Apply trimming before the length test, then trace the loop over selected. Pause here.
+The loop prints one line for each retained entry. The final line labels the count as Selected. It measures the result list, not the original four-entry source. Let's click Run and inspect the worked report.
 
-## 1:37–1:55 — Run and interpret the result
+The report shows Nora and a selected count of one. Mapping removed the surrounding spaces, filtering kept the cleaned four-character name, and the terminal operation produced the list that the loop read. The original list still contains all four source entries; the report didn't remove rejected entries from it.
 
-**On screen:** The terminal opens and shows the command and three output lines clearly. This closer view crops the import lines at the top. Top captions briefly overlap the main header, list creation, and first add call. The map, filter, and toList calls, the loop, and the printed output remain readable; earlier views show the complete source. The terminal runs:
+Let's keep the pipeline and printing statements unchanged. We'll replace just the first three inputs with padded Maya, Li, and padded Luis. The last input will remain empty text. This changes the data while keeping the same report rules.
 
-```text
-javac Main.java && java Main
-```
+Before running, predict every printed line, including the count. For each original entry, identify the value after trimming and the result of the length check. Which entries reach the result, and what order should they have? Pause here to trace the pipeline.
 
-It reports:
+Let's click Run and compare your prediction with the actual report.
 
-```text
-Maya
-Luis
-Selected: 2
-```
+The output shows Maya, then Luis, then Selected two. Both retained names have four characters after trimming. Li and empty text fail the same condition. Maya stays before Luis because that is their relative order in the source. The count belongs to the completed result, not to the original input.
 
-Maya and Luis each have four characters after trimming, so they remain. Li has two and empty text has zero, so they are excluded. The loop prints Maya before Luis, followed by Selected: two. Filter keeps every matching entry, including repeats.
+You built a stream pipeline that maps input values, filters the mapped results, and collects an ordered report with a terminal operation. The position of each stage determines what its rule receives. For a transfer question, imagine checking product codes that may contain surrounding spaces. Give one input for which testing length before cleaning would change the report, and explain the order your rules should use.
 
-## 1:55–2:09 — Try a repeated input
+## Visual description
 
-**On screen:** The wide view restores all 20 source lines, with the source list and operation calls selected. The original output remains visible while the learner is asked to add a repeated name. That change is not performed in the recording.
+[Four designed opening scenes introduce stream pipelines, mapping, filtering and a terminal operation; connect separate reporting rules to an application that retains its source collection; describe a registration desk that cleans names and selects cleaned lengths of at least four; and present a variable-length report with a blank count. No later prediction output is revealed.]
 
-Add another Maya with surrounding spaces at the end of the source list. Predict every output line and the new count, then run again. Where should the repeated name appear, and why?
+[The real Workspace appears and Main.java opens. The camera follows typing of the ArrayList and List imports, Main class and main method, the ordered names source, the map and filter stages, the toList terminal operation, and a later printing loop and count line. Narration separates describing stages, processing entries, obtaining a completed result, and printing that result.]
 
+[The pointer clicks the native Run Code button. The worked source contains padded Nora, Kim, padded Bo and an empty String. The terminal shows Nora followed by Selected: 1. Cleaning happens before the length rule, and the later printing reads the result list.]
+
+[Three input literals are edited to the retained canonical values: padded Maya, Li and padded Luis. The empty String, pipeline and printing remain unchanged. A prediction question and thinking pause precede the second native Run Code click. The terminal shows Maya, Luis and Selected: 2 on separate lines. The closing connects ordered reporting to the separate source and result roles and asks how cleaning before a length check could affect product-code selection.]

@@ -1,118 +1,418 @@
 WEBVTT
 
-00:00:06.167 --> 00:00:09.518
-A report pipeline describes work, while its result
+00:00:00.750 --> 00:00:03.302
+Welcome to this Java tutorial, where you'll
 
-00:00:09.518 --> 00:00:10.456
-stores values.
+00:00:03.302 --> 00:00:06.091
+distinguish a stream's pending computation from
 
-00:00:10.456 --> 00:00:13.874
-We will build a pending stream, collect its report,
+00:00:06.091 --> 00:00:08.584
+its completed result and create a separate
 
-00:00:13.874 --> 00:00:15.617
-and make an editable copy.
+00:00:08.584 --> 00:00:10.067
+editable collection copy.
 
-00:00:36.237 --> 00:00:39.750
-Lazy evaluation means processing waits for a terminal
+00:00:10.067 --> 00:00:12.619
+You'll trace when processing occurs, when a
 
-00:00:39.750 --> 00:00:40.413
+00:00:12.619 --> 00:00:15.349
+fresh stream is needed, and which list an edit
+
+00:00:15.349 --> 00:00:15.824
+changes.
+
+00:00:16.476 --> 00:00:19.526
+Software often needs both a generated report and
+
+00:00:19.526 --> 00:00:21.178
+an editable working draft.
+
+00:00:21.178 --> 00:00:23.783
+Separating those objects lets one feature
+
+00:00:23.783 --> 00:00:26.833
+preserve its result while another makes changes.
+
+00:00:26.833 --> 00:00:29.566
+It also helps you request a new computation
+
+00:00:29.566 --> 00:00:32.171
+without trying to reuse a stream that has
+
+00:00:32.171 --> 00:00:33.251
+already finished.
+
+00:00:33.900 --> 00:00:36.982
+A supply desk starts with a request for map, and
+
+00:00:36.982 --> 00:00:38.780
+a kit request arrives later.
+
+00:00:38.780 --> 00:00:41.797
+Each collected report entry adds Item, a colon,
+
+00:00:41.797 --> 00:00:43.916
+and a space before the item name.
+
+00:00:43.916 --> 00:00:46.998
+After collection, the desk adds a pen label only
+
+00:00:46.998 --> 00:00:48.282
+to an editable copy.
+
+00:00:48.282 --> 00:00:51.300
+Our measurements count entries, not characters.
+
+00:00:51.956 --> 00:00:54.819
+We'll compare the report size, the edited copy's
+
+00:00:54.819 --> 00:00:57.086
+size, and a fresh count of the source.
+
+00:00:57.086 --> 00:00:59.412
+First we'll collect before kit arrives.
+
+00:00:59.412 --> 00:01:02.216
+Then you'll predict what changes when that same
+
+00:01:02.216 --> 00:01:04.184
+addition moves before collection.
+
+00:01:04.184 --> 00:01:06.928
+The report must preserve its completed entries
+
+00:01:06.928 --> 00:01:08.956
+while the working copy can change.
+
+00:01:09.633 --> 00:01:12.246
+Now that we're in the Workspace, let's open
+
+00:01:12.246 --> 00:01:14.920
+Main.java and set up the types that give the
+
+00:01:14.920 --> 00:01:17.593
+source, pipeline, and report their different
+
+00:01:17.593 --> 00:01:17.958
+roles.
+
+00:01:21.939 --> 00:01:24.899
+We'll import ArrayList for stored input and the
+
+00:01:24.899 --> 00:01:27.734
+editable copy, List for the collected report,
+
+00:01:27.734 --> 00:01:30.064
+and Stream for a pending computation.
+
+00:01:30.064 --> 00:01:32.961
+Main is the class containing this program, and
+
+00:01:32.961 --> 00:01:35.607
+its main method is where execution starts.
+
+00:01:35.607 --> 00:01:38.189
+Our statements belong inside that method.
+
+00:01:52.144 --> 00:01:55.001
+The report needs an input and a labeling rule
+
+00:01:55.001 --> 00:01:56.144
+before it can run.
+
+00:01:56.144 --> 00:01:59.064
+Let's create the source with map, then store a
+
+00:01:59.064 --> 00:02:00.842
+mapping pipeline in pending.
+
+00:02:00.842 --> 00:02:03.826
+The mapping adds the Item label to each element
+
+00:02:03.826 --> 00:02:05.794
+when that element is processed.
+
+00:02:22.968 --> 00:02:25.772
+Pending holds a description of the work; no
+
+00:02:25.772 --> 00:02:27.728
+report has been collected yet.
+
+00:02:27.728 --> 00:02:30.857
+This is lazy evaluation: intermediate operations
+
+00:02:30.857 --> 00:02:33.922
+describe processing before a terminal operation
+
+00:02:33.922 --> 00:02:34.574
+starts it.
+
+00:02:34.574 --> 00:02:37.312
+Creating the stream also does not freeze a
+
+00:02:37.312 --> 00:02:39.268
+copied list of source entries.
+
+00:02:39.283 --> 00:02:42.171
+For this first worked case, let's collect now,
+
+00:02:42.171 --> 00:02:43.615
+then add kit afterward.
+
+00:02:43.615 --> 00:02:46.566
+Keeping those two statements separate makes the
+
+00:02:46.566 --> 00:02:47.508
+timing visible.
+
+00:02:55.782 --> 00:02:58.614
+To list is the terminal operation that collects
+
+00:02:58.614 --> 00:02:59.276
+the report.
+
+00:02:59.276 --> 00:03:02.048
+This ArrayList stream observes its source when
+
+00:03:02.048 --> 00:03:04.940
+terminal processing begins, which is called late
+
+00:03:04.940 --> 00:03:05.422
+binding.
+
+00:03:05.422 --> 00:03:07.229
+Here only map is present then.
+
+00:03:07.229 --> 00:03:10.061
+The following addition changes the source after
+
+00:03:10.061 --> 00:03:12.712
+collection has completed; it does not insert
+
+00:03:12.712 --> 00:03:15.182
+another entry into that completed report.
+
+00:03:15.207 --> 00:03:18.279
+Let's print the size of the collected report so
+
+00:03:18.279 --> 00:03:20.894
+the output records what this computation
+
+00:03:20.894 --> 00:03:21.482
+produced.
+
+00:03:26.915 --> 00:03:29.263
+Reported measures the completed list.
+
+00:03:29.263 --> 00:03:32.310
+We also need a working draft that can accept pen
+
+00:03:32.310 --> 00:03:34.531
+while the report remains unchanged.
+
+00:03:34.531 --> 00:03:37.514
+The to list result is unmodifiable: it supports
+
+00:03:37.514 --> 00:03:40.561
+reads but rejects adding, removing, or replacing
+
+00:03:40.561 --> 00:03:41.069
+entries.
+
+00:03:41.069 --> 00:03:43.480
+We'll give the draft its own ArrayList
+
+00:03:43.480 --> 00:03:44.115
+structure.
+
+00:03:54.372 --> 00:03:56.896
+The constructor copies the report's current
+
+00:03:56.896 --> 00:03:59.303
+entries into a new list, and the addition
+
+00:03:59.303 --> 00:04:00.653
+targets only that copy.
+
+00:04:00.653 --> 00:04:03.471
+This is a shallow copy: the lists initially hold
+
+00:04:03.471 --> 00:04:05.760
+references to the same String elements.
+
+00:04:05.760 --> 00:04:08.226
+The constructor does not create new String
+
+00:04:08.226 --> 00:04:08.695
+objects.
+
+00:04:08.695 --> 00:04:11.220
+Adding pen changes list membership, without
+
+00:04:11.220 --> 00:04:12.922
+changing any String in place.
+
+00:04:12.947 --> 00:04:15.971
+Let's print the original report and copy sizes
+
+00:04:15.971 --> 00:04:19.126
+separately, then request a fresh stream to count
+
+00:04:19.126 --> 00:04:19.849
+the source.
+
+00:04:19.849 --> 00:04:22.872
+A stream is single use, so this new count must
+
+00:04:22.872 --> 00:04:25.765
+not reuse pending after its earlier terminal
+
+00:04:25.765 --> 00:04:26.422
 operation.
 
-00:00:40.413 --> 00:00:43.793
-Pending describes how to add a label to each source
+00:04:46.201 --> 00:04:48.999
+Count returns long, Java's whole-number type
 
-00:00:43.793 --> 00:00:44.125
-item.
+00:04:48.999 --> 00:04:50.780
+with a wider range than int.
 
-00:00:44.125 --> 00:00:46.776
-Creating it does not collect the report.
+00:04:50.780 --> 00:04:52.878
+We can print that value directly.
 
-00:00:46.776 --> 00:00:50.289
-This ArrayList source is late bound: its contents are
+00:04:52.878 --> 00:04:55.931
+The report was collected before kit arrived; the
 
-00:00:50.289 --> 00:00:53.007
-observed when terminal processing begins.
+00:04:55.931 --> 00:04:58.538
+working copy received pen; the source now
 
-00:00:53.007 --> 00:00:56.520
-Notice that kit is added before toList, not while the
+00:04:58.538 --> 00:05:00.001
+contains both requests.
 
-00:00:56.520 --> 00:00:57.912
-stream is processing.
+00:05:00.001 --> 00:05:02.926
+Let's click Run to compare those measurements.
 
-00:00:58.213 --> 00:01:00.938
-The report is an unmodifiable result list.
+00:05:08.547 --> 00:05:11.181
+Reported and Original result are both one.
 
-00:01:00.938 --> 00:01:04.183
-Its entries cannot be added, removed, or replaced.
+00:05:11.181 --> 00:05:14.191
+The completed report still contains only the map
 
-00:01:04.183 --> 00:01:07.687
-The ArrayList constructor makes a collection copy with
+00:05:14.191 --> 00:05:14.568
+label.
 
-00:01:07.687 --> 00:01:09.374
-a separate list structure.
+00:05:14.568 --> 00:05:17.265
+The editable copy grows to two after pen is
 
-00:01:09.374 --> 00:01:12.813
-This is a shallow copy: both lists initially hold the
+00:05:17.265 --> 00:05:17.641
+added.
 
-00:01:12.813 --> 00:01:14.306
-same String references.
+00:05:17.641 --> 00:05:20.651
+Fresh count is two because the new stream counts
 
-00:01:14.306 --> 00:01:16.577
-Strings cannot be changed in place.
+00:05:20.651 --> 00:05:22.909
+the source after kit has been added.
 
-00:01:16.577 --> 00:01:19.756
-A stream is single use, so the final count uses a
+00:05:22.909 --> 00:05:25.543
+Reading the report again did not rerun the
 
-00:01:19.756 --> 00:01:21.379
-fresh stream from source.
+00:05:25.543 --> 00:05:26.672
+consumed pipeline.
 
-00:01:21.379 --> 00:01:24.688
-Count returns long, Java's wider whole-number type.
+00:05:26.738 --> 00:05:29.349
+Now let's move the kit addition before the
 
-00:01:24.773 --> 00:01:26.844
-Predict all four output lines.
+00:05:29.349 --> 00:05:30.593
+report is collected.
 
-00:01:26.844 --> 00:01:29.882
-Track when kit enters source, when report is
+00:05:30.593 --> 00:05:33.266
+We'll replace just these two lines in their
 
-00:01:29.882 --> 00:01:32.989
-collected, and which list receives Item: pen.
+00:05:33.266 --> 00:05:34.199
+opposite order.
 
-00:01:32.989 --> 00:01:33.748
-Pause here.
+00:05:34.199 --> 00:05:37.184
+The source values, mapping, copy edit, and print
 
-00:01:38.523 --> 00:01:41.916
-The report contains two items because kit was added
+00:05:37.184 --> 00:05:38.738
+statements stay the same.
 
-00:01:41.916 --> 00:01:43.114
-before collection.
+00:05:47.381 --> 00:05:49.768
+Before running, predict all four lines.
 
-00:01:43.114 --> 00:01:46.307
-Adding Item: pen changes only the editable copy.
+00:05:49.768 --> 00:05:52.215
+Which source entries exist when terminal
 
-00:01:46.307 --> 00:01:49.700
-The original result stays at two, the copy grows to
+00:05:52.215 --> 00:05:53.561
+processing starts now?
 
-00:01:49.700 --> 00:01:52.428
-three, and the fresh source count is two.
+00:05:53.561 --> 00:05:56.437
+Which list receives pen, and which entries does
 
-00:01:52.428 --> 00:01:55.954
-You can read the stored report again, but pending has
+00:05:56.437 --> 00:05:57.906
+the fresh count measure?
 
-00:01:55.954 --> 00:01:59.148
-already been consumed by its terminal operation.
+00:05:57.906 --> 00:06:00.660
+Use those three object roles to explain which
 
-00:01:59.478 --> 00:02:02.445
-Move the kit addition to just after the report is
+00:06:00.660 --> 00:06:02.006
+numbers should change.
 
-00:02:02.445 --> 00:02:03.051
-collected.
+00:06:10.087 --> 00:06:12.598
+Let's click Run and compare your timing
 
-00:02:03.051 --> 00:02:05.412
-Predict all four counts before running.
+00:06:12.598 --> 00:06:14.787
+prediction with the actual output.
 
-00:02:05.412 --> 00:02:08.500
-Which counts should change, and what does that tell
+00:06:20.260 --> 00:06:23.326
+Reported and Original result are now two because
 
-00:02:08.500 --> 00:02:11.528
-you about the report's relationship to its source?
+00:06:23.326 --> 00:06:26.265
+map and kit are both present before collection
+
+00:06:26.265 --> 00:06:26.712
+begins.
+
+00:06:26.712 --> 00:06:29.714
+The copy starts with those two labels and grows
+
+00:06:29.714 --> 00:06:31.439
+to three when pen is added.
+
+00:06:31.439 --> 00:06:34.377
+Fresh count stays two: it measures the source,
+
+00:06:34.377 --> 00:06:37.060
+which never received the copy's pen entry.
+
+00:06:37.111 --> 00:06:39.485
+You separated a pending computation, a completed
+
+00:06:39.485 --> 00:06:41.315
+report, and an editable working list.
+
+00:06:41.315 --> 00:06:43.294
+Late binding explained the input seen at
+
+00:06:43.294 --> 00:06:45.372
+collection; a fresh stream enabled another
+
+00:06:45.372 --> 00:06:47.696
+computation; and a shallow collection copy gave
+
+00:06:47.696 --> 00:06:49.230
+edits their own list structure.
+
+00:06:49.230 --> 00:06:51.406
+For a transfer task, describe a report whose
+
+00:06:51.406 --> 00:06:53.088
+input can change after generation.
+
+00:06:53.088 --> 00:06:55.462
+Explain when you would read the existing report,
+
+00:06:55.462 --> 00:06:57.292
+copy it for editing, or request a new
+
+00:06:57.292 --> 00:06:57.886
+computation.

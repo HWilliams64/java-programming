@@ -1,72 +1,55 @@
-# Transcript: Reduction and Parallel Streams
+# Reduction and Parallel Streams — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. A list supplies three item counts. Two fresh pipelines combine those counts into totals. The recording shows the complete Main.java program and its actual output.
+## Narration
 
-Gray labels beside some method arguments show parameter names. They are editor hints, not extra source. The editor may draw the two characters in an arrow operator as one joined shape. The source below preserves the exact Java characters.
+Welcome to this Java tutorial, where you'll combine values with a reduction and explain why an identity and an associative rule support correct sequential and parallel results.
 
-## 0:00–0:17 — Goal
+Applications use reductions to turn individual contributions into totals and other summaries. A valid combining rule also lets an application combine partial results without changing the meaning of its report.
 
-**On screen:** A title card names Reduction and Parallel Streams. The Workspace then shows an empty Main.java editor while the goal is introduced. No output is shown.
+Today we'll make a supply report for a campus clerk. Three deliveries contain two, four, and one item. Every quantity counts once, and the report must total the items using separate sequential and parallel computations.
 
-We will total three item counts with two fresh stream pipelines. The goal is the same correct sum whether the work stays together or is split into parts.
+Both results should be seven items. We'll connect that agreement to zero and addition, then change the delivery quantities and predict another report. The comparison checks the results; it does not measure which mode is faster.
 
-## 0:17–0:57 — Choose an identity and combination
+Now that we're in the Workspace, let's open Main.java and set up our supply report.
 
-**On screen:** The complete 14-line program is typed and saved. Lines 5–9 select the source list and first reduce call. All source lines, including both complete reduce expressions, remain readable above the bottom captions.
+We'll use ArrayList to hold the delivery quantities. The program's statements go inside the main method of our Main class, where this application starts.
 
-The complete source is:
+Let's record the three deliveries in counts. Each Integer entry measures items in one delivery, so the total must include each entry exactly once.
 
-```java
-import java.util.ArrayList;
+Counts now holds two, four, and one. We need one total from those values. That's the job of a reduction. Let's request a fresh sequential stream and give reduce zero and an addition rule.
 
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<Integer> counts = new ArrayList<Integer>();
-        counts.add(2);
-        counts.add(4);
-        counts.add(1);
-        int sequential = counts.stream().reduce(0, (left, right) -> left + right);
-        int parallel = counts.parallelStream().reduce(0, (left, right) -> left + right);
-        System.out.println("Sequential: " + sequential);
-        System.out.println("Parallel: " + parallel);
-    }
-}
-```
+The two lambda parameters receive values to combine, and the expression returns their sum. This is the BinaryOperator pattern: two inputs and a result of the same type. One sequential trace starts at zero, adds two to get two, adds four to get six, and adds one to get seven. Reduce returns that total before the assignment finishes.
 
-Reduction combines elements into one result. Reduce uses zero as its identity: a neutral starting value that leaves a sum unchanged. The lambda combines left and right. Its two Integer inputs and Integer result match BinaryOperator, the functional interface for this combination. Addition is associative: grouping two and four first, or four and one first, gives the same sum. Subtraction can change when regrouped.
+Zero is an identity because adding it leaves a value unchanged. It contributes no extra items and gives the result when there are no entries. Starting at one would invent an item that no delivery supplied.
 
-## 0:58–1:32 — Keep parallel processing correct
+Now let's calculate the same report from a fresh parallel stream. We'll keep both the identity and the addition rule unchanged.
 
-**On screen:** Lines 9–12 select both reduce calls and their print statements. The full program remains visible as the narration explains how the two calls combine values and what makes parallel processing correct.
+Parallel processing may divide the work and combine partial results. One possible grouping could total two and four to get six, then combine that with one. Another could combine four and one first. Addition gives seven either way. Preserving the result under regrouping is called associativity. This explanation describes valid groupings, not the schedule Java necessarily used.
 
-Sequential processing handles the pipeline without splitting it into parallel parts. Parallel stream processing can compute parts at the same time and combine their results. Our lambda is stateless: its result depends only on its inputs, not changing shared values. Noninterference means leaving the source unchanged while processing. These rules support a correct reduction without a shared total. Encounter order does not promise the order in which parallel work happens. Splitting and combining add work, so parallel execution is not automatically faster.
+The rule also stays independent of changing shared state. It returns the sum of its inputs instead of updating a separate shared total. And it leaves counts unchanged while processing, which satisfies noninterference. Each computation creates a fresh stream because its terminal reduction consumes that stream.
 
-## 1:32–1:44 — Predict the result
+Let's print the two completed totals with clear labels and finish the program.
 
-**On screen:** The selection clears and the complete program remains visible. The terminal is closed and the result has not been shown. A three-second pause follows the prediction prompt.
+The report is ready. Let's click Run and compare the returned totals with the seven items we expected.
 
-Predict both printed lines. Start with the identity, combine all three counts, and decide whether splitting the work should change the total. Pause here.
+Both lines report seven. Each calculation includes all three deliveries, and neither adds an extra contribution. The caller prints Sequential first because the print statements run in their written order. These lines show complete results, not the order in which parallel work processed individual entries.
 
-## 1:44–2:02 — Run and interpret the result
+Let's change only the delivery quantities to five, zero, and six. Keeping the two computations unchanged lets us check their rules with another input, including a delivery that contributes no items.
 
-**On screen:** The view moves closer to the terminal. Both output lines and the complete reduce expressions remain readable. The import is above the cropped view, and a top caption briefly covers parts of the main header, list creation and first two additions. Those lines were fully visible during the earlier explanation and prediction views. The original program is run once; no parallel work order is displayed. The terminal runs:
+Before running, predict both output lines. Explain the difference between the zero entry in counts and the zero identity supplied to reduce. Then give two possible groupings of the quantities that preserve their order and check whether those groupings agree.
 
-```text
-javac Main.java && java Main
-```
+Let's click Run and compare your prediction with the new report.
 
-It reports:
+Both totals are eleven. The zero list entry describes a delivery with no items, while the identity is the neutral value used by the reduction. Neither changes the sum of five and six. Grouping five with zero first or zero with six first still gives eleven. The inputs changed, but the valid combining rule did not need to change.
 
-```text
-Sequential: 7
-Parallel: 7
-```
+You used reduction to make one result, checked the neutral identity and associative combination, and kept the source and processing rules independent of changing shared state. Equal totals support this result, but they do not establish a speed improvement. For your next design, choose a numerical report and explain its contributions, combining rule, and empty-input result before deciding whether parallel processing is appropriate.
 
-Both totals are seven. Zero adds nothing, and addition gives the same sum under regrouping. The print statements display the sequential result first and the parallel result second. That display order does not show which parallel part ran first.
+## Visual description
 
-## 2:02–2:18 — Test and extend the reduction
+Four opening scenes introduce reduction, identity, associativity, and parallel results; connect these skills to application summaries; establish a campus clerk's deliveries of two, four, and one item; and show the expected sequential and parallel totals of seven.
 
-**On screen:** The wider view returns, showing all 14 source lines and the original two output lines. Lines 5–10 are selected while the learner is asked to change the list and extend the pipelines. The video leaves these changes for the learner and ends with a short hold on the unchanged program.
+In the real Workspace, Main.java opens and the camera follows typed code. The program stores the quantities in an ArrayList, computes two reductions using zero and addition, and prints labeled totals. Narration explains the lambda inputs and returned result, the neutral identity, valid regrouping, stateless processing, and an unchanged source.
 
-Add another four, then predict both totals. Next, try an empty list. How could you place filter and map before reduce to total only doubled positive counts? Explain why zero and addition still fit.
+The pointer moves to and clicks the Run Code button. The console prints Sequential: 7 and Parallel: 7. Narration distinguishes completed totals from unobserved parallel scheduling.
 
+The three entries change to five, zero, and six. A pause lets students predict the two outputs and distinguish a zero input from the neutral identity. The pointer clicks Run Code again. Both printed totals are eleven. The conclusion reviews the reduction requirements and explains that matching results do not measure speed.

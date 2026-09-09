@@ -1,79 +1,55 @@
-# Transcript: Stream Lifecycle and Result Lists
+# Stream Lifecycle and Result Lists — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. A source list supplies items for a report. The program collects that report and makes a separate list for edits. The recording shows the complete Main.java program and its actual output.
+## Narration
 
-Gray labels beside some method arguments show parameter names. They are editor hints, not extra source. The editor may draw the two characters in an arrow operator as one joined shape. The source below preserves the exact Java characters.
+Welcome to this Java tutorial, where you'll distinguish a stream's pending computation from its completed result and create a separate editable collection copy. You'll trace when processing occurs, when a fresh stream is needed, and which list an edit changes.
 
-## 0:00–0:15 — Goal
+Software often needs both a generated report and an editable working draft. Separating those objects lets one feature preserve its result while another makes changes. It also helps you request a new computation without trying to reuse a stream that has already finished.
 
-**On screen:** The title reads “Stream Lifecycle and Result Lists.” The empty Main.java editor appears while the goal is introduced. No output has been shown.
+A supply desk starts with a request for map, and a kit request arrives later. Each collected report entry adds Item, a colon, and a space before the item name. After collection, the desk adds a pen label only to an editable copy. Our measurements count entries, not characters.
 
-A report pipeline describes work, while its result stores values. We will build a pending stream, collect its report, and make an editable copy.
+We'll compare the report size, the edited copy's size, and a fresh count of the source. First we'll collect before kit arrives. Then you'll predict what changes when that same addition moves before collection. The report must preserve its completed entries while the working copy can change.
 
-## 0:15–0:57 — Describe work before collecting
+Now that we're in the Workspace, let's open Main.java and set up the types that give the source, pipeline, and report their different roles.
 
-**On screen:** The complete 19-line program is entered and displayed. A selection draws attention to source, pending, the kit addition, and the toList call. Captions stay below the source.
+We'll import ArrayList for stored input and the editable copy, List for the collected report, and Stream for a pending computation. Main is the class containing this program, and its main method is where execution starts. Our statements belong inside that method.
 
-The complete source is:
+The report needs an input and a labeling rule before it can run. Let's create the source with map, then store a mapping pipeline in pending. The mapping adds the Item label to each element when that element is processed.
 
-```java
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
+Pending holds a description of the work; no report has been collected yet. This is lazy evaluation: intermediate operations describe processing before a terminal operation starts it. Creating the stream also does not freeze a copied list of source entries.
 
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<String> source = new ArrayList<String>();
-        source.add("map");
-        Stream<String> pending = source.stream().map(item -> "Item: " + item);
-        source.add("kit");
-        List<String> report = pending.toList();
-        System.out.println("Reported: " + report.size());
-        ArrayList<String> editable = new ArrayList<String>(report);
-        editable.add("Item: pen");
-        System.out.println("Original result: " + report.size());
-        System.out.println("Editable copy: " + editable.size());
-        System.out.println("Fresh count: " + source.stream().count());
-    }
-}
-```
+For this first worked case, let's collect now, then add kit afterward. Keeping those two statements separate makes the timing visible.
 
-Lazy evaluation means processing waits for a terminal operation. Pending describes how to add a label to each source item. Creating it does not collect the report. This ArrayList source is late bound: its contents are observed when terminal processing begins. Notice that kit is added before toList, not while the stream is processing.
+To list is the terminal operation that collects the report. This ArrayList stream observes its source when terminal processing begins, which is called late binding. Here only map is present then. The following addition changes the source after collection has completed; it does not insert another entry into that completed report.
 
-## 0:58–1:24 — Copy the result and create a fresh stream
+Let's print the size of the collected report so the output records what this computation produced.
 
-**On screen:** The complete program remains visible. The selection moves to report, the editable copy, and the fresh stream count. Captions remain below the source.
+Reported measures the completed list. We also need a working draft that can accept pen while the report remains unchanged. The to list result is unmodifiable: it supports reads but rejects adding, removing, or replacing entries. We'll give the draft its own ArrayList structure.
 
-The report is an unmodifiable result list. Its entries cannot be added, removed, or replaced. The ArrayList constructor makes a collection copy with a separate list structure. This is a shallow copy: both lists initially hold the same String references. Strings cannot be changed in place. A stream is single use, so the final count uses a fresh stream from source. Count returns long, Java's wider whole-number type.
+The constructor copies the report's current entries into a new list, and the addition targets only that copy. This is a shallow copy: the lists initially hold references to the same String elements. The constructor does not create new String objects. Adding pen changes list membership, without changing any String in place.
 
-## 1:24–1:36 — Predict the result
+Let's print the original report and copy sizes separately, then request a fresh stream to count the source. A stream is single use, so this new count must not reuse pending after its earlier terminal operation.
 
-**On screen:** The selection is cleared and all 19 lines remain visible. The terminal is closed, so no result has appeared. A three-second pause follows the prediction prompt.
+Count returns long, Java's whole-number type with a wider range than int. We can print that value directly. The report was collected before kit arrived; the working copy received pen; the source now contains both requests. Let's click Run to compare those measurements.
 
-Predict all four output lines. Track when kit enters source, when report is collected, and which list receives Item: pen. Pause here.
+Reported and Original result are both one. The completed report still contains only the map label. The editable copy grows to two after pen is added. Fresh count is two because the new stream counts the source after kit has been added. Reading the report again did not rerun the consumed pipeline.
 
-## 1:36–1:59 — Run and interpret the result
+Now let's move the kit addition before the report is collected. We'll replace just these two lines in their opposite order. The source values, mapping, copy edit, and print statements stay the same.
 
-**On screen:** The terminal opens and displays the command and four output lines clearly. This closer view crops the first import and part of the second. Top captions briefly overlap parts of the class and main headers and the source list creation. The following additions, pending stream, collection, copy, and output statements remain readable; earlier views show the complete source. The terminal runs:
+Before running, predict all four lines. Which source entries exist when terminal processing starts now? Which list receives pen, and which entries does the fresh count measure? Use those three object roles to explain which numbers should change.
 
-```text
-javac Main.java && java Main
-```
+Let's click Run and compare your timing prediction with the actual output.
 
-It reports:
+Reported and Original result are now two because map and kit are both present before collection begins. The copy starts with those two labels and grows to three when pen is added. Fresh count stays two: it measures the source, which never received the copy's pen entry.
 
-```text
-Reported: 2
-Original result: 2
-Editable copy: 3
-Fresh count: 2
-```
+You separated a pending computation, a completed report, and an editable working list. Late binding explained the input seen at collection; a fresh stream enabled another computation; and a shallow collection copy gave edits their own list structure. For a transfer task, describe a report whose input can change after generation. Explain when you would read the existing report, copy it for editing, or request a new computation.
 
-The report contains two items because kit was added before collection. Adding Item: pen changes only the editable copy. The original result stays at two, the copy grows to three, and the fresh source count is two. You can read the stored report again, but pending has already been consumed by its terminal operation.
+## Visual description
 
-## 1:59–2:14 — Change when an item is added
+[Four designed opening scenes distinguish a pending stream computation from a completed report and editable copy, explain why reports and working drafts need separate roles, introduce the map and kit supply requests and Item labeling rule, and present the measurements without revealing the later prediction.]
 
-**On screen:** The wide view restores all 19 source lines, with the source, pending stream, collection, and copy selected. The four original output lines remain visible. The learner is asked to move the kit addition; that edit is not performed in the recording.
+[The real Workspace opens Main.java. The camera follows typing of the ArrayList, List and Stream imports, Main and main, the source containing map, and the pending mapping pipeline. The first worked case collects the report before adding kit. Separate code builds an editable ArrayList copy, adds Item: pen only to that copy, and prints the report, copy and fresh source counts.]
 
-Move the kit addition to just after the report is collected. Predict all four counts before running. Which counts should change, and what does that tell you about the report's relationship to its source?
+[The pointer clicks the native Run Code button. The four output lines are Reported: 1, Original result: 1, Editable copy: 2 and Fresh count: 2. The completed report contains only the map label; the source now contains map and kit; the separate copy also has pen.]
 
+[Two adjacent statements are replaced in reverse order so kit is added before collection. Narration asks students to predict all four lines and allows a thinking pause before the second visible Run Code click. The canonical output is Reported: 2, Original result: 2, Editable copy: 3 and Fresh count: 2. The closing connects late binding, a fresh computation and a shallow collection copy to the separate roles of source, report and editable draft.]

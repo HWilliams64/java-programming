@@ -1,109 +1,394 @@
 WEBVTT
 
-00:00:06.534 --> 00:00:09.935
-A help desk can use different rules to prepare labels.
+00:00:00.750 --> 00:00:02.687
+Welcome to this Java tutorial.
 
-00:00:09.935 --> 00:00:13.210
-We will pass each rule to the same rendering method,
+00:00:02.687 --> 00:00:05.399
+You'll use lambdas, small expressions that
 
-00:00:13.210 --> 00:00:14.784
-then compare the results.
+00:00:05.399 --> 00:00:08.305
+supply behavior, and method references, which
 
-00:00:31.932 --> 00:00:35.080
-A functional interface has one abstract method
+00:00:08.305 --> 00:00:10.177
+refer to existing operations.
 
-00:00:35.080 --> 00:00:36.722
-describing an operation.
+00:00:10.177 --> 00:00:12.825
+You'll pass those rules to one helper and
 
-00:00:36.722 --> 00:00:40.212
-Here, Function takes a String and returns a String.
+00:00:12.825 --> 00:00:15.924
+explain when the chosen operation actually runs.
 
-00:00:40.212 --> 00:00:43.223
-Its first type argument describes the input.
+00:00:16.576 --> 00:00:19.567
+Applications often keep the same processing step
 
-00:00:43.223 --> 00:00:45.413
-The second describes the result.
+00:00:19.567 --> 00:00:21.561
+while callers choose one detail.
 
-00:00:45.413 --> 00:00:48.560
-LabelPrinter receives the rule as an argument.
+00:00:21.561 --> 00:00:24.241
+Passing behavior lets a shared method serve
 
-00:00:48.560 --> 00:00:51.982
-Calling apply runs that supplied rule on the text.
+00:00:24.241 --> 00:00:27.045
+those different choices, so the program needs
 
-00:00:52.320 --> 00:00:55.949
-A lambda expression supplies behavior using parameters
+00:00:27.045 --> 00:00:28.603
+fewer copies to maintain.
 
-00:00:55.949 --> 00:00:56.688
-and a body.
+00:00:28.603 --> 00:00:31.283
+We'll use an interface contract to make the
 
-00:00:56.688 --> 00:00:58.570
-Here, text is the parameter.
+00:00:31.283 --> 00:00:33.651
+expected input and result types clear.
 
-00:00:58.570 --> 00:01:01.460
-The expression after the arrow is the body.
+00:00:34.303 --> 00:00:37.218
+A campus visitor desk needs cleaned names for
 
-00:01:01.460 --> 00:01:04.350
-Creating the lambda does not run that body.
+00:00:37.218 --> 00:00:39.938
+some displays and guest labels for others.
 
-00:01:04.350 --> 00:01:07.844
-A method reference supplies compatible behavior from
+00:00:39.938 --> 00:00:41.168
+Each input is text.
 
-00:01:07.844 --> 00:01:09.121
-an existing method.
+00:00:41.168 --> 00:00:44.277
+A cleaning rule removes ordinary spaces around a
 
-00:01:09.121 --> 00:01:12.280
-String colon colon trim uses trim on the String
+00:00:44.277 --> 00:00:44.601
+name.
 
-00:01:12.280 --> 00:01:13.960
-supplied when apply runs.
+00:00:44.601 --> 00:00:47.710
+A labeling rule adds Guest, a colon, and a space
 
-00:01:13.960 --> 00:01:17.320
-Trim removes spaces from the ends of these inputs.
+00:00:47.710 --> 00:00:48.746
+before the name.
 
-00:01:17.399 --> 00:01:19.380
-Predict the three output lines.
+00:00:48.746 --> 00:00:51.467
+The helper must apply exactly the rule its
 
-00:01:19.380 --> 00:01:22.574
-Which rule does each call pass, and when does that
+00:00:51.467 --> 00:00:52.503
+caller supplies.
 
-00:01:22.574 --> 00:01:23.149
-rule run?
+00:00:53.151 --> 00:00:56.003
+We'll build one text-rendering helper and use it
 
-00:01:23.149 --> 00:01:24.874
-Pause here before checking.
+00:00:56.003 --> 00:00:56.954
+with both rules.
 
-00:01:29.673 --> 00:01:33.188
-The first line is Maya, with the surrounding spaces
+00:00:56.954 --> 00:00:59.330
+First we'll trace a worked set of names.
 
-00:01:33.188 --> 00:01:33.739
+00:00:59.330 --> 00:01:02.004
+Then you'll predict a different set before we
+
+00:01:02.004 --> 00:01:02.420
+run it.
+
+00:01:02.420 --> 00:01:05.034
+The report should show the chosen formatting
+
+00:01:05.034 --> 00:01:07.351
+while the helper's body stays the same.
+
+00:01:08.061 --> 00:01:10.921
+Now that we're in the Workspace, let's open
+
+00:01:10.921 --> 00:01:13.913
+Main.java and define the operation our helper
+
+00:01:13.913 --> 00:01:14.711
+can receive.
+
+00:01:18.748 --> 00:01:21.332
+Java's Function interface describes one
+
+00:01:21.332 --> 00:01:23.783
+operation with an input and a result.
+
+00:01:23.783 --> 00:01:26.963
+We'll import it, then give LabelPrinter a render
+
+00:01:26.963 --> 00:01:30.077
+method that receives both the text and the rule
+
+00:01:30.077 --> 00:01:30.673
+to apply.
+
+00:01:50.642 --> 00:01:53.383
+Function is a functional interface: it has one
+
+00:01:53.383 --> 00:01:55.887
+required abstract operation, called apply.
+
+00:01:55.887 --> 00:01:58.509
+Its first String type argument describes the
+
+00:01:58.509 --> 00:02:00.833
+input; the second describes the result.
+
+00:02:00.833 --> 00:02:03.575
+Inside render, apply invokes the supplied rule
+
+00:02:03.575 --> 00:02:04.409
+with the text.
+
+00:02:04.409 --> 00:02:07.031
+Return sends that result back to the caller.
+
+00:02:07.031 --> 00:02:09.892
+The helper doesn't choose the formatting itself.
+
+00:02:09.905 --> 00:02:12.746
+Let's add the program's entry point around the
+
+00:02:12.746 --> 00:02:13.858
+caller statements.
+
+00:02:13.858 --> 00:02:16.638
+Main is the class containing this part of our
+
+00:02:16.638 --> 00:02:19.480
+code, and its main method is where the program
+
+00:02:19.480 --> 00:02:19.912
+starts.
+
+00:02:19.912 --> 00:02:22.506
+We'll put the rule choices and their calls
+
+00:02:22.506 --> 00:02:23.680
+inside that method.
+
+00:02:31.666 --> 00:02:34.257
+The first caller needs surrounding spaces
+
+00:02:34.257 --> 00:02:34.763
 removed.
 
-00:01:33.739 --> 00:01:37.323
-The tag rule adds Guest, a colon, and a space before
+00:02:34.763 --> 00:02:37.543
+We'll store a cleaning lambda, then create a
 
-00:01:37.323 --> 00:01:37.668
-Luis.
+00:02:37.543 --> 00:02:40.324
+separate labeling lambda that adds the Guest
 
-00:01:37.668 --> 00:01:41.252
-The method reference removes the spaces around Nora.
+00:02:40.324 --> 00:02:40.766
+prefix.
 
-00:01:41.252 --> 00:01:44.905
-Each render call invokes apply, so the same rendering
+00:02:55.049 --> 00:02:58.047
+The arrow separates each lambda's parameter from
 
-00:01:44.905 --> 00:01:47.248
-method can use different behavior.
+00:02:58.047 --> 00:02:58.609
+its body.
 
-00:01:47.579 --> 00:01:51.012
-Change only the tag lambda so it puts square brackets
+00:02:58.609 --> 00:03:01.357
+The target Function type tells Java that the
 
-00:01:51.012 --> 00:01:52.113
-around its input.
+00:03:01.357 --> 00:03:03.418
+parameter and result are Strings.
 
-00:01:52.113 --> 00:01:55.157
-Predict the second output line, then run again.
+00:03:03.418 --> 00:03:06.416
+In this expression form, the body's value is the
 
-00:01:55.157 --> 00:01:58.395
-Which other output lines should stay the same, and
+00:03:06.416 --> 00:03:07.416
+returned result.
 
-00:01:58.395 --> 00:01:58.654
-why?
+00:03:07.416 --> 00:03:10.101
+Assigning clean and tag makes the two rules
+
+00:03:10.101 --> 00:03:12.787
+available; it doesn't yet process a name or
+
+00:03:12.787 --> 00:03:13.724
+print anything.
+
+00:03:13.748 --> 00:03:16.649
+Now let's supply the cleaning rule with padded
+
+00:03:16.649 --> 00:03:19.108
+Ari text and the labeling rule with Bo.
+
+00:03:19.108 --> 00:03:21.757
+Each call passes two arguments to the same
+
+00:03:21.757 --> 00:03:22.198
+helper.
+
+00:03:22.198 --> 00:03:24.973
+The surrounding print statement displays the
+
+00:03:24.973 --> 00:03:26.423
+String that comes back.
+
+00:03:40.571 --> 00:03:43.466
+For the Ari call, render receives the padded
+
+00:03:43.466 --> 00:03:45.046
+text and the clean rule.
+
+00:03:45.046 --> 00:03:47.810
+Applying that rule removes the surrounding
+
+00:03:47.810 --> 00:03:48.270
+spaces.
+
+00:03:48.270 --> 00:03:51.166
+For Bo, the selected rule constructs a guest
+
+00:03:51.166 --> 00:03:51.560
+label.
+
+00:03:51.560 --> 00:03:54.587
+The helper follows the same steps because both
+
+00:03:54.587 --> 00:03:57.154
+rules satisfy the same input and result
+
+00:03:57.154 --> 00:03:57.746
+contract.
+
+00:03:57.781 --> 00:04:00.604
+String already has the trim method we need.
+
+00:04:00.604 --> 00:04:03.624
+Let's supply that existing operation through a
+
+00:04:03.624 --> 00:04:06.578
+method reference, then apply it to padded Bea
+
+00:04:06.578 --> 00:04:06.906
+text.
+
+00:04:22.830 --> 00:04:25.460
+The double colon names behavior to use later.
+
+00:04:25.460 --> 00:04:27.739
+It doesn't call trim at the assignment.
+
+00:04:27.739 --> 00:04:30.486
+When namedClean is applied, the supplied String
+
+00:04:30.486 --> 00:04:32.940
+becomes the object whose trim method runs.
+
+00:04:32.940 --> 00:04:35.570
+This compatible method reference performs the
+
+00:04:35.570 --> 00:04:38.142
+same cleaning operation as our first lambda.
+
+00:04:38.142 --> 00:04:40.830
+Let's click Run and inspect the worked report.
+
+00:04:47.449 --> 00:04:49.961
+The first line is Ari without surrounding
+
+00:04:49.961 --> 00:04:50.390
+spaces.
+
+00:04:50.390 --> 00:04:53.330
+The second is Guest, a colon and space, then Bo.
+
+00:04:53.330 --> 00:04:56.271
+The last line is Bea without surrounding spaces.
+
+00:04:56.271 --> 00:04:58.966
+The caller supplied a rule and input, render
+
+00:04:58.966 --> 00:05:01.662
+invoked the rule, and printing displayed the
+
+00:05:01.662 --> 00:05:02.642
+returned result.
+
+00:05:02.642 --> 00:05:05.399
+The original Strings weren't edited in place.
+
+00:05:05.492 --> 00:05:08.613
+Let's keep both rules and the helper exactly as
+
+00:05:08.613 --> 00:05:09.211
+they are.
+
+00:05:09.211 --> 00:05:12.199
+We'll change only the three supplied names to
+
+00:05:12.199 --> 00:05:13.527
+Maya, Luis and Nora.
+
+00:05:13.527 --> 00:05:16.383
+Maya and Nora will still have two spaces on
+
+00:05:16.383 --> 00:05:18.242
+either side in their inputs.
+
+00:05:44.506 --> 00:05:47.025
+Before running, predict all three lines.
+
+00:05:47.025 --> 00:05:49.606
+For each call, identify its input and the
+
+00:05:49.606 --> 00:05:50.488
+selected rule.
+
+00:05:50.488 --> 00:05:53.510
+Which calls remove surrounding spaces, and which
+
+00:05:53.510 --> 00:05:55.273
+call adds the chosen prefix?
+
+00:05:55.273 --> 00:05:58.233
+Pause here and follow the result through render
+
+00:05:58.233 --> 00:05:59.681
+to its print statement.
+
+00:06:07.758 --> 00:06:10.849
+Let's click Run and compare your prediction with
+
+00:06:10.849 --> 00:06:12.008
+the actual report.
+
+00:06:17.439 --> 00:06:20.239
+The report shows Maya, then Guest with Luis,
+
+00:06:20.239 --> 00:06:20.876
+then Nora.
+
+00:06:20.876 --> 00:06:23.740
+Clean processed the first input; tag produced
+
+00:06:23.740 --> 00:06:26.477
+the second label; namedClean used the third
+
+00:06:26.477 --> 00:06:28.068
+input as trim's receiver.
+
+00:06:28.068 --> 00:06:30.041
+Only the caller's text changed.
+
+00:06:30.041 --> 00:06:32.650
+The same helper still applied each chosen
+
+00:06:32.650 --> 00:06:34.814
+operation and returned its result.
+
+00:06:34.876 --> 00:06:37.545
+You used a functional interface to describe one
+
+00:06:37.545 --> 00:06:40.156
+text operation, supplied behavior with lambdas
+
+00:06:40.156 --> 00:06:42.882
+and a compatible method reference, and separated
+
+00:06:42.882 --> 00:06:44.755
+creating a rule from applying it.
+
+00:06:44.755 --> 00:06:47.424
+For a transfer question, imagine the desk needs
+
+00:06:47.424 --> 00:06:48.389
+staff labels too.
+
+00:06:48.389 --> 00:06:51.001
+What new rule could the caller supply, and why
+
+00:06:51.001 --> 00:06:53.726
+could the existing render method still serve it?
