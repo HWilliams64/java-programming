@@ -1,121 +1,556 @@
 WEBVTT
 
-00:00:06.636 --> 00:00:10.015
-We will load a small dictionary one line at a time,
+00:00:00.750 --> 00:00:01.238
+Welcome!
 
-00:00:10.015 --> 00:00:13.394
-then ask whether a fragment begins any stored word.
+00:00:01.238 --> 00:00:04.041
+In this Java tutorial, you'll read text a line
 
-00:00:13.394 --> 00:00:16.441
-This supports a Ghost turn without requiring a
+00:00:04.041 --> 00:00:06.783
+at a time with a buffered reader, which holds
 
-00:00:16.441 --> 00:00:17.368
-complete word.
+00:00:06.783 --> 00:00:09.709
+groups of text in memory, and build a dictionary
 
-00:00:17.368 --> 00:00:20.747
-The familiar writeString call prepares our practice
+00:00:09.709 --> 00:00:12.207
+that checks whole words and prefixes, the
 
-00:00:20.747 --> 00:00:22.536
-file before reading begins.
+00:00:12.207 --> 00:00:13.426
+beginnings of words.
 
-00:01:03.518 --> 00:01:06.664
-A prefix is a sequence at the start of a String.
+00:00:14.095 --> 00:00:16.832
+Buffered line processing and clear resource
 
-00:01:06.664 --> 00:01:09.875
-The hasPrefix method checks each stored word with
+00:00:16.832 --> 00:00:19.696
+lifetimes help applications load saved lists,
 
-00:01:09.875 --> 00:01:12.890
-startsWith and returns as soon as one matches.
+00:00:19.696 --> 00:00:22.624
+reports, and word dictionaries, while separate
 
-00:01:12.890 --> 00:01:15.314
-If no word matches, it returns false.
+00:00:22.624 --> 00:00:25.551
+whole-word and prefix queries let a game reuse
 
-00:01:15.314 --> 00:01:18.591
-A contains check would instead look for a complete
+00:00:25.551 --> 00:00:28.352
+that data without repeating its file-reading
 
-00:01:18.591 --> 00:01:19.443
-stored value.
+00:00:28.352 --> 00:00:28.670
+code.
 
-00:01:19.748 --> 00:01:22.960
-A character stream supplies decoded text characters
+00:00:29.315 --> 00:00:32.287
+Our word-game developer has a dictionary file
 
-00:01:22.960 --> 00:01:23.590
-over time.
+00:00:32.287 --> 00:00:35.457
+containing cat, cart, a blank line, dog, and cat
 
-00:01:23.590 --> 00:01:26.551
-BufferedReader holds groups in memory to reduce
+00:00:35.457 --> 00:00:35.853
+again.
 
-00:01:26.551 --> 00:01:28.503
-repeated small file operations.
+00:00:35.853 --> 00:00:39.023
+We'll keep each nonempty line exactly as written
 
-00:01:28.503 --> 00:01:31.653
-readLine returns the next line without its ending.
+00:00:39.023 --> 00:00:41.665
+and retain each distinct word only once.
 
-00:01:31.653 --> 00:01:34.046
-A blank line produces an empty String.
+00:00:42.418 --> 00:00:45.293
+The completed load should report three distinct
 
-00:01:34.046 --> 00:01:37.133
-Null marks end of file when no characters remain.
+00:00:45.293 --> 00:00:45.660
+words.
 
-00:01:37.133 --> 00:01:40.408
-The loop reads before its condition and again at the
+00:00:45.660 --> 00:00:48.597
+A query for the prefix c a should succeed, while
 
-00:01:40.408 --> 00:01:40.660
-end.
+00:00:48.597 --> 00:00:50.126
+z z should find no match.
 
-00:01:40.660 --> 00:01:42.865
-The length check skips blank lines.
+00:00:50.126 --> 00:00:52.818
+We'll read until the file ends and close the
 
-00:01:42.865 --> 00:01:46.014
-HashSet keeps unique words, and try with resources
+00:00:52.818 --> 00:00:55.143
+reader before reporting these results.
 
-00:01:46.014 --> 00:01:47.148
-closes the reader.
+00:00:55.811 --> 00:00:58.530
+Now that we're in the Workspace, let's open
 
-00:01:47.243 --> 00:01:50.362
-Predict the word count and both prefix results.
+00:00:58.530 --> 00:01:01.186
+Main.java and build the dictionary helper.
 
-00:01:50.362 --> 00:01:53.613
-Trace the blank line and repeated word carefully.
+00:01:04.957 --> 00:01:08.042
+We'll begin with the types for file locations,
 
-00:01:53.613 --> 00:01:54.343
-Pause here.
+00:01:08.042 --> 00:01:11.061
+UTF-8 text, the buffered reader, and a set of
 
-00:01:59.240 --> 00:02:02.183
-The dictionary contains three unique words.
+00:01:11.061 --> 00:01:11.933
+unique words.
 
-00:02:02.183 --> 00:02:05.743
-The repeated cat adds no second entry, and the blank
+00:01:11.933 --> 00:01:14.951
+IOException gives the handler a specific type
 
-00:02:05.743 --> 00:02:06.975
-line adds nothing.
+00:01:14.951 --> 00:01:18.103
+for failures while opening, reading, or closing
 
-00:02:06.975 --> 00:02:10.329
-The prefix c a matches the start of cat and cart.
+00:01:18.103 --> 00:01:18.707
+the file.
 
-00:02:10.329 --> 00:02:12.450
-No stored word starts with z z.
+00:01:32.833 --> 00:01:35.503
+These imports supply the types' short names.
 
-00:02:12.450 --> 00:02:15.873
-A prefix can match without being a complete stored
+00:01:35.503 --> 00:01:37.991
+Files performs the file operations, while
 
-00:02:15.873 --> 00:02:16.215
+00:01:37.991 --> 00:01:40.115
+HashSet will retain distinct words.
+
+00:01:40.115 --> 00:01:42.603
+Before loading the file, let's define the
+
+00:01:42.603 --> 00:01:45.274
+question that this set will answer: does any
+
+00:01:45.274 --> 00:01:47.883
+stored word begin with the supplied prefix?
+
+00:01:57.063 --> 00:01:59.291
+WordChecks groups our helper method.
+
+00:01:59.291 --> 00:02:02.075
+The method receives the set and the requested
+
+00:02:02.075 --> 00:02:04.735
+prefix as two inputs, and returns a Boolean
+
+00:02:04.735 --> 00:02:05.169
+result.
+
+00:02:05.169 --> 00:02:07.953
+Because the method is static, the application
+
+00:02:07.953 --> 00:02:10.861
+will call it through the WordChecks class name.
+
+00:02:10.861 --> 00:02:13.584
+We need to search until a word matches or no
+
+00:02:13.584 --> 00:02:14.388
+words remain.
+
+00:02:29.845 --> 00:02:32.217
+The loop checks each word's beginning.
+
+00:02:32.217 --> 00:02:34.277
+A match returns true immediately.
+
+00:02:34.277 --> 00:02:36.837
+A failed comparison only moves the search
+
+00:02:36.837 --> 00:02:39.646
+onward; false belongs after the loop, once no
+
+00:02:39.646 --> 00:02:40.458
+word matched.
+
+00:02:40.458 --> 00:02:42.955
+This result does not depend on the set's
+
+00:02:42.955 --> 00:02:43.953
+traversal order.
+
+00:02:43.953 --> 00:02:46.388
+Complete membership is different: a set
+
+00:02:46.388 --> 00:02:49.260
+containing cart can satisfy prefix c a without
+
+00:02:49.260 --> 00:02:51.195
+containing c a as a whole word.
+
+00:02:51.222 --> 00:02:54.295
+With the query helper ready, let's add Main, the
+
+00:02:54.295 --> 00:02:57.175
+class containing the application entry point.
+
+00:02:57.175 --> 00:02:59.864
+Its main method is where execution starts.
+
+00:02:59.864 --> 00:03:02.744
+We'll put our fixture creation and dictionary
+
+00:03:02.744 --> 00:03:05.369
+load inside a try block so an I/O failure
+
+00:03:05.369 --> 00:03:07.097
+reaches a matching handler.
+
+00:03:14.907 --> 00:03:17.927
+The helper is defined above, but it will not run
+
+00:03:17.927 --> 00:03:18.996
+until we call it.
+
+00:03:18.996 --> 00:03:21.891
+First, the main method needs a controlled file
+
+00:03:21.891 --> 00:03:22.394
+to read.
+
+00:03:22.394 --> 00:03:25.351
+We'll create a new practice directory and write
+
+00:03:25.351 --> 00:03:28.182
+the developer's five lines there using UTF-8.
+
+00:03:49.073 --> 00:03:51.622
+The new directory separates this run from
+
+00:03:51.622 --> 00:03:52.493
+earlier files.
+
+00:03:52.493 --> 00:03:55.228
+Resolving words dot text describes its child
+
+00:03:55.228 --> 00:03:58.088
+location; the write actually creates the file.
+
+00:03:58.088 --> 00:04:01.010
+Two adjacent newline characters leave the blank
+
+00:04:01.010 --> 00:04:02.627
+line between cart and dog.
+
+00:04:02.627 --> 00:04:05.611
+The repeated cat remains in the file even though
+
+00:04:05.611 --> 00:04:08.098
+the dictionary will retain it only once.
+
+00:04:08.125 --> 00:04:10.721
+Now we'll create the empty set and open a
+
+00:04:10.721 --> 00:04:13.570
+buffered reader with the same UTF-8 encoding.
+
+00:04:13.570 --> 00:04:16.610
+Declaring the reader in try-with-resources gives
+
+00:04:16.610 --> 00:04:17.876
+it a clear lifetime.
+
+00:04:17.876 --> 00:04:20.789
+The first read must happen before the loop can
+
+00:04:20.789 --> 00:04:22.625
+decide whether a line exists.
+
+00:04:57.245 --> 00:05:00.093
+The reader may read ahead into its buffer, while
+
+00:05:00.093 --> 00:05:02.586
+each readLine call returns one line's text
+
+00:05:02.586 --> 00:05:04.366
+without its ending characters.
+
+00:05:04.366 --> 00:05:06.028
+The first value here is cat.
+
+00:05:06.028 --> 00:05:08.876
+At the end of the file, a later read will return
+
+00:05:08.876 --> 00:05:11.013
+null, meaning there is no next line.
+
+00:05:11.013 --> 00:05:13.861
+An empty String is a real line value, so it must
+
+00:05:13.861 --> 00:05:14.870
+not end the loop.
+
+00:05:14.924 --> 00:05:17.773
+We'll separate the decision to keep reading from
+
+00:05:17.773 --> 00:05:20.088
+the decision to store the current line.
+
+00:05:20.088 --> 00:05:22.225
+The outer condition checks for null.
+
+00:05:22.225 --> 00:05:24.956
+Inside it, a length check allows only nonempty
+
+00:05:24.956 --> 00:05:26.024
+text into the set.
+
+00:05:38.593 --> 00:05:41.102
+Cat and cart pass both checks and become
+
+00:05:41.102 --> 00:05:41.604
+members.
+
+00:05:41.604 --> 00:05:44.426
+The blank line passes the null test but fails
+
+00:05:44.426 --> 00:05:46.936
+the length test, so only its addition is
+
+00:05:46.936 --> 00:05:47.437
+skipped.
+
+00:05:47.437 --> 00:05:50.448
+We preserve case and spaces rather than silently
+
+00:05:50.448 --> 00:05:51.577
+changing the text.
+
+00:05:51.577 --> 00:05:54.525
+The remaining step must advance the reader even
+
+00:05:54.525 --> 00:05:55.968
+when nothing was added.
+
+00:06:04.817 --> 00:06:07.230
+Each body execution reads the next line.
+
+00:06:07.230 --> 00:06:09.945
+That lets the loop reach dog and the repeated
+
+00:06:09.945 --> 00:06:11.453
+cat after the blank line.
+
+00:06:11.453 --> 00:06:14.288
+The set adds dog, but the equal cat adds no new
+
+00:06:14.288 --> 00:06:14.711
+member.
+
+00:06:14.711 --> 00:06:17.425
+Once a read returns null, the next guard ends
+
+00:06:17.425 --> 00:06:19.839
+the loop without another body execution.
+
+00:06:19.839 --> 00:06:22.372
+Leaving the resource block then closes the
+
+00:06:22.372 --> 00:06:24.966
+reader; the words already stored in the set
+
+00:06:24.966 --> 00:06:25.992
+remain available.
+
+00:06:26.043 --> 00:06:28.935
+The load is complete, so we'll report the number
+
+00:06:28.935 --> 00:06:31.647
+of retained words and call our helper for the
+
+00:06:31.647 --> 00:06:32.430
+two prefixes.
+
+00:06:32.430 --> 00:06:34.900
+These prints come after the reader closes
+
+00:06:34.900 --> 00:06:35.684
+successfully.
+
+00:06:35.684 --> 00:06:38.516
+A load failure will therefore skip these normal
+
+00:06:38.516 --> 00:06:40.805
+reports rather than look like an empty
+
+00:06:40.805 --> 00:06:41.468
+dictionary.
+
+00:07:03.644 --> 00:07:06.792
+The size report counts distinct nonempty words,
+
+00:07:06.792 --> 00:07:08.467
+not all five input lines.
+
+00:07:08.467 --> 00:07:11.481
+Each prefix call receives the same loaded set
+
+00:07:11.481 --> 00:07:13.624
+and its own requested beginning.
+
+00:07:13.624 --> 00:07:16.371
+Let's finish the handler so a failed file
+
+00:07:16.371 --> 00:07:19.519
+operation reports its actual exception message.
+
+00:07:32.619 --> 00:07:35.777
+Our complete program creates the file, reads and
+
+00:07:35.777 --> 00:07:38.540
+filters every line, closes the reader, and
+
+00:07:38.540 --> 00:07:40.185
+queries the retained set.
+
+00:07:40.185 --> 00:07:42.882
+Let's click Run and check the developer's
+
+00:07:42.882 --> 00:07:45.119
+expected count and prefix results.
+
+00:07:50.698 --> 00:07:53.153
+The count is three: cat, cart, and dog.
+
+00:07:53.153 --> 00:07:55.670
+The blank line did not stop reading, and
+
+00:07:55.670 --> 00:07:58.251
+repeated cat did not increase membership.
+
+00:07:58.251 --> 00:08:01.272
+Prefix c a succeeds because a stored word begins
+
+00:08:01.272 --> 00:08:01.775
+with it.
+
+00:08:01.775 --> 00:08:04.545
+Prefix z z fails after every stored word has
+
+00:08:04.545 --> 00:08:05.552
+been considered.
+
+00:08:05.552 --> 00:08:08.195
+These reports follow a successful load and
+
+00:08:08.195 --> 00:08:08.573
+close.
+
+00:08:08.643 --> 00:08:11.436
+Apply those same rules to a different file.
+
+00:08:11.436 --> 00:08:14.359
+We'll use map, a blank line, moss, mud, mint,
+
+00:08:14.359 --> 00:08:17.347
+and map again, with no newline after the final
+
+00:08:17.347 --> 00:08:17.672
 word.
 
-00:02:16.564 --> 00:02:20.299
-Change only the first queried prefix from c a to c a t
+00:08:17.672 --> 00:08:20.725
+We'll also change the first query from c a to m
 
-00:02:20.299 --> 00:02:20.438
-s.
+00:08:20.725 --> 00:08:20.855
+i.
 
-00:02:20.438 --> 00:02:23.619
-Predict that result and whether the word count
+00:08:20.855 --> 00:08:23.518
+The loader and helper will stay the same.
 
-00:02:23.619 --> 00:02:25.280
-changes, then run again.
+00:09:03.338 --> 00:09:06.214
+Before running, predict all three output lines.
 
-00:02:25.280 --> 00:02:28.876
-What evidence separates a prefix query from changing
+00:09:06.214 --> 00:09:08.906
+Track what happens after each returned line,
 
-00:02:28.876 --> 00:02:29.914
-the dictionary?
+00:09:08.906 --> 00:09:11.782
+including the blank line and the final repeated
+
+00:09:11.782 --> 00:09:12.088
+word.
+
+00:09:12.088 --> 00:09:14.842
+Decide whether the absence of a final newline
+
+00:09:14.842 --> 00:09:16.800
+changes what the reader returns.
+
+00:09:16.800 --> 00:09:19.370
+Pause here and work out the count and both
+
+00:09:19.370 --> 00:09:20.288
+prefix results.
+
+00:09:28.795 --> 00:09:31.835
+Let's click Run and compare your prediction with
+
+00:09:31.835 --> 00:09:33.545
+the actual dictionary load.
+
+00:09:39.490 --> 00:09:40.663
+The count is four.
+
+00:09:40.663 --> 00:09:43.790
+Map, moss, mud, and mint are distinct; the blank
+
+00:09:43.790 --> 00:09:46.526
+line adds nothing and repeated map adds no
+
+00:09:46.526 --> 00:09:46.982
+member.
+
+00:09:46.982 --> 00:09:50.045
+Final map is still returned without a following
+
+00:09:50.045 --> 00:09:50.566
+newline.
+
+00:09:50.566 --> 00:09:52.651
+Only the next read returns null.
+
+00:09:52.651 --> 00:09:55.713
+Mint supplies the successful m i match, while z
+
+00:09:55.713 --> 00:09:56.690
+z matches none.
+
+00:09:56.773 --> 00:09:59.541
+You used a buffered reader and a progress step
+
+00:09:59.541 --> 00:10:02.369
+to process the whole file, automatic cleanup to
+
+00:10:02.369 --> 00:10:04.956
+finish the read, and a set to retain unique
+
+00:10:04.956 --> 00:10:05.678
+exact words.
+
+00:10:05.678 --> 00:10:08.386
+The helper then answered whether any of those
+
+00:10:08.386 --> 00:10:10.552
+words began with a requested prefix.
+
+00:10:10.552 --> 00:10:13.380
+These observed results give the game a reusable
+
+00:10:13.380 --> 00:10:16.028
+dictionary behavior; the notebook extends it
+
+00:10:16.028 --> 00:10:18.795
+into an object with separate complete-word and
+
+00:10:18.795 --> 00:10:19.698
+prefix methods.
+
+00:10:19.791 --> 00:10:22.476
+For a transfer question, suppose a dictionary
+
+00:10:22.476 --> 00:10:23.491
+stores only book.
+
+00:10:23.491 --> 00:10:26.236
+What should a whole-word query for b o report,
+
+00:10:26.236 --> 00:10:29.100
+and what should a prefix query for the same text
+
+00:10:29.100 --> 00:10:29.517
+report?
+
+00:10:29.517 --> 00:10:32.262
+Explain which operation each query needs, then
+
+00:10:32.262 --> 00:10:34.530
+use that distinction as you build your
+
+00:10:34.530 --> 00:10:36.141
+dictionary in the notebook.

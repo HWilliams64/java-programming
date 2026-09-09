@@ -1,130 +1,454 @@
 WEBVTT
 
-00:00:06.285 --> 00:00:09.915
-We will save a small roster, add text, and read it
+00:00:00.750 --> 00:00:01.287
+Welcome!
 
-00:00:09.915 --> 00:00:10.278
+00:00:01.287 --> 00:00:04.445
+In this Java tutorial, you'll use file paths to
+
+00:00:04.445 --> 00:00:07.468
+describe locations, write and read text using
+
+00:00:07.468 --> 00:00:10.491
+UTF-8, a rule for representing text as bytes,
+
+00:00:10.491 --> 00:00:13.514
+and append new text while preserving what was
+
+00:00:13.514 --> 00:00:14.454
+already saved.
+
+00:00:15.101 --> 00:00:17.740
+File paths, matching text encodings, and
+
+00:00:17.740 --> 00:00:20.643
+deliberate write modes let applications save
+
+00:00:20.643 --> 00:00:23.677
+rosters, settings, or word dictionaries that a
+
+00:00:23.677 --> 00:00:26.646
+later run can recover after its variables are
+
+00:00:26.646 --> 00:00:26.976
+gone.
+
+00:00:27.619 --> 00:00:30.640
+Our club coordinator starts a roster with Maya
+
+00:00:30.640 --> 00:00:32.282
+and Luis, then adds Nora.
+
+00:00:32.282 --> 00:00:35.303
+We'll give this run its own practice directory
+
+00:00:35.303 --> 00:00:38.390
+and save one name per line, including a newline
+
+00:00:38.390 --> 00:00:39.769
+after the final name.
+
+00:00:40.417 --> 00:00:43.180
+Success means reading the saved file back and
+
+00:00:43.180 --> 00:00:45.145
+seeing all three names in order.
+
+00:00:45.145 --> 00:00:47.662
+We'll also inspect the recovered String's
+
+00:00:47.662 --> 00:00:50.548
+length, counting the stored newlines along with
+
+00:00:50.548 --> 00:00:51.408
+these letters.
+
+00:00:51.408 --> 00:00:54.171
+That count measures the String, not a general
+
+00:00:54.171 --> 00:00:55.092
+file byte size.
+
+00:00:55.753 --> 00:00:58.370
+Now that we're in the Workspace, let's open
+
+00:00:58.370 --> 00:00:58.978
+Main.java.
+
+00:01:02.746 --> 00:01:03.898
+The file is open.
+
+00:01:03.898 --> 00:01:06.813
+We'll begin with the library types used for
+
+00:01:06.813 --> 00:01:09.795
+paths, file operations, encoding, the append
+
+00:01:09.795 --> 00:01:12.100
+option, and a checked I/O failure.
+
+00:01:12.100 --> 00:01:15.150
+These imports let the program use each type's
+
+00:01:15.150 --> 00:01:15.896
+short name.
+
+00:01:28.328 --> 00:01:30.219
+Path represents a location.
+
+00:01:30.219 --> 00:01:33.371
+Files supplies operations that create, write,
+
+00:01:33.371 --> 00:01:34.002
+and read.
+
+00:01:34.002 --> 00:01:37.294
+StandardCharsets and StandardOpenOption provide
+
+00:01:37.294 --> 00:01:40.586
+named choices for those operations; IOException
+
+00:01:40.586 --> 00:01:43.528
+gives our handler a specific failure type.
+
+00:01:43.539 --> 00:01:46.494
+Let's put the operations in the Main class and
+
+00:01:46.494 --> 00:01:49.450
+its main method, the entry point for this Java
+
+00:01:49.450 --> 00:01:50.221
+application.
+
+00:01:50.221 --> 00:01:53.112
+A try block will keep the attempted file work
+
+00:01:53.112 --> 00:01:55.489
+together before its matching handler.
+
+00:02:02.077 --> 00:02:05.202
+This structure holds the same operations as the
+
+00:02:05.202 --> 00:02:05.801
+notebook.
+
+00:02:05.801 --> 00:02:08.793
+If an I/O operation fails, control will leave
+
+00:02:08.793 --> 00:02:11.984
+the remaining normal work and enter the handler.
+
+00:02:11.984 --> 00:02:14.777
+First, we need a separate location so this
+
+00:02:14.777 --> 00:02:17.902
+demonstration does not reuse an earlier roster.
+
+00:02:29.671 --> 00:02:32.502
+Creating the temporary directory actually makes
+
+00:02:32.502 --> 00:02:34.731
+a new directory and returns its path.
+
+00:02:34.731 --> 00:02:37.441
+Resolving roster dot text then builds a child
+
+00:02:37.441 --> 00:02:40.332
+path inside it; that second line does not create
+
+00:02:40.332 --> 00:02:40.875
+the file.
+
+00:02:40.875 --> 00:02:43.585
+The generated parent name can change on every
+
+00:02:43.585 --> 00:02:44.368
+complete run.
+
+00:02:44.368 --> 00:02:46.898
+Temporary also does not mean the directory
+
+00:02:46.898 --> 00:02:48.946
+disappears when this program ends.
+
+00:02:48.964 --> 00:02:51.935
+With the location ready, we'll store Maya and
+
+00:02:51.935 --> 00:02:53.916
+Luis as the starting contents.
+
+00:02:53.916 --> 00:02:55.831
+Each name includes a newline.
+
+00:02:55.831 --> 00:02:58.736
+We choose UTF-8 explicitly so the later read
+
+00:02:58.736 --> 00:03:01.839
+will use the same rule for recovering the text.
+
+00:03:11.831 --> 00:03:14.508
+This normal write creates the missing roster
+
+00:03:14.508 --> 00:03:14.812
+file.
+
+00:03:14.812 --> 00:03:17.549
+If the file already existed, the same kind of
+
+00:03:17.549 --> 00:03:20.104
+write would replace its complete contents.
+
+00:03:20.104 --> 00:03:22.659
+It adds no line breaks beyond the newlines
+
+00:03:22.659 --> 00:03:24.059
+supplied in the String.
+
+00:03:24.059 --> 00:03:26.857
+The path identifies where to write; the String
+
+00:03:26.857 --> 00:03:28.256
+supplies what to store.
+
+00:03:28.278 --> 00:03:31.462
+Nora arrives after the starting roster is saved.
+
+00:03:31.462 --> 00:03:34.645
+Replacing the file now would lose Maya and Luis,
+
+00:03:34.645 --> 00:03:37.630
+so the next write will select append mode and
+
+00:03:37.630 --> 00:03:39.553
+add Nora at the existing end.
+
+00:03:51.978 --> 00:03:54.739
+The append option preserves the first two names
+
+00:03:54.739 --> 00:03:56.560
+and adds Nora with her newline.
+
+00:03:56.560 --> 00:03:59.145
+This option alone expects the file to exist,
+
+00:03:59.145 --> 00:04:01.495
+which is why the normal first write came
+
+00:04:01.495 --> 00:04:01.965
+earlier.
+
+00:04:01.965 --> 00:04:04.726
+All three names now have their own line ending.
+
+00:04:04.726 --> 00:04:07.428
+To inspect what was actually saved, we'll read
+
+00:04:07.428 --> 00:04:10.013
+from the file instead of printing a separate
+
+00:04:10.013 --> 00:04:10.953
+expected roster.
+
+00:04:27.494 --> 00:04:29.823
+Reading with UTF-8 produces the recovered
+
+00:04:29.823 --> 00:04:31.811
+String, including its line endings.
+
+00:04:31.811 --> 00:04:34.026
+Print displays those stored characters.
+
+00:04:34.026 --> 00:04:36.696
+The following length report counts positions in
+
+00:04:36.696 --> 00:04:37.377
+that String.
+
+00:04:37.377 --> 00:04:39.649
+For these names, each letter and newline
+
+00:04:39.649 --> 00:04:40.899
+occupies one position.
+
+00:04:40.899 --> 00:04:43.114
+These whole-file helpers close the file
+
+00:04:43.114 --> 00:04:45.783
+resources they use; a much larger file may call
+
+00:04:45.783 --> 00:04:48.169
+for the line-by-line approach taught next.
+
+00:04:48.198 --> 00:04:50.369
+Let's finish the failure handler.
+
+00:04:50.369 --> 00:04:53.461
+It will report the actual exception message, so
+
+00:04:53.461 --> 00:04:56.619
+a failed operation cannot look like a successful
+
+00:04:56.619 --> 00:04:58.198
+read of an empty roster.
+
+00:05:11.612 --> 00:05:14.461
+The completed normal path creates a location,
+
+00:05:14.461 --> 00:05:17.247
+saves two names, appends one, and reads them
+
+00:05:17.247 --> 00:05:17.563
 back.
 
-00:00:10.278 --> 00:00:12.964
-File I O means file input and output.
+00:05:17.563 --> 00:05:20.476
+Each of our three names has four letters; each
 
-00:00:12.964 --> 00:00:15.069
-A path represents a location.
+00:05:20.476 --> 00:05:22.248
+also has one stored newline.
 
-00:00:15.069 --> 00:00:17.756
-Naming a path does not create a file.
+00:05:22.248 --> 00:05:25.034
+Let's click Run and check both the recovered
 
-00:00:17.756 --> 00:00:21.385
-Our practice file will stay inside a newly created
+00:05:25.034 --> 00:05:26.237
+text and the count.
 
-00:00:21.385 --> 00:00:22.910
-directory, or folder.
+00:05:32.562 --> 00:05:35.231
+The read-back shows Maya, Luis, and Nora in
 
-00:00:45.761 --> 00:00:49.193
-An absolute path starts from the file system root.
+00:05:35.231 --> 00:05:35.604
+order.
 
-00:00:49.193 --> 00:00:51.183
-A relative path needs a base.
+00:05:35.604 --> 00:05:38.273
+Twelve letters plus three newlines give the
 
-00:00:51.183 --> 00:00:54.546
-Here, resolve combines the new directory with the
+00:05:38.273 --> 00:05:39.949
+reported length of fifteen.
 
-00:00:54.546 --> 00:00:56.605
-relative name roster dot text.
+00:05:39.949 --> 00:05:42.742
+The final stored newline places Characters on
 
-00:00:56.605 --> 00:00:59.762
-The temporary directory is a distinct practice
+00:05:42.742 --> 00:05:43.549
+its own line.
 
-00:00:59.762 --> 00:01:00.380
-location.
+00:05:43.549 --> 00:05:46.094
+We see normal output instead of a failure
 
-00:01:00.380 --> 00:01:03.743
-It is not automatically deleted when this program
+00:05:46.094 --> 00:05:49.074
+report, and the recovered text shows that append
 
-00:01:03.743 --> 00:01:04.086
-ends.
+00:05:49.074 --> 00:05:50.812
+preserved the earlier names.
 
-00:01:04.388 --> 00:01:07.794
-Character encoding is the rule for turning text into
+00:05:50.866 --> 00:05:53.566
+Now apply those same rules to a different
 
-00:01:07.794 --> 00:01:09.236
-stored bytes and back.
+00:05:53.566 --> 00:05:54.027
+roster.
 
-00:01:09.236 --> 00:01:11.201
-Both directions use UTF eight.
+00:05:54.027 --> 00:05:57.123
+We'll change the first written text to Iris and
 
-00:01:11.201 --> 00:01:14.476
-By default, writeString creates a file or replaces
+00:05:57.123 --> 00:05:59.823
+Bo, then change the appended name to Eli.
 
-00:01:14.476 --> 00:01:15.655
-existing contents.
+00:05:59.823 --> 00:06:02.787
+The operations and newline rule will stay the
 
-00:01:15.655 --> 00:01:18.079
-APPEND adds text to an existing file.
+00:06:02.787 --> 00:06:03.116
+same.
 
-00:01:18.079 --> 00:01:20.176
-These calls do not add newlines.
+00:06:16.344 --> 00:06:19.045
+Before running, predict every output line and
 
-00:01:20.176 --> 00:01:21.748
-The strings supply them.
+00:06:19.045 --> 00:06:20.726
+the number after Characters.
 
-00:01:21.748 --> 00:01:25.220
-readString brings the whole small file into a String.
+00:06:20.726 --> 00:06:23.306
+Follow the first write, the append, and the
 
-00:01:25.220 --> 00:01:27.840
-These helpers close their own resources.
+00:06:23.306 --> 00:06:25.167
+stored newline after each name.
 
-00:01:27.840 --> 00:01:30.788
-The catch handles an input or output failure.
+00:06:25.167 --> 00:06:27.928
+Pause here and work out the complete recovered
 
-00:01:30.863 --> 00:01:34.137
-Predict every output line, including the character
+00:06:27.928 --> 00:06:30.569
+String before you compare it with execution.
 
-00:01:34.137 --> 00:01:34.530
-count.
+00:06:38.668 --> 00:06:41.739
+Let's click Run and compare your prediction with
 
-00:01:34.530 --> 00:01:37.543
-Remember to count each newline in the strings.
+00:06:41.739 --> 00:06:44.043
+the actual saved-and-recovered text.
 
-00:01:37.543 --> 00:01:38.263
-Pause here.
+00:06:49.373 --> 00:06:52.051
+Iris, Bo, and Eli appear on their separate
 
-00:01:43.056 --> 00:01:46.475
-The output shows Maya, Luis, and Nora on separate
+00:06:52.051 --> 00:06:54.473
+lines, followed by a length of twelve.
 
-00:01:46.475 --> 00:01:48.638
-lines, then fifteen characters.
+00:06:54.473 --> 00:06:57.342
+The names and their newlines contribute five,
 
-00:01:48.638 --> 00:01:52.266
-Each name has four characters, and each newline adds
+00:06:57.342 --> 00:06:58.999
+three, and four positions.
 
-00:01:52.266 --> 00:01:52.545
-one.
+00:06:58.999 --> 00:07:02.059
+This complete run created a new directory before
 
-00:01:52.545 --> 00:01:55.684
-The appended text followed the existing text.
+00:07:02.059 --> 00:07:05.119
+writing, so it did not append Eli to the earlier
 
-00:01:55.684 --> 00:01:59.382
-String length is not a general measure of stored file
+00:07:05.119 --> 00:07:05.948
+run's roster.
 
-00:01:59.382 --> 00:01:59.731
-size.
+00:07:06.002 --> 00:07:08.816
+You used a path to identify a location, matching
 
-00:02:00.057 --> 00:02:03.468
-Remove only the APPEND option from the second write,
+00:07:08.816 --> 00:07:11.572
+UTF-8 operations to store and recover text, and
 
-00:02:03.468 --> 00:02:06.223
-keeping the file path, text, and encoding.
+00:07:11.572 --> 00:07:14.152
+append to keep earlier contents while adding
 
-00:02:06.223 --> 00:02:09.503
-Predict the new file contents and character count,
+00:07:14.152 --> 00:07:14.445
+more.
 
-00:02:09.503 --> 00:02:10.881
-then run the program.
+00:07:14.445 --> 00:07:17.259
+The observed results connect those operations to
 
-00:02:10.881 --> 00:02:13.964
-What does this reveal about writing again to an
+00:07:17.259 --> 00:07:19.077
+the coordinator's saved roster.
 
-00:02:13.964 --> 00:02:14.882
-existing file?
+00:07:19.077 --> 00:07:21.422
+In the notebook, you'll also compare the
+
+00:07:21.422 --> 00:07:23.943
+complete recovered String with the intended
+
+00:07:23.943 --> 00:07:25.702
+text, including every newline.
+
+00:07:25.772 --> 00:07:28.167
+For a transfer question, imagine that the
+
+00:07:28.167 --> 00:07:30.854
+coordinator needs to correct the entire roster
+
+00:07:30.854 --> 00:07:32.607
+rather than add a new arrival.
+
+00:07:32.607 --> 00:07:35.411
+Which write behavior should you choose, and what
+
+00:07:35.411 --> 00:07:37.748
+exact read-back test would show that the
+
+00:07:37.748 --> 00:07:39.909
+correction replaced the old contents?
+
+00:07:39.909 --> 00:07:42.596
+Use that distinction as you begin the notebook
+
+00:07:42.596 --> 00:07:43.122
+practice.

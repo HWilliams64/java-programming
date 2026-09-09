@@ -1,80 +1,61 @@
-# Transcript: Paths and Text Files
+# Paths and Text Files — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It writes and reads a small roster using UTF-8, a rule for converting text into small units of stored data called bytes and back. The program creates a new temporary practice directory each time it runs. Its file remains there when the program ends.
+## Narration
 
-Gray labels beside some method arguments are editor hints for parameter names. They are not extra source text. The complete source below preserves exactly what the program runs.
+Welcome! In this Java tutorial, you'll use file paths to describe locations, write and read text using UTF-8, a rule for representing text as bytes, and append new text while preserving what was already saved.
 
-## 0:00–0:22 — Goal
+File paths, matching text encodings, and deliberate write modes let applications save rosters, settings, or word dictionaries that a later run can recover after its variables are gone.
 
-**On screen:** A title card introduces Paths and Text Files. The Workspace then shows an empty Main.java editor while the narration previews saving and reading a roster. No result is shown.
+Our club coordinator starts a roster with Maya and Luis, then adds Nora. We'll give this run its own practice directory and save one name per line, including a newline after the final name.
 
-We will save a small roster, add text, and read it back. File I O means file input and output. A path represents a location. Naming a path does not create a file. Our practice file will stay inside a newly created directory, or folder.
+Success means reading the saved file back and seeing all three names in order. We'll also inspect the recovered String's length, counting the stored newlines along with these letters. That count measures the String, not a general file byte size.
 
-## 0:22–1:04 — Locate the practice file
+Now that we're in the Workspace, let's open Main.java.
 
-**On screen:** The complete 20-line source is typed into Main.java. Lines 9 and 10 are selected: creating the temporary directory and resolving roster.txt inside it. All source lines remain visible. The lower caption stays below the code.
+The file is open. We'll begin with the library types used for paths, file operations, encoding, the append option, and a checked I/O failure. These imports let the program use each type's short name.
 
-The complete source is:
+Path represents a location. Files supplies operations that create, write, and read. StandardCharsets and StandardOpenOption provide named choices for those operations; IOException gives our handler a specific failure type.
 
-```java
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.nio.charset.StandardCharsets;
-import java.io.IOException;
-public class Main {
-    public static void main(String[] args) {
-        try {
-            Path directory = Files.createTempDirectory("csc239-text-");
-            Path roster = directory.resolve("roster.txt");
-            Files.writeString(roster, "Maya\nLuis\n", StandardCharsets.UTF_8);
-            Files.writeString(roster, "Nora\n", StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-            String text = Files.readString(roster, StandardCharsets.UTF_8);
-            System.out.print(text);
-            System.out.println("Characters: " + text.length());
-        } catch (IOException problem) {
-            System.out.println("File problem: " + problem.getMessage());
-        }
-    }
-}
-```
+Let's put the operations in the Main class and its main method, the entry point for this Java application. A try block will keep the attempted file work together before its matching handler.
 
-An absolute path starts from the file system root. A relative path needs a base. Here, resolve combines the new directory with the relative name roster dot text. The temporary directory is a distinct practice location. It is not automatically deleted when this program ends.
+This structure holds the same operations as the notebook. If an I/O operation fails, control will leave the remaining normal work and enter the handler. First, we need a separate location so this demonstration does not reuse an earlier roster.
 
-## 1:04–1:30 — Write and read text
+Creating the temporary directory actually makes a new directory and returns its path. Resolving roster dot text then builds a child path inside it; that second line does not create the file. The generated parent name can change on every complete run. Temporary also does not mean the directory disappears when this program ends.
 
-**On screen:** Lines 11 through 17 are selected while the narration explains the two writeString calls, explicit UTF-8, readString, output, and the IOException catch. The complete source is readable, including the APPEND option at the end of the second write.
+With the location ready, we'll store Maya and Luis as the starting contents. Each name includes a newline. We choose UTF-8 explicitly so the later read will use the same rule for recovering the text.
 
-Character encoding is the rule for turning text into stored bytes and back. Both directions use UTF eight. By default, writeString creates a file or replaces existing contents. APPEND adds text to an existing file. These calls do not add newlines. The strings supply them. readString brings the whole small file into a String. These helpers close their own resources. The catch handles an input or output failure.
+This normal write creates the missing roster file. If the file already existed, the same kind of write would replace its complete contents. It adds no line breaks beyond the newlines supplied in the String. The path identifies where to write; the String supplies what to store.
 
-## 1:30–1:41 — Predict the result
+Nora arrives after the starting roster is saved. Replacing the file now would lose Maya and Luis, so the next write will select append mode and add Nora at the existing end.
 
-**On screen:** The selection clears and the complete source remains visible. The learner is asked to predict every output line and count the newlines. A three-second pause follows. The program has not run and no result is visible yet.
+The append option preserves the first two names and adds Nora with her newline. This option alone expects the file to exist, which is why the normal first write came earlier. All three names now have their own line ending. To inspect what was actually saved, we'll read from the file instead of printing a separate expected roster.
 
-Predict every output line, including the character count. Remember to count each newline in the strings. Pause here.
+Reading with UTF-8 produces the recovered String, including its line endings. Print displays those stored characters. The following length report counts positions in that String. For these names, each letter and newline occupies one position. These whole-file helpers close the file resources they use; a much larger file may call for the line-by-line approach taught next.
 
-## 1:41–1:59 — Run and interpret the result
+Let's finish the failure handler. It will report the actual exception message, so a failed operation cannot look like a successful read of an empty roster.
 
-**On screen:** The terminal opens and shows javac Main.java && java Main, followed by Maya, Luis, Nora, and Characters: 15 on four lines. All four output lines remain clear. The terminal-focused zoom crops the first imports at the top; its upper caption briefly overlaps the remaining imports and the Main and main headings. The path operations, write/read statements, catch, and complete terminal output stay readable. The terminal runs:
+The completed normal path creates a location, saves two names, appends one, and reads them back. Each of our three names has four letters; each also has one stored newline. Let's click Run and check both the recovered text and the count.
 
-```text
-javac Main.java && java Main
-```
+The read-back shows Maya, Luis, and Nora in order. Twelve letters plus three newlines give the reported length of fifteen. The final stored newline places Characters on its own line. We see normal output instead of a failure report, and the recovered text shows that append preserved the earlier names.
 
-It reports:
+Now apply those same rules to a different roster. We'll change the first written text to Iris and Bo, then change the appended name to Eli. The operations and newline rule will stay the same.
 
-```text
-Maya
-Luis
-Nora
-Characters: 15
-```
+Before running, predict every output line and the number after Characters. Follow the first write, the append, and the stored newline after each name. Pause here and work out the complete recovered String before you compare it with execution.
 
-The output shows Maya, Luis, and Nora on separate lines, then fifteen characters. Each name has four characters, and each newline adds one. The appended text followed the existing text. String length is not a general measure of stored file size.
+Let's click Run and compare your prediction with the actual saved-and-recovered text.
 
-## 2:00–2:17 — Try a writing change
+Iris, Bo, and Eli appear on their separate lines, followed by a length of twelve. The names and their newlines contribute five, three, and four positions. This complete run created a new directory before writing, so it did not append Eli to the earlier run's roster.
 
-**On screen:** The view returns to the complete source with both writeString calls selected. The successful output remains below. The learner is asked to remove the APPEND option from the second write and predict the effect. This change is not performed in the recording. The final hold keeps the selected statements and actual result visible.
+You used a path to identify a location, matching UTF-8 operations to store and recover text, and append to keep earlier contents while adding more. The observed results connect those operations to the coordinator's saved roster. In the notebook, you'll also compare the complete recovered String with the intended text, including every newline.
 
-Remove only the APPEND option from the second write, keeping the file path, text, and encoding. Predict the new file contents and character count, then run the program. What does this reveal about writing again to an existing file?
+For a transfer question, imagine that the coordinator needs to correct the entire roster rather than add a new arrival. Which write behavior should you choose, and what exact read-back test would show that the correction replaced the old contents? Use that distinction as you begin the notebook practice.
 
+## Visual description
+
+[Four designed opening scenes establish file paths, UTF-8 and append; connect a saved record to a later program run; show a club coordinator with Maya and Luis plus arriving Nora; and describe the complete recovered roster and stored newline rule.]
+
+[The real Workspace appears and Main.java opens. The camera follows actual typing of the library imports, Main class and main entry method, and try block. The program creates a new temporary directory, resolves roster.txt, writes Maya and Luis with UTF-8, appends Nora, then reads the text back with UTF-8. It prints the recovered names and the String length. An IOException handler reports a file problem.]
+
+[The pointer clicks the native Run Code button. The terminal shows Maya, Luis, Nora, and Characters: 15 on separate lines. The explanation counts twelve letters and three stored newlines.]
+
+[The first write is edited to Iris and Bo and the append is edited to Eli. A prediction prompt and pause precede the second native Run Code click. The terminal shows Iris, Bo, Eli, and Characters: 12. The explanation counts five, three and four String positions including the newlines and notes that the complete run created its own new directory. The closing connects paths, matching encoding and append to recovery, then asks which write behavior should correct the complete roster and what read-back test would confirm the replacement.]

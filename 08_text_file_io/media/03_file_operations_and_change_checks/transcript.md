@@ -1,95 +1,67 @@
-# Transcript: File Operations and Change Checks
+# File Operations and Change Checks — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It copies, moves, checks, and deletes files created in a new practice directory. It also compares two saved reads of a file's text. Every text read and write uses UTF-8. On this successful run, the program explicitly removes its remaining file and then its empty directory.
+## Narration
 
-Gray labels beside some method arguments are editor hints for parameter names. They are not extra source text. The complete source below preserves exactly what the program runs.
+Welcome! In this Java tutorial, you'll copy, move, and delete your own practice files, then compare file metadata, information such as byte size, with content snapshots, text retained from successful reads.
 
-## 0:00–0:21 — Goal
+Deliberate file operations and honest comparisons help applications preserve saved work, manage settings or game state, and distinguish a changed observation from an I/O failure instead of silently relying on old data.
 
-**On screen:** The title introduces file operations and change checks. The Workspace then shows an empty Main.java while the goal explains that every file belongs to a new practice directory.
+Our developer maintains a status file containing ready followed by a newline. We'll keep an archive copy, rewrite the working status as busy with an exclamation mark and a newline, and remove only the files this run creates.
 
-We will manage a small game-state file and compare its text at two moments. Every file belongs to a newly created practice directory. This keeps copying, moving, and deleting focused on files made by this example.
+The source should remain while its backup gets an archive name. Both status texts occupy six UTF-8 bytes, yet their contents differ. Removing the archive once should succeed; repeating that request should report that it is already absent.
 
-## 0:21–1:34 — Manage file paths
+Now that we're in the Workspace, let's open Main.java and build the file comparison.
 
-**On screen:** The program is typed into Main.java. The complete 32-line source is visible. Lines 8–17 are selected to show the practice paths, initial write, copy, move, and file checks. The caption sits below the code.
+We need the Files operations, Path locations, UTF-8 encoding, and IOException for failures. Main will contain the application, and its main method is where execution starts. We'll put the file operations inside a try block with a matching handler.
 
-The complete source is:
+The imports provide short names for those library types. The class and method enclose the runnable steps; the try block lets a file failure skip normal reports and reach our handler. First, we'll create a separate directory so every file we change belongs to this example.
 
-```java
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.charset.StandardCharsets;
-import java.io.IOException;
-public class Main {
-    public static void main(String[] args) {
-        try {
-            Path directory = Files.createTempDirectory("csc239-state-");
-            Path state = directory.resolve("state.txt");
-            Path backup = directory.resolve("backup.txt");
-            Path archive = directory.resolve("archive.txt");
-            Files.writeString(state, "ready\n", StandardCharsets.UTF_8);
-            Files.copy(state, backup);
-            Files.move(backup, archive);
-            System.out.println("Source exists: " + Files.exists(state));
-            System.out.println("Backup exists: " + Files.exists(backup));
-            System.out.println("Archive is file: " + Files.isRegularFile(archive));
-            String previous = Files.readString(state, StandardCharsets.UTF_8);
-            long previousSize = Files.size(state);
-            Files.writeString(state, "busy!\n", StandardCharsets.UTF_8);
-            String current = Files.readString(state, StandardCharsets.UTF_8);
-            System.out.println("Same size: " + (previousSize == Files.size(state)));
-            System.out.println("Content changed: " + !current.equals(previous));
-            System.out.println("Deleted archive: " + Files.deleteIfExists(archive));
-            System.out.println("Deleted again: " + Files.deleteIfExists(archive));
-            Files.deleteIfExists(state);
-            Files.deleteIfExists(directory);
-        } catch (IOException problem) {
-            System.out.println("File problem: " + problem.getMessage());
-        }
-    }
-}
-```
+Creating the temporary directory makes one real directory. Each resolve call only constructs a child Path; it does not create a file. The state path is our working original, backup is the initial copy location, and archive will be the copied file's later name.
 
-A copy creates another file while keeping the source. A move changes its location or name. Our destination paths start unused. Existence and regular-file checks describe what the program can observe now. A regular file stores data. A directory groups files. A false check can also mean the status could not be determined. The catch handles input or output failures.
+Let's write the developer's initial status, copy it, and move only the copy. This preserves the original for the later rewrite while keeping a separate saved version.
 
-## 1:35–2:02 — Compare snapshots and clean up
+The write creates ready followed by a newline. Copy creates the second file and leaves the source. Move then changes the copy's location from backup to archive. It does not move the original source. Both destinations began unused in this new directory; default copying or moving can fail when a destination already exists.
 
-**On screen:** The full source remains visible. Lines 18–27 are selected: the first saved text and byte count, a second write and read, comparisons, and deletion. The bottom caption leaves those lines clear. The editor may join the two equals signs in == visually; the source still contains both characters.
+Now we'll inspect the three paths. Existence asks whether an entry is there, while the regular-file check asks whether the archive holds ordinary file data rather than naming a directory.
 
-Metadata is information about a file, such as its stored byte size. A content snapshot keeps text from one read for later comparison. Here, previous saves the first text and previousSize saves its byte count. After writing again, current saves a second read. Comparing the strings asks whether their text differs. Deleting removes a file. deleteIfExists reports whether it removed one. A directory must be empty before deletion.
+After these successful operations, the source exists, the old backup path is absent, and the archive is a regular file. These checks describe observations at that moment. They cannot guarantee that a later read succeeds; another program could change an entry, and false can also mean the answer could not be determined.
 
-## 2:02–2:16 — Predict the result
+Locations tell us where the files are, but the developer also needs to know what changed. We'll retain the source's current text and byte size, then rewrite it and read the new text.
 
-**On screen:** The selection clears. All 32 source lines remain visible while the learner is asked to predict seven lines. A three-second pause follows before the terminal opens; the answer is not yet shown.
+Previous keeps ready and its newline from the first successful read. PreviousSize stores the byte count as a long, the whole-number type returned by Files.size. The rewrite changes the working source, and current receives the later text. The separate archive still holds the copied original; rewriting the source does not synchronize that other file.
 
-Predict all seven output lines. Track the three file paths, compare the saved text and sizes, then consider both attempts to delete the archive. Pause here.
+We'll ask two different questions: does the byte size match, and do the read text values differ? Each answer needs its own comparison.
 
-## 2:16–2:40 — Run and interpret the result
+Both texts occupy six bytes here: five ordinary characters and one newline. Their sizes therefore match. Equals compares the String contents, and the exclamation operator reverses that Boolean so true means different. Equal size does not imply equal text. These saved Strings are observations, not a complete history of every write.
 
-**On screen:** The view moves closer to the terminal, where all seven output lines are readable. A top caption briefly covers parts of the earlier Main, main, and try headings. The first import and final closing brace are outside this closer editor view; earlier views showed the complete source. The file operations, text comparisons, and deletion statements remain visible. The saved-read comparison lines become selected near the end of this explanation. The terminal runs:
+The comparison is ready. Let's remove the archive twice to distinguish a successful deletion from an already-absent entry, then remove the source before its empty directory.
 
-```text
-javac Main.java && java Main
-```
+The first deletion removes the archive and returns true. The repeated request returns false because no entry remains there. Other deletion failures still throw exceptions. Removing the source leaves the directory empty; deleting a nonempty directory this way would fail. We name only this run's owned entries.
 
-It reports:
+We'll finish the handler to report the actual I/O problem if an operation fails. Earlier successful changes may remain, and an exception can skip later normal cleanup. This small example does not promise to undo the entire sequence.
 
-```text
-Source exists: true
-Backup exists: false
-Archive is file: true
-Same size: true
-Content changed: true
-Deleted archive: true
-Deleted again: false
-```
+Our complete program creates its own files, preserves a copy under an archive name, compares two source observations, and cleans up on the successful path. Let's click Run and inspect the seven reports.
 
-The source remains, the backup name disappears after the move, and the archive is a regular file. Both stored texts occupy six bytes in UTF eight, but their contents differ. The first archive deletion succeeds. The second reports that nothing was deleted. Finally, the program removes its state file and the now-empty practice directory.
+The first three reports confirm the retained source, absent backup path, and regular archive file. Same size is true, and content changed is also true: matching byte counts hid a real text difference. The archive deletion reports true and then false. The following unprinted cleanup removes the source and empty directory.
 
-## 2:40–3:03 — Try a content change
+Apply that reasoning to a different pair of texts. We'll start with idle and a newline, then rewrite playing and a newline. Only those two literals will change. The paths, copying, moving, comparisons, and cleanup stay the same.
 
-**On screen:** The view widens, showing source lines 1–31 and all seven original output lines. The final closing brace is below the editor divider. The selected lines contain the saved reads, byte-size check, and text comparison. The learner is asked to change only the second written text and predict the results. No change is performed in this recording; the original output remains on screen through the closing pause.
+Before running, predict all seven reports. Follow the source and copied entry through their locations. Count the bytes in each text, including its newline, then decide the size and content comparisons and both deletion results. Pause here to work out your prediction.
 
-Polling means checking at separate moments. These two reads notice a difference between their snapshots. Change only the second written text back to ready followed by its newline. Predict both comparison results, then run again. Could a change from ready to another value and back entirely between reads escape these checks?
+Let's click Run and compare your prediction with the actual operations.
 
+Idle and its newline occupy five bytes; playing and its newline occupy eight. Same size is now false, while content changed stays true. The location and deletion reports stay the same because those operations did not change. Running the whole program again creates another directory, so each successful run has fresh unused targets.
+
+You used copy and move to preserve one version while changing its location, compared metadata with actual read text, and deleted only known entries in order. The reports complete the developer's task. In the notebook, the snapshot object repeats the read, compare, and update pattern, keeping its prior baseline when a read fails.
+
+For a transfer question, suppose your saved observation is ready. Another program writes busy and then ready before your next successful read. What would a content comparison report, and what would it leave unknown about the intervening writes? Explain why a failed read would be a different outcome.
+
+## Visual description
+
+[Four designed opening scenes establish copying, moving, deleting, and comparing metadata with content snapshots. A saved-work flow connects the skills to settings and game state. A developer preserves ready plus a newline by copying state.txt to backup.txt and moving that copy to archive.txt, then rewrites only the original as busy! plus a newline. The last opening scene displays the seven expected worked-case reports and three numbered explanations.]
+
+[The real Workspace appears and Main.java opens. The camera follows actual typing of four imports, the Main class, and its main method. The program creates a private temporary directory and three paths, writes the initial text, copies to an unused target, and moves the copy to its archive name. It prints existence and regular-file observations. It retains the first byte size and successfully read text, rewrites the source, then compares the new size and text separately. It deletes the archive twice to compare removal with an already absent target, and cleans up its source and directory. An IOException handler provides a separate failure report.]
+
+[The pointer clicks the actual Run Code button. The terminal reports Source exists: true, Backup exists: false, Archive is file: true, Same size: true, Content changed: true, Deleted archive: true, and Deleted again: false. The narration explains that both texts use six UTF-8 bytes even though their content differs.]
+
+[Two visible line edits change the initial text to idle plus a newline and the replacement to playing plus a newline. A prediction question and pause come before the second native Run Code click. The same seven labels appear; Same size is now false because the texts use five and eight bytes, while Content changed remains true. The closing connects the file lifecycle and distinct observations to the original task, then bridges to the notebook's repeated snapshot helper and asks about a ready-to-busy-to-ready change between checks and a failed read.]
