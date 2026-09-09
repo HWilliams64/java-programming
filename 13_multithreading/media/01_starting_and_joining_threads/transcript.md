@@ -1,94 +1,61 @@
-# Transcript: Starting and Joining Threads
+# Starting and Joining Threads — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. Two counting jobs own separate totals. The caller starts both threads, joins both, then reports their completed results. The printed order does not establish which worker finished first.
+## Narration
 
-Gray parameter names beside some arguments are editor hints. They are not part of the exact source below.
+Welcome to this Java tutorial, where you'll describe independent work with Runnable, start separate threads, and join them before reading their results.
 
-## 0:00–0:18 — Goal
+Clear ownership and completion rules let larger applications prepare independent parts of a report while ensuring the caller uses finished results.
 
-**On screen:** The title card says Starting and Joining Threads, followed by a blank Main.java editor in the Workspace.
+A campus welcome desk needs two preparation counts. One job models two badge checks; the other models four supply checks. Each loop iteration adds one completed check to that job's own count. These are small model counts, not actual badge inspections or file operations.
 
-We will start two counting jobs, then wait until both results are ready. A thread is a separate path of execution within a Java process.
+We'll start both workers, wait for both to finish, and then report the first count, the second count, and whether either worker is still alive. The caller will print in that fixed order. After the worked run, you'll predict the report for different job limits; the output will still not tell us which worker finished first.
 
-## 0:18–0:52 — Give each worker its own state
+Let's open Main.java in the Workspace and give this program a starting point. Then we'll define the work before creating the workers that execute it.
 
-**On screen:** The complete program is typed. A highlight selects CountJob, its separate limit and total fields, its counting loop and getTotal reader. All source lines remain visible.
+Main is the class containing the program, and its main method starts the caller's execution. Waiting with join can throw the checked InterruptedException, so this small demonstration declares that possibility. Our expected report follows the normal path where both waits complete.
 
-The complete source is:
+Each preparation job needs its own limit and result. We'll define CountJob here inside the main method, using Runnable to specify its work operation. The constructor records the requested checks and starts that object's total at zero.
 
-```java
+The two fields belong to each CountJob object. Private limits direct field access, but it does not by itself keep threads from sharing an object. Our design will give each worker a separate job. Let's supply the run method that performs that job's counting work.
 
-public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        class CountJob implements Runnable {
-            private int limit;
-            private int total;
-            public CountJob(int limit) { this.limit = limit; this.total = 0; }
-            @Override
-            public void run() {
-                for (int index = 0; index < limit; index = index + 1) {
-                    total = total + 1;
-                }
-            }
-            public int getTotal() { return total; }
-        }
-        CountJob first = new CountJob(3);
-        CountJob second = new CountJob(2);
-        Thread firstWorker = new Thread(first);
-        Thread secondWorker = new Thread(second);
-        firstWorker.start();
-        secondWorker.start();
-        firstWorker.join();
-        secondWorker.join();
-        System.out.println("First: " + first.getTotal());
-        System.out.println("Second: " + second.getTotal());
-        System.out.println("Workers alive: " + (firstWorker.isAlive() || secondWorker.isAlive()));
-    }
-}
+The loop begins at zero and adds one for each index below the limit. Override checks that this public method implements the interface operation. Defining run has not started a worker; it only describes what a later invocation will do.
 
-```
+The caller will need to read the completed total, so let's add a getter and finish the job definition. The getter returns a value; it will not wait for the work on its own.
 
-Runnable supplies work through its run method. Each CountJob owns a separate total. Its loop increases that total until it reaches the job's limit.
+Now let's create separate jobs for the two badge checks and four supply checks. Each receives its own limit and zero result, which keeps their changing totals separate.
 
-## 0:52–1:09 — Start both, then join both
+First and second identify the work objects. To request separate execution, we also need two Thread objects, each associated with its corresponding job. Constructing those workers still does not run the counting loops.
 
-**On screen:** A highlight selects the two job objects, their Thread objects, both start calls and both join calls. The caller prints the results below those joins.
+We have two jobs and two prepared execution paths. Let's start both before waiting for either, so both requests exist before the caller begins its first wait.
 
-Each start schedules work on a new thread. Calling run directly would be an ordinary call on the current thread. We start both workers before joining either. Each join waits for its own target to finish. The execution paths may take turns or run at the same time.
+Start requests that a worker execute its run method while the caller can continue. Calling a job's run method directly would instead be an ordinary call on the caller's thread. Starting allows concurrent progress; it does not guarantee simultaneous execution, faster completion, or a particular finishing order.
 
-## 1:09–1:23 — Predict the result
+The report needs finished values, so let's join each started worker. Joining the first concerns only that worker; the second may keep progressing while the caller waits.
 
-**On screen:** The complete code remains visible with no program output yet. A pause gives you time to predict the results before the command runs.
+When an untimed join on a started worker returns normally, that worker has terminated and its earlier writes are visible to the caller. Both joins are needed before treating both totals as final. If a join exits through interruption, that exception does not establish completion and this expected report does not follow.
 
-Predict the two totals and whether either worker is alive when the last line prints. Does the first printed result prove that worker finished first? Pause before running.
+Let's print each job's finished total, then ask whether either worker is alive. This observation is meaningful after the starts and joins: false by itself could also describe a thread that was never started.
 
-## 1:23–1:42 — Run and interpret the result
+The caller's print statements fix the report order. Each worker changed only its own job's total, and both waits now establish completion. Let's click Run to see the completed counts.
 
-**On screen:** The terminal shows the completed command and the three exact output lines. A closer view keeps both join calls and the output readable. The prompt has returned. The terminal runs:
+First is two because that job performed two increments. Second is four because its separate job performed four. Workers alive is false after both workers have terminated. These lines come from the caller; listing First before Second does not tell us which counting job finished first.
 
-```text
-javac Main.java && java Main
-```
+Let's change the two job limits to three badge checks and two supply checks. The ownership, starts, joins, and print statements stay the same. Running the complete program again will construct fresh jobs and fresh Thread objects; a Thread object itself cannot be started a second time.
 
-It reports:
+Before running, predict all three report lines for the new limits. Then decide whether the report can establish which worker finished first. Use the loop counts, each normal join, and the caller's print order as separate parts of your explanation.
 
-```text
-First: 3
-Second: 2
-Workers alive: false
-```
+Let's click Run and compare your prediction with the actual report from these new work objects.
 
-The totals are three and two, and neither worker is alive. Both joins returned normally before the caller read the results. The caller prints First before Second. This output does not establish which worker finished first or show a speed advantage.
+First is now three and Second is two, matching the two new limits. Neither worker is alive after both joins. The values changed because the requested work changed, while the same ownership and completion rules kept the results ready for the caller. The report still does not establish worker finish order.
 
-## 1:42–1:54 — Create new workers for another attempt
+You separated work descriptions from execution paths, started independent workers, and waited before reading their results. Each worker owned its changing total, and a normal join established completion and visibility. For a transfer task, describe two independent jobs in a report you might build. Identify each job's state, where the caller must wait, and why the final report order would not prove simultaneous execution or finishing order.
 
-**On screen:** The two Thread declarations, both starts and both joins are highlighted while the completed output remains visible.
+## Visual description
 
-A Thread can be started once. A new attempt needs new Thread objects. Rerunning this complete program creates both jobs and their workers again, so each total begins at zero.
+[Four designed opening scenes distinguish work descriptions, worker execution and completed results; explain completion and ownership; introduce two badge checks and four supply checks at a campus welcome desk; and present blank report criteria without revealing the later prediction.]
 
-## 1:54–2:06 — Transfer the reasoning
+[The real Workspace opens Main.java. The camera follows construction of CountJob with its own limit and total, a run loop that increments its total, and a result getter. Two separate jobs are associated with separate threads. The caller starts both workers and joins both before printing.]
 
-**On screen:** The job limits and the caller code are highlighted. The completed original output remains visible while the final question asks you to reason about changing only the second limit.
+[The pointer clicks native Run Code. The three output lines are First: 2, Second: 4, and Workers alive: false. The caller fixes report order; the output does not establish worker finish order, simultaneous execution, or a speed gain.]
 
-If only the second limit becomes five, which output lines would change, and which would stay the same? Explain why both join calls still matter.
-
+[Two constructor input lines are visibly changed to three and two. A prediction and thinking pause precede the second native Run Code click. The canonical output is First: 3, Second: 2, and Workers alive: false. The closing connects separate mutable state and normal completion waits to reading finished results, then asks students to describe two independent report jobs, identify their state and completion waits, and explain why final report order does not prove simultaneous execution or finishing order.]

@@ -1,0 +1,505 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:03.441
+Welcome to this Java tutorial, where you'll
+
+00:00:03.441 --> 00:00:06.194
+coordinate a producer and consumer through a
+
+00:00:06.194 --> 00:00:09.010
+bounded queue and use an agreed item count to
+
+00:00:09.010 --> 00:00:10.512
+complete their delivery.
+
+00:00:11.152 --> 00:00:13.740
+Separating delivery from processing helps
+
+00:00:13.740 --> 00:00:16.708
+applications handle requests at different rates
+
+00:00:16.708 --> 00:00:19.486
+while limiting pending work and establishing
+
+00:00:19.486 --> 00:00:21.127
+when a report is complete.
+
+00:00:21.772 --> 00:00:24.645
+A campus supply desk passes item requests from
+
+00:00:24.645 --> 00:00:26.019
+one worker to another.
+
+00:00:26.019 --> 00:00:28.392
+Our first list contains tag, then map.
+
+00:00:28.392 --> 00:00:31.265
+The producer must send each name once, and the
+
+00:00:31.265 --> 00:00:33.826
+consumer must collect both in that order.
+
+00:00:33.826 --> 00:00:36.449
+The queue can hold two pending names; each
+
+00:00:36.449 --> 00:00:38.697
+removal makes space available again.
+
+00:00:39.348 --> 00:00:42.009
+We expect the received list to contain tag, then
+
+00:00:42.009 --> 00:00:44.282
+map, and the completed queue to be empty.
+
+00:00:44.282 --> 00:00:46.611
+Both workers must finish before the caller
+
+00:00:46.611 --> 00:00:47.775
+prints those reports.
+
+00:00:47.775 --> 00:00:50.159
+Later, you'll predict a delivery with three
+
+00:00:50.159 --> 00:00:52.488
+names through the same capacity-two queue.
+
+00:00:52.488 --> 00:00:54.982
+We will distinguish what the queue guarantees
+
+00:00:54.982 --> 00:00:57.588
+from what the final output cannot tell us about
+
+00:00:57.588 --> 00:00:58.198
+scheduling.
+
+00:00:58.881 --> 00:01:01.320
+Let's open Main.java in the Workspace.
+
+00:01:01.320 --> 00:01:04.208
+We'll build the two jobs, connect them to one
+
+00:01:04.208 --> 00:01:06.840
+queue, and have the caller wait for their
+
+00:01:06.840 --> 00:01:07.931
+completed report.
+
+00:01:11.755 --> 00:01:14.534
+We need ArrayList for the consumer's result and
+
+00:01:14.534 --> 00:01:16.840
+two queue types for the shared handoff.
+
+00:01:16.840 --> 00:01:19.146
+BlockingQueue describes the operations;
+
+00:01:19.146 --> 00:01:21.984
+ArrayBlockingQueue supplies their fixed-capacity
+
+00:01:21.984 --> 00:01:22.871
+implementation.
+
+00:01:22.871 --> 00:01:25.472
+Let's add those imports and the main method.
+
+00:01:25.472 --> 00:01:28.311
+The caller declares InterruptedException because
+
+00:01:28.311 --> 00:01:30.380
+its later joins can be interrupted.
+
+00:01:50.312 --> 00:01:53.242
+Let's define WordDelivery, the producer's job.
+
+00:01:53.242 --> 00:01:56.108
+It keeps the supplied queue reference and the
+
+00:01:56.108 --> 00:01:57.064
+array of names.
+
+00:01:57.064 --> 00:02:00.057
+Recording those references does not copy either
+
+00:02:00.057 --> 00:02:00.503
+object.
+
+00:02:00.503 --> 00:02:03.306
+Our example leaves the input array unchanged
+
+00:02:03.306 --> 00:02:04.962
+while the worker reads it.
+
+00:02:36.072 --> 00:02:39.010
+The producer's run method will visit every name
+
+00:02:39.010 --> 00:02:41.634
+in array order and call put once for each.
+
+00:02:41.634 --> 00:02:44.572
+Put can wait when the bounded queue has no free
+
+00:02:44.572 --> 00:02:47.197
+slot, so we'll place the loop inside a try
+
+00:02:47.197 --> 00:02:47.822
+statement.
+
+00:02:59.970 --> 00:03:02.742
+A full queue slowing delivery is backpressure.
+
+00:03:02.742 --> 00:03:05.515
+Put can proceed when a removal makes space, so
+
+00:03:05.515 --> 00:03:08.227
+the capacity limits pending names rather than
+
+00:03:08.227 --> 00:03:09.794
+the total names delivered.
+
+00:03:09.794 --> 00:03:12.687
+Let's also handle an interrupted queue operation
+
+00:03:12.687 --> 00:03:15.399
+by restoring this worker's interrupt flag and
+
+00:03:15.399 --> 00:03:16.845
+reaching the end of run.
+
+00:03:30.030 --> 00:03:32.604
+InterruptedException reports a cooperative
+
+00:03:32.604 --> 00:03:34.626
+interruption and clears the flag.
+
+00:03:34.626 --> 00:03:37.383
+Restoring it records the request; leaving the
+
+00:03:37.383 --> 00:03:39.650
+work method is what ends this worker.
+
+00:03:39.650 --> 00:03:42.530
+The expected report follows normal delivery, so
+
+00:03:42.530 --> 00:03:45.410
+this exit path should not be mistaken for proof
+
+00:03:45.410 --> 00:03:47.555
+that every requested name was sent.
+
+00:03:47.586 --> 00:03:49.596
+Now let's define WordCollector.
+
+00:03:49.596 --> 00:03:52.448
+It needs the same queue, an agreed number of
+
+00:03:52.448 --> 00:03:55.495
+items to receive, and its own ArrayList for the
+
+00:03:55.495 --> 00:03:55.949
+report.
+
+00:03:55.949 --> 00:03:59.061
+Only this consumer will change that result list.
+
+00:04:36.638 --> 00:04:39.438
+Let's implement the collector's counted loop.
+
+00:04:39.438 --> 00:04:42.301
+Take removes and returns the next queued item,
+
+00:04:42.301 --> 00:04:44.106
+waiting if none is available.
+
+00:04:44.106 --> 00:04:47.093
+Java obtains that returned name before adding it
+
+00:04:47.093 --> 00:04:50.080
+to received; the add has not occurred while take
+
+00:04:50.080 --> 00:04:51.138
+is still waiting.
+
+00:05:10.628 --> 00:05:13.271
+ArrayBlockingQueue uses first-in, first-out
+
+00:05:13.271 --> 00:05:13.640
+order.
+
+00:05:13.640 --> 00:05:16.590
+With one producer and one consumer, the received
+
+00:05:16.590 --> 00:05:19.172
+names keep the producer's insertion order.
+
+00:05:19.172 --> 00:05:21.938
+A take transfers its item to one receiver; it
+
+00:05:21.938 --> 00:05:23.291
+does not broadcast it.
+
+00:05:23.291 --> 00:05:26.118
+Let's give the collector the same interruption
+
+00:05:26.118 --> 00:05:28.946
+response and a report method for its completed
+
+00:05:28.946 --> 00:05:29.253
+list.
+
+00:05:48.946 --> 00:05:51.814
+The two roles own different surrounding state:
+
+00:05:51.814 --> 00:05:54.744
+the producer reads the unchanged input, and the
+
+00:05:54.744 --> 00:05:56.677
+consumer builds its own result.
+
+00:05:56.677 --> 00:05:59.358
+The queue coordinates their shared handoff.
+
+00:05:59.358 --> 00:06:02.039
+It does not automatically protect arbitrary
+
+00:06:02.039 --> 00:06:04.346
+objects elsewhere in the application.
+
+00:06:04.408 --> 00:06:07.384
+Let's create the first input, tag followed by
+
+00:06:07.384 --> 00:06:10.558
+map, and a queue that stores at most two pending
+
+00:06:10.558 --> 00:06:10.955
+names.
+
+00:06:10.955 --> 00:06:14.064
+This number describes the queue's capacity, not
+
+00:06:14.064 --> 00:06:15.783
+a lifetime delivery limit.
+
+00:06:28.005 --> 00:06:30.929
+Now let's connect both jobs to that one queue.
+
+00:06:30.929 --> 00:06:33.217
+WordDelivery receives the array, and
+
+00:06:33.217 --> 00:06:35.377
+WordCollector receives its length.
+
+00:06:35.377 --> 00:06:38.110
+This is the finite completion protocol: the
+
+00:06:38.110 --> 00:06:41.161
+number of successful takes must match the number
+
+00:06:41.161 --> 00:06:42.305
+of supplied names.
+
+00:06:56.857 --> 00:06:59.514
+An empty queue between handoffs does not mean
+
+00:06:59.514 --> 00:07:02.290
+delivery is over; the producer might still have
+
+00:07:02.290 --> 00:07:03.530
+another name to send.
+
+00:07:03.530 --> 00:07:06.010
+The agreed count supplies the ending rule.
+
+00:07:06.010 --> 00:07:08.727
+An extra take could wait for an item that will
+
+00:07:08.727 --> 00:07:11.384
+never arrive, while too few takes could leave
+
+00:07:11.384 --> 00:07:12.388
+work uncollected.
+
+00:07:12.388 --> 00:07:14.632
+Let's wrap each job in its own Thread.
+
+00:07:23.029 --> 00:07:25.530
+Both roles need a chance to make progress.
+
+00:07:25.530 --> 00:07:28.328
+Let's start both workers before joining either.
+
+00:07:28.328 --> 00:07:31.126
+Starting a producer and immediately waiting for
+
+00:07:31.126 --> 00:07:33.806
+it could prevent the caller from starting the
+
+00:07:33.806 --> 00:07:36.604
+consumer that would free space in a full queue.
+
+00:07:42.853 --> 00:07:44.587
+Now let's join both workers.
+
+00:07:44.587 --> 00:07:46.939
+Normal returns establish that each has
+
+00:07:46.939 --> 00:07:49.787
+terminated and that the caller can observe its
+
+00:07:49.787 --> 00:07:50.592
+earlier work.
+
+00:07:50.592 --> 00:07:53.564
+The caller can then read the consumer-owned list
+
+00:07:53.564 --> 00:07:56.536
+and inspect whether this completed delivery left
+
+00:07:56.536 --> 00:07:57.403
+a queued item.
+
+00:08:02.708 --> 00:08:05.421
+Let's print the received list and the queue's
+
+00:08:05.421 --> 00:08:07.591
+empty check, then close the program.
+
+00:08:07.591 --> 00:08:10.243
+Neither report will tell us whether a worker
+
+00:08:10.243 --> 00:08:13.137
+actually waited, which worker finished first, or
+
+00:08:13.137 --> 00:08:15.608
+whether the two roles ran simultaneously.
+
+00:08:28.773 --> 00:08:31.756
+Before running, connect the rules: two names are
+
+00:08:31.756 --> 00:08:34.676
+put in order, two names are taken in order, and
+
+00:08:34.676 --> 00:08:36.602
+both joins precede the reports.
+
+00:08:36.602 --> 00:08:39.523
+Let's click Run to check the complete delivery.
+
+00:08:46.380 --> 00:08:49.253
+The collector received tag, then map, and the
+
+00:08:49.253 --> 00:08:50.210
+queue is empty.
+
+00:08:50.210 --> 00:08:52.764
+The two handoffs match the agreed count.
+
+00:08:52.764 --> 00:08:55.318
+This is evidence of the completed finite
+
+00:08:55.318 --> 00:08:58.254
+delivery, while the final state alone does not
+
+00:08:58.254 --> 00:09:01.255
+reveal an earlier full or empty waiting period.
+
+00:09:01.363 --> 00:09:04.315
+Let's change only the input array to pen, map,
+
+00:09:04.315 --> 00:09:04.892
+and book.
+
+00:09:04.892 --> 00:09:06.881
+Keep the queue capacity at two.
+
+00:09:06.881 --> 00:09:09.833
+Because the collector takes the array's actual
+
+00:09:09.833 --> 00:09:12.720
+length, the next fresh run will require three
+
+00:09:12.720 --> 00:09:15.351
+receives without changing either worker's
+
+00:09:15.351 --> 00:09:16.313
+implementation.
+
+00:09:22.278 --> 00:09:24.941
+Predict both output lines before running.
+
+00:09:24.941 --> 00:09:27.540
+Explain how three items can pass through
+
+00:09:27.540 --> 00:09:30.138
+capacity two, and whether the report can
+
+00:09:30.138 --> 00:09:32.996
+establish that the producer actually waited.
+
+00:09:32.996 --> 00:09:35.920
+Use item order, removal making space, and the
+
+00:09:35.920 --> 00:09:38.453
+agreed receive count in your reasoning.
+
+00:09:46.765 --> 00:09:49.606
+Let's click Run to test the three-name delivery
+
+00:09:49.606 --> 00:09:51.540
+through the same queue capacity.
+
+00:09:58.156 --> 00:10:00.776
+All three names arrived in order, and the
+
+00:10:00.776 --> 00:10:02.374
+completed queue is empty.
+
+00:10:02.374 --> 00:10:04.930
+Removing names makes space available, so
+
+00:10:04.930 --> 00:10:07.998
+capacity two does not restrict total delivery to
+
+00:10:07.998 --> 00:10:08.254
+two.
+
+00:10:08.254 --> 00:10:11.066
+The output still does not establish an exact
+
+00:10:11.066 --> 00:10:13.750
+worker schedule or prove that either queue
+
+00:10:13.750 --> 00:10:15.156
+operation had to wait.
+
+00:10:15.258 --> 00:10:17.655
+You coordinated two roles with one bounded queue
+
+00:10:17.655 --> 00:10:19.103
+and a finite completion rule.
+
+00:10:19.103 --> 00:10:21.500
+In an ongoing application, stopping one role can
+
+00:10:21.500 --> 00:10:22.699
+leave the other waiting.
+
+00:10:22.699 --> 00:10:24.846
+Its owner must request interruption of both
+
+00:10:24.846 --> 00:10:27.044
+before joining either, and both workers must
+
+00:10:27.044 --> 00:10:27.993
+respond by exiting.
+
+00:10:27.993 --> 00:10:30.390
+For a transfer task, describe an ordered request
+
+00:10:30.390 --> 00:10:32.587
+stream, choose what limits pending work, and
+
+00:10:32.587 --> 00:10:34.735
+distinguish a fully delivered report from a
+
+00:10:34.735 --> 00:10:35.983
+completed early shutdown.

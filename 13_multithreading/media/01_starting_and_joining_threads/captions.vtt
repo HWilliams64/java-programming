@@ -1,103 +1,454 @@
 WEBVTT
 
-00:00:09.672 --> 00:00:13.258
-We will start two counting jobs, then wait until both
+00:00:00.750 --> 00:00:03.359
+Welcome to this Java tutorial, where you'll
 
-00:00:13.258 --> 00:00:14.477
-results are ready.
+00:00:03.359 --> 00:00:06.150
+describe independent work with Runnable, start
 
-00:00:14.477 --> 00:00:18.131
-A thread is a separate path of execution within a Java
+00:00:06.150 --> 00:00:08.941
+separate threads, and join them before reading
 
-00:00:18.131 --> 00:00:18.672
-process.
+00:00:08.941 --> 00:00:09.790
+their results.
 
-00:00:42.633 --> 00:00:45.772
-Runnable supplies work through its run method.
+00:00:10.433 --> 00:00:13.534
+Clear ownership and completion rules let larger
 
-00:00:45.772 --> 00:00:48.228
-Each CountJob owns a separate total.
+00:00:13.534 --> 00:00:16.371
+applications prepare independent parts of a
 
-00:00:48.228 --> 00:00:51.639
-Its loop increases that total until it reaches the
+00:00:16.371 --> 00:00:19.405
+report while ensuring the caller uses finished
 
-00:00:51.639 --> 00:00:52.458
-job's limit.
+00:00:19.405 --> 00:00:19.933
+results.
 
-00:00:52.817 --> 00:00:55.571
-Each start schedules work on a new thread.
+00:00:20.582 --> 00:00:23.468
+A campus welcome desk needs two preparation
 
-00:00:55.571 --> 00:00:59.046
-Calling run directly would be an ordinary call on the
+00:00:23.468 --> 00:00:23.938
+counts.
 
-00:00:59.046 --> 00:01:00.029
-current thread.
+00:00:23.938 --> 00:00:26.756
+One job models two badge checks; the other
 
-00:01:00.029 --> 00:01:02.914
-We start both workers before joining either.
+00:00:26.756 --> 00:00:28.501
+models four supply checks.
 
-00:01:02.914 --> 00:01:05.864
-Each join waits for its own target to finish.
+00:00:28.501 --> 00:00:31.655
+Each loop iteration adds one completed check to
 
-00:01:05.864 --> 00:01:09.339
-The execution paths may take turns or run at the same
+00:00:31.655 --> 00:00:33.065
+that job's own count.
 
-00:01:09.339 --> 00:01:09.667
-time.
+00:00:33.065 --> 00:00:36.152
+These are small model counts, not actual badge
 
-00:01:09.772 --> 00:01:13.029
-Predict the two totals and whether either worker is
+00:00:36.152 --> 00:00:38.232
+inspections or file operations.
 
-00:01:13.029 --> 00:01:15.072
-alive when the last line prints.
+00:00:38.885 --> 00:00:41.154
+We'll start both workers, wait for both to
 
-00:01:15.072 --> 00:01:18.073
-Does the first printed result prove that worker
+00:00:41.154 --> 00:00:43.532
+finish, and then report the first count, the
 
-00:01:18.073 --> 00:01:19.031
-finished first?
+00:00:43.532 --> 00:00:46.126
+second count, and whether either worker is still
 
-00:01:19.031 --> 00:01:20.372
-Pause before running.
-
-00:01:26.622 --> 00:01:29.883
-The totals are three and two, and neither worker is
-
-00:01:29.883 --> 00:01:30.267
+00:00:46.126 --> 00:00:46.450
 alive.
 
-00:01:30.267 --> 00:01:33.528
-Both joins returned normally before the caller read
+00:00:46.450 --> 00:00:48.719
+The caller will print in that fixed order.
 
-00:01:33.528 --> 00:01:34.296
-the results.
+00:00:48.719 --> 00:00:51.259
+After the worked run, you'll predict the report
 
-00:01:34.296 --> 00:01:36.726
-The caller prints First before Second.
+00:00:51.259 --> 00:00:53.799
+for different job limits; the output will still
 
-00:01:36.726 --> 00:01:40.051
-This output does not establish which worker finished
+00:00:53.799 --> 00:00:55.960
+not tell us which worker finished first.
 
-00:01:40.051 --> 00:01:42.097
-first or show a speed advantage.
+00:00:56.636 --> 00:00:59.495
+Let's open Main.java in the Workspace and give
 
-00:01:42.560 --> 00:01:44.519
-A Thread can be started once.
+00:00:59.495 --> 00:01:01.360
+this program a starting point.
 
-00:01:44.519 --> 00:01:47.153
-A new attempt needs new Thread objects.
+00:01:01.360 --> 00:01:04.219
+Then we'll define the work before creating the
 
-00:01:47.153 --> 00:01:50.733
-Rerunning this complete program creates both jobs and
+00:01:04.219 --> 00:01:05.711
+workers that execute it.
 
-00:01:50.733 --> 00:01:54.110
-their workers again, so each total begins at zero.
+00:01:09.723 --> 00:01:12.511
+Main is the class containing the program, and
 
-00:01:54.495 --> 00:01:57.799
-If only the second limit becomes five, which output
+00:01:12.511 --> 00:01:15.361
+its main method starts the caller's execution.
 
-00:01:57.799 --> 00:02:01.039
-lines would change, and which would stay the same?
+00:01:15.361 --> 00:01:17.777
+Waiting with join can throw the checked
 
-00:02:01.039 --> 00:02:03.695
-Explain why both join calls still matter.
+00:01:17.777 --> 00:01:19.945
+InterruptedException, so this small
+
+00:01:19.945 --> 00:01:22.423
+demonstration declares that possibility.
+
+00:01:22.423 --> 00:01:25.087
+Our expected report follows the normal path
+
+00:01:25.087 --> 00:01:26.698
+where both waits complete.
+
+00:01:37.332 --> 00:01:40.299
+Each preparation job needs its own limit and
+
+00:01:40.299 --> 00:01:40.771
+result.
+
+00:01:40.771 --> 00:01:43.603
+We'll define CountJob here inside the main
+
+00:01:43.603 --> 00:01:46.436
+method, using Runnable to specify its work
+
+00:01:46.436 --> 00:01:47.110
+operation.
+
+00:01:47.110 --> 00:01:50.347
+The constructor records the requested checks and
+
+00:01:50.347 --> 00:01:52.707
+starts that object's total at zero.
+
+00:02:11.179 --> 00:02:14.076
+The two fields belong to each CountJob object.
+
+00:02:14.076 --> 00:02:17.037
+Private limits direct field access, but it does
+
+00:02:17.037 --> 00:02:19.682
+not by itself keep threads from sharing an
+
+00:02:19.682 --> 00:02:20.123
+object.
+
+00:02:20.123 --> 00:02:23.147
+Our design will give each worker a separate job.
+
+00:02:23.147 --> 00:02:26.044
+Let's supply the run method that performs that
+
+00:02:26.044 --> 00:02:27.304
+job's counting work.
+
+00:02:48.850 --> 00:02:51.886
+The loop begins at zero and adds one for each
+
+00:02:51.886 --> 00:02:53.370
+index below the limit.
+
+00:02:53.370 --> 00:02:56.002
+Override checks that this public method
+
+00:02:56.002 --> 00:02:58.363
+implements the interface operation.
+
+00:02:58.363 --> 00:03:01.466
+Defining run has not started a worker; it only
+
+00:03:01.466 --> 00:03:04.300
+describes what a later invocation will do.
+
+00:03:04.331 --> 00:03:06.919
+The caller will need to read the completed
+
+00:03:06.919 --> 00:03:09.814
+total, so let's add a getter and finish the job
+
+00:03:09.814 --> 00:03:10.492
+definition.
+
+00:03:10.492 --> 00:03:13.449
+The getter returns a value; it will not wait for
+
+00:03:13.449 --> 00:03:14.681
+the work on its own.
+
+00:03:22.170 --> 00:03:25.275
+Now let's create separate jobs for the two badge
+
+00:03:25.275 --> 00:03:27.216
+checks and four supply checks.
+
+00:03:27.216 --> 00:03:30.063
+Each receives its own limit and zero result,
+
+00:03:30.063 --> 00:03:32.845
+which keeps their changing totals separate.
+
+00:03:40.569 --> 00:03:43.419
+First and second identify the work objects.
+
+00:03:43.419 --> 00:03:46.534
+To request separate execution, we also need two
+
+00:03:46.534 --> 00:03:49.185
+Thread objects, each associated with its
+
+00:03:49.185 --> 00:03:50.377
+corresponding job.
+
+00:03:50.377 --> 00:03:53.360
+Constructing those workers still does not run
+
+00:03:53.360 --> 00:03:54.619
+the counting loops.
+
+00:04:03.259 --> 00:04:06.149
+We have two jobs and two prepared execution
+
+00:04:06.149 --> 00:04:06.552
+paths.
+
+00:04:06.552 --> 00:04:09.644
+Let's start both before waiting for either, so
+
+00:04:09.644 --> 00:04:12.870
+both requests exist before the caller begins its
+
+00:04:12.870 --> 00:04:13.609
+first wait.
+
+00:04:19.656 --> 00:04:22.352
+Start requests that a worker execute its run
+
+00:04:22.352 --> 00:04:24.619
+method while the caller can continue.
+
+00:04:24.619 --> 00:04:27.131
+Calling a job's run method directly would
+
+00:04:27.131 --> 00:04:29.765
+instead be an ordinary call on the caller's
+
+00:04:29.765 --> 00:04:30.194
+thread.
+
+00:04:30.194 --> 00:04:33.135
+Starting allows concurrent progress; it does not
+
+00:04:33.135 --> 00:04:35.585
+guarantee simultaneous execution, faster
+
+00:04:35.585 --> 00:04:38.281
+completion, or a particular finishing order.
+
+00:04:38.312 --> 00:04:41.289
+The report needs finished values, so let's join
+
+00:04:41.289 --> 00:04:42.555
+each started worker.
+
+00:04:42.555 --> 00:04:45.595
+Joining the first concerns only that worker; the
+
+00:04:45.595 --> 00:04:48.382
+second may keep progressing while the caller
+
+00:04:48.382 --> 00:04:48.762
+waits.
+
+00:04:54.118 --> 00:04:56.970
+When an untimed join on a started worker returns
+
+00:04:56.970 --> 00:04:59.585
+normally, that worker has terminated and its
+
+00:04:59.585 --> 00:05:02.022
+earlier writes are visible to the caller.
+
+00:05:02.022 --> 00:05:04.517
+Both joins are needed before treating both
+
+00:05:04.517 --> 00:05:05.468
+totals as final.
+
+00:05:05.468 --> 00:05:07.964
+If a join exits through interruption, that
+
+00:05:07.964 --> 00:05:10.816
+exception does not establish completion and this
+
+00:05:10.816 --> 00:05:12.718
+expected report does not follow.
+
+00:05:12.746 --> 00:05:15.791
+Let's print each job's finished total, then ask
+
+00:05:15.791 --> 00:05:17.799
+whether either worker is alive.
+
+00:05:17.799 --> 00:05:20.843
+This observation is meaningful after the starts
+
+00:05:20.843 --> 00:05:23.953
+and joins: false by itself could also describe a
+
+00:05:23.953 --> 00:05:25.896
+thread that was never started.
+
+00:05:49.202 --> 00:05:52.078
+The caller's print statements fix the report
+
+00:05:52.078 --> 00:05:52.470
+order.
+
+00:05:52.470 --> 00:05:55.411
+Each worker changed only its own job's total,
+
+00:05:55.411 --> 00:05:58.026
+and both waits now establish completion.
+
+00:05:58.026 --> 00:06:00.902
+Let's click Run to see the completed counts.
+
+00:06:06.264 --> 00:06:08.909
+First is two because that job performed two
+
+00:06:08.909 --> 00:06:09.585
+increments.
+
+00:06:09.585 --> 00:06:11.984
+Second is four because its separate job
+
+00:06:11.984 --> 00:06:12.906
+performed four.
+
+00:06:12.906 --> 00:06:15.736
+Workers alive is false after both workers have
+
+00:06:15.736 --> 00:06:16.412
+terminated.
+
+00:06:16.412 --> 00:06:19.303
+These lines come from the caller; listing First
+
+00:06:19.303 --> 00:06:22.070
+before Second does not tell us which counting
+
+00:06:22.070 --> 00:06:23.239
+job finished first.
+
+00:06:23.291 --> 00:06:26.079
+Let's change the two job limits to three badge
+
+00:06:26.079 --> 00:06:27.837
+checks and two supply checks.
+
+00:06:27.837 --> 00:06:30.201
+The ownership, starts, joins, and print
+
+00:06:30.201 --> 00:06:31.716
+statements stay the same.
+
+00:06:31.716 --> 00:06:34.080
+Running the complete program again will
+
+00:06:34.080 --> 00:06:36.989
+construct fresh jobs and fresh Thread objects; a
+
+00:06:36.989 --> 00:06:39.838
+Thread object itself cannot be started a second
+
+00:06:39.838 --> 00:06:40.141
+time.
+
+00:06:48.383 --> 00:06:51.203
+Before running, predict all three report lines
+
+00:06:51.203 --> 00:06:52.368
+for the new limits.
+
+00:06:52.368 --> 00:06:55.065
+Then decide whether the report can establish
+
+00:06:55.065 --> 00:06:56.782
+which worker finished first.
+
+00:06:56.782 --> 00:06:59.602
+Use the loop counts, each normal join, and the
+
+00:06:59.602 --> 00:07:02.422
+caller's print order as separate parts of your
+
+00:07:02.422 --> 00:07:03.158
+explanation.
+
+00:07:11.239 --> 00:07:14.188
+Let's click Run and compare your prediction with
+
+00:07:14.188 --> 00:07:17.014
+the actual report from these new work objects.
+
+00:07:22.275 --> 00:07:25.069
+First is now three and Second is two, matching
+
+00:07:25.069 --> 00:07:26.223
+the two new limits.
+
+00:07:26.223 --> 00:07:28.713
+Neither worker is alive after both joins.
+
+00:07:28.713 --> 00:07:31.446
+The values changed because the requested work
+
+00:07:31.446 --> 00:07:34.362
+changed, while the same ownership and completion
+
+00:07:34.362 --> 00:07:37.034
+rules kept the results ready for the caller.
+
+00:07:37.034 --> 00:07:39.585
+The report still does not establish worker
+
+00:07:39.585 --> 00:07:40.375
+finish order.
+
+00:07:40.437 --> 00:07:42.676
+You separated work descriptions from execution
+
+00:07:42.676 --> 00:07:44.915
+paths, started independent workers, and waited
+
+00:07:44.915 --> 00:07:46.326
+before reading their results.
+
+00:07:46.326 --> 00:07:48.419
+Each worker owned its changing total, and a
+
+00:07:48.419 --> 00:07:50.269
+normal join established completion and
+
+00:07:50.269 --> 00:07:50.804
+visibility.
+
+00:07:50.804 --> 00:07:52.994
+For a transfer task, describe two independent
+
+00:07:52.994 --> 00:07:54.601
+jobs in a report you might build.
+
+00:07:54.601 --> 00:07:56.937
+Identify each job's state, where the caller must
+
+00:07:56.937 --> 00:07:59.176
+wait, and why the final report order would not
+
+00:07:59.176 --> 00:08:01.512
+prove simultaneous execution or finishing order.
