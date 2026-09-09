@@ -1,133 +1,382 @@
 WEBVTT
 
-00:00:06.967 --> 00:00:10.377
-We will save a room record in a temporary file, then
+00:00:00.750 --> 00:00:03.381
+Welcome to this Java tutorial, where you'll
 
-00:00:10.377 --> 00:00:13.262
-recover its seat count, price and open flag.
+00:00:03.381 --> 00:00:06.134
+write and restore a binary record, a group of
 
-00:00:13.262 --> 00:00:16.540
-The goal is to make the writer and reader agree on
+00:00:06.134 --> 00:00:08.949
+stored values whose types, order, and meanings
 
-00:00:16.540 --> 00:00:18.442
-what each stored value means.
+00:00:08.949 --> 00:00:10.540
+follow a shared agreement.
 
-00:00:46.067 --> 00:00:49.438
-A byte stream moves a sequence of bytes, small units
+00:00:11.189 --> 00:00:14.326
+Typed binary input and output help applications
 
-00:00:49.438 --> 00:00:52.421
-of stored data, without treating them as text.
+00:00:14.326 --> 00:00:17.397
+exchange saved values reliably, while a shared
 
-00:00:52.421 --> 00:00:54.560
-Files opens that byte connection.
+00:00:17.397 --> 00:00:20.400
+field agreement lets the reading code recover
 
-00:00:54.560 --> 00:00:57.932
-DataOutputStream adds typed binary output: it writes
+00:00:20.400 --> 00:00:23.604
+what those values mean for a booking, a setting,
 
-00:00:57.932 --> 00:01:00.395
-each value according to its Java type.
+00:00:23.604 --> 00:00:24.739
+or a game record.
 
-00:01:00.395 --> 00:01:03.896
-Our binary record schema is the agreed field types and
+00:00:25.400 --> 00:00:28.461
+A campus event desk has four seats available at
 
-00:01:03.896 --> 00:01:07.203
-order: an int count, a double price, then a boolean
+00:00:28.461 --> 00:00:31.131
+two dollars and fifty cents per seat, and
 
-00:01:07.203 --> 00:01:07.527
-flag.
+00:00:31.131 --> 00:00:32.173
+booking is open.
 
-00:01:07.527 --> 00:01:10.963
-These writes store values without field names or type
+00:00:32.173 --> 00:00:35.168
+We will save that offer in a private temporary
 
-00:01:10.963 --> 00:01:11.417
-labels.
+00:00:35.168 --> 00:00:38.294
+file, then restore its count, price, and booking
 
-00:01:11.730 --> 00:01:15.072
-Typed binary input uses DataInputStream to interpret
+00:00:38.294 --> 00:00:38.750
+status.
 
-00:01:15.072 --> 00:01:15.843
-those bytes.
+00:00:39.400 --> 00:00:42.302
+The recovered report should show four seats, a
 
-00:01:15.843 --> 00:01:19.249
-Each read must match the corresponding write in type,
+00:00:42.302 --> 00:00:44.951
+price of two point five, and true for open
 
-00:01:19.249 --> 00:01:20.406
-order and meaning.
+00:00:44.951 --> 00:00:45.393
+status.
 
-00:01:20.406 --> 00:01:23.876
-Swapping two fields of the same type can silently give
+00:00:45.393 --> 00:00:48.358
+The writer and reader must agree on an integer,
 
-00:01:23.876 --> 00:01:25.161
-them wrong meanings.
+00:00:48.358 --> 00:00:50.818
+a double, and a boolean, in that order.
 
-00:01:25.161 --> 00:01:28.503
-Try with resources closes each stream, including its
+00:00:50.818 --> 00:00:53.279
+After reading, we will remove only this
 
-00:01:28.503 --> 00:01:29.531
-file connection.
+00:00:53.279 --> 00:00:54.225
+example's file.
 
-00:01:29.531 --> 00:01:32.873
-The writer closes before reading begins, and finally
+00:00:54.902 --> 00:00:57.524
+Now that we're in the Workspace, let's open
 
-00:01:32.873 --> 00:01:34.608
-removes the temporary file.
+00:00:57.524 --> 00:00:59.902
+Main.java and build the record program.
 
-00:01:34.608 --> 00:01:37.950
-An incomplete record ends before a required field is
+00:01:03.735 --> 00:01:06.813
+We need the two data-stream types for primitive
 
-00:01:37.950 --> 00:01:38.657
-fully read.
+00:01:06.813 --> 00:01:09.432
+values, plus Files and Path for the file
 
-00:01:38.657 --> 00:01:41.806
-EOFException reports that unexpected end of file.
+00:01:09.432 --> 00:01:10.022
+location.
 
-00:01:41.806 --> 00:01:44.055
-It does not supply a default value.
+00:01:10.022 --> 00:01:12.772
+Main is the class containing this program.
 
-00:01:44.140 --> 00:01:46.214
-Predict the three printed lines.
+00:01:12.772 --> 00:01:15.719
+Its main method is where execution begins; we
 
-00:01:46.214 --> 00:01:49.260
-Match each read to its write, then follow which
+00:01:15.719 --> 00:01:18.535
+will place the record operations inside it.
 
-00:01:49.260 --> 00:01:50.880
-variable each print uses.
+00:01:36.066 --> 00:01:38.803
+The imports let us use those short library
 
-00:01:50.880 --> 00:01:52.565
-Pause here before running.
+00:01:38.803 --> 00:01:39.194
+names.
 
-00:01:57.483 --> 00:02:00.850
-The reader recovers four seats, a price of two point
+00:01:39.194 --> 00:01:41.997
+The throws declaration allows a checked I/O
 
-00:02:00.850 --> 00:02:02.404
-five, and true for open.
+00:01:41.997 --> 00:01:44.213
+failure to leave this main method.
 
-00:02:02.404 --> 00:02:05.835
-The matching reads interpret the stored values in the
+00:01:44.213 --> 00:01:46.885
+It does not catch the failure or create a
 
-00:02:05.835 --> 00:02:06.677
-agreed order.
+00:01:46.885 --> 00:01:47.863
+default record.
 
-00:02:06.677 --> 00:02:09.979
-The streams close and the temporary file is deleted
+00:01:47.863 --> 00:01:50.991
+Next, we need one owned file for the two phases.
 
-00:02:09.979 --> 00:02:11.533
-after this complete run.
+00:01:58.408 --> 00:02:01.401
+CreateTempFile makes a new empty temporary file
 
-00:02:11.856 --> 00:02:14.985
-Change only the written price, then predict which
+00:02:01.401 --> 00:02:02.739
+and returns its Path.
 
-00:02:14.985 --> 00:02:16.326
-printed line changes.
+00:02:02.739 --> 00:02:05.604
+The prefix helps identify the name, generated
 
-00:02:16.326 --> 00:02:18.688
-Next, remove the final boolean write.
+00:02:05.604 --> 00:02:08.661
+characters distinguish it, and the suffix is dot
 
-00:02:18.688 --> 00:02:21.817
-Which read would fail, and why should the program
+00:02:08.661 --> 00:02:08.916
+bin.
 
-00:02:21.817 --> 00:02:25.073
-report an incomplete record instead of treating the
+00:02:08.916 --> 00:02:11.209
+The suffix does not choose a format.
 
-00:02:25.073 --> 00:02:26.031
-room as closed?
+00:02:11.209 --> 00:02:14.265
+We keep the returned path so the writer, reader,
+
+00:02:14.265 --> 00:02:16.558
+and final cleanup use the same file.
+
+00:02:16.572 --> 00:02:19.594
+First, open byte output and wrap it with typed
+
+00:02:19.594 --> 00:02:20.842
+writing operations.
+
+00:02:20.842 --> 00:02:23.798
+Then write the seat count, price, and booking
+
+00:02:23.798 --> 00:02:25.572
+flag in their agreed order.
+
+00:02:48.287 --> 00:02:50.684
+The Files call opens the byte stream.
+
+00:02:50.684 --> 00:02:53.730
+DataOutputStream adds operations that represent
+
+00:02:53.730 --> 00:02:55.155
+primitive Java values.
+
+00:02:55.155 --> 00:02:58.006
+Each write adds its value after the previous
+
+00:02:58.006 --> 00:02:58.266
+one.
+
+00:02:58.266 --> 00:03:01.246
+We stored the values, not their variable names
+
+00:03:01.246 --> 00:03:04.162
+or the labels that will appear in the report.
+
+00:03:04.182 --> 00:03:07.069
+The writer closes as its resource block ends,
+
+00:03:07.069 --> 00:03:09.442
+including its underlying byte stream.
+
+00:03:09.442 --> 00:03:12.008
+We can now open a separate reader at the
+
+00:03:12.008 --> 00:03:14.895
+beginning and recover the same three types in
+
+00:03:14.895 --> 00:03:15.857
+the same order.
+
+00:03:37.241 --> 00:03:40.095
+The first read receives the integer seat count.
+
+00:03:40.095 --> 00:03:43.009
+The next receives the double price, and the last
+
+00:03:43.009 --> 00:03:44.709
+receives the boolean status.
+
+00:03:44.709 --> 00:03:47.502
+Each call advances through the required input.
+
+00:03:47.502 --> 00:03:50.052
+The reader does not search for a name; its
+
+00:03:50.052 --> 00:03:52.723
+sequence and assignments give each recovered
+
+00:03:52.723 --> 00:03:53.816
+value its meaning.
+
+00:03:53.858 --> 00:03:56.814
+All required values are now available for the
+
+00:03:56.814 --> 00:03:57.274
+report.
+
+00:03:57.274 --> 00:04:00.164
+We will print each label beside its restored
+
+00:04:00.164 --> 00:04:03.185
+variable, then end the reader block and remove
+
+00:04:03.185 --> 00:04:04.433
+our temporary file.
+
+00:04:26.622 --> 00:04:29.603
+These labels are added to console output; they
+
+00:04:29.603 --> 00:04:31.806
+were not field labels in the file.
+
+00:04:31.806 --> 00:04:34.463
+The reader closes before finally performs
+
+00:04:34.463 --> 00:04:35.047
+deletion.
+
+00:04:35.047 --> 00:04:37.768
+Closing and deleting are separate actions.
+
+00:04:37.768 --> 00:04:40.555
+Finally also runs when the attempted record
+
+00:04:40.555 --> 00:04:43.471
+operations fail, although deletion can itself
+
+00:04:43.471 --> 00:04:44.897
+report an I/O failure.
+
+00:04:44.933 --> 00:04:48.016
+The complete program follows one field agreement
+
+00:04:48.016 --> 00:04:49.879
+from writing through reading.
+
+00:04:49.879 --> 00:04:52.898
+Let's click Run and inspect the actual restored
+
+00:04:52.898 --> 00:04:53.283
+offer.
+
+00:04:58.653 --> 00:05:01.459
+The report restores four seats, the price two
+
+00:05:01.459 --> 00:05:03.829
+point five, and true for booking open.
+
+00:05:03.829 --> 00:05:06.386
+Each typed read matches its write and its
+
+00:05:06.386 --> 00:05:07.820
+intended field meaning.
+
+00:05:07.820 --> 00:05:10.564
+The price is printed as a double value; this
+
+00:05:10.564 --> 00:05:13.121
+example does not add currency formatting.
+
+00:05:13.121 --> 00:05:15.553
+The following cleanup removes the file.
+
+00:05:15.615 --> 00:05:18.385
+Now try a separate offer with seven seats, a
+
+00:05:18.385 --> 00:05:21.218
+price of three dollars and twenty-five cents,
+
+00:05:21.218 --> 00:05:22.414
+and booking closed.
+
+00:05:22.414 --> 00:05:25.247
+We will change only the three written values.
+
+00:05:25.247 --> 00:05:27.765
+The reader and all labels stay the same.
+
+00:05:42.461 --> 00:05:45.437
+Before running, predict every named output line.
+
+00:05:45.437 --> 00:05:48.289
+Match each read with the value written at that
+
+00:05:48.289 --> 00:05:51.202
+position, and explain how its assigned variable
+
+00:05:51.202 --> 00:05:52.566
+is used by the report.
+
+00:05:52.566 --> 00:05:54.736
+Pause here to make your prediction.
+
+00:06:02.818 --> 00:06:05.770
+Let's click Run and compare your prediction with
+
+00:06:05.770 --> 00:06:06.693
+the new record.
+
+00:06:11.970 --> 00:06:14.537
+The restored report shows seven seats, price
+
+00:06:14.537 --> 00:06:17.337
+three point two five, and false for open status.
+
+00:06:17.337 --> 00:06:19.787
+False is an actual value written into this
+
+00:06:19.787 --> 00:06:20.720
+complete record.
+
+00:06:20.720 --> 00:06:23.520
+It is different from omitting the required flag,
+
+00:06:23.520 --> 00:06:25.970
+which would leave the boolean read without
+
+00:06:25.970 --> 00:06:26.728
+enough input.
+
+00:06:26.728 --> 00:06:29.412
+Replaying the complete program creates another
+
+00:06:29.412 --> 00:06:30.170
+private file.
+
+00:06:30.239 --> 00:06:32.970
+You used typed output and input to recover the
+
+00:06:32.970 --> 00:06:35.642
+event desk's offer with the same field types,
+
+00:06:35.642 --> 00:06:36.830
+order, and meanings.
+
+00:06:36.830 --> 00:06:39.680
+The notebook also shows why successful same-type
+
+00:06:39.680 --> 00:06:42.233
+reads can assign wrong meanings, and why an
+
+00:06:42.233 --> 00:06:45.083
+incomplete required field is a separate failure.
+
+00:06:45.083 --> 00:06:47.933
+Those checks go beyond confirming that a program
+
+00:06:47.933 --> 00:06:49.239
+reached its last line.
+
+00:06:49.304 --> 00:06:52.036
+For your next step, imagine two integer fields
+
+00:06:52.036 --> 00:06:54.769
+for a room number and an available-seat count.
+
+00:06:54.769 --> 00:06:57.442
+What must the reader know beyond their shared
+
+00:06:57.442 --> 00:06:59.164
+type to label them correctly?
+
+00:06:59.164 --> 00:07:01.719
+Explain why a complete read alone would not
+
+00:07:01.719 --> 00:07:04.154
+prove that those meanings were preserved.

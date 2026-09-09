@@ -1,102 +1,63 @@
-# Transcript: Serializing and Restoring Objects
+# Reading and Writing Binary Records — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. A temporary file holds a saved ScoreCard. The program restores it, checks its type and compares saved fields with temporary state. The recording shows the complete Main.java program and its actual output.
+## Narration
 
-Gray labels beside some method arguments show parameter names. They are editor hints, not extra source. The source below preserves the exact Java characters.
+Welcome to this Java tutorial, where you'll use serialization and deserialization to save and restore object state, then check a restored value's type before using it.
 
-## 0:00–0:18 — Goal
+These skills let applications preserve settings and records between runs while checking that recovered values are the types their code expects.
 
-**On screen:** A title card names Serializing and Restoring Objects, with the subtitle Save object state and check the restored type. The Workspace then shows an empty Main.java editor while the goal is introduced. The program is typed visibly afterward.
+A campus equipment desk keeps the location label lab in a small card object. We will save that card to a private temporary file and restore its label. The reader must check that it received the expected card before calling the method that returns the label.
 
-We will save a score card, restore it from our own temporary file, and compare its saved values with temporary state. Watch how the program checks the restored object before using its methods.
+Our report should show Label, followed by lab, confirming that the desk recovered its saved location. Then we'll change the stored value and predict how the same reader responds.
 
-## 0:18–1:48 — Choose saved and temporary state
+Now that we're in the Workspace, let's open Main.java and build the card's round trip.
 
-**On screen:** The program is typed, then all 43 lines of Main.java are visible together. Lines 6 through 18 are selected to connect the explanation with ScoreCard, serialVersionUID, owner, points, views, the constructor and the getter methods. Bottom captions sit below the source.
+We need object input and output streams, the serialization marker, and the familiar Files and Path types. Add these imports so their short names are available in the program.
 
-The complete source is:
+Next, define the card with its String label, a constructor to set that field, and a getter to read it. Mark the class as supporting serialization and give it an explicit version identifier.
 
-```java
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-class ScoreCard implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private String owner;
-    private int points;
-    private transient int views;
-    public ScoreCard(String owner, int points) {
-        this.owner = owner;
-        this.points = points;
-        this.views = 1;
-    }
-    public String getOwner() { return owner; }
-    public int getPoints() { return points; }
-    public int getViews() { return views; }
-}
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Path file = Files.createTempFile("score-card-", ".bin");
-        try {
-            ScoreCard original = new ScoreCard("Maya", 7);
-            try (ObjectOutputStream writer = new ObjectOutputStream(Files.newOutputStream(file))) {
-                writer.writeObject(original);
-            }
-            try (ObjectInputStream reader = new ObjectInputStream(Files.newInputStream(file))) {
-                Object value = reader.readObject();
-                if (value instanceof ScoreCard) {
-                    ScoreCard restored = (ScoreCard) value;
-                    System.out.println(restored.getOwner() + ": " + restored.getPoints());
-                    System.out.println("Original views: " + original.getViews());
-                    System.out.println("Restored views: " + restored.getViews());
-                } else {
-                    System.out.println("Unexpected object type.");
-                }
-            }
-        } finally {
-            Files.deleteIfExists(file);
-        }
-    }
-}
-```
+Serializable is a marker interface: it declares support without requiring a serialize method. Our String field supports serialization too. The static version identifier belongs to the class, final prevents reassignment, and long is its whole-number type. The L suffix makes the value a long literal. Matching that identifier does not make every class change compatible.
 
-Object serialization writes an object state representation into a byte stream. Serializable is a marker interface: it marks this support without requiring methods. Objects held in saved reference fields must support it too. The serialization version identifier helps check whether saved data and the current class can work together. Its long type stores whole numbers, and the L marks the written number as long. Matching identifiers alone do not make every class change compatible. Static fields belong to the class and are not saved as instance state. A transient instance field is excluded from default serialization. Here, views marks temporary state.
+Main holds the conventional entry method for this Workspace program. We will declare the checked exceptions that may leave it, create one private temporary file, and start the outer cleanup structure.
 
-## 1:48–2:20 — Restore and check the object
+The throws declaration allows I/O and class-lookup failures to leave main; it does not handle them. CreateTempFile creates an empty file and returns its Path. We retain that location for both stream phases and deletion. A dot bin suffix labels the name but does not select the stored format.
 
-**On screen:** The complete source stays visible. Lines 22 through 40 are selected: the temporary file, original card, writeObject and readObject calls, the check of the restored value’s type, the line that gives its reference the ScoreCard type, printed values, other-type branch and finally cleanup. Bottom captions remain below the source.
+Open byte output and wrap it in an object output stream. Pass a new LabelCard holding lab to the writer, then finish the resource block before reading.
 
-Object deserialization reconstructs an object from a compatible saved representation. The output stream writes our card, and the input stream reads it back. The readObject method returns Object, the common reference type. The runtime type check, instanceof, tests whether the actual non-null value is a ScoreCard. The reference cast then gives that reference the more specific ScoreCard type so we can call its methods. Other types take the else branch. Try with resources closes both streams, and finally deletes the file.
+WriteObject receives the card and writes its supported state representation. It does not save Java source, a running method, or the notebook kernel. The version identifier is class compatibility information, separate from the ordinary instance label. Closing this wrapper also closes the underlying byte output.
 
-## 2:20–2:35 — Predict the result
+Now open byte input, wrap it in an object input stream, and restore the saved value. Keep the initial result in an Object variable so we can check what actually came back.
 
-**On screen:** The selection clears so the entire program can be examined. The terminal is still closed and no result has been revealed. The video holds for three seconds after the prediction prompt.
+ReadObject reconstructs the saved state using the compatible class available to this program. Its declared result type is Object, Java's common superclass for class instances. That reference can hold the restored card, but its declared type does not expose the card's particular getter.
 
-Predict all three printed lines. Which fields are saved, and what do you expect for views on the restored card? Decide whether restoring should repeat the constructor. Pause here.
+Check whether the returned value is a LabelCard. In that matching branch, cast the reference to LabelCard and call its getter. Otherwise, report an unexpected type.
 
-## 2:35–2:57 — Run and interpret the result
+Instanceof checks the actual value and is false for null. The cast then gives us a LabelCard reference to the same restored object; it does not create another card or convert a String into one. A cast on an incompatible non-null value can throw ClassCastException. The matching guard keeps that attempt out of this reader's mismatch path.
 
-**On screen:** The terminal opens and the view enlarges the actual command and all three result lines. The first import and part of the second are cropped at the top; source after line 31 falls below the editor divider. Top captions briefly cover parts of the remaining imports, class declaration, version identifier and owner declaration. The transient views field, constructor, object stream operations, type check and cast remain readable. The full source, including print statements and cleanup, was shown in the teaching and prediction views. Near the end of the result explanation, the ScoreCard definition is selected again. The terminal output remains clear throughout these result views. The terminal runs:
+Finish the reader block, then put deletion in the outer finally block. Closing releases the stream; deletion removes the file that this complete run owns.
 
-```text
-javac Main.java && java Main
-```
+The reader closes before finally attempts deletion, including when the protected work fails. Deletion can itself report an I/O error. With the complete supported-card path in place, let's click Run and inspect the actual report.
 
-It reports:
+The report shows Label, followed by lab. The restored value passed the card check, and its getter returned the saved text. This verifies the restored label; it does not mean the restored card is the original in-memory instance.
 
-```text
-Maya: 7
-Original views: 1
-Restored views: 0
-```
+For a second run, write the String lab directly instead of constructing a card. Keep the same class definition, LabelCard check, cast, and report branches. This changes the actual stored value, not what the reader expects.
 
-Maya and seven are restored. Original views is one, but restored views is zero. Default deserialization of this ordinary Serializable class does not replay its constructor or field initializers. The transient int keeps its default zero value. Our type check succeeds, so the cast and getter calls proceed.
+Before running, predict which report branch will execute. What type will the restored non-null value have, and will the cast or getter run? Pause here and explain your prediction from the value actually passed to the writer.
 
-## 2:58–3:11 — Change and compare temporary state
+Let's click Run to test that prediction against the reader's actual behavior.
 
-**On screen:** The view returns to the full Workspace width with the terminal open. Lines 6 through 18 remain selected, making the transient field and constructor value easy to locate beside the unchanged result. The source below line 31 is outside the editor view. Bottom captions sit below the terminal output. The requested changes are learner prompts; the recording keeps the original source and result, then holds for two seconds.
+The program reports an unexpected object type. The String was valid saved data, but it did not satisfy this reader's LabelCard requirement. The false guard skipped both the cast and getter. Declaring LabelCard elsewhere did not turn the written String into a card.
 
-Set the constructor’s views value to five and predict both view lines. Then remove transient and predict again. Explain which state belongs in a saved score card.
+You saved supported state, restored it with a compatible class, and separated the Object result, runtime type check, and reference cast. Those steps let the desk recover a useful label while reporting a controlled mismatch. The notebook practice asks you to complete this agreement, repair a wrong guard, and build your own tag-card reader.
 
+For your next step, choose a small object whose state you would save. What class-specific operation should the reader use, and what must it check first? Plan both an accepted value and an unexpected type so your tests show that the reader can do more than always reject.
+
+## Visual description
+
+[Four code-free opening scenes introduce saving and restoring supported object state and checking recovered types, connect earlier and later application runs, establish the equipment desk location card, and show the expected Label: lab report plus a later change-and-predict task.]
+
+[The real Workspace appears. Main.java opens and the camera follows five imports, the supported LabelCard class with its fixed version identifier and String field, and the conventional Main entry method declaring checked I/O and class-lookup exceptions. A fresh temporary file receives the card. The writer closes, the reader restores Object, and the matching LabelCard check precedes a cast and getter. The reader closes before finally removes the owned file.]
+
+[The pointer clicks the actual Run Code button. The report shows Label: lab. Narration separates the restored field value from original object identity.]
+
+[One visible edit writes the String lab directly, keeping the LabelCard check and cast unchanged. A prediction and pause precede the second actual Run Code click. The report shows Unexpected object type. The false guard skips the cast and getter. The closing connects the checked-reader sequence to the desk task and asks for both accepted and unexpected test values.]

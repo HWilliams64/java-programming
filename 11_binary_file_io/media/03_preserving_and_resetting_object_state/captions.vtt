@@ -1,0 +1,424 @@
+WEBVTT
+
+00:00:00.750 --> 00:00:03.838
+Welcome to this Java tutorial, where you'll use
+
+00:00:03.838 --> 00:00:06.927
+transient fields to separate saved object state
+
+00:00:06.927 --> 00:00:10.081
+from temporary state, then explain their default
+
+00:00:10.081 --> 00:00:11.724
+values after restoration.
+
+00:00:12.370 --> 00:00:15.342
+These skills let applications recover lasting
+
+00:00:15.342 --> 00:00:18.247
+records while giving temporary selections or
+
+00:00:18.247 --> 00:00:21.417
+observations a suitable starting state for a new
+
+00:00:21.417 --> 00:00:21.945
+session.
+
+00:00:22.594 --> 00:00:25.448
+A campus activity program gives Maya a score
+
+00:00:25.448 --> 00:00:26.940
+card with seven points.
+
+00:00:26.940 --> 00:00:29.730
+The owner and points should survive saving.
+
+00:00:29.730 --> 00:00:32.584
+A temporary view count starts at one when we
+
+00:00:32.584 --> 00:00:35.503
+construct the card; this small model does not
+
+00:00:35.503 --> 00:00:37.644
+automatically count screen views.
+
+00:00:38.296 --> 00:00:41.031
+Our report will compare the saved owner and
+
+00:00:41.031 --> 00:00:43.703
+points with the original and restored view
+
+00:00:43.703 --> 00:00:44.148
+counts.
+
+00:00:44.148 --> 00:00:46.820
+Then we will change the original count and
+
+00:00:46.820 --> 00:00:49.428
+predict whether that changes the restored
+
+00:00:49.428 --> 00:00:50.446
+temporary value.
+
+00:00:51.116 --> 00:00:53.749
+Now that we're in the Workspace, let's open
+
+00:00:53.749 --> 00:00:56.566
+Main.java and build the score-card comparison.
+
+00:01:00.410 --> 00:01:03.164
+Add the familiar object input and output
+
+00:01:03.164 --> 00:01:06.470
+streams, Serializable marker, and Files and Path
+
+00:01:06.470 --> 00:01:07.021
+imports.
+
+00:01:07.021 --> 00:01:10.257
+They support the same private object-file round
+
+00:01:10.257 --> 00:01:12.185
+trip as the previous lesson.
+
+00:01:23.751 --> 00:01:26.745
+Start ScoreCard with the fixed class version
+
+00:01:26.745 --> 00:01:29.739
+identifier, owner, points, and views fields.
+
+00:01:29.739 --> 00:01:32.801
+Mark only the temporary view count transient.
+
+00:01:47.689 --> 00:01:50.593
+A transient instance field remains part of each
+
+00:01:50.593 --> 00:01:53.435
+object, but default serialization excludes its
+
+00:01:53.435 --> 00:01:53.806
+value.
+
+00:01:53.806 --> 00:01:56.463
+Owner and points are ordinary saved fields.
+
+00:01:56.463 --> 00:01:59.243
+All three are private; their different saving
+
+00:01:59.243 --> 00:02:02.147
+behavior comes from transient, not from private
+
+00:02:02.147 --> 00:02:02.580
+access.
+
+00:02:02.580 --> 00:02:05.299
+The static version identifier belongs to the
+
+00:02:05.299 --> 00:02:07.214
+class rather than to each card.
+
+00:02:07.233 --> 00:02:09.622
+Complete the constructor and getters.
+
+00:02:09.622 --> 00:02:12.528
+The constructor accepts the owner and points,
+
+00:02:12.528 --> 00:02:15.369
+assigns those fields, and sets this original
+
+00:02:15.369 --> 00:02:16.984
+card's view count to one.
+
+00:02:16.984 --> 00:02:19.696
+Each getter simply reads its corresponding
+
+00:02:19.696 --> 00:02:20.083
+field.
+
+00:02:44.663 --> 00:02:47.268
+The assignment still happens during normal
+
+00:02:47.268 --> 00:02:48.074
+construction.
+
+00:02:48.074 --> 00:02:50.928
+Transient does not block assignment, clear the
+
+00:02:50.928 --> 00:02:53.719
+original field when writing, or make a getter
+
+00:02:53.719 --> 00:02:54.339
+change it.
+
+00:02:54.339 --> 00:02:57.006
+Later, default restoration of this ordinary
+
+00:02:57.006 --> 00:02:59.363
+serializable class will not replay its
+
+00:02:59.363 --> 00:03:02.030
+constructor or instance field initializers.
+
+00:03:02.030 --> 00:03:04.263
+A transient int then begins at zero.
+
+00:03:04.291 --> 00:03:07.281
+Add Main and its entry method, declaring the
+
+00:03:07.281 --> 00:03:10.066
+checked I/O and class-loading exceptions.
+
+00:03:10.066 --> 00:03:13.192
+Create a new private temporary file, start the
+
+00:03:13.192 --> 00:03:16.249
+outer cleanup structure, and construct Maya's
+
+00:03:16.249 --> 00:03:18.016
+seven-point original card.
+
+00:03:46.213 --> 00:03:49.421
+CreateTempFile creates an empty file and returns
+
+00:03:49.421 --> 00:03:50.022
+its Path.
+
+00:03:50.022 --> 00:03:53.096
+The dot bin suffix labels its name; the object
+
+00:03:53.096 --> 00:03:55.034
+streams determine its format.
+
+00:03:55.034 --> 00:03:58.108
+The throws declaration allows checked failures
+
+00:03:58.108 --> 00:04:00.982
+to leave main, while the outer finally will
+
+00:04:00.982 --> 00:04:03.588
+handle deletion of this run's own file.
+
+00:04:03.670 --> 00:04:06.997
+Open the object writer over byte output and pass
+
+00:04:06.997 --> 00:04:08.660
+original to writeObject.
+
+00:04:08.660 --> 00:04:11.710
+Close this resource block before opening the
+
+00:04:11.710 --> 00:04:12.195
+reader.
+
+00:04:35.029 --> 00:04:38.069
+The representation includes Maya and seven from
+
+00:04:38.069 --> 00:04:41.109
+the ordinary fields, but excludes the transient
+
+00:04:41.109 --> 00:04:41.821
+view count.
+
+00:04:41.821 --> 00:04:44.538
+Writing that representation does not clear
+
+00:04:44.538 --> 00:04:45.120
+original.
+
+00:04:45.120 --> 00:04:48.225
+The original object still holds the one assigned
+
+00:04:48.225 --> 00:04:49.454
+by its constructor.
+
+00:04:49.500 --> 00:04:52.605
+Read the file through an object input stream and
+
+00:04:52.605 --> 00:04:54.287
+keep the result as Object.
+
+00:04:54.287 --> 00:04:57.133
+Check that it is a ScoreCard before casting.
+
+00:04:57.133 --> 00:04:59.720
+Then print the restored saved facts, the
+
+00:04:59.720 --> 00:05:02.437
+original view count, and the restored view
+
+00:05:02.437 --> 00:05:02.825
+count.
+
+00:06:13.710 --> 00:06:16.531
+ReadObject reconstructs a distinct object using
+
+00:06:16.531 --> 00:06:19.291
+the compatible class and saved representation.
+
+00:06:19.291 --> 00:06:22.172
+The guard permits the specific cast and getters.
+
+00:06:22.172 --> 00:06:24.873
+The restored owner and points come from saved
+
+00:06:24.873 --> 00:06:27.453
+state, while its excluded int begins at the
+
+00:06:27.453 --> 00:06:28.594
+field default zero.
+
+00:06:28.594 --> 00:06:30.994
+That differs from an uninitialized local
+
+00:06:30.994 --> 00:06:33.575
+variable, which Java requires you to assign
+
+00:06:33.575 --> 00:06:34.235
+before use.
+
+00:06:34.358 --> 00:06:37.372
+Finish the reader block and place deletion in
+
+00:06:37.372 --> 00:06:37.908
+finally.
+
+00:06:37.908 --> 00:06:40.922
+The reader closes before this fixture removes
+
+00:06:40.922 --> 00:06:42.061
+its private file.
+
+00:06:42.061 --> 00:06:45.008
+Now click Run to compare the actual objects.
+
+00:07:03.378 --> 00:07:05.938
+The report shows Maya with seven points,
+
+00:07:05.938 --> 00:07:08.754
+original views one, and restored views zero.
+
+00:07:08.754 --> 00:07:10.354
+The saved facts survived.
+
+00:07:10.354 --> 00:07:13.235
+The original was not cleared, and restoration
+
+00:07:13.235 --> 00:07:15.923
+did not repeat the ScoreCard constructor's
+
+00:07:15.923 --> 00:07:16.627
+assignment.
+
+00:07:16.627 --> 00:07:19.059
+The different counts follow our chosen
+
+00:07:19.059 --> 00:07:20.403
+temporary-field rule.
+
+00:07:20.577 --> 00:07:22.914
+For a new comparison, change only the
+
+00:07:22.914 --> 00:07:25.883
+constructor's view-count assignment from one to
+
+00:07:25.883 --> 00:07:26.136
+two.
+
+00:07:26.136 --> 00:07:29.104
+Keep transient on the field and retain the same
+
+00:07:29.104 --> 00:07:31.252
+owner, points, writer, and reader.
+
+00:07:36.897 --> 00:07:39.985
+Before running, predict all three output lines.
+
+00:07:39.985 --> 00:07:42.876
+Which object is constructed with the changed
+
+00:07:42.876 --> 00:07:45.964
+assignment, and does default restoration replay
+
+00:07:45.964 --> 00:07:46.161
+it?
+
+00:07:46.161 --> 00:07:49.314
+Pause here and explain the original and restored
+
+00:07:49.314 --> 00:07:50.497
+counts separately.
+
+00:07:58.690 --> 00:08:01.252
+Click Run to test that prediction with a
+
+00:08:01.252 --> 00:08:02.790
+complete new round trip.
+
+00:08:09.158 --> 00:08:11.096
+Maya and seven are unchanged.
+
+00:08:11.096 --> 00:08:14.236
+Original views is now two, while restored views
+
+00:08:14.236 --> 00:08:15.105
+remains zero.
+
+00:08:15.105 --> 00:08:17.845
+The changed constructor affects the newly
+
+00:08:17.845 --> 00:08:19.582
+constructed original card.
+
+00:08:19.582 --> 00:08:22.723
+It does not supply the restored temporary value
+
+00:08:22.723 --> 00:08:25.930
+because that constructor is not replayed by this
+
+00:08:25.930 --> 00:08:27.133
+default mechanism.
+
+00:08:27.297 --> 00:08:29.831
+You separated lasting object facts from
+
+00:08:29.831 --> 00:08:32.884
+temporary state, then verified the original and
+
+00:08:32.884 --> 00:08:33.924
+restored values.
+
+00:08:33.924 --> 00:08:36.263
+A transient boolean follows the same
+
+00:08:36.263 --> 00:08:38.212
+field-default rule with false.
+
+00:08:38.212 --> 00:08:41.265
+Choose an excluded field only when its restored
+
+00:08:41.265 --> 00:08:44.254
+default fits the design; omitting a value does
+
+00:08:44.254 --> 00:08:46.592
+not automatically calculate a useful
+
+00:08:46.592 --> 00:08:47.372
+replacement.
+
+00:08:49.379 --> 00:08:52.073
+In the notebook, compare keeping or removing
+
+00:08:52.073 --> 00:08:54.890
+transient, then build an equipment card with a
+
+00:08:54.890 --> 00:08:56.115
+temporary selection.
+
+00:08:56.115 --> 00:08:59.054
+Which facts should that card retain, what should
+
+00:08:59.054 --> 00:09:01.871
+begin fresh, and how will your tests show both
+
+00:09:01.871 --> 00:09:04.504
+the saved values and the restored defaults?

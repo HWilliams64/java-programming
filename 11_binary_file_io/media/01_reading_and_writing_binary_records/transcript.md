@@ -1,86 +1,57 @@
-# Transcript: Reading and Writing Binary Records
+# Reading and Writing Binary Records — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. A temporary file holds a room record containing a seat count, price and open flag. The recording shows the complete Main.java program and its actual output.
+## Narration
 
-Gray labels beside some method arguments show parameter names. They are editor hints, not extra source. The source below preserves the exact Java characters.
+Welcome to this Java tutorial, where you'll write and restore a binary record, a group of stored values whose types, order, and meanings follow a shared agreement.
 
-## 0:00–0:18 — Goal
+Typed binary input and output help applications exchange saved values reliably, while a shared field agreement lets the reading code recover what those values mean for a booking, a setting, or a game record.
 
-**On screen:** A title card names Reading and Writing Binary Records and emphasizes matching field type, order and meaning. The Workspace then shows an empty Main.java editor while the goal is introduced. No result is shown.
+A campus event desk has four seats available at two dollars and fifty cents per seat, and booking is open. We will save that offer in a private temporary file, then restore its count, price, and booking status.
 
-We will save a room record in a temporary file, then recover its seat count, price and open flag. The goal is to make the writer and reader agree on what each stored value means.
+The recovered report should show four seats, a price of two point five, and true for open status. The writer and reader must agree on an integer, a double, and a boolean, in that order. After reading, we will remove only this example's file.
 
-## 0:18–1:11 — Write an agreed record
+Now that we're in the Workspace, let's open Main.java and build the record program.
 
-**On screen:** The complete 27-line program is typed and saved. Lines 8–14 select the temporary file path, writer creation and three write calls. All source lines remain readable above the bottom captions.
+We need the two data-stream types for primitive values, plus Files and Path for the file location. Main is the class containing this program. Its main method is where execution begins; we will place the record operations inside it.
 
-The complete source is:
+The imports let us use those short library names. The throws declaration allows a checked I/O failure to leave this main method. It does not catch the failure or create a default record. Next, we need one owned file for the two phases.
 
-```java
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+CreateTempFile makes a new empty temporary file and returns its Path. The prefix helps identify the name, generated characters distinguish it, and the suffix is dot bin. The suffix does not choose a format. We keep the returned path so the writer, reader, and final cleanup use the same file.
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Path file = Files.createTempFile("seat-record-", ".bin");
-        try {
-            try (DataOutputStream writer = new DataOutputStream(Files.newOutputStream(file))) {
-                writer.writeInt(4);
-                writer.writeDouble(2.5);
-                writer.writeBoolean(true);
-            }
-            try (DataInputStream reader = new DataInputStream(Files.newInputStream(file))) {
-                int seats = reader.readInt();
-                double price = reader.readDouble();
-                boolean open = reader.readBoolean();
-                System.out.println("Seats: " + seats);
-                System.out.println("Price: " + price);
-                System.out.println("Open: " + open);
-            }
-        } finally {
-            Files.deleteIfExists(file);
-        }
-    }
-}
-```
+First, open byte output and wrap it with typed writing operations. Then write the seat count, price, and booking flag in their agreed order.
 
-A byte stream moves a sequence of bytes, small units of stored data, without treating them as text. Files opens that byte connection. DataOutputStream adds typed binary output: it writes each value according to its Java type. Our binary record schema is the agreed field types and order: an int count, a double price, then a boolean flag. These writes store values without field names or type labels.
+The Files call opens the byte stream. DataOutputStream adds operations that represent primitive Java values. Each write adds its value after the previous one. We stored the values, not their variable names or the labels that will appear in the report.
 
-## 1:11–1:44 — Read matching fields and clean up
+The writer closes as its resource block ends, including its underlying byte stream. We can now open a separate reader at the beginning and recover the same three types in the same order.
 
-**On screen:** Lines 15–24 select reader creation, the three reads, print statements and finally deletion. The complete source remains visible as the narration explains matching field order and cleanup.
+The first read receives the integer seat count. The next receives the double price, and the last receives the boolean status. Each call advances through the required input. The reader does not search for a name; its sequence and assignments give each recovered value its meaning.
 
-Typed binary input uses DataInputStream to interpret those bytes. Each read must match the corresponding write in type, order and meaning. Swapping two fields of the same type can silently give them wrong meanings. Try with resources closes each stream, including its file connection. The writer closes before reading begins, and finally removes the temporary file. An incomplete record ends before a required field is fully read. EOFException reports that unexpected end of file. It does not supply a default value.
+All required values are now available for the report. We will print each label beside its restored variable, then end the reader block and remove our temporary file.
 
-## 1:44–1:55 — Predict the result
+These labels are added to console output; they were not field labels in the file. The reader closes before finally performs deletion. Closing and deleting are separate actions. Finally also runs when the attempted record operations fail, although deletion can itself report an I/O failure.
 
-**On screen:** The selection clears and all 27 source lines remain visible. The terminal is closed, and no output has been shown. A three-second pause follows the prediction prompt.
+The complete program follows one field agreement from writing through reading. Let's click Run and inspect the actual restored offer.
 
-Predict the three printed lines. Match each read to its write, then follow which variable each print uses. Pause here before running.
+The report restores four seats, the price two point five, and true for booking open. Each typed read matches its write and its intended field meaning. The price is printed as a double value; this example does not add currency formatting. The following cleanup removes the file.
 
-## 1:55–2:11 — Run and interpret the result
+Now try a separate offer with seven seats, a price of three dollars and twenty-five cents, and booking closed. We will change only the three written values. The reader and all labels stay the same.
 
-**On screen:** The view moves closer to the terminal. The exact command and all three output lines are readable. The first import and part of the second are above the cropped view. Top captions briefly cover portions of the class and main headers. The path creation, writer and reader operations, print statements and finally deletion remain clear. Earlier and later full-source views show the cropped headers and imports. This complete program is run once. The terminal runs:
+Before running, predict every named output line. Match each read with the value written at that position, and explain how its assigned variable is used by the report. Pause here to make your prediction.
 
-```text
-javac Main.java && java Main
-```
+Let's click Run and compare your prediction with the new record.
 
-It reports:
+The restored report shows seven seats, price three point two five, and false for open status. False is an actual value written into this complete record. It is different from omitting the required flag, which would leave the boolean read without enough input. Replaying the complete program creates another private file.
 
-```text
-Seats: 4
-Price: 2.5
-Open: true
-```
+You used typed output and input to recover the event desk's offer with the same field types, order, and meanings. The notebook also shows why successful same-type reads can assign wrong meanings, and why an incomplete required field is a separate failure. Those checks go beyond confirming that a program reached its last line.
 
-The reader recovers four seats, a price of two point five, and true for open. The matching reads interpret the stored values in the agreed order. The streams close and the temporary file is deleted after this complete run.
+For your next step, imagine two integer fields for a room number and an available-seat count. What must the reader know beyond their shared type to label them correctly? Explain why a complete read alone would not prove that those meanings were preserved.
 
-## 2:11–2:28 — Change and test the record
+## Visual description
 
-**On screen:** The wider view restores all 27 source lines and keeps the original output visible. Lines 11–18 select the written values and corresponding reads. The learner is asked to change the price and investigate a missing final flag. Neither edit is performed in the recording. A short hold ends on the unchanged program.
+[Four code-free opening scenes introduce binary records and typed input/output, connect a shared field agreement to saved-data uses, establish the campus event desk offer, and show the baseline report with type/order/meaning and cleanup requirements.]
 
-Change only the written price, then predict which printed line changes. Next, remove the final boolean write. Which read would fail, and why should the program report an incomplete record instead of treating the room as closed?
+[The real Workspace appears. Main.java opens and the camera follows actual typing of four imports, the Main class, and a main method declaring IOException. The program creates a new empty temporary file, opens typed output, writes an int of 4, a double of 2.5, and a boolean of true, closes the writer, then opens typed input and restores the same three fields. Console labels are added during printing. The reader closes and finally removes the owned file.]
 
+[The pointer clicks the actual Run Code button. The terminal reports Seats: 4, Price: 2.5, and Open: true. Narration explains the restored values and their meanings.]
+
+[Three visible line edits change the written values to 7, 3.25, and false. A prediction and pause precede the second actual Run Code click. Its report shows Seats: 7, Price: 3.25, and Open: false. The closing connects the matching schema to the event desk's recovered offer and asks why two integer fields still require distinct meanings. The same-type error and incomplete-record demonstrations are identified as notebook work, not shown executions in this video.]

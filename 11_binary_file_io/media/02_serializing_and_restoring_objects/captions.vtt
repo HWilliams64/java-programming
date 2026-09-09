@@ -1,163 +1,433 @@
 WEBVTT
 
-00:00:06.735 --> 00:00:09.960
-We will save a score card, restore it from our own
+00:00:00.750 --> 00:00:03.870
+Welcome to this Java tutorial, where you'll use
 
-00:00:09.960 --> 00:00:13.120
-temporary file, and compare its saved values with
+00:00:03.870 --> 00:00:06.857
+serialization and deserialization to save and
 
-00:00:13.120 --> 00:00:14.152
-temporary state.
+00:00:06.857 --> 00:00:09.711
+restore object state, then check a restored
 
-00:00:14.152 --> 00:00:17.248
-Watch how the program checks the restored object
+00:00:09.711 --> 00:00:11.636
+value's type before using it.
 
-00:00:17.248 --> 00:00:18.860
-before using its methods.
+00:00:12.292 --> 00:00:15.297
+These skills let applications preserve settings
 
-00:01:07.840 --> 00:01:10.580
-Object serialization writes an object state
+00:00:15.297 --> 00:00:18.110
+and records between runs while checking that
 
-00:01:10.580 --> 00:01:12.746
-representation into a byte stream.
+00:00:18.110 --> 00:00:20.731
+recovered values are the types their code
 
-00:01:12.746 --> 00:01:15.868
-Serializable is a marker interface: it marks this
+00:00:20.731 --> 00:00:21.242
+expects.
 
-00:01:15.868 --> 00:01:18.034
-support without requiring methods.
+00:00:21.889 --> 00:00:24.934
+A campus equipment desk keeps the location label
 
-00:01:18.034 --> 00:01:21.475
-Objects held in saved reference fields must support it
+00:00:24.934 --> 00:00:26.647
+lab in a small card object.
 
-00:01:21.475 --> 00:01:21.730
-too.
+00:00:26.647 --> 00:00:29.503
+We will save that card to a private temporary
 
-00:01:21.730 --> 00:01:24.788
-The serialization version identifier helps check
+00:00:29.503 --> 00:00:31.216
+file and restore its label.
 
-00:01:24.788 --> 00:01:27.910
-whether saved data and the current class can work
+00:00:31.216 --> 00:00:33.880
+The reader must check that it received the
 
-00:01:27.910 --> 00:01:28.484
-together.
+00:00:33.880 --> 00:00:36.672
+expected card before calling the method that
 
-00:01:28.484 --> 00:01:31.733
-Its long type stores whole numbers, and the L marks
+00:00:36.672 --> 00:00:37.814
+returns the label.
 
-00:01:31.733 --> 00:01:33.453
-the written number as long.
+00:00:38.459 --> 00:00:41.466
+Our report should show Label, followed by lab,
 
-00:01:33.453 --> 00:01:36.639
-Matching identifiers alone do not make every class
+00:00:41.466 --> 00:00:44.343
+confirming that the desk recovered its saved
 
-00:01:36.639 --> 00:01:37.786
-change compatible.
+00:00:44.343 --> 00:00:44.931
+location.
 
-00:01:37.786 --> 00:01:41.227
-Static fields belong to the class and are not saved as
+00:00:44.931 --> 00:00:47.938
+Then we'll change the stored value and predict
 
-00:01:41.227 --> 00:01:42.182
-instance state.
+00:00:47.938 --> 00:00:49.834
+how the same reader responds.
 
-00:01:42.182 --> 00:01:45.432
-A transient instance field is excluded from default
+00:00:50.493 --> 00:00:53.022
+Now that we're in the Workspace, let's open
 
-00:01:45.432 --> 00:01:46.324
-serialization.
+00:00:53.022 --> 00:00:55.493
+Main.java and build the card's round trip.
 
-00:01:46.324 --> 00:01:48.490
-Here, views marks temporary state.
+00:00:59.283 --> 00:01:02.234
+We need object input and output streams, the
 
-00:01:48.804 --> 00:01:52.068
-Object deserialization reconstructs an object from a
+00:01:02.234 --> 00:01:05.452
+serialization marker, and the familiar Files and
 
-00:01:52.068 --> 00:01:54.077
-compatible saved representation.
+00:01:05.452 --> 00:01:06.190
+Path types.
 
-00:01:54.077 --> 00:01:57.090
-The output stream writes our card, and the input
+00:01:06.190 --> 00:01:09.007
+Add these imports so their short names are
 
-00:01:57.090 --> 00:01:58.408
-stream reads it back.
+00:01:09.007 --> 00:01:10.683
+available in the program.
 
-00:01:58.408 --> 00:02:01.421
-The readObject method returns Object, the common
+00:01:23.722 --> 00:01:26.724
+Next, define the card with its String label, a
 
-00:02:01.421 --> 00:02:02.362
-reference type.
+00:01:26.724 --> 00:01:29.727
+constructor to set that field, and a getter to
 
-00:02:02.362 --> 00:02:05.689
-The runtime type check, instanceof, tests whether the
+00:01:29.727 --> 00:01:30.249
+read it.
 
-00:02:05.689 --> 00:02:08.011
-actual non-null value is a ScoreCard.
+00:01:30.249 --> 00:01:33.251
+Mark the class as supporting serialization and
 
-00:02:08.011 --> 00:02:11.338
-The reference cast then gives that reference the more
+00:01:33.251 --> 00:01:35.797
+give it an explicit version identifier.
 
-00:02:11.338 --> 00:02:14.539
-specific ScoreCard type so we can call its methods.
+00:02:00.617 --> 00:02:03.283
+Serializable is a marker interface: it declares
 
-00:02:14.539 --> 00:02:16.611
-Other types take the else branch.
+00:02:03.283 --> 00:02:05.835
+support without requiring a serialize method.
 
-00:02:16.611 --> 00:02:19.812
-Try with resources closes both streams, and finally
+00:02:05.835 --> 00:02:08.331
+Our String field supports serialization too.
 
-00:02:19.812 --> 00:02:20.879
-deletes the file.
+00:02:08.331 --> 00:02:10.826
+The static version identifier belongs to the
 
-00:02:20.994 --> 00:02:23.012
-Predict all three printed lines.
+00:02:10.826 --> 00:02:13.492
+class, final prevents reassignment, and long is
 
-00:02:23.012 --> 00:02:26.166
-Which fields are saved, and what do you expect for
+00:02:13.492 --> 00:02:14.740
+its whole-number type.
 
-00:02:26.166 --> 00:02:27.869
-views on the restored card?
+00:02:14.740 --> 00:02:17.235
+The L suffix makes the value a long literal.
 
-00:02:27.869 --> 00:02:30.518
-Decide whether restoring should repeat the
+00:02:17.235 --> 00:02:19.731
+Matching that identifier does not make every
 
-00:02:30.518 --> 00:02:31.275
-constructor.
+00:02:19.731 --> 00:02:21.092
+class change compatible.
 
-00:02:31.275 --> 00:02:31.969
-Pause here.
+00:02:21.114 --> 00:02:23.864
+Main holds the conventional entry method for
 
-00:02:37.003 --> 00:02:38.971
-Maya and seven are restored.
+00:02:23.864 --> 00:02:25.302
+this Workspace program.
 
-00:02:38.971 --> 00:02:42.487
-Original views is one, but restored views is zero.
+00:02:25.302 --> 00:02:28.239
+We will declare the checked exceptions that may
 
-00:02:42.487 --> 00:02:46.213
-Default deserialization of this ordinary Serializable
+00:02:28.239 --> 00:02:31.239
+leave it, create one private temporary file, and
 
-00:02:46.213 --> 00:02:49.446
-class does not replay its constructor or field
+00:02:31.239 --> 00:02:33.364
+start the outer cleanup structure.
 
-00:02:49.446 --> 00:02:50.360
-initializers.
+00:02:52.459 --> 00:02:54.888
+The throws declaration allows I/O and
 
-00:02:50.360 --> 00:02:53.665
-The transient int keeps its default zero value.
+00:02:54.888 --> 00:02:58.038
+class-lookup failures to leave main; it does not
 
-00:02:53.665 --> 00:02:57.391
-Our type check succeeds, so the cast and getter calls
+00:02:58.038 --> 00:02:58.826
+handle them.
 
-00:02:57.391 --> 00:02:57.953
-proceed.
+00:02:58.826 --> 00:03:01.976
+CreateTempFile creates an empty file and returns
 
-00:02:58.292 --> 00:03:01.875
-Set the constructor’s views value to five and predict
+00:03:01.976 --> 00:03:02.567
+its Path.
 
-00:03:01.875 --> 00:03:02.957
-both view lines.
+00:03:02.567 --> 00:03:05.586
+We retain that location for both stream phases
 
-00:03:02.957 --> 00:03:05.661
-Then remove transient and predict again.
+00:03:05.586 --> 00:03:06.439
+and deletion.
 
-00:03:05.661 --> 00:03:09.042
-Explain which state belongs in a saved score card.
+00:03:06.439 --> 00:03:09.393
+A dot bin suffix labels the name but does not
+
+00:03:09.393 --> 00:03:11.034
+select the stored format.
+
+00:03:11.074 --> 00:03:14.277
+Open byte output and wrap it in an object output
+
+00:03:14.277 --> 00:03:14.744
+stream.
+
+00:03:14.744 --> 00:03:17.880
+Pass a new LabelCard holding lab to the writer,
+
+00:03:17.880 --> 00:03:20.949
+then finish the resource block before reading.
+
+00:03:40.856 --> 00:03:43.579
+WriteObject receives the card and writes its
+
+00:03:43.579 --> 00:03:45.497
+supported state representation.
+
+00:03:45.497 --> 00:03:48.406
+It does not save Java source, a running method,
+
+00:03:48.406 --> 00:03:49.829
+or the notebook kernel.
+
+00:03:49.829 --> 00:03:52.613
+The version identifier is class compatibility
+
+00:03:52.613 --> 00:03:55.584
+information, separate from the ordinary instance
+
+00:03:55.584 --> 00:03:55.955
+label.
+
+00:03:55.955 --> 00:03:58.863
+Closing this wrapper also closes the underlying
+
+00:03:58.863 --> 00:03:59.606
+byte output.
+
+00:03:59.639 --> 00:04:02.765
+Now open byte input, wrap it in an object input
+
+00:04:02.765 --> 00:04:05.160
+stream, and restore the saved value.
+
+00:04:05.160 --> 00:04:08.353
+Keep the initial result in an Object variable so
+
+00:04:08.353 --> 00:04:10.814
+we can check what actually came back.
+
+00:04:26.353 --> 00:04:29.198
+ReadObject reconstructs the saved state using
+
+00:04:29.198 --> 00:04:32.169
+the compatible class available to this program.
+
+00:04:32.169 --> 00:04:34.824
+Its declared result type is Object, Java's
+
+00:04:34.824 --> 00:04:37.226
+common superclass for class instances.
+
+00:04:37.226 --> 00:04:40.134
+That reference can hold the restored card, but
+
+00:04:40.134 --> 00:04:42.915
+its declared type does not expose the card's
+
+00:04:42.915 --> 00:04:44.053
+particular getter.
+
+00:04:44.101 --> 00:04:47.306
+Check whether the returned value is a LabelCard.
+
+00:04:47.306 --> 00:04:50.377
+In that matching branch, cast the reference to
+
+00:04:50.377 --> 00:04:52.381
+LabelCard and call its getter.
+
+00:04:52.381 --> 00:04:54.851
+Otherwise, report an unexpected type.
+
+00:05:24.281 --> 00:05:27.037
+Instanceof checks the actual value and is false
+
+00:05:27.037 --> 00:05:27.565
+for null.
+
+00:05:27.565 --> 00:05:30.321
+The cast then gives us a LabelCard reference to
+
+00:05:30.321 --> 00:05:32.901
+the same restored object; it does not create
+
+00:05:32.901 --> 00:05:35.363
+another card or convert a String into one.
+
+00:05:35.363 --> 00:05:37.943
+A cast on an incompatible non-null value can
+
+00:05:37.943 --> 00:05:39.409
+throw ClassCastException.
+
+00:05:39.409 --> 00:05:41.989
+The matching guard keeps that attempt out of
+
+00:05:41.989 --> 00:05:43.631
+this reader's mismatch path.
+
+00:05:43.704 --> 00:05:46.662
+Finish the reader block, then put deletion in
+
+00:05:46.662 --> 00:05:48.239
+the outer finally block.
+
+00:05:48.239 --> 00:05:51.197
+Closing releases the stream; deletion removes
+
+00:05:51.197 --> 00:05:53.629
+the file that this complete run owns.
+
+00:06:05.036 --> 00:06:07.766
+The reader closes before finally attempts
+
+00:06:07.766 --> 00:06:10.630
+deletion, including when the protected work
+
+00:06:10.630 --> 00:06:11.029
+fails.
+
+00:06:11.029 --> 00:06:13.693
+Deletion can itself report an I/O error.
+
+00:06:13.693 --> 00:06:16.823
+With the complete supported-card path in place,
+
+00:06:16.823 --> 00:06:19.886
+let's click Run and inspect the actual report.
+
+00:06:25.482 --> 00:06:28.014
+The report shows Label, followed by lab.
+
+00:06:28.014 --> 00:06:30.862
+The restored value passed the card check, and
+
+00:06:30.862 --> 00:06:33.077
+its getter returned the saved text.
+
+00:06:33.077 --> 00:06:35.925
+This verifies the restored label; it does not
+
+00:06:35.925 --> 00:06:38.962
+mean the restored card is the original in-memory
+
+00:06:38.962 --> 00:06:39.532
+instance.
+
+00:06:39.636 --> 00:06:42.625
+For a second run, write the String lab directly
+
+00:06:42.625 --> 00:06:44.596
+instead of constructing a card.
+
+00:06:44.596 --> 00:06:47.649
+Keep the same class definition, LabelCard check,
+
+00:06:47.649 --> 00:06:49.302
+cast, and report branches.
+
+00:06:49.302 --> 00:06:52.228
+This changes the actual stored value, not what
+
+00:06:52.228 --> 00:06:53.436
+the reader expects.
+
+00:06:59.445 --> 00:07:02.415
+Before running, predict which report branch will
+
+00:07:02.415 --> 00:07:02.910
+execute.
+
+00:07:02.910 --> 00:07:05.880
+What type will the restored non-null value have,
+
+00:07:05.880 --> 00:07:07.860
+and will the cast or getter run?
+
+00:07:07.860 --> 00:07:10.768
+Pause here and explain your prediction from the
+
+00:07:10.768 --> 00:07:12.995
+value actually passed to the writer.
+
+00:07:21.104 --> 00:07:24.212
+Let's click Run to test that prediction against
+
+00:07:24.212 --> 00:07:26.129
+the reader's actual behavior.
+
+00:07:31.760 --> 00:07:34.635
+The program reports an unexpected object type.
+
+00:07:34.635 --> 00:07:37.572
+The String was valid saved data, but it did not
+
+00:07:37.572 --> 00:07:40.322
+satisfy this reader's LabelCard requirement.
+
+00:07:40.322 --> 00:07:42.885
+The false guard skipped both the cast and
+
+00:07:42.885 --> 00:07:43.322
+getter.
+
+00:07:43.322 --> 00:07:46.198
+Declaring LabelCard elsewhere did not turn the
+
+00:07:46.198 --> 00:07:47.885
+written String into a card.
+
+00:07:48.010 --> 00:07:50.557
+You saved supported state, restored it with a
+
+00:07:50.557 --> 00:07:52.935
+compatible class, and separated the Object
+
+00:07:52.935 --> 00:07:55.595
+result, runtime type check, and reference cast.
+
+00:07:55.595 --> 00:07:58.256
+Those steps let the desk recover a useful label
+
+00:07:58.256 --> 00:08:00.407
+while reporting a controlled mismatch.
+
+00:08:00.407 --> 00:08:03.067
+The notebook practice asks you to complete this
+
+00:08:03.067 --> 00:08:05.728
+agreement, repair a wrong guard, and build your
+
+00:08:05.728 --> 00:08:06.860
+own tag-card reader.
+
+00:08:07.025 --> 00:08:09.856
+For your next step, choose a small object whose
+
+00:08:09.856 --> 00:08:11.120
+state you would save.
+
+00:08:11.120 --> 00:08:13.951
+What class-specific operation should the reader
+
+00:08:13.951 --> 00:08:15.999
+use, and what must it check first?
+
+00:08:15.999 --> 00:08:18.709
+Plan both an accepted value and an unexpected
+
+00:08:18.709 --> 00:08:21.480
+type so your tests show that the reader can do
+
+00:08:21.480 --> 00:08:22.925
+more than always reject.
