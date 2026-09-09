@@ -22,9 +22,9 @@
 
 **Access control** - The Java rules that determine where a member can be accessed. The keyword `private` restricts access to the defining class and its permitted nested context; `public` allows access wherever the enclosing type is accessible. This module uses private fields and public operations so callers use the class's checks. These are source-code access rules, not passwords or runtime user permissions.
 
-**State invariant** - A rule that must hold after an object's initialization and after each completed operation. A stock class might require its stored quantity to stay nonnegative. A withdrawal method preserves that rule by rejecting an invalid request before subtraction. Tests should check both the returned result and the state left behind.
-
 **Precondition** - A rule the caller must satisfy before an operation begins. A constructor can require a nonnegative starting quantity even when its body does not test that condition. A stated precondition is not evidence that invalid input is automatically rejected. Use inputs that satisfy the lesson's constructor contract unless a task explicitly asks you to implement a check.
+
+**State invariant** - A rule that must hold after an object's initialization and after each completed operation. A stock class might require its stored quantity to stay nonnegative. A withdrawal method preserves that rule by rejecting an invalid request before subtraction. Tests should check both the returned result and the state left behind.
 
 **Aliasing** - Two variables referring to the same object. After `second = first`, both references can reach the existing object; the assignment does not create a duplicate object. A field change through one reference is visible through the other. Creating objects with two separate new expressions gives a different arrangement.
 
@@ -32,14 +32,16 @@
 
 **Static field** - A field belonging to the class rather than a separate field in every instance. A construction counter declared with the keyword `static` can increase whenever that class's constructor runs. Its value counts whatever the program explicitly records; it does not automatically count live objects or references. Reusing a notebook kernel can preserve class state, so follow the lesson's fresh-state instructions when repeating such experiments.
 
-**Logical size** - The number of elements a collection currently uses. A collection with three added scores has logical size three, even if its backing array has more positions. Logical indices run from zero through size minus one. An explicitly added zero is still an element and contributes to size.
+**Backing storage** - The internal array that holds a collection's elements. A collection class can keep that array in a private field and expose operations such as `add`, `get`, and `size`. Callers then work with the collection's logical entries instead of relying on spare array positions. Protecting the reference helps the class maintain its size and capacity rules.
 
 **Capacity** - The number of positions available in the current backing array. An array of length four provides capacity four, even when only two positions belong to the logical collection. Capacity limits how many entries fit before growth is needed. It is different from the number already added and from the sum of their values.
 
+**Logical size** - The number of elements a collection currently uses. A collection with three added scores has logical size three, even if its backing array has more positions. Logical indices run from zero through size minus one. An explicitly added zero is still an element and contributes to size.
+
 **Array allocation** - Creating an array with a specified length. `new int[2]` creates an array with two positions whose valid indices are zero and one. The length of that particular array remains fixed. Growing a collection requires a different array and a change to the storage reference.
 
-**Default element values** - The starting values assigned automatically to new array elements. An `int[]` starts with numeric zeros; a `String[]` starts with null references. A zero in an unused position does not prove that a student added a zero-valued score. Logical size identifies which positions belong to the collection.
+**Null reference** - The Java literal `null` represents the absence of an object reference. New String array positions start with this value. A comparison such as `labels[0] == null` checks whether a position contains no reference; calling a String method through that position would fail. Null is not the text "null" and does not by itself define which positions belong to a collection.
 
-**Backing storage** - The internal array that holds a collection's elements. A collection class can keep that array in a private field and expose operations such as `add`, `get`, and `size`. Callers then work with the collection's logical entries instead of relying on spare array positions. Protecting the reference helps the class maintain its size and capacity rules.
+**Default element values** - The starting values assigned automatically to new array elements. An `int[]` starts with numeric zeros; a `String[]` starts with null references. A zero in an unused position does not prove that a student added a zero-valued score. Logical size identifies which positions belong to the collection.
 
 **Growth by copying** - Creating a larger array, copying the used elements in order, and replacing the backing-storage reference. When a collection with positive capacity becomes full, doubling its capacity makes room for another addition. The existing elements must be copied before the new element is appended at the old logical size. Increasing the size afterward keeps the stored entries and count consistent.

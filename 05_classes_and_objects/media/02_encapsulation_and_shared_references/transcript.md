@@ -1,79 +1,59 @@
-# Transcript: Encapsulation and Shared References
+# Transcript: Encapsulation and Shared State
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It protects each supply bin through public operations and compares instance stock with a shared class counter.
+Welcome to this Java tutorial, where you'll use encapsulation to protect an object's state and distinguish each object's fields from a field shared by its class.
 
-**Notebook use:** The video runs Main.java in a new Java process. In the notebook, restart the Java kernel before replaying a counted example or solution. Repeating an identical class definition can keep its static counter. Supplementary examples use distinct class names so a fresh Run All keeps their counters separate.
+Checked operations help inventory, booking, and account systems keep their records consistent, even when many parts of an application request changes.
 
-## 0:00–0:19 — Goal
+Today we'll model a campus supply desk with a separate bin for each kind of item. A request must be positive and no larger than that bin's remaining stock. A rejected request must leave the count unchanged.
 
-**On screen:** The title introduces protecting stock through public operations. Main.java is open in the Java editor. No request result is revealed.
+We'll put the checks inside the bin, create two bins, and report each request's result alongside the remaining stock and the number of bins constructed. After a worked example, you'll predict a fresh case.
 
-A supply bin must never issue more items than it holds. Encapsulation keeps its state behind operations that control changes. We start each bin with nonnegative stock.
+Now that we're in the Workspace, let's open Main.java.
 
-## 0:19–1:00 — Guard changes to stock
+A bin needs its own stock count, while the application needs one construction count for the whole class. Let's define SupplyBin and declare those two fields.
 
-**On screen:** The following source is typed and saved. The private fields, constructor and guarded take method receive emphasis. All 32 source lines are readable during explanation and prediction, with no editor errors. Gray stock: and amount: labels identify arguments as editor hints; they are not source text. The editor joins the characters in <= into a single-looking symbol; the source still uses the two characters shown below.
+Private keeps callers from assigning these fields directly. Stock belongs separately to every bin. Static gives the class one binsCreated field, initialized to zero when the class is initialized. It counts the constructions we record, not variable names or requests.
 
-```java
-class SupplyBin {
-    private int stock;
-    private static int binsCreated = 0;
-    public SupplyBin(int stock) {
-        this.stock = stock;
-        binsCreated = binsCreated + 1;
-    }
-    public boolean take(int amount) {
-        if (amount <= 0 || amount > stock) {
-            return false;
-        }
-        stock = stock - amount;
-        return true;
-    }
-    public int getStock() {
-        return stock;
-    }
-    public static int getBinsCreated() {
-        return binsCreated;
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        SupplyBin pens = new SupplyBin(5);
-        SupplyBin maps = new SupplyBin(2);
-        System.out.println("Take 3: " + pens.take(3));
-        System.out.println("Take 4: " + pens.take(4));
-        System.out.println("Pens: " + pens.getStock());
-        System.out.println("Maps: " + maps.getStock());
-        System.out.println("Bins: " + SupplyBin.getBinsCreated());
-    }
-}
-```
+We still need starting values for each new bin. The constructor will store its incoming stock and increase the shared count once.
 
-Private fields cannot be changed directly by this caller. Public methods provide access. The take method rejects a nonpositive or excessive request before changing stock. That protects the rule that stock stays nonnegative.
+This dot stock selects the new object's field, while stock on the right is this call's parameter. The next assignment increases the class field. Our caller must supply a nonnegative starting count. That is a precondition: this constructor assumes it rather than checking it.
 
-## 1:00–1:17 — Predict instance and class state
+Once a bin exists, callers need a safe way to take items. We'll give them a public take method that returns a Boolean result. First, let's reject requests that must not change the stock.
 
-**On screen:** The two bin creations, requests and five report statements receive emphasis. The complete SupplyBin definition stays visible above them. Bottom captions leave all source readable. No terminal output has appeared. A three-second pause follows the prediction.
+The condition rejects either a nonpositive amount or an amount greater than the remaining stock. If either comparison is true, return false ends the call immediately. This guard protects our invariant, the rule that stored stock stays nonnegative.
 
-Each bin has its own stock. The static binsCreated field belongs to the class, and the constructor updates it for every new bin. Trace both take calls and predict all five lines, then pause.
+A request that passes both checks can now change the receiving bin. Let's subtract the amount and report success.
 
-## 1:17–1:30 — Execute and compare
+The assignment reads the current stock, subtracts the accepted amount, and stores the remainder. Returning true reports that the request succeeded. The order matters: returning false after an earlier subtraction would not undo that subtraction. An exact request for the remaining stock is allowed and leaves zero.
 
-**On screen:** The view focuses on the terminal. The top of the class definition is partly above the view, and the longer top captions overlap earlier constructor statements and part of the take method heading. The guard, update, getters and caller code remain visible. The final outer closing brace is below the editor edge. The command and all five output lines are clearly readable. The terminal runs `javac Main.java && java Main`. It succeeds and prints:
+Callers also need to inspect the counts without assigning the private fields. Let's add a reader for one bin and a static reader for the construction count.
 
-```text
-Take 3: true
-Take 4: false
-Pens: 2
-Maps: 2
-Bins: 2
-```
+GetStock returns the receiving bin's current count. GetBinsCreated returns the shared class count, so callers use the class name for that operation. Public readers make values available without allowing an outside assignment to either private field.
 
-Taking three succeeds, leaving two pens. Taking four fails without changing that stock. The maps bin still has two. The shared count is two because two bins were constructed.
+The bin definition is ready. We'll put the caller in Main, whose main method starts the program. For this worked case, create a three-pen bin and a separate one-map bin.
 
-## 1:30–1:41 — Change a request
+These two new expressions run the constructor twice. The bins have separate stock values, while the class count becomes two. Requesting pens must not change the map bin.
 
-**On screen:** The fields, constructor, guard, getters, caller code and all five output lines remain visible during the final question. The last outer closing brace stays below the editor edge. Bottom captions leave the source and output clear. The proposed change updates the second take argument and its printed label to two. A two-second hold follows the question.
+Let's request two pens twice and print the result of each request. The first request should leave one pen. The second asks for two when only one remains, so it must fail without another subtraction.
 
-Change the second request and its printed label to take two. Predict the new results. Why do the maps stock and the class count stay the same?
+Each print statement calls take before printing its Boolean result. We also need to inspect the stored counts, because a false result alone would not prove that rejection left the state unchanged. Let's add that report and finish the program.
 
+The complete report checks success, rejection, both bins, and the shared construction count. Let's click Run and see whether all those observations agree.
+
+The first request is true because two pens were available. The repeated request is false because only one remained. Pens is still one, confirming that rejection preserved the state. Maps is one because we never requested maps. Bins is two because we constructed two objects; taking items creates no additional bin.
+
+Now we'll use the same class with five pens and two maps, requesting three pens and then four. We'll enter a fresh program so you can trace both requests from those starting values. The guard and construction rule stay the same.
+
+The guarded operation is entered again. Let's finish its readers and create the two bins for the prediction case. Each run starts a new Java process, so this program begins with a fresh construction count.
+
+The caller now supplies five and two to separate constructors. Let's add the two requests and the report. Trace each request using the stock left by the previous one, rather than reusing the original quantity.
+
+Before we run it, predict all five output lines. For each request, decide whether the guard ends the call or permits subtraction. Then account for the untouched bin and the construction count. Pause here if you'd like more time.
+
+Let's click Run and compare the report with your prediction.
+
+Taking three is true and leaves two pens. Taking four is false because four exceeds those two, so Pens remains two. Maps also reports two, but for a different reason: no request changed that separate bin. Bins is two because the two new expressions ran the constructor twice.
+
+The supply desk now has one place to check requests before changing a bin. Private fields keep callers on that path, the guard preserves the stock rule, and the readers let us check the result. Instance fields keep each bin's stock separate, while the static field records constructions for the class.
+
+Suppose the next request is for zero pens, followed by a request for exactly the remaining stock. What should each call return, what stock should remain after each one, and should either call change Bins? Explain which part of the method supports your answer.

@@ -1,79 +1,496 @@
 WEBVTT
 
-00:00:07.426 --> 00:00:10.842
-A supply bin must never issue more items than it
+00:00:00.750 --> 00:00:03.972
+Welcome to this Java tutorial, where you'll use
 
-00:00:10.842 --> 00:00:11.269
-holds.
+00:00:03.972 --> 00:00:07.125
+encapsulation to protect an object's state and
 
-00:00:11.269 --> 00:00:14.970
-Encapsulation keeps its state behind operations that
+00:00:07.125 --> 00:00:10.209
+distinguish each object's fields from a field
 
-00:00:14.970 --> 00:00:16.108
-control changes.
+00:00:10.209 --> 00:00:11.580
+shared by its class.
 
-00:00:16.108 --> 00:00:19.026
-We start each bin with nonnegative stock.
+00:00:12.356 --> 00:00:15.737
+Checked operations help inventory, booking, and
 
-00:00:45.319 --> 00:00:48.719
-Private fields cannot be changed directly by this
+00:00:15.737 --> 00:00:19.046
+account systems keep their records consistent,
 
-00:00:48.719 --> 00:00:49.204
-caller.
+00:00:19.046 --> 00:00:22.355
+even when many parts of an application request
 
-00:00:49.204 --> 00:00:51.286
-Public methods provide access.
+00:00:22.355 --> 00:00:22.931
+changes.
 
-00:00:51.286 --> 00:00:54.755
-The take method rejects a nonpositive or excessive
+00:00:23.620 --> 00:00:26.989
+Today we'll model a campus supply desk with a
 
-00:00:54.755 --> 00:00:56.836
-request before changing stock.
+00:00:26.989 --> 00:00:29.610
+separate bin for each kind of item.
 
-00:00:56.836 --> 00:01:00.444
-That protects the rule that stock stays nonnegative.
+00:00:29.610 --> 00:00:32.979
+A request must be positive and no larger than
 
-00:01:00.783 --> 00:01:02.685
-Each bin has its own stock.
+00:00:32.979 --> 00:00:35.001
+that bin's remaining stock.
 
-00:01:02.685 --> 00:01:06.488
-The static binsCreated field belongs to the class, and
+00:00:35.001 --> 00:00:37.921
+A rejected request must leave the count
 
-00:01:06.488 --> 00:01:09.657
-the constructor updates it for every new bin.
+00:00:37.921 --> 00:00:38.670
+unchanged.
 
-00:01:09.657 --> 00:01:13.460
-Trace both take calls and predict all five lines, then
+00:00:39.411 --> 00:00:42.583
+We'll put the checks inside the bin, create two
 
-00:01:13.460 --> 00:01:13.883
-pause.
+00:00:42.583 --> 00:00:45.823
+bins, and report each request's result alongside
 
-00:01:18.795 --> 00:01:21.483
-Taking three succeeds, leaving two pens.
+00:00:45.823 --> 00:00:48.659
+the remaining stock and the number of bins
 
-00:01:21.483 --> 00:01:24.575
-Taking four fails without changing that stock.
-
-00:01:24.575 --> 00:01:26.389
-The maps bin still has two.
-
-00:01:26.389 --> 00:01:29.414
-The shared count is two because two bins were
-
-00:01:29.414 --> 00:01:30.220
+00:00:48.659 --> 00:00:49.469
 constructed.
 
-00:01:30.267 --> 00:01:33.464
-Change the second request and its printed label to
+00:00:49.469 --> 00:00:52.573
+After a worked example, you'll predict a fresh
 
-00:01:33.464 --> 00:01:34.040
-take two.
+00:00:52.573 --> 00:00:52.911
+case.
 
-00:01:34.040 --> 00:01:35.575
-Predict the new results.
+00:00:52.971 --> 00:00:55.871
+Now that we're in the Workspace, let's open
 
-00:01:35.575 --> 00:01:38.772
-Why do the maps stock and the class count stay the
+00:00:55.871 --> 00:00:56.546
+Main.java.
 
-00:01:38.772 --> 00:01:39.092
-same?
+00:01:00.625 --> 00:01:03.603
+A bin needs its own stock count, while the
+
+00:01:03.603 --> 00:01:07.007
+application needs one construction count for the
+
+00:01:07.007 --> 00:01:07.858
+whole class.
+
+00:01:07.858 --> 00:01:10.979
+Let's define SupplyBin and declare those two
+
+00:01:10.979 --> 00:01:11.475
+fields.
+
+00:01:20.392 --> 00:01:23.400
+Private keeps callers from assigning these
+
+00:01:23.400 --> 00:01:24.546
+fields directly.
+
+00:01:24.546 --> 00:01:27.268
+Stock belongs separately to every bin.
+
+00:01:27.268 --> 00:01:30.491
+Static gives the class one binsCreated field,
+
+00:01:30.491 --> 00:01:33.141
+initialized to zero when the class is
+
+00:01:33.141 --> 00:01:34.000
+initialized.
+
+00:01:34.000 --> 00:01:37.008
+It counts the constructions we record, not
+
+00:01:37.008 --> 00:01:38.942
+variable names or requests.
+
+00:01:38.954 --> 00:01:42.257
+We still need starting values for each new bin.
+
+00:01:42.257 --> 00:01:45.419
+The constructor will store its incoming stock
+
+00:01:45.419 --> 00:01:47.879
+and increase the shared count once.
+
+00:02:02.029 --> 00:02:04.997
+This dot stock selects the new object's field,
+
+00:02:04.997 --> 00:02:07.513
+while stock on the right is this call's
+
+00:02:07.513 --> 00:02:08.158
+parameter.
+
+00:02:08.158 --> 00:02:11.125
+The next assignment increases the class field.
+
+00:02:11.125 --> 00:02:14.028
+Our caller must supply a nonnegative starting
+
+00:02:14.028 --> 00:02:14.416
+count.
+
+00:02:14.416 --> 00:02:17.512
+That is a precondition: this constructor assumes
+
+00:02:17.512 --> 00:02:19.254
+it rather than checking it.
+
+00:02:19.287 --> 00:02:22.488
+Once a bin exists, callers need a safe way to
+
+00:02:22.488 --> 00:02:23.270
+take items.
+
+00:02:23.270 --> 00:02:26.187
+We'll give them a public take method that
+
+00:02:26.187 --> 00:02:27.965
+returns a Boolean result.
+
+00:02:27.965 --> 00:02:30.953
+First, let's reject requests that must not
+
+00:02:30.953 --> 00:02:32.162
+change the stock.
+
+00:02:43.022 --> 00:02:45.985
+The condition rejects either a nonpositive
+
+00:02:45.985 --> 00:02:49.229
+amount or an amount greater than the remaining
+
+00:02:49.229 --> 00:02:49.653
+stock.
+
+00:02:49.653 --> 00:02:52.968
+If either comparison is true, return false ends
+
+00:02:52.968 --> 00:02:54.449
+the call immediately.
+
+00:02:54.449 --> 00:02:57.835
+This guard protects our invariant, the rule that
+
+00:02:57.835 --> 00:03:00.022
+stored stock stays nonnegative.
+
+00:03:00.044 --> 00:03:03.644
+A request that passes both checks can now change
+
+00:03:03.644 --> 00:03:04.994
+the receiving bin.
+
+00:03:04.994 --> 00:03:08.369
+Let's subtract the amount and report success.
+
+00:03:14.237 --> 00:03:16.774
+The assignment reads the current stock,
+
+00:03:16.774 --> 00:03:19.701
+subtracts the accepted amount, and stores the
+
+00:03:19.701 --> 00:03:20.352
+remainder.
+
+00:03:20.352 --> 00:03:22.889
+Returning true reports that the request
+
+00:03:22.889 --> 00:03:23.539
+succeeded.
+
+00:03:23.539 --> 00:03:26.336
+The order matters: returning false after an
+
+00:03:26.336 --> 00:03:28.873
+earlier subtraction would not undo that
+
+00:03:28.873 --> 00:03:29.654
+subtraction.
+
+00:03:29.654 --> 00:03:32.451
+An exact request for the remaining stock is
+
+00:03:32.451 --> 00:03:34.012
+allowed and leaves zero.
+
+00:03:34.032 --> 00:03:37.173
+Callers also need to inspect the counts without
+
+00:03:37.173 --> 00:03:39.111
+assigning the private fields.
+
+00:03:39.111 --> 00:03:41.985
+Let's add a reader for one bin and a static
+
+00:03:41.985 --> 00:03:44.257
+reader for the construction count.
+
+00:03:56.498 --> 00:03:59.625
+GetStock returns the receiving bin's current
+
+00:03:59.625 --> 00:04:00.052
+count.
+
+00:04:00.052 --> 00:04:03.321
+GetBinsCreated returns the shared class count,
+
+00:04:03.321 --> 00:04:06.022
+so callers use the class name for that
+
+00:04:06.022 --> 00:04:06.733
+operation.
+
+00:04:06.733 --> 00:04:09.860
+Public readers make values available without
+
+00:04:09.860 --> 00:04:13.272
+allowing an outside assignment to either private
+
+00:04:13.272 --> 00:04:13.698
+field.
+
+00:04:13.730 --> 00:04:15.682
+The bin definition is ready.
+
+00:04:15.682 --> 00:04:18.957
+We'll put the caller in Main, whose main method
+
+00:04:18.957 --> 00:04:20.282
+starts the program.
+
+00:04:20.282 --> 00:04:23.627
+For this worked case, create a three-pen bin and
+
+00:04:23.627 --> 00:04:25.230
+a separate one-map bin.
+
+00:04:40.589 --> 00:04:43.889
+These two new expressions run the constructor
+
+00:04:43.889 --> 00:04:44.329
+twice.
+
+00:04:44.329 --> 00:04:47.702
+The bins have separate stock values, while the
+
+00:04:47.702 --> 00:04:49.462
+class count becomes two.
+
+00:04:49.462 --> 00:04:52.689
+Requesting pens must not change the map bin.
+
+00:04:52.739 --> 00:04:55.743
+Let's request two pens twice and print the
+
+00:04:55.743 --> 00:04:57.388
+result of each request.
+
+00:04:57.388 --> 00:05:00.177
+The first request should leave one pen.
+
+00:05:00.177 --> 00:05:03.467
+The second asks for two when only one remains,
+
+00:05:03.467 --> 00:05:06.614
+so it must fail without another subtraction.
+
+00:05:18.498 --> 00:05:21.676
+Each print statement calls take before printing
+
+00:05:21.676 --> 00:05:22.961
+its Boolean result.
+
+00:05:22.961 --> 00:05:25.801
+We also need to inspect the stored counts,
+
+00:05:25.801 --> 00:05:28.776
+because a false result alone would not prove
+
+00:05:28.776 --> 00:05:31.480
+that rejection left the state unchanged.
+
+00:05:31.480 --> 00:05:34.523
+Let's add that report and finish the program.
+
+00:05:52.490 --> 00:05:55.826
+The complete report checks success, rejection,
+
+00:05:55.826 --> 00:05:59.089
+both bins, and the shared construction count.
+
+00:05:59.089 --> 00:06:02.062
+Let's click Run and see whether all those
+
+00:06:02.062 --> 00:06:03.440
+observations agree.
+
+00:06:08.736 --> 00:06:11.915
+The first request is true because two pens were
+
+00:06:11.915 --> 00:06:12.592
+available.
+
+00:06:12.592 --> 00:06:15.704
+The repeated request is false because only one
+
+00:06:15.704 --> 00:06:16.312
+remained.
+
+00:06:16.312 --> 00:06:19.289
+Pens is still one, confirming that rejection
+
+00:06:19.289 --> 00:06:20.642
+preserved the state.
+
+00:06:20.642 --> 00:06:23.618
+Maps is one because we never requested maps.
+
+00:06:23.618 --> 00:06:26.798
+Bins is two because we constructed two objects;
+
+00:06:26.798 --> 00:06:29.436
+taking items creates no additional bin.
+
+00:06:30.198 --> 00:06:33.361
+Now we'll use the same class with five pens and
+
+00:06:33.361 --> 00:06:36.457
+two maps, requesting three pens and then four.
+
+00:06:36.457 --> 00:06:39.418
+We'll enter a fresh program so you can trace
+
+00:06:39.418 --> 00:06:42.177
+both requests from those starting values.
+
+00:06:42.177 --> 00:06:45.273
+The guard and construction rule stay the same.
+
+00:07:30.030 --> 00:07:32.674
+The guarded operation is entered again.
+
+00:07:32.674 --> 00:07:35.927
+Let's finish its readers and create the two bins
+
+00:07:35.927 --> 00:07:37.554
+for the prediction case.
+
+00:07:37.554 --> 00:07:40.469
+Each run starts a new Java process, so this
+
+00:07:40.469 --> 00:07:43.655
+program begins with a fresh construction count.
+
+00:08:06.517 --> 00:08:09.946
+The caller now supplies five and two to separate
+
+00:08:09.946 --> 00:08:10.875
+constructors.
+
+00:08:10.875 --> 00:08:13.876
+Let's add the two requests and the report.
+
+00:08:13.876 --> 00:08:17.162
+Trace each request using the stock left by the
+
+00:08:17.162 --> 00:08:20.449
+previous one, rather than reusing the original
+
+00:08:20.449 --> 00:08:21.092
+quantity.
+
+00:08:47.893 --> 00:08:51.170
+Before we run it, predict all five output lines.
+
+00:08:51.170 --> 00:08:54.379
+For each request, decide whether the guard ends
+
+00:08:54.379 --> 00:08:56.564
+the call or permits subtraction.
+
+00:08:56.564 --> 00:08:59.431
+Then account for the untouched bin and the
+
+00:08:59.431 --> 00:09:00.728
+construction count.
+
+00:09:00.728 --> 00:09:03.118
+Pause here if you'd like more time.
+
+00:09:11.270 --> 00:09:14.504
+Let's click Run and compare the report with your
+
+00:09:14.504 --> 00:09:15.245
+prediction.
+
+00:09:20.963 --> 00:09:23.836
+Taking three is true and leaves two pens.
+
+00:09:23.836 --> 00:09:27.130
+Taking four is false because four exceeds those
+
+00:09:27.130 --> 00:09:28.881
+two, so Pens remains two.
+
+00:09:28.881 --> 00:09:31.825
+Maps also reports two, but for a different
+
+00:09:31.825 --> 00:09:34.978
+reason: no request changed that separate bin.
+
+00:09:34.978 --> 00:09:38.271
+Bins is two because the two new expressions ran
+
+00:09:38.271 --> 00:09:39.813
+the constructor twice.
+
+00:09:40.631 --> 00:09:43.306
+The supply desk now has one place to check
+
+00:09:43.306 --> 00:09:45.280
+requests before changing a bin.
+
+00:09:45.280 --> 00:09:48.146
+Private fields keep callers on that path, the
+
+00:09:48.146 --> 00:09:51.140
+guard preserves the stock rule, and the readers
+
+00:09:51.140 --> 00:09:52.669
+let us check the result.
+
+00:09:52.669 --> 00:09:55.662
+Instance fields keep each bin's stock separate,
+
+00:09:55.662 --> 00:09:58.719
+while the static field records constructions for
+
+00:09:58.719 --> 00:09:59.356
+the class.
+
+00:10:00.188 --> 00:10:02.976
+Suppose the next request is for zero pens,
+
+00:10:02.976 --> 00:10:06.095
+followed by a request for exactly the remaining
+
+00:10:06.095 --> 00:10:06.493
+stock.
+
+00:10:06.493 --> 00:10:09.612
+What should each call return, what stock should
+
+00:10:09.612 --> 00:10:12.599
+remain after each one, and should either call
+
+00:10:12.599 --> 00:10:13.395
+change Bins?
+
+00:10:13.395 --> 00:10:16.448
+Explain which part of the method supports your
+
+00:10:16.448 --> 00:10:16.913
+answer.

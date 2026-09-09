@@ -1,64 +1,53 @@
 # Transcript: Objects and Constructors
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It defines one pass class, creates two separate objects, and reports their independent visit counts.
+Welcome to this Java tutorial, where you'll define a class with fields, initialize objects with a constructor, and use an instance method to change each object's own state.
 
-## 0:00–0:17 — Goal
+These skills let applications manage separate customer accounts, equipment loans, or order items with one shared set of rules, reducing copied code as the number of records grows.
 
-**On screen:** The title introduces one design with independent visit counts. Main.java is open in the Java editor. No visit-count result is revealed.
+A campus welcome desk needs a pass record for each visitor. Each pass stores a name and a whole-number visit count that starts at zero. Recording a visit adds one to that visitor's count; it must leave other visitors' counts unchanged.
 
-Two visitors share one pass design, but each pass keeps its own visit count. DeskPass is the class: one definition of the state and behavior each object has.
+We'll define the pass, create two separate records, and report each visitor's name with the right count. After a worked example, you'll predict another pair of records before we run the program.
 
-## 0:17–0:48 — Define fields and initialization
+Now that we're in the Workspace, let's open Main.java.
 
-**On screen:** The following source is typed and saved. The DeskPass fields, constructor and visit method receive emphasis. All 22 source lines are readable during explanation and prediction, with no editor errors. Gray owner: labels beside the constructor arguments are editor hints, not source text to type.
+The name and visit count belong together. A class defines the data and operations for one kind of object. Let's define DeskPass and give it two instance fields: an owner name and a visit count.
 
-```java
-class DeskPass {
-    String owner;
-    int visits;
-    DeskPass(String owner) {
-        this.owner = owner;
-        this.visits = 0;
-    }
-    void visit() {
-        this.visits = this.visits + 1;
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        DeskPass first = new DeskPass("Maya");
-        DeskPass second = new DeskPass("Luis");
-        first.visit();
-        first.visit();
-        second.visit();
-        System.out.println(first.owner + ": " + first.visits);
-        System.out.println(second.owner + ": " + second.visits);
-    }
-}
-```
+These fields describe what each pass will store. A field is a variable that belongs to an object, and the values together are its state. The class definition alone creates no visitor's pass. We also need a constructor to initialize each new pass with its owner's name and a zero count.
 
-Owner and visits are instance fields, stored separately in each object. The constructor has the class name and no return type. It initializes a new pass. This refers to the current object, separating its owner field from the matching parameter.
+The constructor's name matches DeskPass, and its header has no return type. It receives an owner parameter for this one call. In the assignment, this dot owner names the new object's field, while owner on the right names that temporary input. The next assignment stores zero in the same object's visits field.
 
-## 0:49–1:03 — Predict the independent visit counts
+Once a pass exists, we need to record visits without starting over. An instance method performs an operation on the object that receives the call. Let's add a visit method that updates the existing count.
 
-**On screen:** The two object creations, visit calls and print statements receive emphasis. The DeskPass definition stays visible above them. Bottom captions leave all source readable. No terminal output has appeared. A three-second pause follows the prediction.
+This refers to the current object. The assignment reads that object's visits field, adds one, and stores the new number back in the field. The updated state remains after the call ends. Void means the method returns no value; its useful effect is the changed count.
 
-Visit is an instance method: it updates the object used for the call. Each new creates a separate pass. Trace the calls below and predict both printed lines, then pause.
+Our pass definition is complete. Below it, the Main class will hold main, the starting method for this program. That is where we'll create the passes and call their operations.
 
-## 1:03–1:20 — Execute and compare
+Let's create one pass for Eden and another for Noah. Each new expression creates a separate DeskPass, invokes its constructor with a name, and yields a reference that lets us reach the resulting object.
 
-**On screen:** The view focuses on the terminal. The top of the DeskPass definition is partly above the visible area, and top captions overlap earlier constructor statements and part of the visit method heading. Its update statement, the object creations, visit calls and print statements remain visible. The command and both output lines are clearly readable. The terminal runs `javac Main.java && java Main`. It succeeds and prints:
+First and second now describe the references our program will use. When the program runs, each constructor initializes its own object's name and zero count. The constructor itself returns no value; the new expression provides the reference. Using the same class does not make the two objects share their fields.
 
-```text
-Maya: 2
-Luis: 1
-```
+We'll record one visit through first and two visits through second. The reference before the dot selects the receiver: the particular object whose method runs. Each call uses the same visit rule on that receiver's fields.
 
-Maya's pass receives two visits; Luis's receives one. Updating the first pass leaves the second unchanged. One method definition applies the same rule to both objects, so we avoid copying its implementation.
+When these calls run, first's count goes from zero to one. The two calls on second move its separate count from zero to one, then to two. During each call, this refers to its receiver. Updating one receiver does not update the other pass.
 
-## 1:20–1:30 — Add a visit to one pass
+To check the records, let's print each owner's name beside the count read through the same reference. The dot selects a field, so each label and number come from the same pass.
 
-**On screen:** The full source and both output lines remain visible during the final question. Bottom captions leave both clear. The proposed change adds one call to second.visit() before printing. A two-second hold follows the question.
+The complete program creates both passes, records the visits, and prints their current state. Let's click Run and check that the two records stayed separate.
 
-Add one more call to second's visit method before printing. Which line changes, and why does the other pass keep its count?
+Eden is one because first received one visit call. Noah is two because second received two. Both used the same method definition, but each call changed only its receiver's field. The constructor supplied the starting state once for each new object.
 
+Now let's use the same pass definition for Maya and Luis with a different call sequence. We'll replace the worked program with a fresh copy. The fields, constructor, and visit rule stay the same, so you can focus on which object receives each call.
+
+The class is ready again. We'll add Main and create two fresh objects for Maya and Luis. These new expressions start a new pair of records; they do not reuse the earlier visitors' stored counts.
+
+The two object-creation statements are entered. Let's add the visit calls and the report. Follow the reference before each dot to decide which count changes, then keep your prediction until the complete program is visible.
+
+Before we run it, predict both output lines. Begin with the counts established by the constructors and trace the receiver of each visit call. Pause here if you'd like more time.
+
+Let's click Run and compare the report with your prediction.
+
+Maya is two because first receives two visit calls. Luis is one because second receives one. Both counts began at zero in separate objects. The final print statements read each object's own name and count, so the result agrees with the call sequence.
+
+The desk now has separate visitor records governed by one definition. Fields hold each object's state, the constructor establishes its starting values, and the instance method applies the shared update rule to its receiver. We can change that rule in one place while keeping every visitor's count separate.
+
+Suppose the desk creates a third pass but records no visits on it. What would its count be, and would another call through first change it? Explain which object this would refer to during that call.

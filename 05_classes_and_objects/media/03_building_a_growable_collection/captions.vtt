@@ -1,79 +1,511 @@
 WEBVTT
 
-00:00:07.128 --> 00:00:10.719
-A signup list must grow without losing its order.
+00:00:00.750 --> 00:00:03.870
+Welcome to this Java tutorial, where you'll
 
-00:00:10.719 --> 00:00:13.725
-Its backing storage is an internal array.
+00:00:03.870 --> 00:00:06.990
+build a growable collection using a backing
 
-00:00:13.725 --> 00:00:16.070
-Logical size counts added names.
+00:00:06.990 --> 00:00:09.965
+array, logical size, and ordered copying.
 
-00:00:16.070 --> 00:00:19.662
-Capacity counts array positions, including unused
+00:00:10.639 --> 00:00:13.829
+Applications often collect more records than
 
-00:00:19.662 --> 00:00:20.028
-ones.
+00:00:13.829 --> 00:00:14.989
+they start with.
 
-00:00:54.930 --> 00:00:58.601
-When storage is full, add allocates an array twice as
+00:00:14.989 --> 00:00:18.397
+Understanding how storage grows helps you build
 
-00:00:58.601 --> 00:00:58.947
-long.
+00:00:18.397 --> 00:00:21.587
+reusable collections that accept new entries
 
-00:00:58.947 --> 00:01:02.618
-It copies only the used names in order, then replaces
+00:00:21.587 --> 00:00:24.704
+without losing earlier data or changing its
 
-00:01:02.618 --> 00:01:04.141
+00:00:24.704 --> 00:00:25.139
+order.
+
+00:00:25.812 --> 00:00:29.032
+Today we'll help a campus signup coordinator
+
+00:00:29.032 --> 00:00:31.228
+record names in arrival order.
+
+00:00:31.228 --> 00:00:34.741
+We'll start with room for two names, then accept
+
+00:00:34.741 --> 00:00:35.107
+more.
+
+00:00:35.107 --> 00:00:38.620
+Each added name counts as one entry, and earlier
+
+00:00:38.620 --> 00:00:41.987
+signups must stay in their original positions.
+
+00:00:42.664 --> 00:00:45.446
+We'll track used entries separately from
+
+00:00:45.446 --> 00:00:48.784
+available slots, make more room when needed, and
+
+00:00:48.784 --> 00:00:51.009
+print the names in signup order.
+
+00:00:51.009 --> 00:00:54.000
+A worked report will show size and capacity
+
+00:00:54.000 --> 00:00:55.669
+before and after growth.
+
+00:00:55.669 --> 00:00:57.964
+Then you'll predict a fresh case.
+
+00:00:58.018 --> 00:01:01.466
+Now that we're in the Workspace, let's open
+
+00:01:01.466 --> 00:01:02.268
+Main.java.
+
+00:01:06.498 --> 00:01:09.595
+Our collection needs storage for names and a
+
+00:01:09.595 --> 00:01:11.847
+count of entries actually added.
+
+00:01:11.847 --> 00:01:14.944
+Let's define GrowingNames, keep those fields
+
+00:01:14.944 --> 00:01:18.323
+private, and initialize them in its constructor.
+
+00:01:33.276 --> 00:01:36.576
+Storage refers to the backing array, the array
+
+00:01:36.576 --> 00:01:38.441
+our class uses internally.
+
+00:01:38.441 --> 00:01:41.813
+Its length is capacity: the number of available
+
+00:01:41.813 --> 00:01:42.244
+slots.
+
+00:01:42.244 --> 00:01:45.329
+Size is the number of entries added so far.
+
+00:01:45.329 --> 00:01:48.270
+We begin with two slots but zero entries.
+
+00:01:48.270 --> 00:01:51.642
+New String array slots contain null, meaning no
+
+00:01:51.642 --> 00:01:54.727
+object reference; those empty slots are not
+
+00:01:54.727 --> 00:01:55.301
+signups.
+
+00:01:55.317 --> 00:01:57.796
+An array cannot change its length.
+
+00:01:57.796 --> 00:02:01.223
+Our add method therefore needs to detect a full
+
+00:02:01.223 --> 00:02:04.723
+array and allocate a larger one before inserting
+
+00:02:04.723 --> 00:02:05.671
+another name.
+
+00:02:05.671 --> 00:02:07.567
+Let's write that decision.
+
+00:02:20.348 --> 00:02:23.772
+When size equals storage length, every current
+
+00:02:23.772 --> 00:02:24.740
+slot is used.
+
+00:02:24.740 --> 00:02:27.941
+Larger refers to a new array with twice the
+
+00:02:27.941 --> 00:02:28.611
+capacity.
+
+00:02:28.611 --> 00:02:31.886
+That allocation creates room, but it has not
+
+00:02:31.886 --> 00:02:33.077
+moved any names.
+
+00:02:33.077 --> 00:02:36.352
+The original storage still holds the earlier
+
+00:02:36.352 --> 00:02:36.948
+signups.
+
+00:02:36.983 --> 00:02:40.278
+We must preserve those signups before replacing
+
+00:02:40.278 --> 00:02:41.821
 the storage reference.
 
-00:01:04.141 --> 00:01:06.773
-Each array keeps its own fixed length.
+00:02:41.821 --> 00:02:45.116
+Let's copy each used entry to the same index in
 
-00:01:06.773 --> 00:01:10.305
-Finally, it stores the new name and increases size.
+00:02:45.116 --> 00:02:48.061
+the larger array, then make that array our
 
-00:01:10.607 --> 00:01:13.371
-Unused String positions start as null.
+00:02:48.061 --> 00:02:49.183
+backing storage.
 
-00:01:13.371 --> 00:01:17.154
-The final loop reads only indexes below size, as get
+00:03:05.842 --> 00:03:09.145
+The loop visits indexes from zero up to, but not
 
-00:01:17.154 --> 00:01:17.808
-requires.
+00:03:09.145 --> 00:03:10.246
+including, size.
 
-00:01:17.808 --> 00:01:21.518
-Predict the three size and capacity reports and the
+00:03:10.246 --> 00:03:13.274
+Each assignment reads from the old array and
 
-00:01:21.518 --> 00:01:23.482
-order of names, then pause.
+00:03:13.274 --> 00:03:16.509
+writes to the matching position in the new one.
 
-00:01:28.374 --> 00:01:31.607
-The empty collection reports zero out of two.
+00:03:16.509 --> 00:03:19.812
+After the loop, storage is reassigned to larger.
 
-00:01:31.607 --> 00:01:33.188
-Two additions fill it.
+00:03:19.812 --> 00:03:22.771
+Copying changes capacity, not the number of
 
-00:01:33.188 --> 00:01:36.995
-The third doubles capacity to four while size becomes
+00:03:22.771 --> 00:03:25.042
+signups, so size stays unchanged.
 
-00:01:36.995 --> 00:01:37.426
-three.
+00:03:25.068 --> 00:03:28.020
+Now there is space for the incoming name,
 
-00:01:37.426 --> 00:01:39.941
-Copying preserves Maya, Luis, Nora.
+00:03:28.020 --> 00:03:30.396
+whether growth was needed or not.
 
-00:01:39.941 --> 00:01:42.599
-The unused position is never printed.
+00:03:30.396 --> 00:03:33.708
+Let's store it at the next unused position and
 
-00:01:42.680 --> 00:01:45.459
-Add a fourth name before the Grown report.
+00:03:33.708 --> 00:03:35.868
+then increase the entry count.
 
-00:01:45.459 --> 00:01:48.502
-Predict its size, capacity, and printed order.
+00:03:41.579 --> 00:03:44.944
+Before insertion, size is also the index of the
 
-00:01:48.502 --> 00:01:51.214
-Would this addition copy the array again?
+00:03:44.944 --> 00:03:46.161
+next unused slot.
 
-00:01:51.214 --> 00:01:53.530
-Explain using the growth condition.
+00:03:46.161 --> 00:03:48.882
+We write there first and increase size
+
+00:03:48.882 --> 00:03:49.598
+afterward.
+
+00:03:49.598 --> 00:03:52.963
+Reversing those steps would skip a position and
+
+00:03:52.963 --> 00:03:55.039
+could write beyond the array.
+
+00:03:55.039 --> 00:03:58.117
+The growth check stays inside add, so every
+
+00:03:58.117 --> 00:04:01.554
+caller gets the same ordered insertion behavior.
+
+00:04:01.577 --> 00:04:04.860
+The coordinator also needs to read a name and
+
+00:04:04.860 --> 00:04:06.318
+inspect both counts.
+
+00:04:06.318 --> 00:04:09.820
+Let's expose those values through public methods
+
+00:04:09.820 --> 00:04:12.227
+while keeping the fields private.
+
+00:04:29.525 --> 00:04:32.691
+Get returns the entry at its supplied index.
+
+00:04:32.691 --> 00:04:36.144
+This small implementation assumes callers choose
+
+00:04:36.144 --> 00:04:39.310
+an index from zero up to, but not including,
+
+00:04:39.310 --> 00:04:42.331
+size; it does not check that precondition.
+
+00:04:42.331 --> 00:04:45.281
+Size returns the number of added entries.
+
+00:04:45.281 --> 00:04:47.439
+Capacity returns array length.
+
+00:04:47.439 --> 00:04:50.533
+Keeping those counts separate lets a report
+
+00:04:50.533 --> 00:04:51.900
+avoid unused slots.
+
+00:04:52.092 --> 00:04:54.641
+The collection definition is ready.
+
+00:04:54.641 --> 00:04:57.992
+In Main, the main method will start our worked
+
+00:04:57.992 --> 00:04:58.575
+example.
+
+00:04:58.575 --> 00:05:01.925
+Let's create an empty collection and print its
+
+00:05:01.925 --> 00:05:03.892
+starting size and capacity.
+
+00:05:23.080 --> 00:05:26.489
+Constructing GrowingNames runs the constructor
+
+00:05:26.489 --> 00:05:26.859
+once.
+
+00:05:26.859 --> 00:05:30.046
+The report should show zero entries and two
+
+00:05:30.046 --> 00:05:30.491
+slots.
+
+00:05:30.491 --> 00:05:33.826
+We'll now add Maya and Luis in that order and
+
+00:05:33.826 --> 00:05:35.530
+inspect the full state.
+
+00:05:49.706 --> 00:05:53.545
+Maya occupies index zero and Luis occupies index
+
+00:05:53.545 --> 00:05:53.865
+one.
+
+00:05:53.865 --> 00:05:57.463
+After those calls, size reaches two, matching
+
+00:05:57.463 --> 00:05:58.183
+capacity.
+
+00:05:58.183 --> 00:06:01.862
+Neither call needed a larger array: each had a
+
+00:06:01.862 --> 00:06:03.781
+free slot when it began.
+
+00:06:03.816 --> 00:06:05.174
+Nora arrives next.
+
+00:06:05.174 --> 00:06:08.719
+Let's add her name, report the grown state, and
+
+00:06:08.719 --> 00:06:12.038
+print only the names that have actually been
+
+00:06:12.038 --> 00:06:12.491
+added.
+
+00:06:35.990 --> 00:06:38.727
+Nora's call begins with a full array.
+
+00:06:38.727 --> 00:06:41.759
+Add makes room, copies Maya and Luis, and
+
+00:06:41.759 --> 00:06:43.534
+inserts Nora after them.
+
+00:06:43.534 --> 00:06:46.936
+The reporting loop stops at size, so an unused
+
+00:06:46.936 --> 00:06:49.673
+slot cannot appear as another signup.
+
+00:06:49.673 --> 00:06:53.075
+Let's click Run to inspect both the counts and
+
+00:06:53.075 --> 00:06:53.815
+the order.
+
+00:07:00.556 --> 00:07:03.426
+Start shows zero entries in two slots.
+
+00:07:03.426 --> 00:07:06.144
+Full shows two entries in two slots.
+
+00:07:06.144 --> 00:07:09.467
+Grown shows three entries in four slots: the
+
+00:07:09.467 --> 00:07:12.940
+third addition doubled capacity but added only
+
+00:07:12.940 --> 00:07:13.620
+one name.
+
+00:07:13.620 --> 00:07:16.867
+Maya, Luis, and Nora still print in arrival
+
+00:07:16.867 --> 00:07:17.320
+order.
+
+00:07:17.320 --> 00:07:20.643
+The spare fourth slot is omitted because the
+
+00:07:20.643 --> 00:07:22.606
+loop follows logical size.
+
+00:07:25.058 --> 00:07:28.146
+Let's try a fresh collection with Iris, Owen,
+
+00:07:28.146 --> 00:07:29.038
+Bea, and Kai.
+
+00:07:29.038 --> 00:07:32.126
+We'll enter the same class again, then change
+
+00:07:32.126 --> 00:07:32.881
+the caller.
+
+00:07:32.881 --> 00:07:36.038
+Trace when each addition finds a free slot and
+
+00:07:36.038 --> 00:07:38.508
+when it must grow the backing array.
+
+00:08:30.906 --> 00:08:34.080
+The constructor and copy logic are in place.
+
+00:08:34.080 --> 00:08:37.038
+Let's complete insertion and the readers.
+
+00:08:37.038 --> 00:08:40.212
+Remember that growing storage alone must not
+
+00:08:40.212 --> 00:08:43.531
+increase size; adding the new entry does that.
+
+00:09:09.176 --> 00:09:12.586
+Now let's create the fresh collection in Main
+
+00:09:12.586 --> 00:09:14.328
+and add the four names.
+
+00:09:14.328 --> 00:09:17.965
+Each call sees the size and capacity left by the
+
+00:09:17.965 --> 00:09:19.026
+previous call.
+
+00:09:53.354 --> 00:09:55.675
+The four additions are entered.
+
+00:09:55.675 --> 00:09:58.969
+Let's finish with separate size and capacity
+
+00:09:58.969 --> 00:10:01.964
+lines, followed by the entries in order.
+
+00:10:01.964 --> 00:10:05.258
+This report checks both storage behavior and
+
+00:10:05.258 --> 00:10:07.429
+preservation of earlier data.
+
+00:10:37.754 --> 00:10:41.078
+Before running, predict all six output lines.
+
+00:10:41.078 --> 00:10:44.401
+Identify which addition needs a larger array,
+
+00:10:44.401 --> 00:10:47.651
+then decide whether the final addition fits.
+
+00:10:47.651 --> 00:10:51.122
+Also predict the order of the names and explain
+
+00:10:51.122 --> 00:10:53.117
+why no unused slot appears.
+
+00:10:53.117 --> 00:10:55.554
+Pause here if you need more time.
+
+00:11:04.318 --> 00:11:07.761
+Let's click Run and compare the actual report
+
+00:11:07.761 --> 00:11:09.368
+with your prediction.
+
+00:11:19.544 --> 00:11:21.977
+Size is four and capacity is four.
+
+00:11:21.977 --> 00:11:25.198
+Bea's third addition found the two-slot array
+
+00:11:25.198 --> 00:11:27.416
+full and grew it to four slots.
+
+00:11:27.416 --> 00:11:30.708
+Kai's fourth addition used the remaining slot,
+
+00:11:30.708 --> 00:11:32.497
+so it did not grow again.
+
+00:11:32.497 --> 00:11:35.861
+Iris, Owen, Bea, and Kai print in order because
+
+00:11:35.861 --> 00:11:39.010
+copying preserved their indexes and each new
+
+00:11:39.010 --> 00:11:41.944
+name was appended after the used entries.
+
+00:11:43.300 --> 00:11:46.222
+The signup collection can now accept more
+
+00:11:46.222 --> 00:11:49.288
+entries than its starting array could hold.
+
+00:11:49.288 --> 00:11:52.495
+Logical size identifies the entries, capacity
+
+00:11:52.495 --> 00:11:55.703
+measures available space, and ordered copying
+
+00:11:55.703 --> 00:11:57.556
+preserves earlier records.
+
+00:11:57.556 --> 00:12:00.906
+The public add method keeps the grow, copy, and
+
+00:12:00.906 --> 00:12:03.900
+append sequence together for every caller.
+
+00:12:05.226 --> 00:12:08.337
+If Zoe signs up next, what size and capacity
+
+00:12:08.337 --> 00:12:11.590
+should the report show, and which index should
+
+00:12:11.590 --> 00:12:12.580
+hold her name?
+
+00:12:12.580 --> 00:12:15.762
+Explain which entries would be copied and why
+
+00:12:15.762 --> 00:12:19.086
+the reporting loop should still use size rather
+
+00:12:19.086 --> 00:12:20.076
+than capacity.

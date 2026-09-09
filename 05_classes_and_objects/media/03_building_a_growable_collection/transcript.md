@@ -1,88 +1,61 @@
 # Transcript: Building a Growable Collection
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It separates logical size from array capacity and grows a signup collection by copying its existing names in order.
+Welcome to this Java tutorial, where you'll build a growable collection using a backing array, logical size, and ordered copying.
 
-## 0:00–0:20 — Goal
+Applications often collect more records than they start with. Understanding how storage grows helps you build reusable collections that accept new entries without losing earlier data or changing its order.
 
-**On screen:** The title reads Building a Growable Collection, with the subtitle Preserve names while storage grows. Main.java then opens in the Workspace before code is typed. The title and opening narration introduce the goal and vocabulary without revealing the fixture results.
+Today we'll help a campus signup coordinator record names in arrival order. We'll start with room for two names, then accept more. Each added name counts as one entry, and earlier signups must stay in their original positions.
 
-A signup list must grow without losing its order. Its backing storage is an internal array. Logical size counts added names. Capacity counts array positions, including unused ones.
+We'll track used entries separately from available slots, make more room when needed, and print the names in signup order. A worked report will show size and capacity before and after growth. Then you'll predict a fresh case.
 
-## 0:20–1:10 — Grow storage while preserving names
+Now that we're in the Workspace, let's open Main.java.
 
-**On screen:** The Workspace shows Main.java being typed, beginning with the storage and size fields and the constructor. The completed view contains all 42 source lines. Lines 2 through 18 are selected while the narration explains allocation, copying used entries, replacing the storage reference, and adding the new name. The full growth condition and loop are readable. The bottom captions are below the source. Gray name: labels beside arguments are editor hints, not text to type. The editor joins the two equals signs in the equality test visually; the exact Java source below preserves ==. The visible status counters show zero errors and zero warnings.
+Our collection needs storage for names and a count of entries actually added. Let's define GrowingNames, keep those fields private, and initialize them in its constructor.
 
-```java
-class GrowingNames {
-    private String[] storage;
-    private int size;
-    public GrowingNames() {
-        storage = new String[2];
-        size = 0;
-    }
-    public void add(String name) {
-        if (size == storage.length) {
-            String[] larger = new String[storage.length * 2];
-            for (int index = 0; index < size; index = index + 1) {
-                larger[index] = storage[index];
-            }
-            storage = larger;
-        }
-        storage[size] = name;
-        size = size + 1;
-    }
-    public String get(int index) {
-        return storage[index];
-    }
-    public int size() {
-        return size;
-    }
-    public int capacity() {
-        return storage.length;
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        GrowingNames names = new GrowingNames();
-        System.out.println("Start: " + names.size() + "/" + names.capacity());
-        names.add("Maya");
-        names.add("Luis");
-        System.out.println("Full: " + names.size() + "/" + names.capacity());
-        names.add("Nora");
-        System.out.println("Grown: " + names.size() + "/" + names.capacity());
-        for (int index = 0; index < names.size(); index = index + 1) {
-            System.out.println(names.get(index));
-        }
-    }
-}
-```
+Storage refers to the backing array, the array our class uses internally. Its length is capacity: the number of available slots. Size is the number of entries added so far. We begin with two slots but zero entries. New String array slots contain null, meaning no object reference; those empty slots are not signups.
 
-When storage is full, add allocates an array twice as long. It copies only the used names in order, then replaces the storage reference. Each array keeps its own fixed length. Finally, it stores the new name and increases size.
+An array cannot change its length. Our add method therefore needs to detect a full array and allocate a larger one before inserting another name. Let's write that decision.
 
-## 1:10–1:26 — Predict size, capacity, and order
+When size equals storage length, every current slot is used. Larger refers to a new array with twice the capacity. That allocation creates room, but it has not moved any names. The original storage still holds the earlier signups.
 
-**On screen:** Lines 31 through 39 are selected: construct the collection, print the Start report, add Maya and Luis, print Full, add Nora, print Grown, then traverse the logical elements. All 42 lines remain visible, including the earlier growth code and getters. Captions remain below the source. No terminal result appears before the prediction. The three-second pause keeps the same code visible and clears the caption.
+We must preserve those signups before replacing the storage reference. Let's copy each used entry to the same index in the larger array, then make that array our backing storage.
 
-Unused String positions start as null. The final loop reads only indexes below size, as get requires. Predict the three size and capacity reports and the order of names, then pause.
+The loop visits indexes from zero up to, but not including, size. Each assignment reads from the old array and writes to the matching position in the new one. After the loop, storage is reassigned to larger. Copying changes capacity, not the number of signups, so size stays unchanged.
 
-## 1:26–1:42 — Execute and compare
+Now there is space for the incoming name, whether growth was needed or not. Let's store it at the next unused position and then increase the entry count.
 
-**On screen:** The terminal opens and the camera emphasizes it. All six output lines and the successful return to the prompt are clear. The upper editor shows the growth algorithm and getters; caller statements below line 31 are below the shortened editor pane. Top captions overlap parts of the constructor and add method heading, but leave the growth condition, copying loop, size update and terminal output unobscured. The entire source was unobscured during modeling and prediction. There are no visible error squiggles or reported compilation errors. The terminal runs `javac Main.java && java Main`. It succeeds and prints:
+Before insertion, size is also the index of the next unused slot. We write there first and increase size afterward. Reversing those steps would skip a position and could write beyond the array. The growth check stays inside add, so every caller gets the same ordered insertion behavior.
 
-```text
-Start: 0/2
-Full: 2/2
-Grown: 3/4
-Maya
-Luis
-Nora
-```
+The coordinator also needs to read a name and inspect both counts. Let's expose those values through public methods while keeping the fields private.
 
-The empty collection reports zero out of two. Two additions fill it. The third doubles capacity to four while size becomes three. Copying preserves Maya, Luis, Nora. The unused position is never printed.
+Get returns the entry at its supplied index. This small implementation assumes callers choose an index from zero up to, but not including, size; it does not check that precondition. Size returns the number of added entries. Capacity returns array length. Keeping those counts separate lets a report avoid unused slots.
 
-## 1:42–1:56 — Add one more name
+The collection definition is ready. In Main, the main method will start our worked example. Let's create an empty collection and print its starting size and capacity.
 
-**On screen:** The camera returns to the full Workspace view with the terminal still open. The complete growth condition and method body remain visible above the same six output lines. Caller statements below line 31 are below the shortened editor pane; they were shown in full during the prediction and are reproduced in this transcript. The bottom caption leaves the source and terminal output clear while the learner considers a fourth name. GrowingNames.class and Main.class now appear in the file explorer. The ending holds the same view after the caption clears. Visible status counters show zero errors and zero warnings.
+Constructing GrowingNames runs the constructor once. The report should show zero entries and two slots. We'll now add Maya and Luis in that order and inspect the full state.
 
-Add a fourth name before the Grown report. Predict its size, capacity, and printed order. Would this addition copy the array again? Explain using the growth condition.
+Maya occupies index zero and Luis occupies index one. After those calls, size reaches two, matching capacity. Neither call needed a larger array: each had a free slot when it began.
 
+Nora arrives next. Let's add her name, report the grown state, and print only the names that have actually been added.
+
+Nora's call begins with a full array. Add makes room, copies Maya and Luis, and inserts Nora after them. The reporting loop stops at size, so an unused slot cannot appear as another signup. Let's click Run to inspect both the counts and the order.
+
+Start shows zero entries in two slots. Full shows two entries in two slots. Grown shows three entries in four slots: the third addition doubled capacity but added only one name. Maya, Luis, and Nora still print in arrival order. The spare fourth slot is omitted because the loop follows logical size.
+
+Let's try a fresh collection with Iris, Owen, Bea, and Kai. We'll enter the same class again, then change the caller. Trace when each addition finds a free slot and when it must grow the backing array.
+
+The constructor and copy logic are in place. Let's complete insertion and the readers. Remember that growing storage alone must not increase size; adding the new entry does that.
+
+Now let's create the fresh collection in Main and add the four names. Each call sees the size and capacity left by the previous call.
+
+The four additions are entered. Let's finish with separate size and capacity lines, followed by the entries in order. This report checks both storage behavior and preservation of earlier data.
+
+Before running, predict all six output lines. Identify which addition needs a larger array, then decide whether the final addition fits. Also predict the order of the names and explain why no unused slot appears. Pause here if you need more time.
+
+Let's click Run and compare the actual report with your prediction.
+
+Size is four and capacity is four. Bea's third addition found the two-slot array full and grew it to four slots. Kai's fourth addition used the remaining slot, so it did not grow again. Iris, Owen, Bea, and Kai print in order because copying preserved their indexes and each new name was appended after the used entries.
+
+The signup collection can now accept more entries than its starting array could hold. Logical size identifies the entries, capacity measures available space, and ordered copying preserves earlier records. The public add method keeps the grow, copy, and append sequence together for every caller.
+
+If Zoe signs up next, what size and capacity should the report show, and which index should hold her name? Explain which entries would be copied and why the reporting loop should still use size rather than capacity.
