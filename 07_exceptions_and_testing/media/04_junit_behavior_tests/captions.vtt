@@ -1,151 +1,463 @@
 WEBVTT
 
-00:00:07.307 --> 00:00:11.107
-A unit test is an automated check of a small behavior.
+00:00:00.750 --> 00:00:02.787
+Welcome to this Java tutorial.
 
-00:00:11.107 --> 00:00:14.696
-We will check a label calculator with normal, zero,
+00:00:02.787 --> 00:00:05.706
+You'll use JUnit to check a method's normal
 
-00:00:14.696 --> 00:00:16.104
-and negative inputs.
+00:00:05.706 --> 00:00:08.421
+result, a boundary case, and an expected
 
-00:00:16.104 --> 00:00:18.778
-JUnit Jupiter supplies the test tools.
+00:00:08.421 --> 00:00:09.100
+exception.
 
-00:00:18.778 --> 00:00:22.437
-It is an external dependency, a library added beyond
+00:00:09.100 --> 00:00:11.816
+You'll also interpret a test summary and
 
-00:00:22.437 --> 00:00:24.126
-Java's standard library.
+00:00:11.816 --> 00:00:14.803
+deliberately challenge an assertion to check
 
-00:00:24.126 --> 00:00:27.082
-The classpath tells Java where to find it.
+00:00:14.803 --> 00:00:17.315
+that the tests can detect a mismatch.
 
-00:01:24.385 --> 00:01:27.708
-LabelTools multiplies the two counts and rejects
+00:00:18.067 --> 00:00:21.351
+A program can still compile after a change that
 
-00:01:27.708 --> 00:01:28.816
-negative inputs.
+00:00:21.351 --> 00:00:22.749
+breaks its behavior.
 
-00:01:28.816 --> 00:01:32.485
-The tests below describe what callers should observe.
+00:00:22.749 --> 00:00:25.754
+Automated tests make important expectations
 
-00:01:32.837 --> 00:01:35.809
+00:00:25.754 --> 00:00:28.339
+repeatable, so a team can check those
+
+00:00:28.339 --> 00:00:31.065
+expectations again as its code changes.
+
+00:00:31.065 --> 00:00:34.070
+Each test gives evidence about a particular
+
+00:00:34.070 --> 00:00:37.075
+case; passing tests do not prove that every
+
+00:00:37.075 --> 00:00:38.542
+possible input works.
+
+00:00:39.231 --> 00:00:42.575
+Our campus workshop needs one label for each kit
+
+00:00:42.575 --> 00:00:43.620
+in every group.
+
+00:00:43.620 --> 00:00:46.965
+Two groups with three kits each need six labels.
+
+00:00:46.965 --> 00:00:48.985
+Zero groups need zero labels.
+
+00:00:48.985 --> 00:00:52.260
+Negative counts are invalid, so the method must
+
+00:00:52.260 --> 00:00:55.256
+reject them with a clear exception message.
+
+00:00:55.924 --> 00:00:58.885
+We'll build three tests for those rules, then
+
+00:00:58.885 --> 00:01:00.069
+run them together.
+
+00:01:00.069 --> 00:01:02.767
+A successful baseline should report three
+
+00:01:02.767 --> 00:01:04.477
+succeeded and zero failed.
+
+00:01:04.477 --> 00:01:07.306
+After reading that result, we'll change one
+
+00:01:07.306 --> 00:01:10.136
+expectation and use the next summary to see
+
+00:01:10.136 --> 00:01:12.899
+whether the test detects the disagreement.
+
+00:01:13.663 --> 00:01:16.814
+Now that we're in the Workspace, let's open
+
+00:01:16.814 --> 00:01:17.547
+Main.java.
+
+00:01:17.547 --> 00:01:20.845
+This lesson's prepared project includes JUnit
+
+00:01:20.845 --> 00:01:24.142
+and the Run configuration, so we can focus on
+
+00:01:24.142 --> 00:01:25.388
+testing behavior.
+
+00:01:30.641 --> 00:01:33.497
+First, let's import the test and assertion
+
+00:01:33.497 --> 00:01:36.692
+tools, followed by the launcher tools that will
+
+00:01:36.692 --> 00:01:39.616
+run our test class and collect its results.
+
+00:02:21.502 --> 00:02:24.736
+These imports make library types available by
+
+00:02:24.736 --> 00:02:26.030
+their short names.
+
+00:02:26.030 --> 00:02:28.618
+Importing JUnit does not run a test.
+
+00:02:28.618 --> 00:02:31.852
+We still need a method to check, test methods
+
+00:02:31.852 --> 00:02:34.871
+that state expectations, and a runner that
+
+00:02:34.871 --> 00:02:35.877
+executes them.
+
+00:02:35.918 --> 00:02:37.647
+Let's define labelCount.
+
+00:02:37.647 --> 00:02:40.817
+Its two inputs represent groups and kits per
+
+00:02:40.817 --> 00:02:41.249
+group.
+
+00:02:41.249 --> 00:02:44.562
+The guard rejects either negative count before
+
+00:02:44.562 --> 00:02:45.643
+multiplication.
+
+00:03:06.931 --> 00:03:10.137
+For valid counts, the product is the number of
+
+00:03:10.137 --> 00:03:10.625
+labels.
+
+00:03:10.625 --> 00:03:13.830
+For an invalid count, IllegalArgumentException
+
+00:03:13.830 --> 00:03:16.966
+reports that the caller broke the input rule.
+
+00:03:16.966 --> 00:03:19.963
+The message is part of the behavior we will
+
+00:03:19.963 --> 00:03:20.381
+check.
+
+00:03:20.410 --> 00:03:23.506
+Now let's start the test class and add our
+
+00:03:23.506 --> 00:03:25.201
+ordinary positive case.
+
+00:03:25.201 --> 00:03:28.665
 The Test annotation marks a method for JUnit to
 
-00:01:35.809 --> 00:01:36.884
-discover and run.
+00:03:28.665 --> 00:03:29.328
+discover.
 
-00:01:36.884 --> 00:01:39.793
-These public, nonstatic methods check separate
+00:03:29.328 --> 00:03:32.645
+The assertion compares an expected value with
 
-00:01:39.793 --> 00:01:40.425
-behaviors.
+00:03:32.645 --> 00:03:34.635
+the method's actual result.
 
-00:01:40.425 --> 00:01:43.586
-An assertion reports failure when behavior differs
+00:03:48.844 --> 00:03:52.121
+Six is the expected value; the call with two and
 
-00:01:43.586 --> 00:01:44.914
-from the expectation.
+00:03:52.121 --> 00:03:54.305
+three produces the actual value.
 
-00:01:44.914 --> 00:01:48.139
-In assertEquals, the expected value comes first and
+00:03:54.305 --> 00:03:57.377
+If they differ, this assertion makes the test
 
-00:01:48.139 --> 00:01:49.720
-the actual result second.
+00:03:57.377 --> 00:03:57.718
+fail.
 
-00:01:49.720 --> 00:01:52.945
-For the negative input, fail reports failure if the
+00:03:57.718 --> 00:04:00.722
+The test's name describes the behavior being
 
-00:01:52.945 --> 00:01:54.336
-call returns normally.
+00:04:00.722 --> 00:04:03.999
+checked, while the public constructor lets JUnit
 
-00:01:54.336 --> 00:01:57.561
-The catch handles only IllegalArgumentException and
+00:04:03.999 --> 00:04:05.569
+create the test object.
 
-00:01:57.561 --> 00:01:58.762
-checks its message.
+00:04:05.600 --> 00:04:08.659
+Zero sits at the edge of the valid counts.
 
-00:01:58.762 --> 00:02:00.912
-Each test supplies its own inputs.
+00:04:08.659 --> 00:04:12.083
+Let's add a separate boundary test so this case
 
-00:02:01.225 --> 00:02:04.781
-A test runner finds selected tests, executes them, and
+00:04:12.083 --> 00:04:15.142
+remains visible even if the implementation
 
-00:02:04.781 --> 00:02:05.900
-collects results.
+00:04:15.142 --> 00:04:15.725
+changes.
 
-00:02:05.900 --> 00:02:09.456
-LabelToolsTest dot class is a class literal: it refers
+00:04:27.532 --> 00:04:30.948
+The expected result is zero because there are no
 
-00:02:09.456 --> 00:02:10.774
-to the class itself.
+00:04:30.948 --> 00:04:32.086
+groups to label.
 
-00:02:10.774 --> 00:02:14.330
-The request selects that class, and a summary listener
+00:04:32.086 --> 00:04:34.720
+Keeping this in a separate test helps
 
-00:02:14.330 --> 00:02:15.515
-collects outcomes.
+00:04:34.720 --> 00:04:37.566
+distinguish an ordinary calculation from
 
-00:02:15.515 --> 00:02:18.610
-The supplied launcher runs the request inside a
+00:04:37.566 --> 00:04:40.982
+behavior at the edge of the allowed input range.
 
-00:02:18.610 --> 00:02:20.849
-session that closes automatically.
+00:04:41.030 --> 00:04:44.189
+Our third test checks rejection of a negative
 
-00:02:20.849 --> 00:02:24.339
-The final print statements read the passed and failed
+00:04:44.189 --> 00:04:44.611
+count.
 
-00:02:24.339 --> 00:02:24.800
-counts.
+00:04:44.611 --> 00:04:47.559
+Let's include both a failure when the call
 
-00:02:25.116 --> 00:02:27.464
-Predict both counts before running.
+00:04:47.559 --> 00:04:50.719
+returns normally and a message check when the
 
-00:02:27.464 --> 00:02:30.549
-Trace each test, including what happens if the
+00:04:50.719 --> 00:04:52.755
+expected exception is caught.
 
-00:02:30.549 --> 00:02:32.628
-negative call returns normally.
+00:05:23.663 --> 00:05:26.411
+The negative call should jump into the catch
 
-00:02:32.628 --> 00:02:33.366
-Pause here.
+00:05:26.411 --> 00:05:26.786
+block.
 
-00:02:38.301 --> 00:02:41.973
-The summary reports three successes and zero failures.
+00:05:26.786 --> 00:05:29.347
+If it returns instead, the fail assertion
 
-00:02:41.973 --> 00:02:45.170
-The exception check counts as a successful test
+00:05:29.347 --> 00:05:30.908
+prevents a false success.
 
-00:02:45.170 --> 00:02:48.366
-because the expected exception occurred and its
+00:05:30.908 --> 00:05:33.594
+In the catch block, assertEquals checks the
 
-00:02:48.366 --> 00:02:49.454
-message matched.
+00:05:33.594 --> 00:05:34.094
+message.
 
-00:02:49.454 --> 00:02:53.127
-Read both counts: this runner can return normally even
+00:05:34.094 --> 00:05:36.905
+A different exception type is not accepted by
 
-00:02:53.127 --> 00:02:54.351
-when a test fails.
+00:05:36.905 --> 00:05:37.717
+this handler.
 
-00:02:54.682 --> 00:02:57.937
-A regression test cycle keeps a behavior check,
+00:05:37.717 --> 00:05:40.465
+Together, these paths check more than merely
 
-00:02:57.937 --> 00:03:01.330
-confirms it can fail, and reruns it after repair.
+00:05:40.465 --> 00:05:43.338
+calling the method and hoping an error occurs.
 
-00:03:01.330 --> 00:03:04.792
-Change the first expected value from six to seven.
+00:05:43.407 --> 00:05:46.529
+The tests are defined, but they have not run.
 
-00:03:04.792 --> 00:03:08.462
-Predict both counts, run it, then restore six and run
+00:05:46.529 --> 00:05:49.790
+Let's add the application entry point and build
 
-00:03:08.462 --> 00:03:08.877
-again.
+00:05:49.790 --> 00:05:52.982
+a discovery request selecting this test class.
 
-00:03:08.877 --> 00:03:12.201
-What evidence shows this check detects the wrong
+00:06:18.026 --> 00:06:21.482
+The request identifies the tests we want JUnit
 
-00:03:12.201 --> 00:03:13.032
-expectation?
+00:06:21.482 --> 00:06:22.083
+to find.
+
+00:06:22.083 --> 00:06:25.164
+Next, a summary listener will collect the
+
+00:06:25.164 --> 00:06:25.765
+results.
+
+00:06:25.765 --> 00:06:29.071
+We'll open a launcher session, register that
+
+00:06:29.071 --> 00:06:31.626
+listener, and execute the request.
+
+00:07:00.364 --> 00:07:03.417
+Execute is the step that runs the selected
+
+00:07:03.417 --> 00:07:03.853
+tests.
+
+00:07:03.853 --> 00:07:07.197
+Try-with-resources closes the launcher session
+
+00:07:07.197 --> 00:07:07.924
+afterward.
+
+00:07:07.924 --> 00:07:11.050
+The individual test order is not prescribed
+
+00:07:11.050 --> 00:07:14.249
+here; our summary counts outcomes across the
+
+00:07:14.249 --> 00:07:15.339
+selected tests.
+
+00:07:15.428 --> 00:07:18.494
+Finally, let's print the succeeded and failed
+
+00:07:18.494 --> 00:07:21.559
+counts from the collected summary, then click
+
+00:07:21.559 --> 00:07:23.603
+Run to establish our baseline.
+
+00:07:50.680 --> 00:07:53.310
+Three tests succeeded and none failed.
+
+00:07:53.310 --> 00:07:56.354
+That result covers the positive product, the
+
+00:07:56.354 --> 00:07:59.676
+zero boundary, and rejection of a negative group
+
+00:07:59.676 --> 00:08:01.890
+count with the expected message.
+
+00:08:01.890 --> 00:08:05.142
+It is our baseline for these three cases, not a
+
+00:08:05.142 --> 00:08:07.080
+guarantee about every input.
+
+00:08:07.170 --> 00:08:10.512
+Let's challenge the positive test by changing
+
+00:08:10.512 --> 00:08:13.631
+only its expected value from six to seven.
+
+00:08:13.631 --> 00:08:16.824
+The method and its two inputs will stay the
+
+00:08:16.824 --> 00:08:17.195
+same.
+
+00:08:25.618 --> 00:08:28.779
+Before running, predict the two summary counts.
+
+00:08:28.779 --> 00:08:31.940
+The calculation still uses two groups and three
+
+00:08:31.940 --> 00:08:34.967
+kits per group, but one assertion now expects
+
+00:08:34.967 --> 00:08:35.371
+seven.
+
+00:08:35.371 --> 00:08:37.725
+Which tests should agree with their
+
+00:08:37.725 --> 00:08:38.599
+expectations?
+
+00:08:38.599 --> 00:08:41.693
+Pause here and reason through all three cases.
+
+00:08:49.849 --> 00:08:53.263
+Let's click Run and compare your prediction with
+
+00:08:53.263 --> 00:08:54.899
+JUnit's actual summary.
+
+00:09:00.157 --> 00:09:02.438
+Two tests succeeded and one failed.
+
+00:09:02.438 --> 00:09:05.175
+The positive test expected seven while the
+
+00:09:05.175 --> 00:09:06.478
+method returned six.
+
+00:09:06.478 --> 00:09:08.890
+The other expectations still matched.
+
+00:09:08.890 --> 00:09:11.431
+This deliberate mismatch checks that an
+
+00:09:11.431 --> 00:09:14.429
+assertion can detect disagreement; it is not a
+
+00:09:14.429 --> 00:09:17.492
+regression, because we did not break previously
+
+00:09:17.492 --> 00:09:19.382
+correct application behavior.
+
+00:09:19.467 --> 00:09:23.005
+Now let's restore the correct expectation of six
+
+00:09:23.005 --> 00:09:25.142
+and run the same tests again.
+
+00:09:39.001 --> 00:09:42.146
+The summary returns to three succeeded and zero
+
+00:09:42.146 --> 00:09:42.614
+failed.
+
+00:09:42.614 --> 00:09:45.291
+We repaired the test expectation without
+
+00:09:45.291 --> 00:09:46.629
+changing the method.
+
+00:09:46.629 --> 00:09:49.707
+A future unintended behavior change would be a
+
+00:09:49.707 --> 00:09:52.852
+regression if it broke behavior that had worked
+
+00:09:52.852 --> 00:09:55.930
+before; keeping useful tests helps detect that
+
+00:09:55.930 --> 00:09:57.001
+kind of problem.
+
+00:09:57.116 --> 00:09:59.839
+You used assertions to make three behavior
+
+00:09:59.839 --> 00:10:02.692
+rules executable, included both paths needed
+
+00:10:02.692 --> 00:10:05.544
+for a reliable exception test, and separated
+
+00:10:05.544 --> 00:10:07.684
+defining tests from running them.
+
+00:10:07.684 --> 00:10:10.666
+For a transfer question, what extra test would
+
+00:10:10.666 --> 00:10:12.417
+check a negative kit count?
+
+00:10:12.417 --> 00:10:15.334
+In the notebook, you will also add a boundary
+
+00:10:15.334 --> 00:10:16.566
+test for zero kits.

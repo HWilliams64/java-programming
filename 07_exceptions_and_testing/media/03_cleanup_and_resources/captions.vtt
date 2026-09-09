@@ -1,103 +1,391 @@
 WEBVTT
 
-00:00:06.634 --> 00:00:10.032
-A resource is something a program gets, uses, and
+00:00:00.750 --> 00:00:01.304
+Welcome!
 
-00:00:10.032 --> 00:00:10.656
-releases.
+00:00:01.304 --> 00:00:04.561
+In this Java tutorial, you'll use AutoCloseable
 
-00:00:10.656 --> 00:00:13.916
-Its lifetime is the time between getting it and
+00:00:04.561 --> 00:00:07.679
+and try-with-resources to connect an object's
 
-00:00:13.916 --> 00:00:14.817
-releasing it.
+00:00:07.679 --> 00:00:11.004
+cleanup to its lifetime, then trace the order in
 
-00:00:14.817 --> 00:00:18.077
-NamedResource models that lifetime with printed
+00:00:11.004 --> 00:00:13.568
+which Java closes multiple resources.
 
-00:00:18.077 --> 00:00:18.701
-messages.
+00:00:14.209 --> 00:00:17.590
+Reliable cleanup keeps files and other limited
 
-00:00:18.701 --> 00:00:21.059
-These objects only print messages.
+00:00:17.590 --> 00:00:20.163
+resources available for later work.
 
-00:00:38.779 --> 00:00:42.100
-AutoCloseable is an interface that requires a close
+00:00:20.163 --> 00:00:23.692
+When an application handles many requests, tying
 
-00:00:42.100 --> 00:00:42.556
-method.
+00:00:23.692 --> 00:00:27.147
+cleanup to scope helps prevent one request from
 
-00:00:42.556 --> 00:00:46.072
-Try-with-resources declares objects inside parentheses
+00:00:27.147 --> 00:00:30.234
+leaving resources unavailable to the next.
 
-00:00:46.072 --> 00:00:46.723
-after try.
+00:00:30.878 --> 00:00:34.160
+Today we'll build a small classroom model for
 
-00:00:46.723 --> 00:00:49.848
-Java calls close on the successfully initialized
+00:00:34.160 --> 00:00:35.764
+campus workshop staff.
 
-00:00:49.848 --> 00:00:53.104
-resources when control leaves the block, including
+00:00:35.764 --> 00:00:38.973
+Two named objects will report when their use
 
-00:00:53.104 --> 00:00:54.927
-when an exception leaves it.
+00:00:38.973 --> 00:00:40.140
+begins and ends.
 
-00:00:54.927 --> 00:00:58.053
-The last object initialized is the first closed.
+00:00:40.140 --> 00:00:43.640
+These printed messages model resource lifetimes;
 
-00:00:58.053 --> 00:01:00.201
-This is reverse resource closure.
+00:00:43.640 --> 00:00:47.140
+they do not borrow real equipment or open actual
 
-00:01:00.201 --> 00:01:03.327
-If the running Java program is forcibly stopped,
+00:00:47.140 --> 00:00:47.578
+files.
 
-00:01:03.327 --> 00:01:04.629
-cleanup may not run.
+00:00:48.228 --> 00:00:51.166
+We expect the program to acquire the first
 
-00:01:04.928 --> 00:01:08.349
-Predict the complete output, including the order of
+00:00:51.166 --> 00:00:54.314
+resource, acquire the second, and perform its
 
-00:01:08.349 --> 00:01:11.904
-construction, work, closing, and the final statement.
+00:00:54.314 --> 00:00:54.663
+work.
 
-00:01:11.904 --> 00:01:15.459
-Use the order of declarations and the reverse closing
+00:00:54.663 --> 00:00:57.601
+Then Java should close the second resource
 
-00:01:15.459 --> 00:01:15.794
-rule.
+00:00:57.601 --> 00:01:00.889
+before the first, and only afterward print that
 
-00:01:15.794 --> 00:01:17.203
-Pause before running.
+00:01:00.889 --> 00:01:02.428
+the operation is done.
 
-00:01:22.581 --> 00:01:25.426
-The constructors print first, then second.
+00:01:03.087 --> 00:01:06.535
+Now that we're in the Workspace, let's open
 
-00:01:25.426 --> 00:01:26.848
-The body prints Work.
+00:01:06.535 --> 00:01:07.337
+Main.java.
 
-00:01:26.848 --> 00:01:29.354
-Java then closes second before first.
+00:01:11.059 --> 00:01:12.293
+The file is open.
 
-00:01:29.354 --> 00:01:32.266
-Done appears after both close calls finish.
+00:01:12.293 --> 00:01:15.632
+We need each object to identify itself when it
 
-00:01:32.266 --> 00:01:35.856
-The try statement supplies those calls automatically.
+00:01:15.632 --> 00:01:17.083
+starts and finishes.
 
-00:01:35.856 --> 00:01:39.107
-Our printed messages show exactly when each step
+00:01:17.083 --> 00:01:20.349
+Let's define NamedResource, connect it to the
 
-00:01:39.107 --> 00:01:39.581
-occurs.
+00:01:20.349 --> 00:01:23.833
+AutoCloseable interface, and give it a field for
 
-00:01:39.664 --> 00:01:43.160
-Swap the two resource declarations, keeping each name
+00:01:23.833 --> 00:01:24.559
+that name.
 
-00:01:43.160 --> 00:01:44.215
-with its object.
+00:01:31.222 --> 00:01:33.977
+The name field belongs to each object.
 
-00:01:44.215 --> 00:01:47.777
-Predict the new output and explain which rule controls
+00:01:33.977 --> 00:01:37.166
+Implementing AutoCloseable promises that our
 
-00:01:47.777 --> 00:01:48.964
-the closing order.
+00:01:37.166 --> 00:01:39.341
+class supplies a close method.
+
+00:01:39.341 --> 00:01:42.458
+The interface gives Java a standard cleanup
+
+00:01:42.458 --> 00:01:45.720
+operation to call, but this declaration alone
+
+00:01:45.720 --> 00:01:48.692
+does not create an object or schedule its
+
+00:01:48.692 --> 00:01:49.272
+cleanup.
+
+00:01:49.282 --> 00:01:52.259
+Next, the constructor will store the name
+
+00:01:52.259 --> 00:01:55.381
+supplied by the caller and report that this
+
+00:01:55.381 --> 00:01:57.632
+object's modeled use has begun.
+
+00:02:06.425 --> 00:02:09.714
+The parameter brings the caller's name into the
+
+00:02:09.714 --> 00:02:10.554
+constructor.
+
+00:02:10.554 --> 00:02:13.493
+This dot name selects the field on the new
+
+00:02:13.493 --> 00:02:16.572
+object, so that name remains available after
+
+00:02:16.572 --> 00:02:17.482
+construction.
+
+00:02:17.482 --> 00:02:20.701
+The Opened message makes the beginning of this
+
+00:02:20.701 --> 00:02:22.450
+modeled lifetime visible.
+
+00:02:22.460 --> 00:02:25.927
+Now let's provide the promised close operation.
+
+00:02:25.927 --> 00:02:29.100
+It will report the end of use with the same
+
+00:02:29.100 --> 00:02:29.985
+stored name.
+
+00:02:37.566 --> 00:02:40.759
+Override asks Java to check that this method
+
+00:02:40.759 --> 00:02:43.880
+fulfills the inherited method relationship.
+
+00:02:43.880 --> 00:02:45.767
+It does not execute close.
+
+00:02:45.767 --> 00:02:49.105
+Our close method prints a lifecycle message; a
+
+00:02:49.105 --> 00:02:52.443
+real resource would perform its actual release
+
+00:02:52.443 --> 00:02:53.169
+work here.
+
+00:02:53.169 --> 00:02:56.435
+The constructor and close method use the same
+
+00:02:56.435 --> 00:02:59.483
+field, so their messages identify the same
+
+00:02:59.483 --> 00:02:59.991
+object.
+
+00:03:00.005 --> 00:03:03.324
+With our model ready, let's add the Main class
+
+00:03:03.324 --> 00:03:04.767
+and its main method.
+
+00:03:04.767 --> 00:03:08.015
+This is the program's entry point when we run
+
+00:03:08.015 --> 00:03:09.530
+the Java application.
+
+00:03:15.159 --> 00:03:17.826
+The main method will own this operation.
+
+00:03:17.826 --> 00:03:20.959
+We want both resources to finish their use when
+
+00:03:20.959 --> 00:03:24.026
+the operation ends, so we'll declare them in a
+
+00:03:24.026 --> 00:03:27.159
+try-with-resources header instead of relying on
+
+00:03:27.159 --> 00:03:30.159
+manual close calls at the bottom of the work.
+
+00:03:43.727 --> 00:03:47.195
+Java initializes resources from left to right.
+
+00:03:47.195 --> 00:03:50.738
+It constructs first, then second, and both must
+
+00:03:50.738 --> 00:03:54.281
+initialize successfully before the body begins.
+
+00:03:54.281 --> 00:03:57.371
+The declarations inside these parentheses
+
+00:03:57.371 --> 00:03:59.407
+register automatic cleanup.
+
+00:03:59.407 --> 00:04:02.422
+The semicolon separates the two resource
+
+00:04:02.422 --> 00:04:03.402
+declarations.
+
+00:04:03.454 --> 00:04:06.715
+Let's give the body a Work message, then put
+
+00:04:06.715 --> 00:04:10.050
+Done after the entire try statement so we can
+
+00:04:10.050 --> 00:04:11.754
+see where cleanup fits.
+
+00:04:22.200 --> 00:04:25.498
+Work runs while both resources are available.
+
+00:04:25.498 --> 00:04:28.649
+When the body finishes, Java calls close in
+
+00:04:28.649 --> 00:04:31.726
+reverse initialization order: second, then
+
+00:04:31.726 --> 00:04:32.166
+first.
+
+00:04:32.166 --> 00:04:35.537
+Done is outside that scope, so it follows both
+
+00:04:35.537 --> 00:04:36.783
+close operations.
+
+00:04:36.783 --> 00:04:40.300
+Let's click Run and check the complete sequence.
+
+00:04:45.363 --> 00:04:48.048
+The two Opened lines show first being
+
+00:04:48.048 --> 00:04:49.935
+constructed before second.
+
+00:04:49.935 --> 00:04:52.765
+Work appears only after both are ready.
+
+00:04:52.765 --> 00:04:56.248
+The Closed lines reverse that order, with second
+
+00:04:56.248 --> 00:04:57.918
+finishing before first.
+
+00:04:57.918 --> 00:05:01.401
+Done appears last because continuation waits for
+
+00:05:01.401 --> 00:05:02.707
+cleanup to finish.
+
+00:05:02.707 --> 00:05:05.900
+We did not put any manual close calls in the
+
+00:05:05.900 --> 00:05:06.263
+body.
+
+00:05:06.306 --> 00:05:09.071
+The order comes from the positions in the
+
+00:05:09.071 --> 00:05:12.106
+resource header, not from the names we chose.
+
+00:05:12.106 --> 00:05:15.276
+Let's keep the variables and declaration order,
+
+00:05:15.276 --> 00:05:17.704
+but swap the names passed to the two
+
+00:05:17.704 --> 00:05:18.581
+constructors.
+
+00:05:31.830 --> 00:05:35.043
+Before running, predict all six output lines.
+
+00:05:35.043 --> 00:05:38.113
+The first variable now refers to the object
+
+00:05:38.113 --> 00:05:41.469
+named second, and the second variable refers to
+
+00:05:41.469 --> 00:05:43.111
+the object named first.
+
+00:05:43.111 --> 00:05:46.539
+Which name will appear in each Opened and Closed
+
+00:05:46.539 --> 00:05:47.110
+message?
+
+00:05:47.110 --> 00:05:50.180
+Pause here and follow the header positions.
+
+00:05:58.232 --> 00:06:01.986
+Let's click Run and compare that prediction with
+
+00:06:01.986 --> 00:06:04.332
+the actual lifecycle messages.
+
+00:06:09.440 --> 00:06:12.596
+Opened now shows second before first, because
+
+00:06:12.596 --> 00:06:15.823
+those are the names supplied in initialization
+
+00:06:15.823 --> 00:06:16.243
+order.
+
+00:06:16.243 --> 00:06:19.470
+Closed shows first before second, because Java
+
+00:06:19.470 --> 00:06:22.416
+still closes the later resource before the
+
+00:06:22.416 --> 00:06:23.257
+earlier one.
+
+00:06:23.257 --> 00:06:25.712
+Work and Done keep their positions.
+
+00:06:25.712 --> 00:06:28.728
+Changing a name changed the report, not the
+
+00:06:28.728 --> 00:06:29.640
+cleanup rule.
+
+00:06:29.692 --> 00:06:32.787
+You connected an object's close operation to
+
+00:06:32.787 --> 00:06:36.163
+scope with AutoCloseable and try-with-resources.
+
+00:06:36.163 --> 00:06:39.398
+The output showed when each lifetime began and
+
+00:06:39.398 --> 00:06:42.423
+ended, and confirmed reverse closing order.
+
+00:06:42.423 --> 00:06:45.166
+This pattern lets the code describe the
+
+00:06:45.166 --> 00:06:48.542
+operation while Java arranges cleanup around it.
+
+00:06:48.602 --> 00:06:51.927
+For a transfer question, imagine the work raises
+
+00:06:51.927 --> 00:06:54.975
+an exception after both resources are ready.
+
+00:06:54.975 --> 00:06:57.885
+Which close operations should Java attempt
+
+00:06:57.885 --> 00:07:01.002
+before a handler responds, and in what order?
+
+00:07:01.002 --> 00:07:04.327
+Use the resource lifetimes we just traced as you
+
+00:07:04.327 --> 00:07:07.652
+prepare for the notebook's failed-path examples.

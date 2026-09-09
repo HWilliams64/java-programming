@@ -1,66 +1,59 @@
-# Transcript: Cleanup and Resources
+# Cleanup and Resource Lifetimes — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It uses printed messages to trace when objects are initialized and closed.
+## Narration
 
-## 0:00–0:21 — Goal
+Welcome! In this Java tutorial, you'll use AutoCloseable and try-with-resources to connect an object's cleanup to its lifetime, then trace the order in which Java closes multiple resources.
 
-**On screen:** The title reads Cleanup and Resources, with the subtitle Trace when cleanup happens. The Workspace then shows an empty Main.java editor while the opening explanation and its captions introduce the model.
+Reliable cleanup keeps files and other limited resources available for later work. When an application handles many requests, tying cleanup to scope helps prevent one request from leaving resources unavailable to the next.
 
-A resource is something a program gets, uses, and releases. Its lifetime is the time between getting it and releasing it. NamedResource models that lifetime with printed messages. These objects only print messages.
+Today we'll build a small classroom model for campus workshop staff. Two named objects will report when their use begins and ends. These printed messages model resource lifetimes; they do not borrow real equipment or open actual files.
 
-## 0:21–1:04 — Follow automatic cleanup
+We expect the program to acquire the first resource, acquire the second, and perform its work. Then Java should close the second resource before the first, and only afterward print that the operation is done.
 
-**On screen:** Main.java is entered visibly. Near 0:36–0:38, the editor cursor moves to the closing brace on line 17, selects five excess leading spaces, and deletes them to align the brace with try. The code below is the complete corrected source. All 20 lines are visible during the explanation; the selection emphasizes the resource class and try block. Small gray name: and x: labels are editor hints for parameter names. They are not text to enter.
+Now that we're in the Workspace, let's open Main.java.
 
-```java
-class NamedResource implements AutoCloseable {
-    private String name;
-    public NamedResource(String name) {
-        this.name = name;
-        System.out.println("Opened: " + name);
-    }
-    @Override
-    public void close() {
-        System.out.println("Closed: " + name);
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        try (NamedResource first = new NamedResource("first");
-             NamedResource second = new NamedResource("second")) {
-            System.out.println("Work");
-        }
-        System.out.println("Done");
-    }
-}
-```
+The file is open. We need each object to identify itself when it starts and finishes. Let's define NamedResource, connect it to the AutoCloseable interface, and give it a field for that name.
 
-AutoCloseable is an interface that requires a close method. Try-with-resources declares objects inside parentheses after try. Java calls close on the successfully initialized resources when control leaves the block, including when an exception leaves it. The last object initialized is the first closed. This is reverse resource closure. If the running Java program is forcibly stopped, cleanup may not run.
+The name field belongs to each object. Implementing AutoCloseable promises that our class supplies a close method. The interface gives Java a standard cleanup operation to call, but this declaration alone does not create an object or schedule its cleanup.
 
-## 1:04–1:20 — Predict the complete output
+Next, the constructor will store the name supplied by the caller and report that this object's modeled use has begun.
 
-**On screen:** The two resource declarations, the Work statement, the closing brace and the later Done statement are selected. All 20 source lines remain visible. Captions sit below the code, then disappear for the three-second prediction pause.
+The parameter brings the caller's name into the constructor. This dot name selects the field on the new object, so that name remains available after construction. The Opened message makes the beginning of this modeled lifetime visible.
 
-Predict the complete output, including the order of construction, work, closing, and the final statement. Use the order of declarations and the reverse closing rule. Pause before running.
+Now let's provide the promised close operation. It will report the end of use with the same stored name.
 
-## 1:20–1:39 — Execute and compare
+Override asks Java to check that this method fulfills the inherited method relationship. It does not execute close. Our close method prints a lifecycle message; a real resource would perform its actual release work here. The constructor and close method use the same field, so their messages identify the same object.
 
-**On screen:** The view moves closer to the terminal, where all six result lines are readable. The upper edge crops the resource class heading and part of its field declaration. The first result caption covers part of the earlier constructor print statement and close method heading. The close method body, both resource declarations, Work, Done and the full output remain visible. The full source is shown in the preceding explanation and prediction views. The terminal runs `javac Main.java && java Main`. It succeeds and prints:
+With our model ready, let's add the Main class and its main method. This is the program's entry point when we run the Java application.
 
-```text
-Opened: first
-Opened: second
-Work
-Closed: second
-Closed: first
-Done
-```
+The main method will own this operation. We want both resources to finish their use when the operation ends, so we'll declare them in a try-with-resources header instead of relying on manual close calls at the bottom of the work.
 
-The constructors print first, then second. The body prints Work. Java then closes second before first. Done appears after both close calls finish. The try statement supplies those calls automatically. Our printed messages show exactly when each step occurs.
+Java initializes resources from left to right. It constructs first, then second, and both must initialize successfully before the body begins. The declarations inside these parentheses register automatic cleanup. The semicolon separates the two resource declarations.
 
-## 1:39–1:51 — Swap the resource declarations
+Let's give the body a Work message, then put Done after the entire try statement so we can see where cleanup fits.
 
-**On screen:** The full Workspace view returns, showing all 20 source lines and the six output lines together. The final caption asks you to swap the declarations while keeping each name with its object. The view holds after the prompt so you can consider your prediction.
+Work runs while both resources are available. When the body finishes, Java calls close in reverse initialization order: second, then first. Done is outside that scope, so it follows both close operations. Let's click Run and check the complete sequence.
 
-Swap the two resource declarations, keeping each name with its object. Predict the new output and explain which rule controls the closing order.
+The two Opened lines show first being constructed before second. Work appears only after both are ready. The Closed lines reverse that order, with second finishing before first. Done appears last because continuation waits for cleanup to finish. We did not put any manual close calls in the body.
 
+The order comes from the positions in the resource header, not from the names we chose. Let's keep the variables and declaration order, but swap the names passed to the two constructors.
+
+Before running, predict all six output lines. The first variable now refers to the object named second, and the second variable refers to the object named first. Which name will appear in each Opened and Closed message? Pause here and follow the header positions.
+
+Let's click Run and compare that prediction with the actual lifecycle messages.
+
+Opened now shows second before first, because those are the names supplied in initialization order. Closed shows first before second, because Java still closes the later resource before the earlier one. Work and Done keep their positions. Changing a name changed the report, not the cleanup rule.
+
+You connected an object's close operation to scope with AutoCloseable and try-with-resources. The output showed when each lifetime began and ended, and confirmed reverse closing order. This pattern lets the code describe the operation while Java arranges cleanup around it.
+
+For a transfer question, imagine the work raises an exception after both resources are ready. Which close operations should Java attempt before a handler responds, and in what order? Use the resource lifetimes we just traced as you prepare for the notebook's failed-path examples.
+
+## Visual description
+
+[The video opens with four distinct code-free scenes in the BHCC red, blue, and white style. A horizontal path shows acquisition, use, and closure, connected to AutoCloseable and try-with-resources. An application panel and current/later request cards explain the broader importance of cleanup. Campus workshop staff appear beside two named model objects. An ordered event trace previews the initial acquisition, work, reverse closing, and continuation sequence. These objects print lifecycle messages; they do not open files or borrow real equipment.]
+
+[The real Workspace appears and Main.java opens. The camera follows the insertion point as the NamedResource class is typed. It implements AutoCloseable and stores a name field. Its constructor stores the supplied name and prints an Opened message. Its close method prints a Closed message with the same name. The Main class and main entry method contain a try-with-resources header that initializes the resources named first and second, then a body that prints Work. A Done message follows the try statement.]
+
+[The pointer moves to the native Run Code button and clicks. The output shows Opened: first, Opened: second, Work, Closed: second, Closed: first, and Done. The explanation connects left-to-right initialization, reverse closing order, and continuation after cleanup.]
+
+[The two constructor names are swapped while variable names and header positions remain unchanged. The video asks learners to predict the six output lines and pauses before the pointer clicks Run Code again. The output shows Opened: second, Opened: first, Work, Closed: first, Closed: second, and Done. This confirms that header positions determine the order; the names identify the objects in the report. The closing connects the result to resource lifetime and automatic cleanup, then asks which cleanup operations Java should attempt if the work throws an exception after both resources are ready.]

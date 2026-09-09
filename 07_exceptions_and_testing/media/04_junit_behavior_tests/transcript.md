@@ -1,117 +1,65 @@
-# Transcript: JUnit Behavior Tests
+# Testing Behavior with JUnit — video transcript
 
-This CSC-239 demonstration uses Java 21 and JUnit Jupiter 5.13.4 in the Workspace.
+## Narration
 
-A JAR is an archive file containing library code. This recording uses the pinned `junit-platform-console-standalone-1.13.4.jar`, which includes the JUnit test tools. It was copied from a retained local file into the Workspace. The terminal verifies its SHA-256 checksum, a fingerprint of the file contents, before compilation. A relative link in the `lib` folder points the editor to the same file. The notebook loads the dependency in its separate setup cell.
+Welcome to this Java tutorial. You'll use JUnit to check a method's normal result, a boundary case, and an expected exception. You'll also interpret a test summary and deliberately challenge an assertion to check that the tests can detect a mismatch.
 
-The `-cp` option sets the classpath, where Java finds application and library classes. The run command includes `.` for the current folder and the JUnit JAR.
+A program can still compile after a change that breaks its behavior. Automated tests make important expectations repeatable, so a team can check those expectations again as its code changes. Each test gives evidence about a particular case; passing tests do not prove that every possible input works.
 
-## 0:00–0:27 — Goal
+Our campus workshop needs one label for each kit in every group. Two groups with three kits each need six labels. Zero groups need zero labels. Negative counts are invalid, so the method must reject them with a clear exception message.
 
-**On screen:** A title card introduces JUnit Behavior Tests. The Workspace then shows an empty Main.java editor, the pinned JAR in the file tree, and a successful checksum check in the terminal. The caption defines a unit test. No test counts have been revealed.
+We'll build three tests for those rules, then run them together. A successful baseline should report three succeeded and zero failed. After reading that result, we'll change one expectation and use the next summary to see whether the test detects the disagreement.
 
-A unit test is an automated check of a small behavior. We will check a label calculator with normal, zero, and negative inputs. JUnit Jupiter supplies the test tools. It is an external dependency, a library added beyond Java's standard library. The classpath tells Java where to find it.
+Now that we're in the Workspace, let's open Main.java. This lesson's prepared project includes JUnit and the Run configuration, so we can focus on testing behavior.
 
-## 0:27–1:32 — Read the calculator
+First, let's import the test and assertion tools, followed by the launcher tools that will run our test class and collect its results.
 
-**On screen:** The source is typed into Main.java. The view selects LabelTools on lines 10–17: the negative-input guard, exception message, and multiplication return are readable. Imports remain above it; part of the test class appears below.
+These imports make library types available by their short names. Importing JUnit does not run a test. We still need a method to check, test methods that state expectations, and a runner that executes them.
 
-The complete source is:
+Let's define labelCount. Its two inputs represent groups and kits per group. The guard rejects either negative count before multiplication.
 
-```java
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.platform.engine.discovery.DiscoverySelectors;
-import org.junit.platform.launcher.Launcher;
-import org.junit.platform.launcher.LauncherSession;
-import org.junit.platform.launcher.LauncherDiscoveryRequest;
-import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
-import org.junit.platform.launcher.core.LauncherFactory;
-import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
-class LabelTools {
-    public static int labelCount(int groups, int kits) {
-        if (groups < 0 || kits < 0) {
-            throw new IllegalArgumentException("Counts must be nonnegative.");
-        }
-        return groups * kits;
-    }
-}
-class LabelToolsTest {
-    public LabelToolsTest() { }
-    @Test
-    public void positiveCounts() {
-        Assertions.assertEquals(6, LabelTools.labelCount(2, 3));
-    }
-    @Test
-    public void zeroGroups() {
-        Assertions.assertEquals(0, LabelTools.labelCount(0, 3));
-    }
-    @Test
-    public void negativeGroups() {
-        try {
-            LabelTools.labelCount(-1, 3);
-            Assertions.fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException problem) {
-            Assertions.assertEquals("Counts must be nonnegative.", problem.getMessage());
-        }
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
-            .selectors(DiscoverySelectors.selectClass(LabelToolsTest.class)).build();
-        SummaryGeneratingListener listener = new SummaryGeneratingListener();
-        try (LauncherSession session = LauncherFactory.openSession()) {
-            Launcher launcher = session.getLauncher();
-            launcher.registerTestExecutionListeners(listener);
-            launcher.execute(request);
-        }
-        System.out.println("Succeeded: " + listener.getSummary().getTestsSucceededCount());
-        System.out.println("Failed: " + listener.getSummary().getTestsFailedCount());
-    }
-}
-```
+For valid counts, the product is the number of labels. For an invalid count, IllegalArgumentException reports that the caller broke the input rule. The message is part of the behavior we will check.
 
-LabelTools multiplies the two counts and rejects negative inputs. The tests below describe what callers should observe.
+Now let's start the test class and add our ordinary positive case. The Test annotation marks a method for JUnit to discover. The assertion compares an expected value with the method's actual result.
 
-## 1:32–2:00 — Read the behavior tests
+Six is the expected value; the call with two and three produces the actual value. If they differ, this assertion makes the test fail. The test's name describes the behavior being checked, while the public constructor lets JUnit create the test object.
 
-**On screen:** The view scrolls to and selects the complete LabelToolsTest class on lines 18–37. All three test methods, their inputs, assertions, the fail call, specific catch and message check are readable. Earlier calculator lines are partly outside the view. The caption sits below the editor focus.
+Zero sits at the edge of the valid counts. Let's add a separate boundary test so this case remains visible even if the implementation changes.
 
-The Test annotation marks a method for JUnit to discover and run. These public, nonstatic methods check separate behaviors. An assertion reports failure when behavior differs from the expectation. In assertEquals, the expected value comes first and the actual result second. For the negative input, fail reports failure if the call returns normally. The catch handles only IllegalArgumentException and checks its message. Each test supplies its own inputs.
+The expected result is zero because there are no groups to label. Keeping this in a separate test helps distinguish an ordinary calculation from behavior at the edge of the allowed input range.
 
-## 2:01–2:24 — Follow the supplied runner
+Our third test checks rejection of a negative count. Let's include both a failure when the call returns normally and a message check when the expected exception is caught.
 
-**On screen:** The view selects the complete Main runner on lines 38–51. The class selection, summary listener, launcher session, registration, execution and both final print statements are readable. The earlier tests are partly outside the view.
+The negative call should jump into the catch block. If it returns instead, the fail assertion prevents a false success. In the catch block, assertEquals checks the message. A different exception type is not accepted by this handler. Together, these paths check more than merely calling the method and hoping an error occurs.
 
-A test runner finds selected tests, executes them, and collects results. LabelToolsTest dot class is a class literal: it refers to the class itself. The request selects that class, and a summary listener collects outcomes. The supplied launcher runs the request inside a session that closes automatically. The final print statements read the passed and failed counts.
+The tests are defined, but they have not run. Let's add the application entry point and build a discovery request selecting this test class.
 
-## 2:25–2:36 — Predict the summary
+The request identifies the tests we want JUnit to find. Next, a summary listener will collect the results. We'll open a launcher session, register that listener, and execute the request.
 
-**On screen:** The view returns to all three selected test methods and asks the learner to predict both counts. A three-second pause follows. The terminal still shows only the earlier checksum result; the JUnit summary has not appeared.
+Execute is the step that runs the selected tests. Try-with-resources closes the launcher session afterward. The individual test order is not prescribed here; our summary counts outcomes across the selected tests.
 
-Predict both counts before running. Trace each test, including what happens if the negative call returns normally. Pause here.
+Finally, let's print the succeeded and failed counts from the collected summary, then click Run to establish our baseline.
 
-## 2:36–2:54 — Run and interpret the summary
+Three tests succeeded and none failed. That result covers the positive product, the zero boundary, and rejection of a negative group count with the expected message. It is our baseline for these three cases, not a guarantee about every input.
 
-**On screen:** The terminal displays the compilation and run command, then Succeeded: 3 and Failed: 0. Both output lines remain readable. The terminal-focused zoom crops earlier source, and the upper result caption briefly overlaps the test-class heading and constructor; all three test bodies remain readable and were shown fully in the preceding view. The terminal runs:
+Let's challenge the positive test by changing only its expected value from six to seven. The method and its two inputs will stay the same.
 
-```text
-javac -cp junit-platform-console-standalone-1.13.4.jar Main.java && java -cp .:junit-platform-console-standalone-1.13.4.jar Main
-```
+Before running, predict the two summary counts. The calculation still uses two groups and three kits per group, but one assertion now expects seven. Which tests should agree with their expectations? Pause here and reason through all three cases.
 
-It reports:
+Let's click Run and compare your prediction with JUnit's actual summary.
 
-```text
-Succeeded: 3
-Failed: 0
-```
+Two tests succeeded and one failed. The positive test expected seven while the method returned six. The other expectations still matched. This deliberate mismatch checks that an assertion can detect disagreement; it is not a regression, because we did not break previously correct application behavior.
 
-The summary reports three successes and zero failures. The exception check counts as a successful test because the expected exception occurred and its message matched. Read both counts: this runner can return normally even when a test fails.
+Now let's restore the correct expectation of six and run the same tests again.
 
-## 2:54–3:15 — Check that a test can fail
+The summary returns to three succeeded and zero failed. We repaired the test expectation without changing the method. A future unintended behavior change would be a regression if it broke behavior that had worked before; keeping useful tests helps detect that kind of problem.
 
-**On screen:** The view returns to the selected complete test class while the successful summary remains below. The narration asks the learner to change the first expected value, predict and run, restore it, and rerun. These edits are a learner task and are not performed in this recording. The final hold retains the tests and actual summary.
+You used assertions to make three behavior rules executable, included both paths needed for a reliable exception test, and separated defining tests from running them. For a transfer question, what extra test would check a negative kit count? In the notebook, you will also add a boundary test for zero kits.
 
-A regression test cycle keeps a behavior check, confirms it can fail, and reruns it after repair. Change the first expected value from six to seven. Predict both counts, run it, then restore six and run again. What evidence shows this check detects the wrong expectation?
+## Visual description
 
+[Four code-free opening scenes use the BHCC red, blue, and white visual system with a Java logo. Behavior rows introduce normal results, boundary cases, and expected exceptions. A change-and-recheck flow explains repeatable evidence. Two group panels each contain three kits, connecting two groups times three kits to six labels, while zero and negative count rules appear below. A three-case list and a baseline scoreboard show three succeeded and zero failed.]
+
+[The actual Workspace opens Main.java in the prepared JUnit project. The camera follows typed imports, the labelCount method with its negative-input guard, and three test methods. The positive test expects six from two and three. The zero test expects zero. The negative test contains a fail assertion after the call, plus a catch block checking the expected exception message. A Main entry point selects the test class, registers a summary listener, executes the request inside a launcher session, and prints summary counts.]
+
+[The real pointer clicks Run Code. The terminal shows Succeeded: 3 and Failed: 0. The positive assertion is changed from six to seven while the method and inputs remain the same. Learners predict the two counts during a pause. A second native Run click produces Succeeded: 2 and Failed: 1. The expected value is restored to six, and a third native Run click returns the summary to three succeeded and zero failed. The closing distinguishes this deliberate mismatch from a regression and asks learners to transfer the exception-testing pattern to a negative kit count. It then points to the notebook boundary test for zero kits.]

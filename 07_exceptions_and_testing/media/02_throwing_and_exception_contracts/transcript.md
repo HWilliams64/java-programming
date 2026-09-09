@@ -1,77 +1,65 @@
-# Transcript: Throwing and Exception Contracts
+# Throwing Exceptions and Preserving Causes — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It reports invalid quantities and preserves an earlier failure when one exists.
+## Narration
 
-## 0:00–0:21 — Goal
+Welcome! In this Java tutorial, you'll throw custom exceptions to report application failures, declare checked exceptions that callers must handle or pass onward, and preserve an earlier failure as the cause.
 
-**On screen:** The title reads Throwing and Exception Contracts, with the subtitle Explain a failure and preserve its cause. The demonstration opens Main.java in the Workspace.
+These skills give other parts of an application a clear failure contract, so they can respond to invalid requests while keeping the diagnostic details developers need to investigate problems.
 
-A quantity form needs to explain different failures. A custom exception class names a failure for our application. InvalidQuantityException is checked: Java requires callers to catch it or declare that it may leave their method.
+Today we'll build a quantity reader for campus supply staff. Each entry is text representing a requested number of items. Our rule accepts zero or a positive integer, and rejects words and negative quantities.
 
-## 0:21–1:30 — Explain the parser and its exception
+The reader should return an accepted quantity or explain why an entry failed. When number conversion fails first, we'll keep that original exception alongside our application message. Each request will receive its own response.
 
-**On screen:** Main.java is typed into the editor. The complete 32-line source is then visible, with the exception class and quantity parser selected. Bottom captions leave all source lines clear. Gray words before some supplied values are editor hints and are not part of the saved Java source. The editor draws the two characters in != together as a not-equal symbol. The source below contains the exact characters to type.
+Now that we're in the Workspace, let's open Main.java.
 
-```java
-class InvalidQuantityException extends Exception {
-    public InvalidQuantityException(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
-class QuantityParser {
-    public static int read(String text) throws InvalidQuantityException {
-        int quantity;
-        try {
-            quantity = Integer.parseInt(text);
-        } catch (NumberFormatException cause) {
-            throw new InvalidQuantityException("Quantity must be a whole number.", cause);
-        }
-        if (quantity < 0) {
-            throw new InvalidQuantityException("Quantity cannot be negative.", null);
-        }
-        return quantity;
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        String[] inputs = {"3", "two", "-1"};
-        for (String input : inputs) {
-            try {
-                System.out.println("Quantity: " + QuantityParser.read(input));
-            } catch (InvalidQuantityException problem) {
-                System.out.println("Problem: " + problem.getMessage());
-                System.out.println("Has cause: " + (problem.getCause() != null));
-            }
-        }
-    }
-}
-```
+The file is open. Our caller needs one application-specific kind of failure to handle, whether the text cannot become a number or the number breaks our quantity rule. Let's define InvalidQuantityException with a message and an optional earlier cause.
 
-The throws declaration names a possible failure. A throw statement raises an exception object now. Integer dot parseInt converts decimal digits with an optional leading plus or minus. It rejects whitespace, invalid text, and values outside the int range with NumberFormatException. That type is unchecked, so callers need not catch or declare it. Our new exception keeps a message and an optional cause: an earlier failure that explains this one. Throwable is the parent type used here to receive that earlier exception object. Passing the cause to super preserves it for the caller.
+Extending Exception makes this a checked exception type. In ordinary Java method code, a checked failure that can escape must be caught or declared. The constructor forwards the message and cause to the parent constructor. Throwable is the common base type for throwable objects, so it can hold the earlier exception. A null cause means there is no earlier failure attached.
 
-## 1:31–1:48 — Predict the complete output
+Now we need the reader that either produces a quantity or reports that checked failure. Let's add QuantityParser and its read method, then declare the integer that will hold a successful conversion.
 
-**On screen:** The input array and the caller inside the loop are selected. The complete source remains readable, and no terminal result has appeared. The prediction caption ends before a three-second pause with the source still on screen.
+The throws declaration belongs to the method header. It tells callers that InvalidQuantityException may escape; it does not raise an exception on every call. A successful call still returns an integer. That is our contract: a quantity on success, a named failure otherwise.
 
-The caller catches our checked exception separately for each input. It prints either the quantity or the problem message and whether a cause exists. Trace the three inputs and predict every output line. Pause before running.
+First we have to discover whether the text represents an integer. Parsing means converting that text into a value. Let's try Integer.parseInt and catch the conversion failure it can produce.
 
-## 1:48–2:13 — Execute and compare
+For text such as three, conversion supplies the integer three. A word such as two, written as letters, raises NumberFormatException instead. That is an unchecked exception, so Java does not require callers to catch or declare it. We catch it here because our application should report all invalid quantities through its own exception type.
 
-**On screen:** The terminal opens below the editor, and the view moves closer to the running example. All five output lines are readable. During this closer view, the exception class heading is above the frame and top captions partly cover the read method declaration. Its conversion and validation body, the caller, and the terminal output remain clear. The complete source was visible during modeling and prediction. The terminal runs `javac Main.java && java Main`. It succeeds and prints:
+The conversion has already failed when this handler runs. Let's give that failure a useful quantity message while keeping the original exception object as its cause.
 
-```text
-Quantity: 3
-Problem: Quantity must be a whole number.
-Has cause: true
-Problem: Quantity cannot be negative.
-Has cause: false
-```
+Executing throw raises the new object and leaves this method without a returned quantity. The earlier NumberFormatException is still reachable through the new object's cause. We have added application context without discarding the original diagnostic. Since the method has left, the range check below will not run for that word.
 
-Three becomes a valid quantity. The word two fails conversion, so the new exception retains the original NumberFormatException. Has cause is true. Negative one converts successfully, then fails our nonnegative rule. There is no earlier exception, so its cause is null and Has cause is false. The catch block reports each failure and the loop continues.
+If conversion succeeds, we still need to check the application's rule. A negative integer is a number, but it is not an acceptable request. Let's reject negative quantities and return values that pass.
 
-## 2:13–2:24 — Try zero as the final quantity
+This condition is validation: checking a value against an application rule. Negative one parses successfully, then fails this separate check. We pass null because there was no earlier conversion failure to preserve. Zero and positive integers reach return. The executed throw changes the path; the throws declaration describes that possibility to the caller.
 
-**On screen:** The view widens to show the exception class, parser, caller, and unchanged five-line result. Source lines 1 through 31 are visible; the final class closing brace is below the terminal divider. The bottom caption asks you to change the final input and predict what follows. No code is changed and no transfer answer is shown. A two-second hold follows the final prompt.
+Our reader is ready. Let's add Main, the class containing this standalone program, and main, the method where it starts. We'll prepare three independent text entries and handle each one inside its own loop iteration.
 
-Change the final input from negative one to zero. Predict the complete output and explain how the final call differs from the original.
+These inputs represent a request for three items, a word, and a negative quantity. They let us observe acceptance, conversion failure, and rule failure in one report. The try block belongs to a single request, so handling that request's failure can leave the next request available to process.
 
+Let's print a returned quantity when reading succeeds. If the reader throws our checked exception instead, we'll print its application message and whether it retains an earlier cause.
+
+Java must finish the read call before it can print Quantity. If read throws, that success line is skipped and the handler prints the problem. GetMessage retrieves our explanation. GetCause retrieves the earlier exception, or null; comparing it with null produces the true or false status. Let's click Run and examine all three responses.
+
+The first entry prints Quantity: three because conversion succeeds and three is nonnegative. The word prints our whole-number message and Has cause: true, because the original conversion exception was retained. Negative one prints the negative-quantity message and Has cause: false. It was already a valid integer, so its rejection has no earlier parsing failure attached.
+
+We now have evidence for both kinds of failure, and neither is confused with a returned quantity. Let's change only the input array to a boundary value, a different word, and another negative value. The reader and its rule will stay the same.
+
+Before running, predict the complete report for zero, the word many, and negative four. Which entries return a quantity, and which failures retain an earlier cause? Use the two checks we just traced: conversion first, then the nonnegative rule. Pause here to make your prediction.
+
+Let's click Run and compare the actual responses with your prediction.
+
+Zero prints Quantity: zero. The rule rejects values below zero, so the boundary value is accepted. Many cannot convert to an integer; its application exception keeps the earlier cause. Negative four converts, then fails validation, so its cause is absent. The different messages and cause statuses explain different paths through the same method.
+
+We built a quantity reader that returns acceptable values and gives callers a consistent way to handle failures. You used throw to raise a particular object, throws to declare a possible checked failure, and a cause to preserve an earlier exception. Those distinctions help callers respond appropriately while keeping useful diagnostic information.
+
+For a transfer question, imagine the supply desk changes its rule to require at least one item. Which validation condition should change, and what should the caller observe for zero? Keep conversion and validation separate as you explain your answer.
+
+## Visual description
+
+[The video opens with four distinct code-free scenes in the BHCC red, blue, and white style. A custom-exception concept connects to raising a failure, declaring a checked failure, and preserving its cause. A horizontal application journey connects failed requests to caller responses and developer investigation. A supply-desk scene introduces campus staff, text quantity requests, and the nonnegative-integer rule. A report card previews an accepted quantity or an application failure with an earlier cause when one exists.]
+
+[The real Workspace appears and Main.java opens. The camera follows the insertion point while code is typed. InvalidQuantityException extends Exception and forwards a message and cause to its parent constructor. QuantityParser.read declares that this checked exception may escape. It tries integer conversion, wraps a NumberFormatException with an application message and the original cause, rejects a negative parsed value with a null cause, and returns an accepted quantity.]
+
+[The Main class and its main entry method process the text entries 3, two, and -1 independently. Each loop iteration prints a returned quantity or catches InvalidQuantityException and reports its message and whether a cause exists. The pointer moves to the native Run button and clicks. The report shows Quantity: 3, then the whole-number failure with Has cause: true, then the negative-quantity failure with Has cause: false. The explanation distinguishes conversion failure from validation failure.]
+
+[The input array changes to 0, many, and -4. The video asks for a prediction and pauses before another visible Run-button click. Zero is accepted. The word many receives the whole-number message with a retained cause. Negative four receives the negative-quantity message without an earlier cause. The closing connects those observations to throw, throws, and exception causes, then asks how a minimum-one-item rule would change validation and the response for zero.]

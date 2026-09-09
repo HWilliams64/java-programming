@@ -1,30 +1,87 @@
-**Exception object** - An object that describes an execution failure through its type, message, and related information.
-**Abrupt completion** - Leaving an operation before its remaining statements finish.
-**Try block** - A block surrounding work whose exceptions may be handled by associated catch blocks.
-**Catch block** - A block that receives a matching exception and responds to it.
-**Stack trace** - A record of the chain of method calls associated with an exception.
-**Stack unwinding** - Leaving unfinished method calls while searching outward for a matching exception handler.
-**Checked exception** - An exception type outside the RuntimeException and Error families whose possible propagation generally must be caught or declared.
-**Unchecked exception** - An exception type in the RuntimeException or Error family whose possible propagation does not require a throws declaration.
-**Throw statement** - A statement that raises a particular exception object now.
-**Throws declaration** - A method declaration that names exception types that may leave the method and reach its caller.
-**Custom exception class** - An application-defined exception type that gives a particular failure a meaningful name.
-**Exception cause** - An earlier failure retained inside a later exception.
-**Resource lifetime** - The interval between acquiring a resource and releasing it.
-**Finally block** - A block that normally runs as control leaves its associated try/catch, including during a pending return or exception.
-**AutoCloseable contract** - An interface whose close operation makes a resource eligible for automatic cleanup.
-**Try-with-resources statement** - A statement that closes successfully initialized AutoCloseable resources when its scope ends.
-**Reverse resource closure** - Closing registered resources in the opposite order from their successful initialization.
-**Suppressed exception** - A secondary cleanup failure attached to an earlier primary exception.
-**External dependency** - A library added beyond the Java standard library.
-**JAR** - A Java archive file containing compiled classes and related resources.
-**Classpath** - The locations Java searches for classes needed by a program or kernel.
-**Dependency coordinate** - The group, artifact, and version that identify a library for the supplied dependency setup.
-**Unit test** - An automated check of a small behavior using controlled inputs and expected results.
-**@Test method** - A method marked for JUnit Jupiter to discover and execute as a test.
-**Test assertion** - A check that compares actual behavior with an expected result and reports a failure when they differ.
-**Test runner** - Software that discovers tests, executes them, and collects results.
-**Class literal** - An expression such as LabelToolsTest.class that refers to the class itself.
-**Summary listener** - A supplied object the test runner notifies as tests progress so it can collect their result counts.
-**Regression test cycle** - Keeping a behavior check, confirming that it detects a relevant mistake, and rerunning it after the repair.
-**SHA-256 checksum** - A fingerprint calculated from a file’s contents; comparing it with an expected value helps check that the file has the expected bytes.
+**Exception object** - An object that describes an execution failure through its type, message, and related information. In the packing example, integer division by zero produces an ArithmeticException, and the catch variable refers to that exception object. Its type identifies the kind of failure; its message can supply more detail. A missing semicolon is a compiler error, so it is rejected before this exception-handling code can run.
+
+**Try block** - The block introduced by the keyword `try`, surrounding work whose exceptions may be handled by associated catch blocks. The amount of work inside the block matters: a try/catch inside the packing loop can handle one failed input and allow the next iteration. A handler outside that loop is reached only after the failure has left the loop. A try block does not prevent the failure or automatically retry the work.
+
+**Catch block** - An exception handler introduced by the keyword `catch`. Its parameter names a compatible exception type and gives the body a reference to the actual exception object; for example, `catch (ArithmeticException problem)` handles the arithmetic failure in the packing example. After a handler finishes normally, control continues after the try/catch statement. An empty handler can hide useful failure information without repairing the problem.
+
+**Abrupt completion** - An operation ends without following its normal path to completion. When the share method divides by zero, it does not return a made-up result, and the remaining statements on that failed path are skipped. The caller also cannot finish a print statement whose argument calculation failed. Handling the exception does not resume the failed calculation at its next statement.
+
+**Stack unwinding** - Leaving unfinished method calls while looking outward for a matching exception handler. In the trace example, share fails, quote cannot complete its call, and control reaches the caller's catch. The skipped return statements do not later provide results. Read the trace together with handler placement: a recorded call chain helps locate the failure, while the source code shows where it is handled.
+
+**Stack trace** - Recorded method-call information associated with an exception. In the two-method packing example, the trace identifies share before quote: the failing operation followed by its caller. Each StackTraceElement describes an entry, and getMethodName reads its method name. This order differs from the messages printed as methods were entered. Generated notebook frames and line numbers may change after edits, so use the relevant method names and source operation to investigate.
+
+**StackTraceElement** - One object describing a recorded method-call entry in an exception’s stack trace. In `problem.getStackTrace()[0].getMethodName()`, index `0` selects the first entry and `getMethodName()` reads its method name. The packing example reports `share` before its caller `quote`. A general diagnostic tool must check that an entry exists before indexing the array; generated notebook frames and line numbers are not stable identifiers.
+
+**Parsing** - Interpreting text according to a format to obtain a typed value. For example, `Integer.parseInt("6")` produces the integer `6`, while `"two"` cannot be interpreted as an integer by that method. Parsing is separate from deciding whether the result is allowed: `"-1"` parses successfully even though a negative supply quantity violates the lesson’s rule.
+
+**Validation** - Checking whether input or a converted value follows the application’s rules. The quantity parser rejects `quantity < 0` because a request cannot contain a negative number of notebooks; it accepts zero. A value can have the correct Java type and still be invalid for the task. Choose the rule from the requirements rather than treating every successfully parsed number as acceptable.
+
+**Throw statement** - A statement introduced by the keyword `throw` that raises a particular exception object now. For example, `throw new IllegalArgumentException("Groups must be positive.");` leaves the failed method path and starts the search for a matching handler. Constructing a useful message helps the caller explain the failure, but throwing is not the same as printing that message or returning a normal result.
+
+**IllegalArgumentException** - An unchecked exception used to report an inappropriate argument supplied to a method. The group-count example throws it when a requested count is below one. It belongs to the RuntimeException family, so ordinary Java does not require a catch-or-declare obligation for it. That compiler rule does not remove the need to choose useful failure behavior.
+
+**Checked exception** - An exception type outside the RuntimeException and Error families. Java generally requires a method that may let such an exception escape to catch it or name it in a throws declaration. InvalidQuantityException extends Exception in the quantity-parser example, making that failure part of the caller contract. Checked describes a compiler rule; it does not mean the failure is harmless or always recoverable.
+
+**Unchecked exception** - An exception type in the RuntimeException or Error family. Its possible propagation does not require a throws declaration. IllegalArgumentException is an example used when a supplied value violates a method's input rule. Unchecked does not mean safe to ignore: choose a response that fits the operation, and do not broadly catch Error merely to keep an application running.
+
+**Custom exception class** - An application-defined exception type that gives a failure a meaningful name. InvalidQuantityException identifies a quantity-reading failure and uses its superclass constructor to retain a message and optional cause. This example extends Exception, so it is checked. A custom name should clarify the caller's contract rather than merely disguise a failure or silence a compiler requirement.
+
+**Throwable** - The common superclass of Java exception and error objects. A constructor parameter declared `Throwable cause` can receive different kinds of earlier failures, such as a `NumberFormatException`. This class name is a type, not a Java keyword. Using it as a cause parameter does not mean that a program should catch every Throwable as a routine recovery strategy.
+
+**Null reference** - A reference that points to no object, written with the Java literal `null`. Passing `null` as an exception cause records that no earlier failure is attached. Check `cause != null` before calling `cause.getMessage()`: calling an instance method through a null reference causes another failure. A null cause does not mean the application operation succeeded.
+
+**Throws declaration** - The part of a method header introduced by the keyword `throws`, naming exception types that may leave the method. In the quantity parser, `throws InvalidQuantityException` tells callers about the checked failure they must handle or declare. It does not raise an exception on every call. Adding the declaration passes responsibility outward; it does not repair invalid input.
+
+**NumberFormatException** - The unchecked exception raised when a numeric conversion cannot interpret the supplied text in its supported format and range. `Integer.parseInt("two")` fails, and so does a value larger than an int can hold. The quantity parser preserves this original object as the cause of its application exception. A successfully parsed negative value does not raise this type merely because the application rejects negative quantities.
+
+**Exception cause** - An earlier failure retained inside a later exception. When parsing the text two fails, QuantityParser creates an InvalidQuantityException while preserving the original NumberFormatException as its cause. The application-level message explains the task, and the cause keeps diagnostic detail. A negative number parses successfully and is rejected separately, so that path has no conversion cause; check for null before using a cause reference.
+
+**Resource lifetime** - The interval from acquiring a resource to releasing it. For a file stream, opening begins its use and closing ends it. The lesson's NamedResource prints Opened and Closed messages to model those steps; it does not open a real file. Finishing the normal work is not enough if an exception can skip a manually placed final close call.
+
+**Finally block** - A block introduced by the keyword `finally` that normally runs as control leaves its associated try/catch, including through a pending return or exception. The finish example computes a return value of 7, prints Cleanup in finally, and then returns 7. A return or throw inside finally can replace a pending result or failure, so cleanup should not hide that original outcome. Finally does not guarantee execution if the Java process is forcibly terminated.
+
+**IllegalStateException** - An unchecked exception class used when an operation cannot proceed in its present state. In the cleanup examples, it signals a stopped operation or a failed close operation. It is a class name, not a Java keyword. Its unchecked category concerns the compiler's handling and declaration requirements; it does not mean that the failure can be ignored.
+
+**AutoCloseable contract** - The Java interface that supplies a close operation for objects used with automatic cleanup. NamedResource implements AutoCloseable and defines a public close method. The example prints a lifecycle message so you can observe that call; a real resource implementation would release what it acquired. Merely implementing the interface does not cause every instance to close automatically regardless of how it is used.
+
+**Try-with-resources statement** - A try statement with resource declarations in parentheses that arranges closing of successfully initialized AutoCloseable resources. Java calls close when the body finishes normally or because of a failure. In the notes example, Closed: notes appears after Work and before Done. Automatic closing handles the lifetime of the registered resource; it does not mean that the body or close method cannot fail.
+
+**Reverse resource closure** - Closing resources in the opposite order from their successful initialization in one try-with-resources statement. The worked example opens first and then second, but closes second before first. This lets a later resource finish cleanup while an earlier resource is still available. If a later initialization fails, earlier resources that initialized successfully still receive cleanup.
+
+**Primary exception** - The failure that continues outward to the caller when an operation and its automatic cleanup encounter problems. In the resource example, `Body failed.` remains the primary message when `close()` also fails. The handler receives that body exception and can inspect the attached cleanup failure. Primary does not mean most severe: if the body succeeds and closing alone fails, the closing exception can become primary.
+
+**Suppressed exception** - An additional failure retained alongside a primary exception. In the lesson's try-with-resources example, Body failed remains the primary failure and Close failed is attached as a suppressed exception, so cleanup does not erase the original problem. The getSuppressed method provides the attached failures. This differs from a cause, which explains an earlier failure behind a translated exception; when the body succeeds and closing fails, the closing failure can itself become primary.
+
+**Regression** - A change that breaks application behavior that previously worked. Removing a negative-input guard can make a label-count method return a number where the contract requires an exception. Rerunning an unchanged test can reveal that loss. A deliberately wrong expected value is a test edit, not evidence that the application itself regressed.
+
+**Unit test** - An automated check of a small behavior using controlled inputs and an independently chosen expected result. A label-count test can check that two groups of three kits require six labels. Each test should establish the inputs it needs rather than depend on another test running first. One passing example does not cover every boundary or invalid-input rule.
+
+**Boundary case** - A check at the edge of the values a method accepts. In the label-count contract, zero is the smallest allowed count, so zero groups and zero kits are separate boundary cases. A boundary can be valid even though a nearby value, such as a negative count, is invalid.
+
+**Invalid-input case** - A test using an input that violates a method's stated rules. A negative group count must raise the required exception rather than return a label count. The test should detect an unexpectedly normal return as well as check the required exception and message.
+
+**External dependency** - A library supplied separately from the Java standard library. JUnit adds the annotations, assertions, and runner used in this module. An import lets source code refer to a class by a shorter name, but it does not download or install the library containing that class. Resolve the dependency setup before interpreting a missing-library error as a failure of the application under test.
+
+**JAR** - A Java archive file containing compiled classes and related resources. This lesson uses a pinned JUnit standalone JAR that includes the components needed by its test runner. A JAR must still be made available to the runtime that uses it. The word standalone in a library filename does not mean that every possible library, application file, or Java runtime is included.
+
+**Dependency coordinate** - A group, artifact, and version that identify a library in the supplied dependency system. The lesson selects `org.junit.platform:junit-platform-console-standalone:1.13.4`, keeping the version explicit. The `%maven` setup line is an IJava kernel command, not a Java statement for Main.java. Choosing a coordinate and successfully loading its dependency are separate steps.
+
+**Classpath** - The locations a Java runtime or kernel searches for classes needed by the program. The lesson's dependency setup adds JUnit classes to the current IJava kernel's classpath. A new kernel needs its own setup. A correct import cannot locate a class that is absent from the runtime's available class locations.
+
+**@Test method** - A method marked with JUnit Jupiter's `@Test` annotation so the runner can discover and execute it as a test. The lesson's test methods return void, take no parameters, and use separate inputs. Declaring an annotated method does not run it. This annotation serves a different purpose from @Override, which checks an inherited method relationship.
+
+**Test assertion** - A check that reports failure when actual behavior does not meet an expectation. In `Assertions.assertEquals(6, actual)`, the expected value comes first and the observed value comes second. Choose the expectation from the task contract instead of copying the production calculation. When testing a required exception with try/catch, Assertions.fail after an unexpected normal return prevents a missing exception from silently passing.
+
+**Production code** - The application behavior that a test checks, as distinct from the test itself. `LabelTools.labelCount(2, 3)` is production code; a test calls it and compares the returned value with the required result, `6`. The term applies even to this small classroom program. Copying the production expression to calculate a test’s expected value can copy its mistake too.
+
+**Test runner** - Software that discovers tests, executes them, and collects their results. The notebook's supplied Launcher code selects a test class and prints success and failure counts. The Java cell can finish normally even when JUnit reports a failed test. Check both failures and the expected number of executed tests; zero failures is not sufficient if the tests were never discovered.
+
+**Class literal** - An expression referring to a class itself, such as `LabelToolsTest.class`. The supplied runner passes this value to its class selector to identify the current test class. It is not a String containing the class name, and evaluating it does not construct a LabelToolsTest object. The runner uses the selected class to discover the marked test methods.
+
+**Summary listener** - An object that the test runner notifies as testing progresses so it can collect result counts. The supplied SummaryGeneratingListener records those results, and getSummary makes them available for reporting. Register the listener with the launcher before execution. A collected summary reports what happened in that run; it does not prove that the chosen tests cover the whole application contract.
+
+**Assertion sanity check** - A deliberate mismatch used to confirm that a test executes its assertion and can report failure. Temporarily changing the correct expected count from `6` to `7` should make the label-count test fail while the application still returns `6`. Restore the correct expectation afterward. This experiment checks the test’s response to a mismatch; a production regression instead changes application behavior while the required expectation stays fixed.
+
+**Regression test cycle** - Keeping tests for required behavior and rerunning them after application changes to catch behavior that used to work but has become incorrect. For example, after changing a label-count method, rerun the existing checks for ordinary inputs, zero, and invalid inputs. Keep each expected result tied to the task rules. The lesson also deliberately changes an expected value and restores it; that separate check confirms that the test runs and its assertion can report a failure. It does not demonstrate a regression in the application or justify changing an expected result merely to make a failing test pass.
+
+**Baseline** - The initial result kept for comparison with a later run. The intact four-test label suite reports four successes and zero failures before one expected value is deliberately changed. Keeping the original report makes the effect of that controlled edit easier to identify; a baseline is useful only when its behavior and intended test count are understood.

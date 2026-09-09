@@ -1,118 +1,520 @@
 WEBVTT
 
-00:00:06.719 --> 00:00:10.199
-A quantity form needs to explain different failures.
+00:00:00.750 --> 00:00:01.301
+Welcome!
 
-00:00:10.199 --> 00:00:13.412
-A custom exception class names a failure for our
+00:00:01.301 --> 00:00:04.196
+In this Java tutorial, you'll throw custom
 
-00:00:13.412 --> 00:00:14.215
-application.
+00:00:04.196 --> 00:00:07.090
+exceptions to report application failures,
 
-00:00:14.215 --> 00:00:17.561
-InvalidQuantityException is checked: Java requires
+00:00:07.090 --> 00:00:10.122
+declare checked exceptions that callers must
 
-00:00:17.561 --> 00:00:21.176
-callers to catch it or declare that it may leave their
+00:00:10.122 --> 00:00:13.292
+handle or pass onward, and preserve an earlier
 
-00:00:21.176 --> 00:00:21.644
-method.
+00:00:13.292 --> 00:00:14.739
+failure as the cause.
 
-00:00:54.323 --> 00:00:57.395
-The throws declaration names a possible failure.
+00:00:15.382 --> 00:00:18.820
+These skills give other parts of an application
 
-00:00:57.395 --> 00:01:00.530
-A throw statement raises an exception object now.
+00:00:18.820 --> 00:00:22.330
+a clear failure contract, so they can respond to
 
-00:01:00.530 --> 00:01:03.858
-Integer dot parseInt converts decimal digits with an
+00:00:22.330 --> 00:00:25.621
+invalid requests while keeping the diagnostic
 
-00:01:03.858 --> 00:01:05.841
-optional leading plus or minus.
+00:00:25.621 --> 00:00:29.132
+details developers need to investigate problems.
 
-00:01:05.841 --> 00:01:08.849
-It rejects whitespace, invalid text, and values
+00:00:29.775 --> 00:00:33.180
+Today we'll build a quantity reader for campus
 
-00:01:08.849 --> 00:01:11.985
-outside the int range with NumberFormatException.
+00:00:33.180 --> 00:00:34.142
+supply staff.
 
-00:01:11.985 --> 00:01:15.312
-That type is unchecked, so callers need not catch or
+00:00:34.142 --> 00:00:37.325
+Each entry is text representing a requested
 
-00:01:15.312 --> 00:01:16.016
-declare it.
+00:00:37.325 --> 00:00:38.509
+number of items.
 
-00:01:16.016 --> 00:01:19.152
-Our new exception keeps a message and an optional
+00:00:38.509 --> 00:00:42.062
+Our rule accepts zero or a positive integer, and
 
-00:01:19.152 --> 00:01:22.287
-cause: an earlier failure that explains this one.
+00:00:42.062 --> 00:00:44.875
+rejects words and negative quantities.
 
-00:01:22.287 --> 00:01:25.743
-Throwable is the parent type used here to receive that
+00:00:45.519 --> 00:00:49.033
+The reader should return an accepted quantity or
 
-00:01:25.743 --> 00:01:27.342
-earlier exception object.
+00:00:49.033 --> 00:00:51.082
+explain why an entry failed.
 
-00:01:27.342 --> 00:01:30.350
-Passing the cause to super preserves it for the
+00:00:51.082 --> 00:00:54.449
+When number conversion fails first, we'll keep
 
-00:01:30.350 --> 00:01:30.798
+00:00:54.449 --> 00:00:57.158
+that original exception alongside our
+
+00:00:57.158 --> 00:00:58.621
+application message.
+
+00:00:58.621 --> 00:01:01.769
+Each request will receive its own response.
+
+00:01:02.436 --> 00:01:05.316
+Now that we're in the Workspace, let's open
+
+00:01:05.316 --> 00:01:05.986
+Main.java.
+
+00:01:09.732 --> 00:01:10.934
+The file is open.
+
+00:01:10.934 --> 00:01:14.186
+Our caller needs one application-specific kind
+
+00:01:14.186 --> 00:01:17.367
+of failure to handle, whether the text cannot
+
+00:01:17.367 --> 00:01:20.195
+become a number or the number breaks our
+
+00:01:20.195 --> 00:01:21.185
+quantity rule.
+
+00:01:21.185 --> 00:01:24.296
+Let's define InvalidQuantityException with a
+
+00:01:24.296 --> 00:01:26.982
+message and an optional earlier cause.
+
+00:01:41.738 --> 00:01:44.182
+Extending Exception makes this a checked
+
+00:01:44.182 --> 00:01:45.098
+exception type.
+
+00:01:45.098 --> 00:01:47.970
+In ordinary Java method code, a checked failure
+
+00:01:47.970 --> 00:01:50.597
+that can escape must be caught or declared.
+
+00:01:50.597 --> 00:01:53.407
+The constructor forwards the message and cause
+
+00:01:53.407 --> 00:01:54.996
+to the parent constructor.
+
+00:01:54.996 --> 00:01:57.867
+Throwable is the common base type for throwable
+
+00:01:57.867 --> 00:02:00.678
+objects, so it can hold the earlier exception.
+
+00:02:00.678 --> 00:02:03.488
+A null cause means there is no earlier failure
+
+00:02:03.488 --> 00:02:04.038
+attached.
+
+00:02:04.049 --> 00:02:07.186
+Now we need the reader that either produces a
+
+00:02:07.186 --> 00:02:10.045
+quantity or reports that checked failure.
+
+00:02:10.045 --> 00:02:13.182
+Let's add QuantityParser and its read method,
+
+00:02:13.182 --> 00:02:16.040
+then declare the integer that will hold a
+
+00:02:16.040 --> 00:02:17.574
+successful conversion.
+
+00:02:29.115 --> 00:02:32.245
+The throws declaration belongs to the method
+
+00:02:32.245 --> 00:02:32.743
+header.
+
+00:02:32.743 --> 00:02:36.016
+It tells callers that InvalidQuantityException
+
+00:02:36.016 --> 00:02:39.218
+may escape; it does not raise an exception on
+
+00:02:39.218 --> 00:02:40.000
+every call.
+
+00:02:40.000 --> 00:02:43.060
+A successful call still returns an integer.
+
+00:02:43.060 --> 00:02:46.332
+That is our contract: a quantity on success, a
+
+00:02:46.332 --> 00:02:48.040
+named failure otherwise.
+
+00:02:48.054 --> 00:02:51.091
+First we have to discover whether the text
+
+00:02:51.091 --> 00:02:52.682
+represents an integer.
+
+00:02:52.682 --> 00:02:56.153
+Parsing means converting that text into a value.
+
+00:02:56.153 --> 00:02:59.045
+Let's try Integer.parseInt and catch the
+
+00:02:59.045 --> 00:03:01.504
+conversion failure it can produce.
+
+00:03:11.191 --> 00:03:14.272
+For text such as three, conversion supplies the
+
+00:03:14.272 --> 00:03:15.190
+integer three.
+
+00:03:15.190 --> 00:03:18.206
+A word such as two, written as letters, raises
+
+00:03:18.206 --> 00:03:20.173
+NumberFormatException instead.
+
+00:03:20.173 --> 00:03:23.319
+That is an unchecked exception, so Java does not
+
+00:03:23.319 --> 00:03:25.876
+require callers to catch or declare it.
+
+00:03:25.876 --> 00:03:28.957
+We catch it here because our application should
+
+00:03:28.957 --> 00:03:31.908
+report all invalid quantities through its own
+
+00:03:31.908 --> 00:03:32.891
+exception type.
+
+00:03:32.908 --> 00:03:35.999
+The conversion has already failed when this
+
+00:03:35.999 --> 00:03:36.934
+handler runs.
+
+00:03:36.934 --> 00:03:39.882
+Let's give that failure a useful quantity
+
+00:03:39.882 --> 00:03:43.045
+message while keeping the original exception
+
+00:03:43.045 --> 00:03:44.483
+object as its cause.
+
+00:03:55.643 --> 00:03:58.796
+Executing throw raises the new object and leaves
+
+00:03:58.796 --> 00:04:01.423
+this method without a returned quantity.
+
+00:04:01.423 --> 00:04:04.182
+The earlier NumberFormatException is still
+
+00:04:04.182 --> 00:04:06.875
+reachable through the new object's cause.
+
+00:04:06.875 --> 00:04:09.568
+We have added application context without
+
+00:04:09.568 --> 00:04:11.867
+discarding the original diagnostic.
+
+00:04:11.867 --> 00:04:15.020
+Since the method has left, the range check below
+
+00:04:15.020 --> 00:04:16.793
+will not run for that word.
+
+00:04:16.814 --> 00:04:20.106
+If conversion succeeds, we still need to check
+
+00:04:20.106 --> 00:04:21.751
+the application's rule.
+
+00:04:21.751 --> 00:04:25.186
+A negative integer is a number, but it is not an
+
+00:04:25.186 --> 00:04:26.546
+acceptable request.
+
+00:04:26.546 --> 00:04:29.623
+Let's reject negative quantities and return
+
+00:04:29.623 --> 00:04:30.839
+values that pass.
+
+00:04:48.685 --> 00:04:51.723
+This condition is validation: checking a value
+
+00:04:51.723 --> 00:04:53.572
+against an application rule.
+
+00:04:53.572 --> 00:04:56.478
+Negative one parses successfully, then fails
+
+00:04:56.478 --> 00:04:57.799
+this separate check.
+
+00:04:57.799 --> 00:05:00.507
+We pass null because there was no earlier
+
+00:05:00.507 --> 00:05:02.555
+conversion failure to preserve.
+
+00:05:02.555 --> 00:05:05.196
+Zero and positive integers reach return.
+
+00:05:05.196 --> 00:05:08.301
+The executed throw changes the path; the throws
+
+00:05:08.301 --> 00:05:11.273
+declaration describes that possibility to the
+
+00:05:11.273 --> 00:05:11.735
 caller.
 
-00:01:31.096 --> 00:01:34.316
-The caller catches our checked exception separately
+00:05:11.760 --> 00:05:13.172
+Our reader is ready.
 
-00:01:34.316 --> 00:01:35.262
-for each input.
+00:05:13.172 --> 00:05:16.068
+Let's add Main, the class containing this
 
-00:01:35.262 --> 00:01:38.545
-It prints either the quantity or the problem message
+00:05:16.068 --> 00:05:19.316
+standalone program, and main, the method where
 
-00:01:38.545 --> 00:01:40.250
-and whether a cause exists.
+00:05:19.316 --> 00:05:20.022
+it starts.
 
-00:01:40.250 --> 00:01:43.595
-Trace the three inputs and predict every output line.
+00:05:20.022 --> 00:05:23.412
+We'll prepare three independent text entries and
 
-00:01:43.595 --> 00:01:44.921
-Pause before running.
+00:05:23.412 --> 00:05:26.660
+handle each one inside its own loop iteration.
 
-00:01:49.842 --> 00:01:51.943
-Three becomes a valid quantity.
+00:05:39.885 --> 00:05:42.783
+These inputs represent a request for three
 
-00:01:51.943 --> 00:01:55.400
-The word two fails conversion, so the new exception
+00:05:42.783 --> 00:05:45.473
+items, a word, and a negative quantity.
 
-00:01:55.400 --> 00:01:58.315
-retains the original NumberFormatException.
+00:05:45.473 --> 00:05:48.371
+They let us observe acceptance, conversion
 
-00:01:58.315 --> 00:01:59.535
-Has cause is true.
+00:05:48.371 --> 00:05:51.130
+failure, and rule failure in one report.
 
-00:01:59.535 --> 00:02:02.924
-Negative one converts successfully, then fails our
+00:05:51.130 --> 00:05:54.235
+The try block belongs to a single request, so
 
-00:02:02.924 --> 00:02:04.077
-nonnegative rule.
+00:05:54.235 --> 00:05:57.339
+handling that request's failure can leave the
 
-00:02:04.077 --> 00:02:07.534
-There is no earlier exception, so its cause is null
+00:05:57.339 --> 00:05:59.685
+next request available to process.
 
-00:02:07.534 --> 00:02:09.093
-and Has cause is false.
+00:05:59.721 --> 00:06:02.769
+Let's print a returned quantity when reading
 
-00:02:09.093 --> 00:02:12.414
-The catch block reports each failure and the loop
+00:06:02.769 --> 00:06:03.393
+succeeds.
 
-00:02:12.414 --> 00:02:13.092
-continues.
+00:06:03.393 --> 00:06:06.302
+If the reader throws our checked exception
 
-00:02:13.148 --> 00:02:16.390
-Change the final input from negative one to zero.
+00:06:06.302 --> 00:06:09.627
+instead, we'll print its application message and
 
-00:02:16.390 --> 00:02:19.897
-Predict the complete output and explain how the final
+00:06:09.627 --> 00:06:12.121
+whether it retains an earlier cause.
 
-00:02:19.897 --> 00:02:21.948
-call differs from the original.
+00:06:43.032 --> 00:06:45.984
+Java must finish the read call before it can
+
+00:06:45.984 --> 00:06:46.991
+print Quantity.
+
+00:06:46.991 --> 00:06:50.211
+If read throws, that success line is skipped and
+
+00:06:50.211 --> 00:06:52.291
+the handler prints the problem.
+
+00:06:52.291 --> 00:06:54.774
+GetMessage retrieves our explanation.
+
+00:06:54.774 --> 00:06:57.726
+GetCause retrieves the earlier exception, or
+
+00:06:57.726 --> 00:07:00.813
+null; comparing it with null produces the true
+
+00:07:00.813 --> 00:07:01.886
+or false status.
+
+00:07:01.886 --> 00:07:05.107
+Let's click Run and examine all three responses.
+
+00:07:10.359 --> 00:07:13.187
+The first entry prints Quantity: three because
+
+00:07:13.187 --> 00:07:15.953
+conversion succeeds and three is nonnegative.
+
+00:07:15.953 --> 00:07:18.903
+The word prints our whole-number message and Has
+
+00:07:18.903 --> 00:07:21.608
+cause: true, because the original conversion
+
+00:07:21.608 --> 00:07:23.022
+exception was retained.
+
+00:07:23.022 --> 00:07:25.542
+Negative one prints the negative-quantity
+
+00:07:25.542 --> 00:07:27.325
+message and Has cause: false.
+
+00:07:27.325 --> 00:07:30.275
+It was already a valid integer, so its rejection
+
+00:07:30.275 --> 00:07:32.734
+has no earlier parsing failure attached.
+
+00:07:32.795 --> 00:07:36.026
+We now have evidence for both kinds of failure,
+
+00:07:36.026 --> 00:07:38.707
+and neither is confused with a returned
+
+00:07:38.707 --> 00:07:39.326
+quantity.
+
+00:07:39.326 --> 00:07:42.557
+Let's change only the input array to a boundary
+
+00:07:42.557 --> 00:07:45.651
+value, a different word, and another negative
+
+00:07:45.651 --> 00:07:46.064
+value.
+
+00:07:46.064 --> 00:07:49.020
+The reader and its rule will stay the same.
+
+00:07:54.509 --> 00:07:57.635
+Before running, predict the complete report for
+
+00:07:57.635 --> 00:08:00.229
+zero, the word many, and negative four.
+
+00:08:00.229 --> 00:08:03.023
+Which entries return a quantity, and which
+
+00:08:03.023 --> 00:08:05.218
+failures retain an earlier cause?
+
+00:08:05.218 --> 00:08:08.211
+Use the two checks we just traced: conversion
+
+00:08:08.211 --> 00:08:10.406
+first, then the nonnegative rule.
+
+00:08:10.406 --> 00:08:12.734
+Pause here to make your prediction.
+
+00:08:20.827 --> 00:08:24.201
+Let's click Run and compare the actual responses
+
+00:08:24.201 --> 00:08:25.677
+with your prediction.
+
+00:08:30.711 --> 00:08:32.476
+Zero prints Quantity: zero.
+
+00:08:32.476 --> 00:08:35.223
+The rule rejects values below zero, so the
+
+00:08:35.223 --> 00:08:36.988
+boundary value is accepted.
+
+00:08:36.988 --> 00:08:39.473
+Many cannot convert to an integer; its
+
+00:08:39.473 --> 00:08:42.480
+application exception keeps the earlier cause.
+
+00:08:42.480 --> 00:08:45.488
+Negative four converts, then fails validation,
+
+00:08:45.488 --> 00:08:46.992
+so its cause is absent.
+
+00:08:46.992 --> 00:08:49.673
+The different messages and cause statuses
+
+00:08:49.673 --> 00:08:52.811
+explain different paths through the same method.
+
+00:08:52.865 --> 00:08:55.366
+We built a quantity reader that returns
+
+00:08:55.366 --> 00:08:58.443
+acceptable values and gives callers a consistent
+
+00:08:58.443 --> 00:08:59.918
+way to handle failures.
+
+00:08:59.918 --> 00:09:02.739
+You used throw to raise a particular object,
+
+00:09:02.739 --> 00:09:05.624
+throws to declare a possible checked failure,
+
+00:09:05.624 --> 00:09:08.510
+and a cause to preserve an earlier exception.
+
+00:09:08.510 --> 00:09:11.010
+Those distinctions help callers respond
+
+00:09:11.010 --> 00:09:13.896
+appropriately while keeping useful diagnostic
+
+00:09:13.896 --> 00:09:14.665
+information.
+
+00:09:14.721 --> 00:09:18.027
+For a transfer question, imagine the supply desk
+
+00:09:18.027 --> 00:09:21.195
+changes its rule to require at least one item.
+
+00:09:21.195 --> 00:09:24.295
+Which validation condition should change, and
+
+00:09:24.295 --> 00:09:27.050
+what should the caller observe for zero?
+
+00:09:27.050 --> 00:09:30.218
+Keep conversion and validation separate as you
+
+00:09:30.218 --> 00:09:31.596
+explain your answer.
