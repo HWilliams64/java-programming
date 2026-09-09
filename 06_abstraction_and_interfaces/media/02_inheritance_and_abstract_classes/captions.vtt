@@ -1,88 +1,508 @@
 WEBVTT
 
-00:00:07.571 --> 00:00:11.024
-A job planner can share a name and description while
+00:00:00.750 --> 00:00:01.312
+Welcome!
 
-00:00:11.024 --> 00:00:14.344
-each kind of job defines its own time calculation.
+00:00:01.312 --> 00:00:04.686
+In this Java tutorial, you'll use inheritance to
 
-00:00:14.344 --> 00:00:17.333
-An abstract class holds that shared state and
+00:00:04.686 --> 00:00:07.638
+share class behavior, override a method to
 
-00:00:17.333 --> 00:00:20.321
-behavior, but cannot be constructed directly.
+00:00:07.638 --> 00:00:10.660
+specialize it, and use an abstract class to
 
-00:00:49.360 --> 00:00:52.816
-ReadingJob extends NamedJob, making it a subclass.
+00:00:10.660 --> 00:00:13.752
+require behavior that each concrete subclass
 
-00:00:52.816 --> 00:00:54.683
-NamedJob is its superclass.
+00:00:13.752 --> 00:00:14.666
+must provide.
 
-00:00:54.683 --> 00:00:58.416
-The super constructor call initializes the name before
+00:00:15.386 --> 00:00:18.507
+Related features in an application often need
 
-00:00:58.416 --> 00:00:59.315
-pages is set.
+00:00:18.507 --> 00:00:21.697
+common information but different calculations.
 
-00:00:59.315 --> 00:01:02.287
-The description reuses superclass behavior.
+00:00:21.697 --> 00:00:25.025
+These tools help you keep the shared work in one
 
-00:01:02.287 --> 00:01:06.020
-The heading reads the private name through a protected
+00:00:25.025 --> 00:00:27.938
+place while giving each kind of object the
 
-00:01:06.020 --> 00:01:07.610
-getter accessible here.
+00:00:27.938 --> 00:00:29.186
+behavior it needs.
 
-00:01:07.915 --> 00:01:11.559
-The abstract minutes declaration requires ReadingJob
+00:00:29.844 --> 00:00:33.077
+Today we'll help a campus team plan a reading
 
-00:01:11.559 --> 00:01:12.751
-to supply a body.
+00:00:33.077 --> 00:00:33.436
+task.
 
-00:01:12.751 --> 00:01:15.554
-Both variables refer to the same object.
+00:00:33.436 --> 00:00:34.873
+Each job has a name.
 
-00:01:15.554 --> 00:01:18.638
-The NamedJob reference can call its declared
+00:00:34.873 --> 00:00:38.322
+A reading job also has a nonnegative page count,
 
-00:01:18.638 --> 00:01:21.861
-operations, and the object supplies overridden
+00:00:38.322 --> 00:00:41.483
+and our planning rule allows two minutes per
 
-00:01:21.861 --> 00:01:22.492
-behavior.
+00:00:41.483 --> 00:00:41.842
+page.
 
-00:01:22.492 --> 00:01:25.015
-Predict the three lines, then pause.
+00:00:41.842 --> 00:00:45.219
+We'll start with a three-page task named Guide.
 
-00:01:29.981 --> 00:01:33.310
-The heading uses the stored name, so it prints Job:
+00:00:45.881 --> 00:00:49.007
+Our program will report a job heading, a reading
 
-00:01:33.310 --> 00:01:33.702
-Guide.
+00:00:49.007 --> 00:00:51.547
+description, and an estimated duration.
 
-00:01:33.702 --> 00:01:36.705
-The overridden description adds reading to the
+00:00:51.547 --> 00:00:54.672
+We'll put the shared name in a base class, build
 
-00:01:36.705 --> 00:01:38.206
-superclass description.
+00:00:54.672 --> 00:00:57.538
+a reading subclass, and trace how the caller
 
-00:01:38.206 --> 00:01:41.600
-Three pages at two minutes each produce six minutes.
+00:00:57.538 --> 00:00:59.231
+reaches the right methods.
 
-00:01:41.600 --> 00:01:44.212
-Calls through job still use ReadingJob's
+00:00:59.918 --> 00:01:02.818
+Now that we're in the Workspace, let's open
 
-00:01:44.212 --> 00:01:45.256
-implementations.
+00:01:02.818 --> 00:01:03.493
+Main.java.
 
-00:01:45.315 --> 00:01:47.421
-Change the page count to zero.
+00:01:07.657 --> 00:01:08.892
+The file is open.
 
-00:01:47.421 --> 00:01:49.596
-Predict all three output lines.
+00:01:08.892 --> 00:01:12.234
+Every job needs a name, but different jobs may
 
-00:01:49.596 --> 00:01:53.106
-Explain which methods depend on the name and which
+00:01:12.234 --> 00:01:14.196
+calculate time differently.
 
-00:01:53.106 --> 00:01:54.790
-method depends on pages.
+00:01:14.196 --> 00:01:17.392
+Let's define an abstract NamedJob class that
+
+00:01:17.392 --> 00:01:20.880
+stores the common name without pretending it can
+
+00:01:20.880 --> 00:01:23.132
+calculate every job's duration.
+
+00:01:33.606 --> 00:01:36.754
+Abstract means we cannot directly construct a
+
+00:01:36.754 --> 00:01:37.384
+NamedJob.
+
+00:01:37.384 --> 00:01:40.252
+The class can still store information and
+
+00:01:40.252 --> 00:01:41.931
+provide working methods.
+
+00:01:41.931 --> 00:01:45.078
+Its constructor receives a name and copies it
+
+00:01:45.078 --> 00:01:48.017
+into the private field of the object being
+
+00:01:48.017 --> 00:01:48.856
+initialized.
+
+00:01:48.872 --> 00:01:51.909
+A reading subclass will need to use that name,
+
+00:01:51.909 --> 00:01:54.813
+but it does not need direct control over the
+
+00:01:54.813 --> 00:01:55.209
+field.
+
+00:01:55.209 --> 00:01:57.916
+Let's add a protected getter and a public
+
+00:01:57.916 --> 00:02:00.622
+description method that returns the name.
+
+00:02:14.300 --> 00:02:17.553
+GetName returns the stored name without changing
+
+00:02:17.553 --> 00:02:17.756
+it.
+
+00:02:17.756 --> 00:02:20.941
+Protected makes this operation available in the
+
+00:02:20.941 --> 00:02:23.923
+subclass code we'll write; Java also permits
+
+00:02:23.923 --> 00:02:25.888
+access from the same package.
+
+00:02:25.888 --> 00:02:27.989
+The name field remains private.
+
+00:02:27.989 --> 00:02:31.038
+Description provides ordinary public behavior
+
+00:02:31.038 --> 00:02:32.800
+that a caller can request.
+
+00:02:32.825 --> 00:02:35.975
+We can describe a named job now, but we still
+
+00:02:35.975 --> 00:02:37.165
+need an estimate.
+
+00:02:37.165 --> 00:02:40.455
+Let's require an integer minutes method without
+
+00:02:40.455 --> 00:02:43.325
+choosing a calculation in the base class.
+
+00:02:47.962 --> 00:02:50.416
+This declaration has no method body.
+
+00:02:50.416 --> 00:02:53.347
+A concrete subclass must supply the missing
+
+00:02:53.347 --> 00:02:56.619
+implementation before we can create its objects.
+
+00:02:56.619 --> 00:02:59.754
+That lets a caller ask for minutes through the
+
+00:02:59.754 --> 00:03:03.026
+shared base type while each kind of job supplies
+
+00:03:03.026 --> 00:03:03.912
+its own rule.
+
+00:03:03.931 --> 00:03:07.193
+A reading job adds a page count to the shared
+
+00:03:07.193 --> 00:03:07.556
+name.
+
+00:03:07.556 --> 00:03:10.891
+Let's extend NamedJob, keep pages in a private
+
+00:03:10.891 --> 00:03:13.936
+field, and pass the name to the superclass
+
+00:03:13.936 --> 00:03:16.981
+constructor before storing the page count.
+
+00:03:33.590 --> 00:03:36.534
+Extends establishes the superclass relationship.
+
+00:03:36.534 --> 00:03:39.478
+In our Java 21 runtime, this explicit super call
+
+00:03:39.478 --> 00:03:41.686
+comes first in the constructor body.
+
+00:03:41.686 --> 00:03:44.139
+It initializes the base part of the same
+
+00:03:44.139 --> 00:03:46.960
+ReadingJob object; it does not create a second
+
+00:03:46.960 --> 00:03:47.206
+job.
+
+00:03:47.206 --> 00:03:49.904
+The next statement stores that object's page
+
+00:03:49.904 --> 00:03:50.272
+count.
+
+00:03:50.272 --> 00:03:52.971
+Constructors are not inherited, which is why
+
+00:03:52.971 --> 00:03:55.240
+ReadingJob supplies this constructor.
+
+00:03:55.269 --> 00:03:57.942
+The shared description gives us a name.
+
+00:03:57.942 --> 00:04:01.231
+For a reading job, we also want the word reading
+
+00:04:01.231 --> 00:04:01.848
+after it.
+
+00:04:01.848 --> 00:04:04.657
+Let's override description, call the base
+
+00:04:04.657 --> 00:04:07.810
+version explicitly, and add that suffix to the
+
+00:04:07.810 --> 00:04:08.769
+returned text.
+
+00:04:19.744 --> 00:04:22.813
+The Override annotation asks the compiler to
+
+00:04:22.813 --> 00:04:24.906
+check the method relationship.
+
+00:04:24.906 --> 00:04:28.254
+Inside this body, super.description deliberately
+
+00:04:28.254 --> 00:04:31.253
+calls NamedJob's implementation on the same
+
+00:04:31.253 --> 00:04:31.741
+object.
+
+00:04:31.741 --> 00:04:34.810
+It returns the name, and our override adds a
+
+00:04:34.810 --> 00:04:36.624
+space followed by reading.
+
+00:04:36.624 --> 00:04:39.344
+The stored name itself stays unchanged.
+
+00:04:39.373 --> 00:04:42.491
+We have specialized the description, but the
+
+00:04:42.491 --> 00:04:45.821
+abstract minutes operation is still unfinished.
+
+00:04:45.821 --> 00:04:47.806
+Let's implement it using our
+
+00:04:47.806 --> 00:04:49.648
+two-minutes-per-page rule.
+
+00:04:57.378 --> 00:05:00.109
+Minutes reads this object's page count and
+
+00:05:00.109 --> 00:05:01.474
+multiplies it by two.
+
+00:05:01.474 --> 00:05:04.595
+The result represents minutes, because each page
+
+00:05:04.595 --> 00:05:06.155
+contributes two minutes.
+
+00:05:06.155 --> 00:05:09.211
+For the three-page Guide task, that calculation
+
+00:05:09.211 --> 00:05:09.991
+returns six.
+
+00:05:09.991 --> 00:05:13.112
+Our accepted inputs are nonnegative page counts;
+
+00:05:13.112 --> 00:05:16.102
+this small example relies on that stated limit
+
+00:05:16.102 --> 00:05:18.378
+rather than adding validation here.
+
+00:05:18.403 --> 00:05:21.069
+We also need a heading for the display.
+
+00:05:21.069 --> 00:05:24.281
+Let's add a public heading method that gets the
+
+00:05:24.281 --> 00:05:26.878
+inherited name and puts Job before it.
+
+00:05:34.126 --> 00:05:36.919
+Heading uses getName from the base class.
+
+00:05:36.919 --> 00:05:39.985
+It does not reach into the private name field
+
+00:05:39.985 --> 00:05:40.598
+directly.
+
+00:05:40.598 --> 00:05:43.460
+The subclass gets the information it needs
+
+00:05:43.460 --> 00:05:46.390
+through a defined operation, while the base
+
+00:05:46.390 --> 00:05:49.251
+remains responsible for that stored field.
+
+00:05:49.292 --> 00:05:52.665
+Now we can connect these methods to a real task.
+
+00:05:52.665 --> 00:05:55.476
+Main contains the main method where this
+
+00:05:55.476 --> 00:05:57.303
+standalone example starts.
+
+00:05:57.303 --> 00:06:00.465
+Let's create the Guide reading job with three
+
+00:06:00.465 --> 00:06:03.839
+pages, then keep a second reference to that same
+
+00:06:03.839 --> 00:06:06.017
+object using the NamedJob type.
+
+00:06:20.154 --> 00:06:23.154
+Reading and job refer to one ReadingJob object.
+
+00:06:23.154 --> 00:06:25.898
+Their declared types differ, so they do not
+
+00:06:25.898 --> 00:06:28.707
+offer the same set of calls to the compiler.
+
+00:06:28.707 --> 00:06:31.579
+We'll use reading for its heading method, and
+
+00:06:31.579 --> 00:06:34.259
+job for the shared description and minutes
+
+00:06:34.259 --> 00:06:34.962
+operations.
+
+00:06:34.962 --> 00:06:37.004
+Let's print those three reports.
+
+00:06:50.943 --> 00:06:53.975
+The program now connects shared state, an
+
+00:06:53.975 --> 00:06:56.711
+override, and a required calculation.
+
+00:06:56.711 --> 00:07:00.260
+Let's click Run and compare its reports with the
+
+00:07:00.260 --> 00:07:01.443
+task we planned.
+
+00:07:06.890 --> 00:07:09.779
+Job: Guide comes from heading, which obtains the
+
+00:07:09.779 --> 00:07:12.246
+stored name through the protected getter.
+
+00:07:12.246 --> 00:07:15.135
+Guide reading comes from the override: it reuses
+
+00:07:15.135 --> 00:07:17.783
+the base description and appends the suffix.
+
+00:07:17.783 --> 00:07:20.671
+Minutes: six comes from ReadingJob's calculation
+
+00:07:20.671 --> 00:07:21.634
+for three pages.
+
+00:07:21.634 --> 00:07:24.041
+The calls through job reach the concrete
+
+00:07:24.041 --> 00:07:26.569
+object's implementations, even though that
+
+00:07:26.569 --> 00:07:28.615
+reference is declared as NamedJob.
+
+00:07:29.367 --> 00:07:32.100
+We have traced the complete Guide task.
+
+00:07:32.100 --> 00:07:35.114
+Let's keep the class behavior unchanged and
+
+00:07:35.114 --> 00:07:38.337
+create a task named Checklist with four pages,
+
+00:07:38.337 --> 00:07:41.701
+so you can apply the same reasoning to different
+
+00:07:41.701 --> 00:07:42.192
+inputs.
+
+00:07:49.444 --> 00:07:52.194
+Before we run it, predict all three lines.
+
+00:07:52.194 --> 00:07:54.419
+Which method supplies the heading?
+
+00:07:54.419 --> 00:07:57.300
+How does the override build the description?
+
+00:07:57.300 --> 00:07:59.853
+Which page count and rate determine the
+
+00:07:59.853 --> 00:08:00.442
+duration?
+
+00:08:00.442 --> 00:08:03.519
+Pause here if you need time to trace the calls.
+
+00:08:11.639 --> 00:08:14.433
+Let's click Run and check your prediction
+
+00:08:14.433 --> 00:08:15.864
+against the new task.
+
+00:08:21.130 --> 00:08:23.749
+The reports are Job: Checklist, Checklist
+
+00:08:23.749 --> 00:08:25.538
+reading, and Minutes: eight.
+
+00:08:25.538 --> 00:08:28.540
+The new object stores Checklist and four pages.
+
+00:08:28.540 --> 00:08:31.478
+The heading and description use that name, and
+
+00:08:31.478 --> 00:08:34.417
+the required minutes implementation calculates
+
+00:08:34.417 --> 00:08:35.375
+four times two.
+
+00:08:35.375 --> 00:08:38.441
+Changing the input did not require a new version
+
+00:08:38.441 --> 00:08:40.230
+of the shared base behavior.
+
+00:08:40.948 --> 00:08:43.308
+We used inheritance to share the name and
+
+00:08:43.308 --> 00:08:45.726
+working methods, an override to extend the
+
+00:08:45.726 --> 00:08:48.490
+description, and an abstract method to require a
+
+00:08:48.490 --> 00:08:49.526
+concrete estimate.
+
+00:08:49.526 --> 00:08:52.059
+Both constructor bodies and the later method
+
+00:08:52.059 --> 00:08:53.728
+calls worked with one object.
+
+00:08:53.728 --> 00:08:56.204
+For a different kind of job, consider which
+
+00:08:56.204 --> 00:08:58.737
+information could stay in NamedJob and which
+
+00:08:58.737 --> 00:09:01.270
+duration rule the new subclass would need to
+
+00:09:01.270 --> 00:09:01.673
+supply.

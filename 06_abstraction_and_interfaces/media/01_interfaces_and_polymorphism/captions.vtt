@@ -1,88 +1,535 @@
 WEBVTT
 
-00:00:06.958 --> 00:00:10.637
-A campus sign can describe a room or a course through
+00:00:00.750 --> 00:00:01.296
+Welcome!
 
-00:00:10.637 --> 00:00:12.095
-one shared operation.
+00:00:01.296 --> 00:00:04.365
+In this Java tutorial, you'll use interfaces,
 
-00:00:12.095 --> 00:00:15.704
-An interface names that contract, leaving each class
+00:00:04.365 --> 00:00:06.888
+which describe shared operations, and
 
-00:00:15.704 --> 00:00:17.231
-to supply the details.
+00:00:06.888 --> 00:00:09.753
+polymorphism, which lets different objects
 
-00:00:17.231 --> 00:00:19.383
-This separation is abstraction.
+00:00:09.753 --> 00:00:12.549
+answer the same request in their own way.
 
-00:00:44.161 --> 00:00:47.711
-Labelled declares a public label operation without a
+00:00:13.254 --> 00:00:16.075
+These ideas help applications work with
 
-00:00:47.711 --> 00:00:48.052
-body.
+00:00:16.075 --> 00:00:19.402
+different kinds of records or services through
 
-00:00:48.052 --> 00:00:51.261
-Each class uses implements and supplies its own
+00:00:19.402 --> 00:00:22.078
+one shared operation, so adding a new
 
-00:00:51.261 --> 00:00:52.831
-matching public method.
+00:00:22.078 --> 00:00:25.043
+implementation doesn't require a separate
 
-00:00:52.831 --> 00:00:56.244
-The Override annotation asks the compiler to check
+00:00:25.043 --> 00:00:26.779
+version of every caller.
 
-00:00:56.244 --> 00:00:56.995
-that match.
+00:00:27.468 --> 00:00:30.559
+Today we'll help campus staff announce a room
 
-00:00:56.995 --> 00:01:00.476
-A default method includes a body that these classes
+00:00:30.559 --> 00:00:32.826
+location and a course identifier.
 
-00:01:00.476 --> 00:01:00.886
-share.
+00:00:32.826 --> 00:00:35.298
+Each sign will supply its own label.
 
-00:01:01.193 --> 00:01:04.933
-The array holds Labelled references to different kinds
+00:00:35.298 --> 00:00:38.389
+Both announcements must start with Ready, and
 
-00:01:04.933 --> 00:01:05.695
-of objects.
+00:00:38.389 --> 00:00:41.068
+the room must appear before the course.
 
-00:01:05.695 --> 00:01:09.228
-The same announcement call uses each object's label
+00:00:41.715 --> 00:00:44.824
+We'll describe the shared request, implement two
 
-00:01:09.228 --> 00:01:10.267
-implementation.
+00:00:44.824 --> 00:00:47.675
+kinds of signs, and use one loop to announce
 
-00:01:10.267 --> 00:01:11.722
-That is polymorphism.
+00:00:47.675 --> 00:00:47.998
+them.
 
-00:01:11.722 --> 00:01:15.393
-Predict both output lines in array order, then pause.
+00:00:47.998 --> 00:00:50.590
+A default method will provide the common
 
-00:01:20.655 --> 00:01:23.580
-The first announcement names Room Lab A.
+00:00:50.590 --> 00:00:51.302
+formatting.
 
-00:01:23.580 --> 00:01:25.920
-The second names Course CSC-239.
+00:00:51.302 --> 00:00:54.347
+First we'll trace a worked example; then you'll
 
-00:01:25.920 --> 00:01:29.723
-Both begin with Ready because they share the default
+00:00:54.347 --> 00:00:56.290
+predict a fresh pair of signs.
 
-00:01:29.723 --> 00:01:30.235
+00:00:56.348 --> 00:00:59.248
+Now that we're in the Workspace, let's open
+
+00:00:59.248 --> 00:00:59.923
+Main.java.
+
+00:01:03.699 --> 00:01:04.939
+The file is open.
+
+00:01:04.939 --> 00:01:08.296
+Our caller needs a text label from either kind
+
+00:01:08.296 --> 00:01:11.579
+of sign, without knowing how that sign stores
+
+00:01:11.579 --> 00:01:12.747
+its information.
+
+00:01:12.747 --> 00:01:16.249
+Let's give that shared request a name: Labelled.
+
+00:01:20.153 --> 00:01:23.000
+The interface keyword introduces our shared
+
+00:01:23.000 --> 00:01:23.331
+type.
+
+00:01:23.331 --> 00:01:26.509
+Label is a required method that returns a String
+
+00:01:26.509 --> 00:01:28.032
+and takes no arguments.
+
+00:01:28.032 --> 00:01:31.012
+Its declaration ends with a semicolon because
+
+00:01:31.012 --> 00:01:34.057
+the implementing classes will supply the body.
+
+00:01:34.057 --> 00:01:37.037
+This required interface method is public even
+
+00:01:37.037 --> 00:01:39.553
+though we haven't written public here.
+
+00:01:39.562 --> 00:01:42.787
+Every announcement also needs the same prefix.
+
+00:01:42.787 --> 00:01:45.731
+Rather than repeat that formatting in both
+
+00:01:45.731 --> 00:01:49.095
+classes, let's put a default announcement method
+
+00:01:49.095 --> 00:01:50.287
+in the interface.
+
+00:01:56.563 --> 00:01:59.552
+A default method has a body that implementing
+
+00:01:59.552 --> 00:02:00.881
+classes can inherit.
+
+00:02:00.881 --> 00:02:03.936
+Announcement asks the receiving object for its
+
+00:02:03.936 --> 00:02:05.995
+label and adds Ready before it.
+
+00:02:05.995 --> 00:02:08.984
+The formatting is shared, but the label still
+
+00:02:08.984 --> 00:02:11.176
+comes from the particular object.
+
+00:02:11.176 --> 00:02:14.232
+We now need a class that can answer that label
+
+00:02:14.232 --> 00:02:14.763
+request.
+
+00:02:14.774 --> 00:02:18.057
+Our first sign will remember a room location.
+
+00:02:18.057 --> 00:02:21.414
+Let's define RoomLabel as an implementation of
+
+00:02:21.414 --> 00:02:24.332
+Labelled, keep its location private, and
+
+00:02:24.332 --> 00:02:27.324
+initialize that field in the constructor.
+
+00:02:37.291 --> 00:02:39.697
+Implements establishes the interface
+
+00:02:39.697 --> 00:02:40.566
+relationship.
+
+00:02:40.566 --> 00:02:43.574
+The constructor copies its room argument into
+
+00:02:43.574 --> 00:02:46.649
+this object's private field, using the pattern
+
+00:02:46.649 --> 00:02:48.320
+from our earlier classes.
+
+00:02:48.320 --> 00:02:51.528
+That gives the object a location to remember; we
+
+00:02:51.528 --> 00:02:54.403
+still need the public method that turns the
+
+00:02:54.403 --> 00:02:56.341
+location into a useful label.
+
+00:02:56.356 --> 00:02:59.691
+Let's supply the required label method and mark
+
+00:02:59.691 --> 00:03:03.026
+it with the Override annotation so the compiler
+
+00:03:03.026 --> 00:03:05.581
+can check the intended relationship.
+
+00:03:12.267 --> 00:03:15.413
+This method returns Room followed by the stored
+
+00:03:15.413 --> 00:03:16.016
+location.
+
+00:03:16.016 --> 00:03:18.894
+Public preserves the access promised by the
+
+00:03:18.894 --> 00:03:19.564
+interface.
+
+00:03:19.564 --> 00:03:22.777
+Override is an annotation, not a method call: it
+
+00:03:22.777 --> 00:03:25.723
+helps catch a mismatched method name, but it
+
+00:03:25.723 --> 00:03:28.467
+doesn't create the implementation for us.
+
+00:03:28.467 --> 00:03:31.346
+A room named West will therefore supply the
+
+00:03:31.346 --> 00:03:32.417
+label Room West.
+
+00:03:32.431 --> 00:03:35.460
+A course sign needs the same operation but
+
+00:03:35.460 --> 00:03:36.542
+different data.
+
+00:03:36.542 --> 00:03:39.788
+Let's give CourseLabel its own private course
+
+00:03:39.788 --> 00:03:43.106
+identifier and initialize it in a constructor.
+
+00:03:53.210 --> 00:03:55.807
+The course object now remembers its own
+
+00:03:55.807 --> 00:03:56.540
+identifier.
+
+00:03:56.540 --> 00:03:59.470
+Its field has a different name from the room
+
+00:03:59.470 --> 00:04:02.467
+field, and the caller won't need either name.
+
+00:04:02.467 --> 00:04:05.598
+What connects the two classes is their promised
+
+00:04:05.598 --> 00:04:06.663
+label operation.
+
+00:04:06.663 --> 00:04:09.394
+Let's complete the course version of that
+
+00:04:09.394 --> 00:04:09.860
 method.
 
-00:01:30.235 --> 00:01:33.599
-Each call inside that method reaches the label
+00:04:16.863 --> 00:04:19.526
+CourseLabel returns Course followed by its
 
-00:01:33.599 --> 00:01:36.305
-implementation of the current object.
+00:04:19.526 --> 00:04:20.668
+stored identifier.
 
-00:01:36.380 --> 00:01:39.354
-Change the room's constructor argument to Lab B.
+00:04:20.668 --> 00:04:23.521
+Both classes now answer the same request with
 
-00:01:39.354 --> 00:01:41.523
-Predict which announcement changes.
+00:04:23.521 --> 00:04:25.043
+different method bodies.
 
-00:01:41.523 --> 00:01:44.559
-Why can the same loop still announce both objects
+00:04:25.043 --> 00:04:28.087
+Neither class replaces announcement, so both can
 
-00:01:44.559 --> 00:01:46.480
-without checking their classes?
+00:04:28.087 --> 00:04:29.799
+use the default formatting.
+
+00:04:29.799 --> 00:04:32.716
+The interface checks the operation's shape; we
+
+00:04:32.716 --> 00:04:35.697
+still need to test that each returned label has
+
+00:04:35.697 --> 00:04:36.838
+the right meaning.
+
+00:04:36.862 --> 00:04:39.602
+Let's bring the signs together in Main.
+
+00:04:39.602 --> 00:04:42.974
+Main is the class containing our caller, and its
+
+00:04:42.974 --> 00:04:45.854
+main method is where this program starts.
+
+00:04:45.854 --> 00:04:49.015
+We'll construct a West room sign and a JAVA-1
+
+00:04:49.015 --> 00:04:50.912
+course sign, in that order.
+
+00:05:04.841 --> 00:05:07.727
+The array's element type is Labelled, so each
+
+00:05:07.727 --> 00:05:10.741
+element can hold a reference to an implementing
+
+00:05:10.741 --> 00:05:11.190
+object.
+
+00:05:11.190 --> 00:05:13.498
+The objects remain a RoomLabel and a
+
+00:05:13.498 --> 00:05:16.127
+CourseLabel; using an interface reference
+
+00:05:16.127 --> 00:05:18.821
+doesn't change their classes or copy their
+
+00:05:18.821 --> 00:05:19.270
+fields.
+
+00:05:19.270 --> 00:05:21.706
+This array fixes the room-first order.
+
+00:05:21.706 --> 00:05:24.592
+We can now request one announcement from each
+
+00:05:24.592 --> 00:05:25.041
+object.
+
+00:05:34.292 --> 00:05:37.483
+On each iteration, sign holds the next reference
+
+00:05:37.483 --> 00:05:39.811
+and has the declared type Labelled.
+
+00:05:39.811 --> 00:05:42.869
+Its announcement call enters the default body,
+
+00:05:42.869 --> 00:05:45.396
+which calls label on that same object.
+
+00:05:45.396 --> 00:05:48.255
+The actual object's class selects the label
+
+00:05:48.255 --> 00:05:49.252
+implementation.
+
+00:05:49.252 --> 00:05:52.311
+Let's click Run and follow those calls through
+
+00:05:52.311 --> 00:05:53.042
+the output.
+
+00:05:58.104 --> 00:06:00.320
+The first line is Ready: Room West.
+
+00:06:00.320 --> 00:06:03.106
+The loop visits the room object, whose label
+
+00:06:03.106 --> 00:06:05.955
+method supplies Room West; the default method
+
+00:06:05.955 --> 00:06:06.651
+adds Ready.
+
+00:06:06.651 --> 00:06:09.184
+The second line is Ready: Course JAVA-1.
+
+00:06:09.184 --> 00:06:12.159
+Now the same default body reaches CourseLabel's
+
+00:06:12.159 --> 00:06:12.982
+label method.
+
+00:06:12.982 --> 00:06:15.958
+The loop and declared reference type stayed the
+
+00:06:15.958 --> 00:06:18.554
+same, while the receiving object changed.
+
+00:06:19.242 --> 00:06:22.655
+The worked announcements follow the requested
+
+00:06:22.655 --> 00:06:25.158
+order and share their formatting.
+
+00:06:25.158 --> 00:06:28.646
+Let's test a fresh pair: room Lab A and course
+
+00:06:28.646 --> 00:06:29.253
+CSC-239.
+
+00:06:29.253 --> 00:06:32.893
+We'll keep the same definitions so you can trace
+
+00:06:32.893 --> 00:06:35.017
+the mechanism with new data.
+
+00:06:59.879 --> 00:07:03.185
+The interface and room implementation are back
+
+00:07:03.185 --> 00:07:03.831
+in place.
+
+00:07:03.831 --> 00:07:07.209
+Notice that the default method still requests a
+
+00:07:07.209 --> 00:07:10.586
+label from its receiving object; it contains no
+
+00:07:10.586 --> 00:07:11.736
+fixed room name.
+
+00:07:11.736 --> 00:07:14.754
+Let's add the course implementation again.
+
+00:07:30.071 --> 00:07:32.155
+Both implementations are ready.
+
+00:07:32.155 --> 00:07:35.045
+Let's construct the new signs in room-first
+
+00:07:35.045 --> 00:07:37.801
+order and use the same announcement loop.
+
+00:07:37.801 --> 00:07:41.027
+The new constructor arguments should provide the
+
+00:07:41.027 --> 00:07:43.850
+data; the method bodies should not need to
+
+00:07:43.850 --> 00:07:44.321
+change.
+
+00:08:05.930 --> 00:08:08.961
+Before running, predict the two complete output
+
+00:08:08.961 --> 00:08:09.348
+lines.
+
+00:08:09.348 --> 00:08:12.250
+For each iteration, name the actual receiving
+
+00:08:12.250 --> 00:08:15.087
+class and the label method called inside the
+
+00:08:15.087 --> 00:08:16.893
+default announcement method.
+
+00:08:16.893 --> 00:08:19.859
+Explain which part determines the output order
+
+00:08:19.859 --> 00:08:22.052
+and which part supplies the label.
+
+00:08:22.052 --> 00:08:24.180
+Pause here if you need more time.
+
+00:08:32.282 --> 00:08:34.507
+Let's click Run and compare the two
+
+00:08:34.507 --> 00:08:36.732
+announcements with your prediction.
+
+00:08:41.886 --> 00:08:45.181
+The first announcement is Ready: Room Lab A, and
+
+00:08:45.181 --> 00:08:47.652
+the second is Ready: Course CSC-239.
+
+00:08:47.652 --> 00:08:50.810
+The array puts RoomLabel first and CourseLabel
+
+00:08:50.810 --> 00:08:51.291
+second.
+
+00:08:51.291 --> 00:08:54.243
+Each object supplies its own label, and the
+
+00:08:54.243 --> 00:08:57.538
+inherited default method adds the common prefix.
+
+00:08:57.538 --> 00:09:00.627
+Changing the input text required no change to
+
+00:09:00.627 --> 00:09:02.961
+either implementation or the loop.
+
+00:09:03.703 --> 00:09:06.788
+We built one caller that announces two different
+
+00:09:06.788 --> 00:09:07.752
+kinds of signs.
+
+00:09:07.752 --> 00:09:10.708
+The interface describes the shared operations,
+
+00:09:10.708 --> 00:09:13.664
+polymorphic calls reach the receiving object's
+
+00:09:13.664 --> 00:09:16.748
+implementation, and the default method keeps the
+
+00:09:16.748 --> 00:09:18.483
+common formatting together.
+
+00:09:18.483 --> 00:09:21.568
+The output confirms both the requested order and
+
+00:09:21.568 --> 00:09:23.303
+the object-specific labels.
+
+00:09:24.042 --> 00:09:26.768
+Suppose staff add an event sign to the same
+
+00:09:26.768 --> 00:09:27.149
+array.
+
+00:09:27.149 --> 00:09:29.875
+What operation must its class provide, what
+
+00:09:29.875 --> 00:09:32.729
+should that operation mean, and why could the
+
+00:09:32.729 --> 00:09:35.709
+existing loop announce it without a new branch?
+
+00:09:35.709 --> 00:09:38.499
+Describe one test that would check the event
+
+00:09:38.499 --> 00:09:41.225
+label's meaning, not just its String result
+
+00:09:41.225 --> 00:09:41.542
+type.

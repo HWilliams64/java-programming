@@ -1,83 +1,71 @@
-# Transcript: Inheritance and Abstract Classes
+# Inheritance and Abstract Classes — video transcript
 
-This CSC-239 demonstration uses Java 21 in the Workspace. It shares a name and initialization through an abstract superclass, then traces overridden behavior in a ReadingJob object.
+## Narration
 
-## 0:00–0:20 — Goal
+Welcome! In this Java tutorial, you'll use inheritance to share class behavior, override a method to specialize it, and use an abstract class to require behavior that each concrete subclass must provide.
 
-**On screen:** The title reads Inheritance and Abstract Classes, with the subtitle Share initialization and specialize behavior. The demonstration then opens Main.java in the Workspace.
+Related features in an application often need common information but different calculations. These tools help you keep the shared work in one place while giving each kind of object the behavior it needs.
 
-A job planner can share a name and description while each kind of job defines its own time calculation. An abstract class holds that shared state and behavior, but cannot be constructed directly.
+Today we'll help a campus team plan a reading task. Each job has a name. A reading job also has a nonnegative page count, and our planning rule allows two minutes per page. We'll start with a three-page task named Guide.
 
-## 0:20–1:07 — Share state and specialize behavior
+Our program will report a job heading, a reading description, and an estimated duration. We'll put the shared name in a base class, build a reading subclass, and trace how the caller reaches the right methods.
 
-**On screen:** Main.java is typed in the editor. The completed 40-line source is visible. The selection highlights NamedJob and ReadingJob while the narration explains shared initialization and specialized behavior. Gray name: and pages: labels beside the constructor arguments are editor hints; they are not Java source text. Captions sit below the code during this explanation.
+Now that we're in the Workspace, let's open Main.java.
 
-```java
-abstract class NamedJob {
-    private String name;
-    public NamedJob(String name) {
-        this.name = name;
-    }
-    protected String getName() {
-        return name;
-    }
-    public String description() {
-        return getName();
-    }
-    public abstract int minutes();
-}
-class ReadingJob extends NamedJob {
-    private int pages;
-    public ReadingJob(String name, int pages) {
-        super(name);
-        this.pages = pages;
-    }
-    @Override
-    public String description() {
-        return super.description() + " reading";
-    }
-    @Override
-    public int minutes() {
-        return pages * 2;
-    }
-    public String heading() {
-        return "Job: " + getName();
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        ReadingJob reading = new ReadingJob("Guide", 3);
-        NamedJob job = reading;
-        System.out.println(reading.heading());
-        System.out.println(job.description());
-        System.out.println("Minutes: " + job.minutes());
-    }
-}
-```
+The file is open. Every job needs a name, but different jobs may calculate time differently. Let's define an abstract NamedJob class that stores the common name without pretending it can calculate every job's duration.
 
-ReadingJob extends NamedJob, making it a subclass. NamedJob is its superclass. The super constructor call initializes the name before pages is set. The description reuses superclass behavior. The heading reads the private name through a protected getter accessible here.
+Abstract means we cannot directly construct a NamedJob. The class can still store information and provide working methods. Its constructor receives a name and copies it into the private field of the object being initialized.
 
-## 1:07–1:28 — Predict the three output lines
+A reading subclass will need to use that name, but it does not need direct control over the field. Let's add a protected getter and a public description method that returns the name.
 
-**On screen:** The selection moves to the object construction, shared reference and three print calls. All 40 source lines remain visible. The terminal has not opened, and no computed output appears. The request to predict is followed by a three-second pause with the caller still selected.
+GetName returns the stored name without changing it. Protected makes this operation available in the subclass code we'll write; Java also permits access from the same package. The name field remains private. Description provides ordinary public behavior that a caller can request.
 
-The abstract minutes declaration requires ReadingJob to supply a body. Both variables refer to the same object. The NamedJob reference can call its declared operations, and the object supplies overridden behavior. Predict the three lines, then pause.
+We can describe a named job now, but we still need an estimate. Let's require an integer minutes method without choosing a calculation in the base class.
 
-## 1:28–1:45 — Execute and compare
+This declaration has no method body. A concrete subclass must supply the missing implementation before we can create its objects. That lets a caller ask for minutes through the shared base type while each kind of job supplies its own rule.
 
-**On screen:** The terminal opens beneath the source and the view enlarges the result. The command and all three output lines are clear. At the start of this explanation, the top caption overlaps part of the protected getter shown earlier. The ReadingJob methods and their bodies remain visible. The caller below the Main declaration is outside the smaller editor pane; it was fully visible during prediction. The terminal runs `javac Main.java && java Main`. It succeeds and prints:
+A reading job adds a page count to the shared name. Let's extend NamedJob, keep pages in a private field, and pass the name to the superclass constructor before storing the page count.
 
-```text
-Job: Guide
-Guide reading
-Minutes: 6
-```
+Extends establishes the superclass relationship. In our Java 21 runtime, this explicit super call comes first in the constructor body. It initializes the base part of the same ReadingJob object; it does not create a second job. The next statement stores that object's page count. Constructors are not inherited, which is why ReadingJob supplies this constructor.
 
-The heading uses the stored name, so it prints Job: Guide. The overridden description adds reading to the superclass description. Three pages at two minutes each produce six minutes. Calls through job still use ReadingJob's implementations.
+The shared description gives us a name. For a reading job, we also want the word reading after it. Let's override description, call the base version explicitly, and add that suffix to the returned text.
 
-## 1:45–1:57 — Change the page count
+The Override annotation asks the compiler to check the method relationship. Inside this body, super.description deliberately calls NamedJob's implementation on the same object. It returns the name, and our override adds a space followed by reading. The stored name itself stays unchanged.
 
-**On screen:** The view returns to the full Workspace with the original output still visible. NamedJob and ReadingJob remain on screen; Main.main is below the editor pane. A bottom caption asks for a new prediction after changing the page count to zero. No code is changed and no answer to that prompt is shown. The final image holds for two seconds after the narration.
+We have specialized the description, but the abstract minutes operation is still unfinished. Let's implement it using our two-minutes-per-page rule.
 
-Change the page count to zero. Predict all three output lines. Explain which methods depend on the name and which method depends on pages.
+Minutes reads this object's page count and multiplies it by two. The result represents minutes, because each page contributes two minutes. For the three-page Guide task, that calculation returns six. Our accepted inputs are nonnegative page counts; this small example relies on that stated limit rather than adding validation here.
 
+We also need a heading for the display. Let's add a public heading method that gets the inherited name and puts Job before it.
+
+Heading uses getName from the base class. It does not reach into the private name field directly. The subclass gets the information it needs through a defined operation, while the base remains responsible for that stored field.
+
+Now we can connect these methods to a real task. Main contains the main method where this standalone example starts. Let's create the Guide reading job with three pages, then keep a second reference to that same object using the NamedJob type.
+
+Reading and job refer to one ReadingJob object. Their declared types differ, so they do not offer the same set of calls to the compiler. We'll use reading for its heading method, and job for the shared description and minutes operations. Let's print those three reports.
+
+The program now connects shared state, an override, and a required calculation. Let's click Run and compare its reports with the task we planned.
+
+Job: Guide comes from heading, which obtains the stored name through the protected getter. Guide reading comes from the override: it reuses the base description and appends the suffix. Minutes: six comes from ReadingJob's calculation for three pages. The calls through job reach the concrete object's implementations, even though that reference is declared as NamedJob.
+
+We have traced the complete Guide task. Let's keep the class behavior unchanged and create a task named Checklist with four pages, so you can apply the same reasoning to different inputs.
+
+Before we run it, predict all three lines. Which method supplies the heading? How does the override build the description? Which page count and rate determine the duration? Pause here if you need time to trace the calls.
+
+Let's click Run and check your prediction against the new task.
+
+The reports are Job: Checklist, Checklist reading, and Minutes: eight. The new object stores Checklist and four pages. The heading and description use that name, and the required minutes implementation calculates four times two. Changing the input did not require a new version of the shared base behavior.
+
+We used inheritance to share the name and working methods, an override to extend the description, and an abstract method to require a concrete estimate. Both constructor bodies and the later method calls worked with one object. For a different kind of job, consider which information could stay in NamedJob and which duration rule the new subclass would need to supply.
+
+## Visual description
+
+[The code-free opening uses the BHCC red title band and Java logo. A shared foundation introduces inheritance, followed by two distinct outlines for overriding and abstract requirements. Three application panels then connect common information to different calculations.]
+
+[The next scene shows a campus team and three pages for the Guide task, with a rule of two minutes per page. A single report sheet reveals fields for the job heading, reading description, and estimated minutes.]
+
+[The video enters the real Workspace and opens Main.java. Code is typed in purposeful blocks while the view follows the insertion point. NamedJob stores a private name, provides a protected getter and a public description, and declares the required minutes operation. ReadingJob initializes the shared name and its page count, overrides description using the explicit superclass method, implements the duration rule, and adds a heading.]
+
+[The Main class and its main entry method create one ReadingJob with two reference variables. The caller prints a heading, description, and labeled duration. The pointer moves to the editor Run button and clicks it. The first output is Job: Guide, Guide reading, and Minutes: 6.]
+
+[Only the construction line changes to Checklist with four pages. The video asks for a prediction before the second Run click. The new output is Job: Checklist, Checklist reading, and Minutes: 8. The closing connects shared state, overriding, abstract requirements, and one object's initialization to the original task, then asks about a different kind of job.]

@@ -1,88 +1,481 @@
 WEBVTT
 
-00:00:07.204 --> 00:00:10.648
-Names and scores need the same shelf operations, but
+00:00:00.750 --> 00:00:01.312
+Welcome!
 
-00:00:10.648 --> 00:00:12.702
-they use different value types.
+00:00:01.312 --> 00:00:04.332
+In this Java tutorial, you'll write generic
 
-00:00:12.702 --> 00:00:16.278
-Generics allow us to write those operations once while
+00:00:04.332 --> 00:00:07.422
+classes and interfaces: reusable definitions
 
-00:00:16.278 --> 00:00:18.729
-the compiler checks each chosen type.
+00:00:07.422 --> 00:00:10.722
+that keep input, stored-value, and result types
 
-00:00:54.916 --> 00:00:58.556
-T is a type parameter: a placeholder for a type, not a
+00:00:10.722 --> 00:00:14.023
+consistent when callers choose different types.
 
-00:00:58.556 --> 00:00:59.433
-stored value.
+00:00:14.663 --> 00:00:17.485
+Applications often need the same storage
 
-00:00:59.433 --> 00:01:02.533
-Sequence uses it for additions and retrievals.
+00:00:17.485 --> 00:00:20.236
+operations for different kinds of data.
 
-00:01:02.533 --> 00:01:06.039
-Shelf carries that same placeholder into its private
+00:00:20.236 --> 00:00:23.411
+Generics let you reuse those operations while
 
-00:01:06.039 --> 00:01:09.679
-ArrayList and implements each operation by calling the
+00:00:23.411 --> 00:00:26.797
+the compiler checks whether each caller supplies
 
-00:01:09.679 --> 00:01:10.016
-list.
+00:00:26.797 --> 00:00:28.913
+and receives compatible types.
 
-00:01:10.339 --> 00:01:13.601
-The names reference chooses String, while scores
+00:00:29.559 --> 00:00:32.663
+Today we'll help campus workshop staff keep two
 
-00:01:13.601 --> 00:01:14.688
-chooses Integer.
+00:00:32.663 --> 00:00:35.503
+separate collections: participant names and
 
-00:01:14.688 --> 00:01:16.591
-Each shelf has its own list.
+00:00:35.503 --> 00:00:37.154
+whole-number quiz scores.
 
-00:01:16.591 --> 00:01:19.988
-The score retrievals provide Integer values, which
+00:00:37.154 --> 00:00:39.664
+We'll store Maya and Luis in the names
 
-00:01:19.988 --> 00:01:21.891
-Java unboxes for arithmetic.
+00:00:39.664 --> 00:00:42.570
+collection, and four and seven points in the
 
-00:01:21.891 --> 00:01:25.356
-Predict the first name, name count, and total, then
+00:00:42.570 --> 00:00:43.759
+scores collection.
 
-00:01:25.356 --> 00:01:25.764
-pause.
+00:00:44.404 --> 00:00:47.274
+One Shelf class will support both collections
 
-00:01:31.049 --> 00:01:34.541
-Index zero returns Maya, and the names shelf contains
+00:00:47.274 --> 00:00:49.571
+through a shared Sequence interface.
 
-00:01:34.541 --> 00:01:35.331
-two entries.
+00:00:49.571 --> 00:00:52.250
+We'll report the first name, the number of
 
-00:01:35.331 --> 00:01:38.823
-The score entries are four and seven, so their sum is
+00:00:52.250 --> 00:00:54.163
+names, and the combined score.
 
-00:01:38.823 --> 00:01:39.284
-eleven.
+00:00:54.163 --> 00:00:57.161
+Then you'll predict the reports for a different
 
-00:01:39.284 --> 00:01:42.315
-The same methods work with either chosen type.
+00:00:57.161 --> 00:00:58.054
+set of inputs.
 
-00:01:42.315 --> 00:01:45.543
-The compiler would reject adding a number through
+00:00:58.717 --> 00:01:01.617
+Now that we're in the Workspace, let's open
 
-00:01:45.543 --> 00:01:48.574
-names because that reference requires strings.
+00:01:01.617 --> 00:01:02.292
+Main.java.
 
-00:01:48.631 --> 00:01:50.860
-Change the second score to zero.
+00:01:06.096 --> 00:01:07.324
+The file is open.
 
-00:01:50.860 --> 00:01:53.019
-Predict all three output lines.
+00:01:07.324 --> 00:01:10.504
+Both collections need to add a value, read a
 
-00:01:53.019 --> 00:01:56.361
-Explain why the names output stays the same, and
+00:01:10.504 --> 00:01:13.250
+value by index, and report their size.
 
-00:01:56.361 --> 00:01:59.843
-identify the type argument that controls the score
+00:01:13.250 --> 00:01:16.502
+Let's import the familiar ArrayList class and
 
-00:01:59.843 --> 00:02:00.331
-values.
+00:01:16.502 --> 00:01:19.898
+describe those operations in a generic Sequence
+
+00:01:19.898 --> 00:01:20.621
+interface.
+
+00:01:29.024 --> 00:01:32.344
+T is a type parameter: a name for a type used
+
+00:01:32.344 --> 00:01:34.999
+consistently within this definition.
+
+00:01:34.999 --> 00:01:37.729
+Add accepts a T, and get returns a T.
+
+00:01:37.729 --> 00:01:41.122
+Size returns an int because an item count does
+
+00:01:41.122 --> 00:01:43.409
+not depend on the element type.
+
+00:01:43.409 --> 00:01:46.434
+T is not a stored value and is not a Java
+
+00:01:46.434 --> 00:01:47.024
+keyword.
+
+00:01:47.034 --> 00:01:50.390
+The interface states the operations, but it does
+
+00:01:50.390 --> 00:01:51.928
+not store our entries.
+
+00:01:51.928 --> 00:01:54.654
+Let's define a generic Shelf class that
+
+00:01:54.654 --> 00:01:57.801
+implements Sequence and keeps its values in a
+
+00:01:57.801 --> 00:01:59.059
+private ArrayList.
+
+00:02:05.282 --> 00:02:07.584
+Shelf declares its own type parameter.
+
+00:02:07.584 --> 00:02:10.431
+In implements Sequence, that parameter supplies
+
+00:02:10.431 --> 00:02:12.249
+the interface's type argument.
+
+00:02:12.249 --> 00:02:14.732
+The private list uses the same parameter,
+
+00:02:14.732 --> 00:02:17.640
+connecting the promised operations to compatible
+
+00:02:17.640 --> 00:02:18.125
+storage.
+
+00:02:18.125 --> 00:02:20.912
+Choosing String for a Shelf use connects those
+
+00:02:20.912 --> 00:02:23.638
+source-level types to String; it does not put
+
+00:02:23.638 --> 00:02:26.182
+the word String into the list as an entry.
+
+00:02:26.194 --> 00:02:29.212
+Each shelf needs an initially empty list.
+
+00:02:29.212 --> 00:02:32.597
+Let's create that list in the constructor so a
+
+00:02:32.597 --> 00:02:35.394
+new shelf starts with its own storage.
+
+00:02:40.917 --> 00:02:44.033
+This constructor creates an ArrayList and stores
+
+00:02:44.033 --> 00:02:46.890
+its reference in this shelf's private field.
+
+00:02:46.890 --> 00:02:50.006
+Calling the constructor again creates a separate
+
+00:02:50.006 --> 00:02:51.759
+shelf with a separate list.
+
+00:02:51.759 --> 00:02:54.355
+The two collections will share the class
+
+00:02:54.355 --> 00:02:57.017
+definition without sharing their entries.
+
+00:02:57.030 --> 00:03:00.651
+Now we can supply the first interface operation.
+
+00:03:00.651 --> 00:03:04.271
+Let's implement add by passing its value to this
+
+00:03:04.271 --> 00:03:05.855
+shelf's private list.
+
+00:03:12.167 --> 00:03:15.494
+The parameter and stored elements both use T, so
+
+00:03:15.494 --> 00:03:18.544
+the operation and the list agree about their
+
+00:03:18.544 --> 00:03:18.890
+type.
+
+00:03:18.890 --> 00:03:22.079
+Add changes the list by appending an entry; it
+
+00:03:22.079 --> 00:03:23.742
+returns no result value.
+
+00:03:23.742 --> 00:03:26.792
+The Override annotation asks the compiler to
+
+00:03:26.792 --> 00:03:29.981
+check that this method implements the intended
+
+00:03:29.981 --> 00:03:31.367
+interface operation.
+
+00:03:31.391 --> 00:03:34.667
+Our caller also needs an indexed value and a
+
+00:03:34.667 --> 00:03:35.113
+count.
+
+00:03:35.113 --> 00:03:38.687
+Let's implement get and size by requesting those
+
+00:03:38.687 --> 00:03:41.516
+operations from the same private list.
+
+00:03:53.722 --> 00:03:56.965
+Get returns the element at the requested index,
+
+00:03:56.965 --> 00:04:00.071
+using the familiar zero-based list positions.
+
+00:04:00.071 --> 00:04:02.486
+Size returns the number of entries.
+
+00:04:02.486 --> 00:04:04.556
+Neither call removes an entry.
+
+00:04:04.556 --> 00:04:07.869
+We'll use indexes that exist in our example; the
+
+00:04:07.869 --> 00:04:10.767
+generic type relationship does not make an
+
+00:04:10.767 --> 00:04:12.147
+invalid index valid.
+
+00:04:12.166 --> 00:04:13.527
+The class is ready.
+
+00:04:13.527 --> 00:04:16.392
+Main contains the main method where this
+
+00:04:16.392 --> 00:04:18.255
+standalone example starts.
+
+00:04:18.255 --> 00:04:21.693
+Let's create a Shelf for String values, refer to
+
+00:04:21.693 --> 00:04:24.773
+it through Sequence of String, and add Maya
+
+00:04:24.773 --> 00:04:25.991
+followed by Luis.
+
+00:04:40.063 --> 00:04:43.290
+String is the type argument here, while Maya and
+
+00:04:43.290 --> 00:04:45.239
+Luis are the values we store.
+
+00:04:45.239 --> 00:04:48.130
+The declared interface type makes the three
+
+00:04:48.130 --> 00:04:51.087
+promised operations available to the caller.
+
+00:04:51.087 --> 00:04:54.045
+Names now has Maya at index zero and Luis at
+
+00:04:54.045 --> 00:04:54.717
+index one.
+
+00:04:54.717 --> 00:04:57.675
+Let's print the first name and the number of
+
+00:04:57.675 --> 00:04:58.213
+entries.
+
+00:05:06.598 --> 00:05:08.772
+The names reports are in place.
+
+00:05:08.772 --> 00:05:11.857
+We need the same operations for whole-number
+
+00:05:11.857 --> 00:05:15.083
+scores, so let's create a separate Shelf using
+
+00:05:15.083 --> 00:05:17.748
+Integer and add four and seven points.
+
+00:05:27.731 --> 00:05:30.626
+Generic type arguments use reference types,
+
+00:05:30.626 --> 00:05:33.455
+which is why this declaration uses Integer
+
+00:05:33.455 --> 00:05:34.532
+rather than int.
+
+00:05:34.532 --> 00:05:37.764
+Java boxes each supplied whole-number value into
+
+00:05:37.764 --> 00:05:40.457
+the wrapper form used by the collection.
+
+00:05:40.457 --> 00:05:43.690
+These entries belong to the scores shelf; adding
+
+00:05:43.690 --> 00:05:46.181
+them does not change the names shelf.
+
+00:05:46.214 --> 00:05:49.296
+To report the combined score, let's read both
+
+00:05:49.296 --> 00:05:52.514
+entries, add their values, and print the total.
+
+00:06:01.158 --> 00:06:04.019
+The two get calls return Integer values.
+
+00:06:04.019 --> 00:06:07.310
+Java unboxes them for addition, and the result
+
+00:06:07.310 --> 00:06:10.314
+goes into the separate int variable total.
+
+00:06:10.314 --> 00:06:13.676
+Reading the values does not replace either list
+
+00:06:13.676 --> 00:06:15.036
+entry with the sum.
+
+00:06:15.036 --> 00:06:18.183
+Let's click Run and check all three reports.
+
+00:06:23.306 --> 00:06:26.178
+First: Maya comes from index zero of names.
+
+00:06:26.178 --> 00:06:29.116
+Names: two confirms that its two entries are
+
+00:06:29.116 --> 00:06:29.583
+stored.
+
+00:06:29.583 --> 00:06:32.722
+Total: eleven comes from four points plus seven
+
+00:06:32.722 --> 00:06:35.460
+points in the separate scores collection.
+
+00:06:35.460 --> 00:06:38.265
+We used one class definition, two distinct
+
+00:06:38.265 --> 00:06:41.403
+objects, and the same interface operations with
+
+00:06:41.403 --> 00:06:43.006
+different element types.
+
+00:06:43.071 --> 00:06:45.624
+These type relationships help reject an
+
+00:06:45.624 --> 00:06:48.636
+incompatible operation, such as supplying text
+
+00:06:48.636 --> 00:06:50.207
+to the Integer sequence.
+
+00:06:50.207 --> 00:06:53.219
+They do not tell us whether a numeric score is
+
+00:06:53.219 --> 00:06:54.660
+the score we intended.
+
+00:06:54.660 --> 00:06:57.802
+To check that part of the task, we still compare
+
+00:06:57.802 --> 00:07:00.618
+the program's results with known inputs and
+
+00:07:00.618 --> 00:07:01.796
+expected behavior.
+
+00:07:02.524 --> 00:07:05.442
+We have explained the original reports.
+
+00:07:05.442 --> 00:07:08.810
+Let's keep the class and interface unchanged,
+
+00:07:08.810 --> 00:07:12.402
+then use Nora and Eli as the names and three and
+
+00:07:12.402 --> 00:07:13.749
+six as the scores.
+
+00:07:25.021 --> 00:07:28.190
+Before running, predict the first name, the name
+
+00:07:28.190 --> 00:07:29.973
+count, and the total score.
+
+00:07:29.973 --> 00:07:33.010
+Trace which object each call reaches and which
+
+00:07:33.010 --> 00:07:34.133
+indexes it reads.
+
+00:07:34.133 --> 00:07:37.236
+Also consider whether calculating total changes
+
+00:07:37.236 --> 00:07:38.557
+either stored score.
+
+00:07:38.557 --> 00:07:41.396
+Pause here to work through your prediction.
+
+00:07:49.490 --> 00:07:52.442
+Let's click Run and compare the reports with
+
+00:07:52.442 --> 00:07:53.515
+your prediction.
+
+00:07:58.610 --> 00:08:01.505
+First: Nora is the entry at index zero.
+
+00:08:01.505 --> 00:08:04.696
+Names: two reflects the two names we added.
+
+00:08:04.696 --> 00:08:07.516
+Total: nine comes from three plus six.
+
+00:08:07.516 --> 00:08:10.930
+The score entries remain three and six because
+
+00:08:10.930 --> 00:08:14.048
+get reads them and the addition stores its
+
+00:08:14.048 --> 00:08:15.235
+result in total.
+
+00:08:15.973 --> 00:08:18.662
+We wrote a generic interface and class that keep
+
+00:08:18.662 --> 00:08:21.184
+their operation and storage types consistent.
+
+00:08:21.184 --> 00:08:23.593
+Each caller chose a type argument, and each
+
+00:08:23.593 --> 00:08:25.050
+shelf kept its own values.
+
+00:08:25.050 --> 00:08:27.739
+The compiler checks compatible types; our result
+
+00:08:27.739 --> 00:08:29.812
+checks confirm the intended behavior.
+
+00:08:29.812 --> 00:08:32.389
+For another application, think of two kinds of
+
+00:08:32.389 --> 00:08:34.910
+data that could use these same operations and
+
+00:08:34.910 --> 00:08:37.488
+one wrong value that type checking alone would
+
+00:08:37.488 --> 00:08:38.048
+not catch.
