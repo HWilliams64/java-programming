@@ -98,38 +98,42 @@
 
 **`char`** - The Java keyword for a primitive type representing one Java text storage unit. The value returned by `"Maya".charAt(0)` is a `char` that displays as `M`. Some visible symbols require two units, so one `char` is not guaranteed to represent a complete visible symbol.
 
-**Input source** - The place a program reads information from. The Scanner examples use supplied text so the results can be repeated. Reading that text and printing a message are separate actions: output does not automatically become new input.
+**Input source** - The place a program reads information from. In this lesson, `new Scanner(System.in)` connects a reader to standard input for typed responses. Displaying a prompt does not itself read the response.
 
-**Library object** - An object providing ready-made operations from a library. A Scanner object reads supplied text and interprets its values. Creating a reader does not by itself read every value or decide the intended order.
+**Input stream** - A source that supplies data over time for a program to read. Java's `System.in` is an input stream that can receive typed responses through a terminal or notebook input control. A read may wait until more input arrives.
 
-**Scanner** - A Java library class whose objects read text as lines or tokens and can interpret numeric text. A reader can use `nextLine()` for a name and `nextInt()` for a count. Each read advances the reader, so repeated reads do not restart at the beginning.
+**Standard input and `System.in`** - The program input stream represented by `System.in`. A Scanner connected to it can read responses entered while the program runs. `System.in` is a field name, not a Java keyword; closing a reader connected to it can also close the shared stream.
+
+**Library object** - An object providing ready-made operations from a library. A Scanner object reads text and interprets its values. Creating a reader does not itself display a prompt or read a response.
+
+**Scanner** - A Java library class whose objects read text as lines or tokens and can interpret numeric text. `Scanner keyboard = new Scanner(System.in);` creates a reader for standard input. Each read advances through available input; later reads do not restart earlier responses. The notebook shares one reader across cells.
 
 **Import and `import`** - An import makes a class's short name available in source code. `import java.util.Scanner;` lets later statements use `Scanner`. The keyword does not create a reader, download a library, or read data.
 
-**`new`** - A Java keyword used to create an object in expressions such as `new Scanner("Maya\n3\n4.5\n")`. Assigning that object to `orderInput` gives the program a name for the reader. This setup creates the reader; separate method calls read its values.
+**`new`** - A Java keyword used to create an object in expressions such as `new Scanner(System.in)`. Assigning that object to `keyboard` gives the program a name for the reader. Separate method calls read its values; repeating `new` is unnecessary for every notebook cell that uses the same input stream.
 
-**Escape sequence** - Source notation beginning with a backslash that represents a character such as a newline. Inside a Java string literal, `\n` supplies one line-break character; the Scanner input does not contain an ordinary backslash followed by n. The notation belongs to Java source, while the reader consumes the resulting text.
+**Prompt** - A message that tells a user what to enter. `System.out.println("Number of kits:");` displays a prompt before the program reads the count. Printing a prompt and accepting input are separate actions, so each requested response also needs a reading call.
 
-**Newline** - A character marking the end of a line of text. The escape sequence `\n` represents one in a Java string literal, separating `Maya`, `3`, and `4.5` in the sample input. It is not the two printed characters backslash and n in that input.
+**Newline** - A character marking the end of a line of text. Pressing Enter submits a line ending with the response in this lesson. A token read such as `nextInt()` can leave that ending unread; `nextLine()` moves past it.
+
+**Token** - A piece of input separated from other pieces by delimiters. In the typed response `art extra`, `next()` returns the first token, `art`. A full name can contain several tokens, so one token read does not necessarily capture the whole response.
 
 **Delimiter** - A separator used to divide text into tokens. Scanner's default token-reading methods use whitespace as separators. Line-reading methods follow line boundaries instead, which matters when mixing `nextInt()` with `nextLine()`.
 
-**Token** - A piece of input separated from other pieces by delimiters. In the supplied order data, `3` is a numeric token. A line and a token are not always the same: a full name can have spaces and therefore contain several tokens.
+**Whitespace** - Spacing characters such as spaces, tabs, and line endings. Scanner's token-reading methods skip leading whitespace before the next token. `nextLine()` preserves spaces in the remaining line text, including spaces around or between name words.
 
-**Whitespace** - Spacing characters such as spaces, tabs, and line endings. Scanner's token-reading methods skip leading whitespace before the next token. Spaces inside a name can still matter when reading the full name as a line.
+**Parsing** - Interpreting text as a value with a chosen type. Scanner's `nextInt()` parses the typed token `3` into an integer. The reading method must succeed before assignment can store its result; a double receiving variable does not make `nextInt()` accept `4.5`.
 
-**Parsing** - Interpreting text as a value with a chosen type. Scanner's `nextInt()` can parse the token `3` into an integer. It cannot turn arbitrary words into numbers, and choosing the right parsing method depends on the input format.
+**`nextLine()`** - A Scanner method that returns the remaining text on the current line as a String and moves past its line ending. It preserves spaces, so it can read `Maya Chen` as a full name. After a token read, that remaining text may be empty; the method does not automatically skip to the next nonempty response.
 
-**`nextLine()`** - A Scanner method that returns the remaining text on the current line and moves past its line ending. Reading the first line of the supplied receipt returns the attendee name, including any surrounding spaces. After a numeric token read, the remaining text can be empty; this method does not automatically skip to the next nonempty name.
+**`next()`** - A Scanner method that skips leading whitespace and returns the next token as a String. A typed kit code `art` is one token. Given `Maya Chen`, it returns only `Maya` and leaves the following space and `Chen` for later reads, so use `nextLine()` for the full name.
 
-**`nextInt()`** - A Scanner method that skips leading delimiters and interprets the next token as an integer. In the receipt source, the token `3` becomes the whole-number quantity three. It leaves the reader after that token rather than after the whole line, and it cannot parse the fractional token `4.5` as an integer.
+**`nextInt()`** - A Scanner method that skips leading delimiters and interprets the next token as an int. The response `3` becomes a whole-number quantity. It stops after that token rather than after the whole line, and it cannot parse `4.5` as an integer.
 
-**`nextDouble()`** - A Scanner method that skips leading delimiters and interprets the next token as a floating-point number. With the lesson's dot-decimal input and reader settings, `4.5` becomes the price four dollars and fifty cents per kit. The method must match the text format and locale; declaring a `double` variable does not change what a different read method can parse.
+**`nextDouble()`** - A Scanner method that skips leading delimiters and interprets the next token as a double. With the lesson's dot-decimal input and runtime settings, `4.5` becomes the price four dollars and fifty cents per kit. It leaves the following line ending unread, so a later whole-line response needs attention to that boundary.
 
-**Locale** - A setting for conventions such as numeric decimal separators. The course's supplied input uses a dot in `4.5`. A reader configured for different conventions may interpret that same text differently, so the format and reader settings must agree.
+**Locale** - A setting for conventions such as numeric decimal separators. The course runtime used for this lesson accepts the dot in `4.5`. A differently configured reader may interpret that same text differently, so the input format and reader settings must agree.
 
-**Input order** - The agreement between a source's value sequence and the program's read sequence. The order examples supply a name, a quantity, and a price, then read those three values in that order. Changing the read order alone can make the program try to parse a name as a number.
+**Line remainder** - The text still available before the ending of the current line. After `nextInt()` reads `7` from `7 Nia Patel`, `nextLine()` returns ` Nia Patel`, including the first space. If the line contained only `7`, it returns empty text instead. Discarding a remainder is appropriate only when that text is not needed.
 
-**Input stream** - A source that supplies data for a program to read over time. `System.in` is Java's standard input stream; in an interactive terminal it can receive typed responses. Reading from it may wait for input, unlike reading the fixed Strings supplied by these notebook examples.
-
-**Standard input** - The program input stream represented by `System.in`. In an interactive console, a Scanner connected to it can read typed responses. That can wait for a user, so the notebook's repeatable examples use supplied text instead.
+**Input order** - The agreement between the sequence of requested responses and the program's reads. The workshop form asks for a full name, kit code, quantity, price, and pickup location in that order. Changing a read or response out of sequence can make the program try to interpret the wrong value as a number.

@@ -1,93 +1,89 @@
-# Reading Input
+# Transcript: Reading Keyboard Input with Scanner
 
-## Narration
+Welcome to this Java tutorial, where you'll learn to read keyboard input with Scanner and choose methods for text, whole numbers, and decimal values.
 
-Welcome to this Java tutorial on reading input, where you'll create a text reader, choose line and numeric methods, trace each read, and use the returned values to calculate and display a result.
+Interactive programs can respond to new information while they run. Reading text and parsing numbers, which means converting numeric text into a numeric value, lets software collect requests and calculate useful results without editing its source code.
 
-Reading input lets the same program work with changing information, such as names, order quantities, and measurements. A clear input format helps software interpret each piece correctly, so a calculation can use numbers instead of simply joining their text characters.
+A campus workshop assistant needs a small receipt program. The person at the keyboard will enter a full attendee name, a one-word kit code, a whole-number quantity, a dollar price per kit, and a pickup location. We'll ask for one response on each line and use a decimal point in the price.
 
-A campus workshop needs receipts for supply kits. Each record gives an attendee's name, a whole-number kit quantity, and a price in dollars per kit, in that order. We'll use complete records with dot-decimal prices, such as one point five. The program calculates a cost; it doesn't take payment.
+The program should display the attendee, kit quantity and code, calculated cost, and pickup location. Names and locations must keep their spaces. We'll run the completed program twice with different keyboard responses to check that the same instructions handle both requests.
 
-Our goal is one receipt line containing the attendee's name and the amount owed. We'll supply repeatable text inside the program, so this demonstration won't wait for anyone to type an order. First we'll work through a practice record, then you'll predict a different receipt.
+Let's open Main.java in the Workspace and build the receipt program. Main is the class that contains our code. Its main method is the named operation where this program starts. We'll put our input and receipt statements inside that method.
 
-Let's open Main.java in the Workspace and give the workshop program a place to read and process its record.
+Before we can ask for responses, we need a reader connected to the keyboard. The import makes the Scanner type available. The word new creates a Scanner object, and System.in is standard input, the stream that receives what we type into this running terminal.
 
-Scanner is Java's ready-made text reader. An import lets this file use the short class name, Scanner; it doesn't create a reader or read any data. We'll put the import above Main, the class that holds our program. Its main method is where execution starts.
+Our keyboard variable now refers to that reader. A prompt is a message that tells the person what to enter. We'll print the name prompt before reading. The nextLine method returns a String containing the rest of a line, including spaces, and consumes its ending line break. The trim method removes spaces only from the ends of that returned name.
 
-The structure is ready. A reader needs an input source, the place its data comes from. Our practice source gives Nora four kits at one dollar and fifty cents each. It also includes two spaces before and after her name, so we can check the cleanup you learned earlier.
+This read waits when no complete line is available. Pressing Enter completes our name response. A kit code has a different shape: it must be one word. A token is one piece of input separated by whitespace, such as spaces or line breaks. The next method returns a String token. It skips leading whitespace and stops before the whitespace after that token, so it does not return a whole multiword line.
 
-The keyword new creates a Scanner connected to that String. The newline escapes are source notation for line breaks, so the reader receives three separate lines, not backslashes and letters. It starts before Nora's name. Let's read that whole name line and store its cleaned text for the receipt.
+Quantity must support arithmetic, so a String token is not enough. The nextInt method skips leading whitespace and parses the next token into an int, a whole-number value. The parsing happens before the value is assigned to quantity. A word such as three would fail this numeric read; we'll study input validation later.
 
-NextLine returns the name without the line ending, but keeps the outside spaces. Trim then operates on that returned String, and buyer stores Nora without those spaces. The reader has moved to the quantity. For a kit count, we need an integer. Parsing turns text into a typed value. We'll parse the next token: the piece of text between whitespace separators such as spaces and line endings.
+The price can include a fraction of a dollar. The nextDouble method parses the next token into a double value. For this Workspace, enter a decimal point, as in four point five. Both numeric methods leave the delimiter after their token unread. A delimiter is a separator; Scanner uses whitespace by default.
 
-NextInt turns the quantity text into the integer four and stops before its following newline. The price read will skip that whitespace and parse the next token as a double. NextInt cannot parse a decimal token such as one point five; a double receiving variable would not change that method's job.
+Here is the boundary we must handle. After the price token, pressing Enter has also supplied a line break. The next line read would return the rest of that price line, which is empty when we typed only the price. We consume that remainder first, then ask for the pickup location on its own new line.
 
-ItemPrice now holds the numeric value one point five. We can multiply four kits by one dollar and fifty cents per kit to get six dollars. Let's store that cost, join it with Nora's cleaned name and the word owes, and complete the program structure.
+The extra nextLine call does not read the future pickup response. It finishes the current price line. If meaningful text followed a number on the same line, this call would consume that text too, so don't discard a line remainder blindly. Our prompts deliberately request one response per line. The following nextLine keeps spaces in the pickup location.
 
-The practice program now reads, cleans, calculates, and prints. Let's click Run to check the receipt made from those returned values.
+With both numeric values available, we can multiply quantity by price and display the receipt. We'll combine the stored text and numbers using the printing and String skills from the earlier lessons.
 
-The receipt says Nora owes six point zero. The name has no outside padding because we stored the trimmed result. The amount comes from multiplying the two parsed numbers. Each read continued from the reader's current position; none of them started the source again.
+The calculation uses numeric values; the print statements then turn the results into readable messages. Let's run the completed program with the toolbar play button. For each visible prompt, I'll focus the terminal, type a response, and press Enter. Watch how each read waits for its own response.
 
-That reader position also explains a common surprise. Let's replace the receipt instructions with a small record that puts a count of three before the name Maya. We'll read the number first and inspect what the following line reads return.
+Maya's full name and Student Center both kept their spaces. Three art kits at four dollars and fifty cents each produced thirteen dollars and fifty cents. Java displays that double as thirteen point five here; currency formatting comes later. The pickup prompt waited for our new line, so the leftover price line did not skip the location.
 
-The numeric read takes three, but leaves the reader before that line's ending. A line read now takes the remaining text on this same line, which is empty in this source, and moves past the ending. A second line read can then take Maya from the following line. We'll store both results so we can compare them.
+Now apply the same reasoning to another request. Without changing the source, we'll enter Nora Patel, art, four kits, a price of one point five dollars, and Library Desk. Predict the total and whether the full pickup location will appear. Pause the video to make your prediction before the second run.
 
-Remainder holds empty text, and name holds Maya. Empty text is hard to see by itself, so we'll print square brackets around remainder. We'll also print the count and name on separate lines to make the reading order visible.
+The second receipt shows Nora Patel, four art kits, a total of six dollars, and Library Desk. Four times one point five is six. The source stayed unchanged; only the keyboard responses changed. We have tested two real requests, including spaces in both names and locations.
 
-Let's click Run and check the three stored results. The brackets will help us recognize the empty line remainder.
+Scanner connected our program to standard input. We chose nextLine for whole-line text, next for a single token, nextInt for quantity, and nextDouble for price. Handling the price line remainder let the pickup read wait correctly. For another workshop, which fields would need a whole-line read, and where would you need to account for a token read's remaining line break?
 
-We see three, an empty pair of brackets, and Maya. The first line call consumed only the empty remainder and its line ending. The next one reached the name. If text had followed the number on its line, that first call would return that text instead. Choose reads from the actual source layout; don't add an extra line read automatically.
 
-With the read order explained, let's return to the workshop receipt. We'll replace this small check with the workshop record: Maya requests three kits at four dollars and fifty cents per kit. Her name has no outside padding, so this version stores the line directly. A newly created reader starts at the beginning of this record.
+## Visual description and demonstrated program
 
-Customer receives Maya, and the reader passes the name line's ending. Quantity comes next, followed by price. Let's use the integer and double reads in that order, matching each value to its intended type.
-
-The numeric calls turn the quantity and price text into values the calculation can use. The price read skips the newline left after the count. We'll multiply the stored numbers and build one receipt line from the customer name, the words and spaces in owes, and the total.
-
-Before we run Maya's program, write the exact receipt line you expect. Trace the returned name, quantity, and price, then calculate the cost and include the spaces supplied by the output text. Use Nora's worked receipt as a model. Pause here if you'd like more time.
-
-Let's click Run and compare the receipt with your prediction.
-
-The program prints Maya owes thirteen point five. Three kits at four dollars and fifty cents each cost thirteen dollars and fifty cents. The printed double uses one fractional digit here. Compare that name and amount with your prediction. The program used the values returned by the reads to produce the receipt.
-
-These examples didn't wait for typing because their input was already supplied. Java's standard input stream, called System.in, is another possible source; an interactive program can read typed responses from it. Keep the supplied text for this exercise. Running the complete program again creates a fresh reader, while repeating a read on a consumed reader does not restart it.
-
-We've connected input to the workshop's result. The import made the reader's class name available, and new created a reader for the supplied source. Newline escapes organized that text. Matching line and numeric reads advanced through it, while parsing produced usable numbers. Your earlier text and arithmetic skills then assembled the receipt.
-
-Now build the notebook's Luis receipt. Use its exact padded source and variable names, read the name and numbers, and store the cleaned name before making the receipt for five kits at two dollars and fifty cents each. After the first run, predict a change to six kits, test it, and restore five. Explain why each complete run starts a fresh reading.
-
-## Visual description
-
-[Four code-free BHCC opening scenes show a vertical learning agenda, a horizontal text-to-values process, a campus workshop beside its input record, and one central receipt. The Workspace appears after this overview.]
-
-[Main.java is opened and built in short groups while the camera follows the active line. A Scanner reads the supplied Nora record. A whole name line is read and trimmed, numeric tokens become an integer count and a double price, and multiplication calculates the bill. The pointer clicks the actual Run control. The output is Nora owes 6.0.]
-
-[A second program reads the integer 3 before a line read. That line read returns an empty String because the reader remains before the quantity line ending. Brackets make the empty result visible. The pointer clicks Run; three output lines show 3, [], and Maya.]
-
-[The body is replaced with the canonical receipt program below. Students predict the result before the third actual mouse Run click. The output is Maya owes 13.5. The closing connects each input operation to its purpose and directs students to the padded Luis record in the notebook: predict five kits, change to six, run and compare, then restore five.]
-
-## Canonical program
+The video opens with four animated scenes: Scanner learning outcomes, the value of runtime input, a campus workshop request, and the expected receipt. In the live Workspace, the instructor types Main.java in small groups. The camera follows the active code. The visible toolbar play button starts each run. After each prompt appears, the terminal receives visible keyboard typing followed by Enter. The second run uses the same source.
 
 ```java
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Scanner orderInput = new Scanner("Maya\n3\n4.5\n");
-        String customer = orderInput.nextLine();
-        int quantity = orderInput.nextInt();
-        double price = orderInput.nextDouble();
-        double orderTotal = quantity * price;
-        System.out.println(customer + " owes " + orderTotal);
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Full name:");
+        String customer = keyboard.nextLine().trim();
+        System.out.println("Kit code (one word):");
+        String kitCode = keyboard.next();
+        System.out.println("Number of kits:");
+        int quantity = keyboard.nextInt();
+        System.out.println("Price per kit in dollars (use a decimal point):");
+        double price = keyboard.nextDouble();
+        keyboard.nextLine();
+        System.out.println("Pickup location:");
+        String pickup = keyboard.nextLine();
+        double total = quantity * price;
+        System.out.println(customer + ": " + quantity + " " + kitCode + " kits");
+        System.out.println("Total: $" + total);
+        System.out.println("Pickup: " + pickup);
     }
 }
 ```
 
-## Exact canonical output
+## First run: typed responses and verified result
+
+Responses, one line each: Maya Chen; art; 3; 4.5; Student Center.
 
 ```text
-Maya owes 13.5
+Maya Chen: 3 art kits
+Total: $13.5
+Pickup: Student Center
 ```
 
-## Asset credits
+## Second run: typed responses and verified result
 
-Java logo: Material Icon Theme contributors (MIT), pinned commit db37396672f801195be1bf082cca76942deb8c24. Concept icons: Font Awesome Free 6.7.2 by Fonticons, Inc. (CC BY 4.0), recolored for the BHCC palette. Sources and licenses are retained in production evidence.
+Responses, one line each: Nora Patel; art; 4; 1.5; Library Desk.
+
+```text
+Nora Patel: 4 art kits
+Total: $6.0
+Pickup: Library Desk
+```
+
+Each run first displays the prompts Full name, Kit code (one word), Number of kits, Price per kit in dollars (use a decimal point), and Pickup location. The closing connects these results to Scanner, whole-line versus token input, numeric parsing, and the price line remainder.

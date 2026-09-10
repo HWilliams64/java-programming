@@ -1,568 +1,427 @@
 WEBVTT
 
-00:00:00.750 --> 00:00:04.034
-Welcome to this Java tutorial on reading input,
+00:00:00.750 --> 00:00:03.426
+Welcome to this Java tutorial, where you'll
 
-00:00:04.034 --> 00:00:07.249
-where you'll create a text reader, choose line
+00:00:03.426 --> 00:00:06.227
+learn to read keyboard input with Scanner and
 
-00:00:07.249 --> 00:00:10.393
-and numeric methods, trace each read, and use
+00:00:06.227 --> 00:00:08.903
+choose methods for text, whole numbers, and
 
-00:00:10.393 --> 00:00:13.608
-the returned values to calculate and display a
+00:00:08.903 --> 00:00:09.837
+decimal values.
 
-00:00:13.608 --> 00:00:14.097
-result.
+00:00:10.480 --> 00:00:12.991
+Interactive programs can respond to new
 
-00:00:14.744 --> 00:00:17.823
-Reading input lets the same program work with
+00:00:12.991 --> 00:00:14.729
+information while they run.
 
-00:00:17.823 --> 00:00:20.696
-changing information, such as names, order
+00:00:14.729 --> 00:00:17.625
+Reading text and parsing numbers, which means
 
-00:00:20.696 --> 00:00:22.680
-quantities, and measurements.
+00:00:17.625 --> 00:00:20.522
+converting numeric text into a numeric value,
 
-00:00:22.680 --> 00:00:25.759
-A clear input format helps software interpret
+00:00:20.522 --> 00:00:23.354
+lets software collect requests and calculate
 
-00:00:25.759 --> 00:00:28.906
-each piece correctly, so a calculation can use
+00:00:23.354 --> 00:00:26.380
+useful results without editing its source code.
 
-00:00:28.906 --> 00:00:31.916
-numbers instead of simply joining their text
+00:00:26.919 --> 00:00:29.449
+A campus workshop assistant needs a small
 
-00:00:31.916 --> 00:00:32.669
-characters.
+00:00:29.449 --> 00:00:30.436
+receipt program.
 
-00:00:33.319 --> 00:00:36.233
-A campus workshop needs receipts for supply
+00:00:30.436 --> 00:00:33.151
+The person at the keyboard will enter a full
 
-00:00:36.233 --> 00:00:36.572
-kits.
+00:00:33.151 --> 00:00:35.434
+attendee name, a one-word kit code, a
 
-00:00:36.572 --> 00:00:39.215
-Each record gives an attendee's name, a
+00:00:35.434 --> 00:00:38.272
+whole-number quantity, a dollar price per kit,
 
-00:00:39.215 --> 00:00:41.994
-whole-number kit quantity, and a price in
+00:00:38.272 --> 00:00:39.630
+and a pickup location.
 
-00:00:41.994 --> 00:00:44.094
-dollars per kit, in that order.
+00:00:39.630 --> 00:00:42.530
+We'll ask for one response on each line and use
 
-00:00:44.094 --> 00:00:47.009
-We'll use complete records with dot-decimal
+00:00:42.530 --> 00:00:44.319
+a decimal point in the price.
 
-00:00:47.009 --> 00:00:49.109
-prices, such as one point five.
+00:00:44.864 --> 00:00:47.632
+The program should display the attendee, kit
 
-00:00:49.109 --> 00:00:52.227
-The program calculates a cost; it doesn't take
+00:00:47.632 --> 00:00:50.527
+quantity and code, calculated cost, and pickup
 
-00:00:52.227 --> 00:00:52.769
-payment.
+00:00:50.527 --> 00:00:51.093
+location.
 
-00:00:53.419 --> 00:00:56.242
-Our goal is one receipt line containing the
+00:00:51.093 --> 00:00:53.798
+Names and locations must keep their spaces.
 
-00:00:56.242 --> 00:00:58.605
-attendee's name and the amount owed.
+00:00:53.798 --> 00:00:56.441
+We'll run the completed program twice with
 
-00:00:58.605 --> 00:01:01.756
-We'll supply repeatable text inside the program,
+00:00:56.441 --> 00:00:59.335
+different keyboard responses to check that the
 
-00:01:01.756 --> 00:01:04.776
-so this demonstration won't wait for anyone to
+00:00:59.335 --> 00:01:01.789
+same instructions handle both requests.
 
-00:01:04.776 --> 00:01:05.695
-type an order.
+00:01:02.350 --> 00:01:05.376
+Let's open Main.java in the Workspace and build
 
-00:01:05.695 --> 00:01:08.846
-First we'll work through a practice record, then
+00:01:05.376 --> 00:01:06.663
+the receipt program.
 
-00:01:08.846 --> 00:01:11.144
-you'll predict a different receipt.
+00:01:06.663 --> 00:01:09.303
+Main is the class that contains our code.
 
-00:01:11.186 --> 00:01:14.373
-Let's open Main.java in the Workspace and give
+00:01:09.303 --> 00:01:12.135
+Its main method is the named operation where
 
-00:01:14.373 --> 00:01:17.699
-the workshop program a place to read and process
+00:01:12.135 --> 00:01:13.423
+this program starts.
 
-00:01:17.699 --> 00:01:18.461
-its record.
+00:01:13.423 --> 00:01:16.127
+We'll put our input and receipt statements
 
-00:01:22.191 --> 00:01:25.102
-Scanner is Java's ready-made text reader.
+00:01:16.127 --> 00:01:17.350
+inside that method.
 
-00:01:25.102 --> 00:01:28.226
-An import lets this file use the short class
+00:01:28.994 --> 00:01:31.501
+Before we can ask for responses, we need a
 
-00:01:28.226 --> 00:01:31.350
-name, Scanner; it doesn't create a reader or
+00:01:31.501 --> 00:01:33.470
+reader connected to the keyboard.
 
-00:01:31.350 --> 00:01:32.344
-read any data.
+00:01:33.470 --> 00:01:36.096
+The import makes the Scanner type available.
 
-00:01:32.344 --> 00:01:35.681
-We'll put the import above Main, the class that
+00:01:36.096 --> 00:01:38.603
+The word new creates a Scanner object, and
 
-00:01:35.681 --> 00:01:36.959
-holds our program.
+00:01:38.603 --> 00:01:41.229
+System.in is standard input, the stream that
 
-00:01:36.959 --> 00:01:39.941
-Its main method is where execution starts.
+00:01:41.229 --> 00:01:43.557
+receives what we type into this running
 
-00:01:47.382 --> 00:01:48.937
-The structure is ready.
+00:01:43.557 --> 00:01:44.094
+terminal.
 
-00:01:48.937 --> 00:01:51.979
-A reader needs an input source, the place its
+00:01:49.291 --> 00:01:52.018
+Our keyboard variable now refers to that reader.
 
-00:01:51.979 --> 00:01:53.060
-data comes from.
+00:01:52.018 --> 00:01:54.744
+A prompt is a message that tells the person what
 
-00:01:53.060 --> 00:01:56.237
-Our practice source gives Nora four kits at one
+00:01:54.744 --> 00:01:55.255
+to enter.
 
-00:01:56.237 --> 00:01:58.130
-dollar and fifty cents each.
+00:01:55.255 --> 00:01:57.698
+We'll print the name prompt before reading.
 
-00:01:58.130 --> 00:02:01.374
-It also includes two spaces before and after her
+00:01:57.698 --> 00:02:00.368
+The nextLine method returns a String containing
 
-00:02:01.374 --> 00:02:04.416
-name, so we can check the cleanup you learned
+00:02:00.368 --> 00:02:02.697
+the rest of a line, including spaces, and
 
-00:02:04.416 --> 00:02:04.957
-earlier.
+00:02:02.697 --> 00:02:04.458
+consumes its ending line break.
 
-00:02:10.483 --> 00:02:13.595
-The keyword new creates a Scanner connected to
+00:02:04.458 --> 00:02:06.957
+The trim method removes spaces only from the
 
-00:02:13.595 --> 00:02:14.407
-that String.
+00:02:06.957 --> 00:02:08.491
+ends of that returned name.
 
-00:02:14.407 --> 00:02:17.654
-The newline escapes are source notation for line
+00:02:16.382 --> 00:02:18.472
+This read waits when no complete line is
 
-00:02:17.654 --> 00:02:20.698
-breaks, so the reader receives three separate
+00:02:18.472 --> 00:02:18.994
+available.
 
-00:02:20.698 --> 00:02:23.065
-lines, not backslashes and letters.
+00:02:18.994 --> 00:02:21.241
+Pressing Enter completes our name response.
 
-00:02:23.065 --> 00:02:25.027
-It starts before Nora's name.
+00:02:21.241 --> 00:02:23.748
+A kit code has a different shape: it must be one
 
-00:02:25.027 --> 00:02:28.071
-Let's read that whole name line and store its
+00:02:23.748 --> 00:02:24.010
+word.
 
-00:02:28.071 --> 00:02:30.033
-cleaned text for the receipt.
+00:02:24.010 --> 00:02:26.204
+A token is one piece of input separated by
 
-00:02:34.230 --> 00:02:36.671
-NextLine returns the name without the line
+00:02:26.204 --> 00:02:28.398
+whitespace, such as spaces or line breaks.
 
-00:02:36.671 --> 00:02:38.821
-ending, but keeps the outside spaces.
+00:02:28.398 --> 00:02:30.436
+The next method returns a String token.
 
-00:02:38.821 --> 00:02:41.553
-Trim then operates on that returned String, and
+00:02:30.436 --> 00:02:32.943
+It skips leading whitespace and stops before the
 
-00:02:41.553 --> 00:02:43.819
-buyer stores Nora without those spaces.
+00:02:32.943 --> 00:02:35.190
+whitespace after that token, so it does not
 
-00:02:43.819 --> 00:02:45.969
-The reader has moved to the quantity.
+00:02:35.190 --> 00:02:36.757
+return a whole multiword line.
 
-00:02:45.969 --> 00:02:48.061
-For a kit count, we need an integer.
+00:02:44.038 --> 00:02:46.746
+Quantity must support arithmetic, so a String
 
-00:02:48.061 --> 00:02:50.270
-Parsing turns text into a typed value.
+00:02:46.746 --> 00:02:47.949
+token is not enough.
 
-00:02:50.270 --> 00:02:52.885
-We'll parse the next token: the piece of text
+00:02:47.949 --> 00:02:50.778
+The nextInt method skips leading whitespace and
 
-00:02:52.885 --> 00:02:55.675
-between whitespace separators such as spaces and
+00:02:50.778 --> 00:02:52.944
+parses the next token into an int, a
 
-00:02:55.675 --> 00:02:56.430
-line endings.
+00:02:52.944 --> 00:02:54.087
+whole-number value.
 
-00:03:00.252 --> 00:03:03.477
-NextInt turns the quantity text into the integer
+00:02:54.087 --> 00:02:56.976
+The parsing happens before the value is assigned
 
-00:03:03.477 --> 00:03:06.433
-four and stops before its following newline.
+00:02:56.976 --> 00:02:57.698
+to quantity.
 
-00:03:06.433 --> 00:03:09.389
-The price read will skip that whitespace and
+00:02:57.698 --> 00:03:00.346
+A word such as three would fail this numeric
 
-00:03:09.389 --> 00:03:11.606
-parse the next token as a double.
+00:03:00.346 --> 00:03:02.813
+read; we'll study input validation later.
 
-00:03:11.606 --> 00:03:14.831
-NextInt cannot parse a decimal token such as one
+00:03:09.982 --> 00:03:12.699
+The price can include a fraction of a dollar.
 
-00:03:14.831 --> 00:03:17.854
-point five; a double receiving variable would
+00:03:12.699 --> 00:03:15.596
+The nextDouble method parses the next token into
 
-00:03:17.854 --> 00:03:19.802
-not change that method's job.
+00:03:15.596 --> 00:03:16.502
+a double value.
 
-00:03:24.216 --> 00:03:27.586
-ItemPrice now holds the numeric value one point
+00:03:16.502 --> 00:03:19.399
+For this Workspace, enter a decimal point, as in
 
-00:03:27.586 --> 00:03:27.944
-five.
+00:03:19.399 --> 00:03:20.365
+four point five.
 
-00:03:27.944 --> 00:03:31.027
-We can multiply four kits by one dollar and
+00:03:20.365 --> 00:03:23.142
+Both numeric methods leave the delimiter after
 
-00:03:31.027 --> 00:03:33.823
-fifty cents per kit to get six dollars.
+00:03:23.142 --> 00:03:24.289
+their token unread.
 
-00:03:33.823 --> 00:03:36.834
-Let's store that cost, join it with Nora's
+00:03:24.289 --> 00:03:26.704
+A delimiter is a separator; Scanner uses
 
-00:03:36.834 --> 00:03:40.276
-cleaned name and the word owes, and complete the
+00:03:26.704 --> 00:03:28.032
+whitespace by default.
 
-00:03:40.276 --> 00:03:41.566
-program structure.
+00:03:40.584 --> 00:03:42.751
+Here is the boundary we must handle.
 
-00:03:54.190 --> 00:03:57.002
-The practice program now reads, cleans,
+00:03:42.751 --> 00:03:45.519
+After the price token, pressing Enter has also
 
-00:03:57.002 --> 00:03:58.661
-calculates, and prints.
+00:03:45.519 --> 00:03:46.844
+supplied a line break.
 
-00:03:58.661 --> 00:04:01.978
-Let's click Run to check the receipt made from
+00:03:46.844 --> 00:03:49.733
+The next line read would return the rest of that
 
-00:04:01.978 --> 00:04:03.565
-those returned values.
+00:03:49.733 --> 00:03:52.441
+price line, which is empty when we typed only
 
-00:04:08.936 --> 00:04:11.818
-The receipt says Nora owes six point zero.
+00:03:52.441 --> 00:03:53.043
+the price.
 
-00:04:11.818 --> 00:04:14.701
-The name has no outside padding because we
+00:03:53.043 --> 00:03:55.751
+We consume that remainder first, then ask for
 
-00:04:14.701 --> 00:04:16.485
-stored the trimmed result.
+00:03:55.751 --> 00:03:58.159
+the pickup location on its own new line.
 
-00:04:16.485 --> 00:04:19.779
-The amount comes from multiplying the two parsed
+00:04:07.748 --> 00:04:10.440
+The extra nextLine call does not read the future
 
-00:04:19.779 --> 00:04:20.328
-numbers.
+00:04:10.440 --> 00:04:11.338
+pickup response.
 
-00:04:20.328 --> 00:04:23.417
-Each read continued from the reader's current
+00:04:11.338 --> 00:04:13.301
+It finishes the current price line.
 
-00:04:23.417 --> 00:04:26.711
-position; none of them started the source again.
+00:04:13.301 --> 00:04:15.993
+If meaningful text followed a number on the same
 
-00:04:26.804 --> 00:04:29.812
-That reader position also explains a common
+00:04:15.993 --> 00:04:18.629
+line, this call would consume that text too, so
 
-00:04:29.812 --> 00:04:30.442
-surprise.
+00:04:18.629 --> 00:04:20.816
+don't discard a line remainder blindly.
 
-00:04:30.442 --> 00:04:33.590
-Let's replace the receipt instructions with a
+00:04:20.816 --> 00:04:23.340
+Our prompts deliberately request one response
 
-00:04:33.590 --> 00:04:36.808
-small record that puts a count of three before
+00:04:23.340 --> 00:04:23.845
+per line.
 
-00:04:36.808 --> 00:04:37.787
-the name Maya.
+00:04:23.845 --> 00:04:26.201
+The following nextLine keeps spaces in the
 
-00:04:37.787 --> 00:04:41.145
-We'll read the number first and inspect what the
+00:04:26.201 --> 00:04:27.098
+pickup location.
 
-00:04:41.145 --> 00:04:43.104
-following line reads return.
+00:04:27.651 --> 00:04:30.308
+With both numeric values available, we can
 
-00:04:52.043 --> 00:04:54.868
-The numeric read takes three, but leaves the
+00:04:30.308 --> 00:04:32.966
+multiply quantity by price and display the
 
-00:04:54.868 --> 00:04:56.987
-reader before that line's ending.
+00:04:32.966 --> 00:04:33.472
+receipt.
 
-00:04:56.987 --> 00:05:00.068
-A line read now takes the remaining text on this
+00:04:33.472 --> 00:04:36.446
+We'll combine the stored text and numbers using
 
-00:05:00.068 --> 00:05:02.957
-same line, which is empty in this source, and
+00:04:36.446 --> 00:04:39.420
+the printing and String skills from the earlier
 
-00:05:02.957 --> 00:05:04.370
-moves past the ending.
+00:04:39.420 --> 00:04:39.926
+lessons.
 
-00:05:04.370 --> 00:05:07.323
-A second line read can then take Maya from the
+00:05:01.640 --> 00:05:04.432
+The calculation uses numeric values; the print
 
-00:05:07.323 --> 00:05:08.286
-following line.
+00:05:04.432 --> 00:05:07.223
+statements then turn the results into readable
 
-00:05:08.286 --> 00:05:11.368
-We'll store both results so we can compare them.
+00:05:07.223 --> 00:05:07.770
+messages.
 
-00:05:18.919 --> 00:05:22.256
-Remainder holds empty text, and name holds Maya.
+00:05:07.770 --> 00:05:10.683
+Let's run the completed program with the toolbar
 
-00:05:22.256 --> 00:05:25.384
-Empty text is hard to see by itself, so we'll
+00:05:10.683 --> 00:05:11.411
+play button.
 
-00:05:25.384 --> 00:05:28.096
-print square brackets around remainder.
+00:05:11.411 --> 00:05:13.778
+For each visible prompt, I'll focus the
 
-00:05:28.096 --> 00:05:31.363
-We'll also print the count and name on separate
+00:05:13.778 --> 00:05:16.388
+terminal, type a response, and press Enter.
 
-00:05:31.363 --> 00:05:34.144
-lines to make the reading order visible.
+00:05:16.388 --> 00:05:19.240
+Watch how each read waits for its own response.
 
-00:05:43.735 --> 00:05:46.818
-Let's click Run and check the three stored
+00:05:44.939 --> 00:05:47.556
+Maya's full name and Student Center both kept
 
-00:05:46.818 --> 00:05:47.405
-results.
+00:05:47.556 --> 00:05:48.312
+their spaces.
 
-00:05:47.405 --> 00:05:50.709
-The brackets will help us recognize the empty
+00:05:48.312 --> 00:05:50.987
+Three art kits at four dollars and fifty cents
 
-00:05:50.709 --> 00:05:51.810
-line remainder.
+00:05:50.987 --> 00:05:53.721
+each produced thirteen dollars and fifty cents.
 
-00:05:56.237 --> 00:05:59.062
-We see three, an empty pair of brackets, and
+00:05:53.721 --> 00:05:56.512
+Java displays that double as thirteen point five
 
-00:05:59.062 --> 00:05:59.383
-Maya.
+00:05:56.512 --> 00:05:58.722
+here; currency formatting comes later.
 
-00:05:59.383 --> 00:06:02.144
-The first line call consumed only the empty
+00:05:58.722 --> 00:06:01.339
+The pickup prompt waited for our new line, so
 
-00:06:02.144 --> 00:06:04.071
-remainder and its line ending.
+00:06:01.339 --> 00:06:03.666
+the leftover price line did not skip the
 
-00:06:04.071 --> 00:06:05.997
-The next one reached the name.
+00:06:03.666 --> 00:06:04.189
+location.
 
-00:06:05.997 --> 00:06:08.822
-If text had followed the number on its line,
+00:06:04.789 --> 00:06:07.679
+Now apply the same reasoning to another request.
 
-00:06:08.822 --> 00:06:11.840
-that first call would return that text instead.
+00:06:07.679 --> 00:06:10.388
+Without changing the source, we'll enter Nora
 
-00:06:11.840 --> 00:06:14.601
-Choose reads from the actual source layout;
+00:06:10.388 --> 00:06:13.278
+Patel, art, four kits, a price of one point five
 
-00:06:14.601 --> 00:06:17.362
-don't add an extra line read automatically.
+00:06:13.278 --> 00:06:14.843
+dollars, and Library Desk.
 
-00:06:17.474 --> 00:06:20.401
-With the read order explained, let's return to
+00:06:14.843 --> 00:06:17.552
+Predict the total and whether the full pickup
 
-00:06:20.401 --> 00:06:21.737
-the workshop receipt.
+00:06:17.552 --> 00:06:18.817
+location will appear.
 
-00:06:21.737 --> 00:06:24.791
-We'll replace this small check with the workshop
+00:06:18.817 --> 00:06:21.586
+Pause the video to make your prediction before
 
-00:06:24.791 --> 00:06:27.846
-record: Maya requests three kits at four dollars
+00:06:21.586 --> 00:06:22.489
+the second run.
 
-00:06:27.846 --> 00:06:29.373
-and fifty cents per kit.
+00:06:52.847 --> 00:06:55.851
+The second receipt shows Nora Patel, four art
 
-00:06:29.373 --> 00:06:32.427
-Her name has no outside padding, so this version
+00:06:55.851 --> 00:06:58.989
+kits, a total of six dollars, and Library Desk.
 
-00:06:32.427 --> 00:06:34.018
-stores the line directly.
+00:06:58.989 --> 00:07:01.192
+Four times one point five is six.
 
-00:06:34.018 --> 00:06:36.945
-A newly created reader starts at the beginning
+00:07:01.192 --> 00:07:04.263
+The source stayed unchanged; only the keyboard
 
-00:06:36.945 --> 00:06:37.899
-of this record.
+00:07:04.263 --> 00:07:05.465
+responses changed.
 
-00:06:48.138 --> 00:06:51.423
-Customer receives Maya, and the reader passes
+00:07:05.465 --> 00:07:08.335
+We have tested two real requests, including
 
-00:06:51.423 --> 00:06:53.103
-the name line's ending.
+00:07:08.335 --> 00:07:10.672
+spaces in both names and locations.
 
-00:06:53.103 --> 00:06:55.950
-Quantity comes next, followed by price.
+00:07:11.274 --> 00:07:13.737
+Scanner connected our program to standard input.
 
-00:06:55.950 --> 00:06:59.309
-Let's use the integer and double reads in that
+00:07:13.737 --> 00:07:16.148
+We chose nextLine for whole-line text, next for
 
-00:06:59.309 --> 00:07:02.813
-order, matching each value to its intended type.
+00:07:16.148 --> 00:07:18.251
+a single token, nextInt for quantity, and
 
-00:07:11.340 --> 00:07:14.436
-The numeric calls turn the quantity and price
+00:07:18.251 --> 00:07:19.329
+nextDouble for price.
 
-00:07:14.436 --> 00:07:17.257
-text into values the calculation can use.
+00:07:19.329 --> 00:07:21.792
+Handling the price line remainder let the pickup
 
-00:07:17.257 --> 00:07:20.490
-The price read skips the newline left after the
+00:07:21.792 --> 00:07:22.818
+read wait correctly.
 
-00:07:20.490 --> 00:07:20.903
-count.
+00:07:22.818 --> 00:07:25.229
+For another workshop, which fields would need a
 
-00:07:20.903 --> 00:07:24.136
-We'll multiply the stored numbers and build one
+00:07:25.229 --> 00:07:27.486
+whole-line read, and where would you need to
 
-00:07:24.136 --> 00:07:27.301
-receipt line from the customer name, the words
-
-00:07:27.301 --> 00:07:29.640
-and spaces in owes, and the total.
-
-00:07:39.465 --> 00:07:42.624
-Before we run Maya's program, write the exact
-
-00:07:42.624 --> 00:07:44.308
-receipt line you expect.
-
-00:07:44.308 --> 00:07:47.467
-Trace the returned name, quantity, and price,
-
-00:07:47.467 --> 00:07:50.696
-then calculate the cost and include the spaces
-
-00:07:50.696 --> 00:07:52.661
-supplied by the output text.
-
-00:07:52.661 --> 00:07:55.258
-Use Nora's worked receipt as a model.
-
-00:07:55.258 --> 00:07:57.715
-Pause here if you'd like more time.
-
-00:08:05.791 --> 00:08:08.614
-Let's click Run and compare the receipt with
-
-00:08:08.614 --> 00:08:09.641
-your prediction.
-
-00:08:14.035 --> 00:08:16.966
-The program prints Maya owes thirteen point
-
-00:08:16.966 --> 00:08:17.306
-five.
-
-00:08:17.306 --> 00:08:20.509
-Three kits at four dollars and fifty cents each
-
-00:08:20.509 --> 00:08:23.099
-cost thirteen dollars and fifty cents.
-
-00:08:23.099 --> 00:08:26.098
-The printed double uses one fractional digit
-
-00:08:26.098 --> 00:08:26.439
-here.
-
-00:08:26.439 --> 00:08:29.028
-Compare that name and amount with your
-
-00:08:29.028 --> 00:08:29.778
-prediction.
-
-00:08:29.778 --> 00:08:32.709
-The program used the values returned by the
-
-00:08:32.709 --> 00:08:34.685
-reads to produce the receipt.
-
-00:08:34.799 --> 00:08:37.469
-These examples didn't wait for typing because
-
-00:08:37.469 --> 00:08:39.426
-their input was already supplied.
-
-00:08:39.426 --> 00:08:42.215
-Java's standard input stream, called System.in,
-
-00:08:42.215 --> 00:08:44.706
-is another possible source; an interactive
-
-00:08:44.706 --> 00:08:47.138
-program can read typed responses from it.
-
-00:08:47.138 --> 00:08:49.571
-Keep the supplied text for this exercise.
-
-00:08:49.571 --> 00:08:52.181
-Running the complete program again creates a
-
-00:08:52.181 --> 00:08:54.613
-fresh reader, while repeating a read on a
-
-00:08:54.613 --> 00:08:56.749
-consumed reader does not restart it.
-
-00:08:56.825 --> 00:08:59.750
-We've connected input to the workshop's result.
-
-00:08:59.750 --> 00:09:02.178
-The import made the reader's class name
-
-00:09:02.178 --> 00:09:04.854
-available, and new created a reader for the
-
-00:09:04.854 --> 00:09:05.850
-supplied source.
-
-00:09:05.850 --> 00:09:08.091
-Newline escapes organized that text.
-
-00:09:08.091 --> 00:09:11.078
-Matching line and numeric reads advanced through
-
-00:09:11.078 --> 00:09:13.692
-it, while parsing produced usable numbers.
-
-00:09:13.692 --> 00:09:16.431
-Your earlier text and arithmetic skills then
-
-00:09:16.431 --> 00:09:17.800
-assembled the receipt.
-
-00:09:18.520 --> 00:09:20.902
-Now build the notebook's Luis receipt.
-
-00:09:20.902 --> 00:09:23.848
-Use its exact padded source and variable names,
-
-00:09:23.848 --> 00:09:26.857
-read the name and numbers, and store the cleaned
-
-00:09:26.857 --> 00:09:29.803
-name before making the receipt for five kits at
-
-00:09:29.803 --> 00:09:31.872
-two dollars and fifty cents each.
-
-00:09:31.872 --> 00:09:34.630
-After the first run, predict a change to six
-
-00:09:34.630 --> 00:09:36.635
-kits, test it, and restore five.
-
-00:09:36.635 --> 00:09:39.394
-Explain why each complete run starts a fresh
-
-00:09:39.394 --> 00:09:39.895
-reading.
+00:07:27.486 --> 00:07:29.949
+account for a token read's remaining line break?
